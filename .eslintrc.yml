@@ -20,12 +20,12 @@ plugins:
 rules:
   arrow-parens:
     - 2
-    - as-needed
+    - always
   camelcase:
     - 0
   max-len:
     - 2
-    - code: 100
+    - code: 200
   semi:
     - 2
     - never

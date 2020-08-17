@@ -3,6 +3,7 @@
   "trailingComma": "es5",
   "semi": false,
   "singleQuote": true,
+  "endOfLine": "auto",
   "overrides": [
     {
       "files": "*.{css,scss}",
