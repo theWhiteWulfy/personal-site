@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
-import Octicon, { MarkGithub } from '@githubprimer/octicons-react'
+// import Octicon, { MarkGithub } from '@githubprimer/octicons-react'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import Entry from '../components/entry'
-import Repository from '../components/repository'
+// import Repository from '../components/repository'
 
 import style from '../styles/archive.module.css'
 
@@ -17,7 +17,7 @@ const WorksPage = ({ data }) => {
       siteMetadata: { author: siteAuthor },
     },
     allMarkdownRemark: { edges: posts },
-    githubData: { data: github },
+    // githubData: { data: github },
   } = data
   return (
     <Layout>
@@ -63,26 +63,6 @@ const WorksPage = ({ data }) => {
               )
             })}
           </div>
-          <h2 className={style.subHeading}>
-            <span>
-              <Octicon
-                icon={MarkGithub}
-                verticalAlgin="middle"
-                className={style.icon}
-              />{' '}
-              Open source contributions
-            </span>
-          </h2>
-          {github && (
-            <div>
-              {github.viewer.repositories.nodes
-                .map((repo) => <Repository key={repo.name} repo={repo} />)
-                .reverse()}
-              <a href="https://github.com/mmistakes" className="btn">
-                See more on GitHub
-              </a>
-            </div>
-          )}
         </div>
       </main>
     </Layout>
@@ -129,35 +109,6 @@ export const pageQuery = graphql`
                 fluid(maxWidth: 400, quality: 75) {
                   ...GatsbyImageSharpFluid_noBase64
                 }
-              }
-            }
-          }
-        }
-      }
-    }
-    githubData {
-      data {
-        viewer {
-          repositories {
-            nodes {
-              name
-              description
-              homepageUrl
-              resourcePath
-              updatedAt(formatString: "YYYY-MM-DD")
-              languages {
-                edges {
-                  node {
-                    name
-                    color
-                  }
-                }
-              }
-              licenseInfo {
-                name
-              }
-              stargazers {
-                totalCount
               }
             }
           }

@@ -38,8 +38,8 @@ module.exports = {
   githubUrl: 'https://github.com/thewhitewulfy',
   instagramUrl: 'https://www.instagram.com/thewhitewulfy/',
   feedUrl: '/atom.xml',
-  githubApiToken: process.env.GITHUB_API_TOKEN,
-  githubApiQuery: `query ($number_of_repos: Int!) {
+  githubApiToken: '672558f3d5f569c41ee7b7e07791df5f41823866', // process.env.GITHUB_API_TOKEN,
+  /* githubApiQuery: `query ($number_of_repos: Int!) {
     viewer {
       name
       avatarUrl
@@ -75,6 +75,7 @@ module.exports = {
   githubApiVariables: {
     number_of_repos: 5,
   },
+  */
   reCaptcha: {
     siteKey: '6Ld6GbkZAAAAADbn1evv7zBU3XAUADBmRw8Tz4bn',
     secret: '6Ld6GbkZAAAAAGJ6psvqF-9sHf3H8BTouWxvW7ww',

@@ -89,14 +89,6 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-transformer-yaml',
     {
-      resolve: `gatsby-source-github-api`,
-      options: {
-        token: process.env.GITHUB_API_TOKEN,
-        graphQLQuery: site.githubApiQuery,
-        variables: site.githubApiVariables,
-      },
-    },
-    {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
