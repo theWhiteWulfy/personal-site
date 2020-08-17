@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 
 import TwitterIcon from './icons/twitter-icon'
+import LinkedinIcon from './icons/linkedin-icon'
 import GithubIcon from './icons/github-icon'
 import InstagramIcon from './icons/instagram-icon'
 import RSSIcon from './icons/rss-icon'
@@ -23,6 +24,7 @@ const Footer = ({
   footerMenu,
   twitter,
   github,
+  linkedin,
   instagram,
   feed,
   copyrights,
@@ -32,6 +34,14 @@ const Footer = ({
       <FooterMenu footerMenu={footerMenu} />
     </ul>
     <ul className={style.menuSocial}>
+      {linkedin && (
+        <li>
+          <a href={linkedin} rel="nofollow">
+            <LinkedinIcon />
+            <span className={style.iconLabel}>LinkedIn</span>
+          </a>
+        </li>
+      )}
       {twitter && (
         <li>
           <a href={twitter} rel="nofollow">
@@ -86,6 +96,7 @@ Footer.propTypes = {
   twitter: PropTypes.string,
   github: PropTypes.string,
   instagram: PropTypes.string,
+  linkedin: PropTypes.string,
   feed: PropTypes.string,
   copyrights: PropTypes.string,
 }

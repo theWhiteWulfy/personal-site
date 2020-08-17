@@ -34,6 +34,7 @@ module.exports = {
     twitterUrl: site.twitterUrl,
     facebook: site.facebook,
     githubUrl: site.githubUrl,
+    linkedinUrl: site.linkedinUrl,
     instagramUrl: site.instagramUrl,
     feedUrl: site.feedUrl,
 
@@ -429,6 +430,7 @@ module.exports = {
       options: {
         name: site.title,
         short_name: site.titleAlt,
+        description: site.description,
         start_url: '/',
         background_color: site.backgroundColor,
         theme_color: site.themeColor,

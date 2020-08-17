@@ -18,6 +18,7 @@ const Layout = ({ children }) => {
           twitterUrl
           githubUrl
           instagramUrl
+          linkedinUrl
           feedUrl
           copyrights
           mainMenu {
@@ -39,6 +40,7 @@ const Layout = ({ children }) => {
     footerMenu,
     twitterUrl,
     githubUrl,
+    linkedinUrl,
     instagramUrl,
     feedUrl,
     copyrights,
@@ -57,6 +59,7 @@ const Layout = ({ children }) => {
         twitter={twitterUrl}
         github={githubUrl}
         instagram={instagramUrl}
+        linkedin={linkedinUrl}
         feed={feedUrl}
         copyrights={copyrights}
       />
