@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
-import MadeMistakesIcon from './icons/made-mistakes-icon'
+import MeteoricIcon from './icons/meteoric-icon'
 
 import Menu from './menu'
 
@@ -55,7 +55,7 @@ const Header = props => {
       <header className={style.header}>
         <div className={style.name}>
           <Link to="/">
-            <MadeMistakesIcon />
+            <MeteoricIcon />
             <span className={style.logoLabel}>{siteTitle}</span>
           </Link>
         </div>
