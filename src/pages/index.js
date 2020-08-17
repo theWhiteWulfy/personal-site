@@ -30,16 +30,17 @@ const HomePage = ({ data }) => {
         <div className={style.title}>
           <h1 className={style.heading}>
             <span>
-              Made Mistakes is the personal site of{' '}
-              <a href="/about/">Michael&nbsp;Rose</a>.
+              Metoric Teachings is the personal site of{' '}
+              <a href="/about/">Alok&nbsp;Prateek</a>.
             </span>
           </h1>
           <div className={style.intro}>
             <p>
-              I'm just another boring, tattooed, time traveling designer from
-              Buffalo New York who enjoys eating chicken wings, sketching on an
-              iPad Pro, building with static site generators, and playing
-              Nintendo Switch.
+              I enjoy turning less ordinary problems into simple, beautiful and
+              intuitive designs, that are a delight. When I'm not coding or
+              pushing pixels, you could find me taking my dog, Zoe for walk in
+              the park. I'm also part of Startup Grind as Delhi Chapter
+              Director.
             </p>
           </div>
           <Img
@@ -119,7 +120,7 @@ const HomePage = ({ data }) => {
                   key="articles-home-link"
                   title="Articles"
                   path="/articles/"
-                  excerpt="<p>Long form writing mostly about design and web development.</p>"
+                  excerpt="<p>Long pieces of text mostly about design and web development.</p>"
                 />
               </li>
               <li key="notes">
@@ -127,7 +128,7 @@ const HomePage = ({ data }) => {
                   key="notes-home-link"
                   title="Notes"
                   path="/notes/"
-                  excerpt="<p>Thoughts, inspiration, mistakes, and other minutia you&rsquo;d find in a blog.</p>"
+                  excerpt="<p>Rants, inspiration, thoughts, and other things you should find in a blog.</p>"
                 />
               </li>
               <li key="works">
@@ -139,13 +140,12 @@ const HomePage = ({ data }) => {
                   and developed.</p>"
                 />
               </li>
-              <li key="mastering-paper">
+              <li key="bibliophile-diaries">
                 <Entry
-                  key="mastering-paper-home-link"
-                  title="Mastering Paper"
-                  path="/mastering-paper/"
-                  excerpt="<p>Tutorials to help master the iOS drawing app&mdash;
-                Paper</p>"
+                  key="bibliophile-diaries-home-link"
+                  title="Bibliophile Diaries"
+                  path="/bibliophile-diaries/"
+                  excerpt="<p>Lessons and interesting quotes from books I've read.</p>"
                 />
               </li>
               <li key="contact">
@@ -153,7 +153,7 @@ const HomePage = ({ data }) => {
                   key="contact-home-link"
                   title="Contact"
                   path="/contact/"
-                  excerpt="<p>Preferred methods of sending questions, messages, and
+                  excerpt="<p>Ideal ways of sending questions, messages, and
                   love letters to me.</p>"
                 />
               </li>
@@ -162,7 +162,7 @@ const HomePage = ({ data }) => {
                   key="support-home-link"
                   title="Show your support"
                   path="/support/"
-                  excerpt="<p>Give thanks for the free open source goodies I provide.</p>"
+                  excerpt="<p>Buy me a coffee or maybe why not buy me a tree?</p>"
                 />
               </li>
               <li key="faqs">
@@ -269,7 +269,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    aboutImage: file(relativePath: { eq: "michael-rose-glitched.jpg" }) {
+    aboutImage: file(relativePath: { eq: "avatar3-glitched.png" }) {
       childImageSharp {
         fluid(maxWidth: 720, maxHeight: 480, quality: 75) {
           ...GatsbyImageSharpFluid_noBase64
