@@ -6,21 +6,21 @@ with [Gatsby](https://www.gatsbyjs.org/), [Travis CI](https://travis-ci.org/),  
 ## Getting started
 
 1. **Install dependencies**
-   
+  
    ```shell
    yarn install
    ```
 
 2. **Add `.env` file to the root with your GitHub API token.**
 
-   ```
+   ```env
    GITHUB_API_TOKEN=yourPersonalGitHubApiToken
    ```
 
    **Note:** do not commit this file. Builds will fail with a `TypeError: Cannot read property 'match' of undefined` since GitHub repo listing on `/pages/works.js` can't resolve the GraphQL query.
 
 3. **Start developing.**
-   
+  
    ```shell
    gatsby develop
    ```
@@ -31,7 +31,7 @@ with [Gatsby](https://www.gatsbyjs.org/), [Travis CI](https://travis-ci.org/),  
 
    ```bash
    .
-   ├── config                      
+   ├── config
    |   └──site.js             # => site wide config
    ├── src
    |   ├── comments           # => comments content
@@ -74,7 +74,7 @@ Front matter available for Markdown files.
 | date             | datetime | Published date. | `2020-01-09` |
 | last_modified_at | datetime | Updated date. | `2020-01-09T13:52:13-05:00` |
 | excerpt          | string   | Page description used a teaser text in listings and SEO purposes. | `"This is a most excellent post about static site generators."` |
-| image            | string   | Path to an image (relative to the Markdown file) used as a cover or teaser in listings and SEO purposes. | `../../images/post-image.jpg` |
+| image            | string   | Path to an image (relative to the Markdown file) used as a cover or teaser in listings and SEO purposes. | `../../images/post-image.jpeg` |
 | categories       | array    | Categories to classify the post as. | `[articles]` |
 | tags             | array    | Tags to classify the post as. | `[web development, GitHub, tutorial]` |
 | toc              | boolean  | Display table of contents links. | `true` |
@@ -116,7 +116,7 @@ TODO: Migrate into a component. For now HTML in Markdown will suffice.
 
 ```html
 <figure>
-  <img src="../../images/image.jpg" alt="">
+  <img src="../../images/image.jpeg" alt="">
   <figcaption><p>Figure caption goes here.</p></figcaption>
 </figure>
 ```
@@ -125,8 +125,8 @@ TODO: Migrate into a component. For now HTML in Markdown will suffice.
 
 ```html
 <figure class="two-column">
-  <img src="../../images/image-1.jpg" alt="">
-  <img src="../../images/image-2.jpg" alt="">
+  <img src="../../images/image-1.jpeg" alt="">
+  <img src="../../images/image-2.jpeg" alt="">
   <figcaption><p>Figure caption goes here.</p></figcaption>
 </figure>
 ```
@@ -135,9 +135,9 @@ TODO: Migrate into a component. For now HTML in Markdown will suffice.
 
 ```html
 <figure class="three-column">
-  <img src="../../images/image-1.jpg" alt="">
-  <img src="../../images/image-2.jpg" alt="">
-  <img src="../../images/image-3.jpg" alt="">
+  <img src="../../images/image-1.jpeg" alt="">
+  <img src="../../images/image-2.jpeg" alt="">
+  <img src="../../images/image-3.jpeg" alt="">
   <figcaption><p>Figure caption goes here.</p></figcaption>
 </figure>
 ```
@@ -162,8 +162,8 @@ TODO: Migrate into a component. For now HTML in Markdown will suffice.
 ```html
 <ul class="gallery-thumbnails">
   <li>
-    <a href="../../images/thumbnail-1.jpg">
-      <img src="../../images/image-1.jpg" alt="">
+    <a href="../../images/thumbnail-1.jpeg">
+      <img src="../../images/image-1.jpeg" alt="">
     </a>
   </li>
   ...
@@ -178,7 +178,7 @@ Wrap an image with the `.browser-frame` class to give it browser chrome styling.
 
 ```html
 <div class="browser-frame">
-  <img src="../../images/webpage.jpg" alt="">
+  <img src="../../images/webpage.jpeg" alt="">
 </div>
 ```
 
