@@ -29,7 +29,7 @@
   font-size: var(--text-4xl);
   font-variant-ligatures: common-ligatures;
   font-feature-settings: 'kern' on, 'liga' on, 'clig' on, 'calt' on;
-  mask-image: url('../images/dust-and-scratches.png');
+  mask-image: url('../images/theme/dust-and-scratches.png');
 
   &::before {
     content: '';
@@ -137,7 +137,7 @@
     width: 300%;
     height: 300%;
     opacity: 0.3;
-    background-image: url('../images/asphalt-dark.png');
+    background-image: url('../images/theme/asphalt-dark.png');
 
     @media (prefers-reduced-motion: no-preference) {
       animation: grain 8s steps(10) infinite;

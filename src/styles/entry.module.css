@@ -89,7 +89,7 @@
     width: 300%;
     height: 300%;
     opacity: 0.4;
-    background-image: url('../images/asphalt-dark.png');
+    background-image: url('../images/theme/asphalt-dark.png');
 
     @media (prefers-reduced-motion: no-preference) {
       animation: grain 8s steps(10) infinite;
