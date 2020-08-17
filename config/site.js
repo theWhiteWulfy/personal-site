@@ -1,19 +1,19 @@
 module.exports = {
   // pathPrefix: '/', // Prefix for all links. If you deploy your site to example.com/portfolio your pathPrefix should be "portfolio"
-  title: 'Made Mistakes', // Navigation and site title
-  titleAlt: 'Made Mistakes', // Title for schema.org JSONLD
-  description: 'Personal website of designer Michael Rose (@mmistakes).',
-  url: 'https://mademistakes.com', // Domain of your site. No trailing slash!
+  title: 'Metoric Teachings', // Navigation and site title
+  titleAlt: 'Metoric Teachings', // Title for schema.org JSONLD
+  description: 'Personal website of developer and designer Alok Prateek (@thewhitewulfy).',
+  url: 'https://alokprateek.in', // Domain of your site. No trailing slash!
   siteLanguage: 'en', // Language Tag on <html> element
   image: {
     // Used for SEO, relative to /static/ folder
-    src: '/images/made-mistakes-logo.png',
-    width: 384,
-    height: 384,
+    src: '/images/theme/alok-logo.png',
+    width: 512,
+    height: 512,
   },
   ogLanguage: 'en_US', // Facebook Language
-  pingbackUrl: 'https://webmention.io/mademistakes.com/xmlrpc',
-  webmentionUrl: 'https://webmention.io/mademistakes.com/webmention',
+  pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
+  webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
   micropubUrl: 'https://mm-micropub-to-github.herokuapp.com/micropub/main',
   coilUrl: '$coil.xrptipbot.com/AbwB-yidQNanSI2lYyTJJw',
   googleAnalyticsID: '',
@@ -21,21 +21,22 @@ module.exports = {
     'https://mm-staticman.herokuapp.com/v2/entry/mmistakes/made-mistakes-gatsby/master/comments',
 
   // JSONLD / Manifest
-  favicon: '/images/made-mistakes-logo.png', // Used for manifest favicon generation
-  shortName: 'Made Mistakes', // shortname for manifest. MUST be shorter than 12 characters
+  favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
+  shortName: 'Metoric Teachings', // shortname for manifest. MUST be shorter than 12 characters
   author: {
     // Author for schema.org JSONLD
-    name: 'Michael Rose',
-    url: 'https://mademistakes.com',
+    name: 'Alok Prateek',
+    url: 'https://alokprateek.in',
   },
   themeColor: '#ffffff',
   backgroundColor: '#111111',
 
-  twitter: '@mmistakes', // Twitter username
-  twitterUrl: 'https://twitter.com/mmistakes',
-  facebook: 'Made Mistakes', // Facebook site name
-  githubUrl: 'https://github.com/mmistakes',
-  instagramUrl: 'https://www.instagram.com/mmistakes/',
+  twitter: '@thewhitewulfy', // Twitter username
+  twitterUrl: 'https://twitter.com/thewhitewulfy',
+  facebook: 'Metoric Teachings', // Facebook site name
+  linkedinUrl: 'https://www.linkedin.com/in/alokprateek/',
+  githubUrl: 'https://github.com/thewhitewulfy',
+  instagramUrl: 'https://www.instagram.com/thewhitewulfy/',
   feedUrl: '/atom.xml',
   githubApiToken: process.env.GITHUB_API_TOKEN,
   githubApiQuery: `query ($number_of_repos: Int!) {
@@ -75,8 +76,7 @@ module.exports = {
     number_of_repos: 5,
   },
   reCaptcha: {
-    siteKey: '6LdRBykTAAAAAFB46MnIu6ixuxwu9W1ihFF8G60Q',
-    secret:
-      'uK2DH+wELCxTtM0MmfKfT0W5GPt0B+dGVZ3L4IeYtnKRQ7a/zkdRUmi0z6J7K4BumST/CKuKnk4l3EUpDxWnA0E29kpMzbmhukm0vXCZfGg6zLETxcPXTWcrRchAp59oe77OdRlXjNe01nqL6fohmFv5lBT1SrxfORvBxvSsyTrrBXG1b5JJLleP9o4LGDK15lPCASEehWxpNTs+jxE/VUemMvedGautUBQyK5PRGaKJQb+xe9wl+9GgwueASRbGPl6yUnytUFy3V59yg+WbhbJJhA3dEKW4vnUu4jcgLL8FusCQQjDSvy0Ypqq3Dfx35L5YVfmLW+FrtYNvoD6zhA==',
+    siteKey: '6Ld6GbkZAAAAADbn1evv7zBU3XAUADBmRw8Tz4bn',
+    secret: '6Ld6GbkZAAAAAGJ6psvqF-9sHf3H8BTouWxvW7ww',
   },
 }

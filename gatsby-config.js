@@ -38,7 +38,7 @@ module.exports = {
     feedUrl: site.feedUrl,
 
     // Site config
-    copyrights: `&copy; 2004&mdash;${new Date().getFullYear()} <a href="https://mademistakes.com/humans.txt">Michael Rose</a>. Some Rights Reserved.<br />Built in Buffalo, New York. (<a href="https://github.com/mmistakes/made-mistakes-gatsby" rel="nofollow">view source</a>)`,
+    copyrights: `&copy; 2010&mdash;${new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.`,
     defaultTheme: 'light',
     postsPerPage: 10,
     mainMenu: [
@@ -138,7 +138,7 @@ module.exports = {
         head: false,
         anonymize: true,
         respectDNT: true,
-        cookieDomain: 'mademistakes.com',
+        cookieDomain: 'alokprateek.in',
       },
     },
     'gatsby-plugin-catch-links',
@@ -401,7 +401,7 @@ module.exports = {
                   site.siteMetadata.siteUrl + edge.node.frontmatter.path
                 }">${
                   edge.node.frontmatter.title
-                }</a> was originally published on Made Mistakes.</p>`
+                }</a> was originally published on Metoric Teachings.</p>`
 
                 return Object.assign({}, edge.node.frontmatter, {
                   title,

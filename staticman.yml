@@ -59,7 +59,7 @@ comments:
   moderation: true
 
   # Name of the site. Used in notification emails.
-  name: "Made Mistakes"
+  name: "Metoric Teachings"
 
   # reCaptcha
   reCaptcha:

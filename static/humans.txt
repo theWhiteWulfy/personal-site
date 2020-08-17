@@ -2,10 +2,10 @@ _  ________ ____   _  ______________  _________
 |\/||__||  \|___   |\/||[__  | |__||_/ |___[__
 |  ||  ||__/|___   |  ||___] | |  || \_|______]
 
-  MADEMISTAKES.COM
+  alokprateek.in
 
-  Designer:     Michael Rose
-  Twitter:      @mmistakes
+  Designer:     Alok Prateek
+  Twitter:      @thewhitewulfy
   Location:     Buffalo, New York USA
 
   Language:     English
