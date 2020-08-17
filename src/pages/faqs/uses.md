@@ -2,11 +2,12 @@
 title: "What tech do you use?"
 excerpt: "A list detailing my developer setup, gear, software, and preferred configurations."
 path: /uses/
-date: 2016-08-26
-last_modified_at: 2020-01-13T09:56:34-05:00
+date: 2020-08-01
+order: 1
+last_modified_at: 2020-08-01T09:56:34-05:00
 ---
 
-Read on friend to learn about the hardware and software I use for play and to build Made Mistakes. None of it is terribly exciting or unexpected, but hey --- maybe the curious of you will find it interesting.
+Read on friend to learn about the hardware and software I use for play and to build Metoric Teachings. None of it is terribly exciting or unexpected, but hey --- maybe the curious of you will find it interesting.
 
 ## Hardware
 
@@ -36,7 +37,7 @@ Read on friend to learn about the hardware and software I use for play and to bu
 
 I've been on a [static site generator](/articles/going-static/) kick the last couple of years and use <s>[**Jekyll**](https://jekyllrb.com/)</s> [**Gatsby**](https://www.gatsbyjs.org/) to build this page and everything else found on the site. The basic idea is I write a bunch of text in Markdown and it spits out a set of files that are deployed to a webserver.
 
-If you're interested in the specifics of how the site is built I've made its [source available on GitHub](https://github.com/mmistakes/made-mistakes-gatsby) for anyone to fork and download. And because I'm such a cool dude I've also open sourced a couple of [Jekyll themes](/work/jekyll-themes/) for you to use and abuse --- you're welcome!
+If you're interested in the specifics of how the site is built I've made its [source available on GitHub](https://github.com/thewhitewulfy/made-mistakes-gatsby) for anyone to fork and download. And because I'm such a cool dude I've also open sourced a couple of [Jekyll themes](/work/jekyll-themes/) for you to use and abuse --- you're welcome!
 
 ## Other software
 

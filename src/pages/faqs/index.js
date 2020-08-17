@@ -19,7 +19,7 @@ const FaqsPage = ({
       title={`Frequently asked questions | ${site.titleAlt}`}
       path="/faqs/"
       description="Because no one likes to repeat things here's a compilation
-      of answers to questions I'm often asked."
+      of answers to some questions that I liked answering."
       metaImage={metaImage}
     />
     <main className={style.main}>
@@ -31,7 +31,7 @@ const FaqsPage = ({
       <div className={style.content}>
         <p>
           Did I leave something out that you were looking for an answer to? Feel
-          free to reach out and <Link to="/contact/">ask me</Link>.
+          free to reach out on Instagram DM or <Link to="/contact/">ask me here</Link>.
         </p>
         <ul>
           {edges.map(faq => (

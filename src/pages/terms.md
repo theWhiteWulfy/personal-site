@@ -1,56 +1,29 @@
 ---
 title: "Terms and policies"
 path: /terms/
-date: 2016-08-26
+date: 2018-06-02
 last_modified_at: 2019-11-06T14:09:32-05:00
-excerpt: "Made Mistakes privacy policy, license, and other legal stuff you won't read."
-toc: true
+excerpt: "Privacy policy, license, and other legal stuff you won't read."
+toc: false
 ---
 
-This is my personal website written and edited by me (Michael Rose). Your use of this website, in any and all forms, constitutes an acceptance of these terms and policies. This page is reviewed and revised from time to time.
+This is my personal website written and edited by me (Alok Prateek). Your use of this website, in any and all forms, constitutes an acceptance of these terms and policies. This page is reviewed and revised from time to time.
 
-All content provided is for informational purposes only. The articles and posts on this website are my own and don't necessarily represent the positions, strategies, or opinions of my employer or its subsidiaries. I make no representations as to the accuracy or completeness of any information found here or by following any links. I will not be liable for any errors or omissions in this information nor for the availability of this information. I will not be liable for any losses, injuries, or damages from the display or use of this information.
+## Terms
 
-## Privacy policy
+By accessing the website at [https://alokprateek.in](https://alokprateek.in), you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you should not use or access this site. The materials contained in this website are protected by applicable copyright and trademark law.
 
-This Privacy Policy outlines the types of personal information that is received and collected and how it is used on the website.
+### Accuracy of materials
 
-I will never share your email address or any other personal information to anyone without your direct consent.
+All content provided is for informational purposes only. The articles and posts on this website are my own and don't necessarily represent the positions, strategies, or opinions of my employer or its subsidiaries. I make no representations as to the accuracy or completeness of any information found here or by following any links. I will not be liable for any errors or omissions in this information nor for the availability of this information. I will not be liable for any losses, injuries, or damages from the display or use of this information. I may make changes to the materials contained on its website at any time without notice. However I do not make any commitment to update the materials.
 
-### Log files
+### Modifications
 
-Like many other websites, MadeMistakes.com uses log files to help learn about when, from where, and how often traffic flows to this site. The information in these log files include:
+I may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.
 
-- Internet Protocol addresses (IP)
-- Types of browser
-- Internet Service Provider (ISP)
-- Date and time stamp
-- Referring and exit pages
-- Number of clicks
+### Governing Law
 
-All of this information is not linked to anything that is personally identifiable.
-
-### Cookies and web beacons
-
-Third-party advertisers may also place and read cookies on your browser and/or use web beacons to collect information. MadeMistakes.com has no access or control over these cookies. You should review the respective privacy policies on any and all third-party ad servers for more information regarding their practices and how to opt-out.
-
-If you wish to [disable cookies](https://cookies.insites.com/disable-cookies/), you may do so through your web browser options. Instructions for doing so can be found on the specific web browsers' websites.
-
-#### Amazon
-
-Amazon, a third party affiliate marketing network, uses cookies to help make sure I get a commission when you buy a product after clicking on a link or ad banner that takes you to the site of one of their merchants. Read [Amazon's Privacy Notice](https://www.amazon.com/gp/help/customer/display.html?nodeId=468496).
-
-#### Cloudflare
-
-Cloudflare, Inc. is a U.S. company that provides content delivery network services, DDoS mitigation, Internet security and distributed domain name server services. Cloudflare's `__cfduid` cookie is used to identify individual clients behind a shared IP address and apply security settings on a per-client basis. Read [Cloudflare's Privacy Policy](https://www.cloudflare.com/privacypolicy/).
-
-#### Google Analytics
-
-Google Analytics is a web analytics tool I use to help understand how visitors engage with this website. It reports website trends using cookies and web beacons without identifying individual visitors. Read [Google's Privacy Policy](https://policies.google.com/privacy?hl=en).
-
-#### Netlify
-
-Netlify is a cloud computing company that offers hosting and serverless backend services for static websites. It features continuous deployment from Git across a global application delivery network, serverless form handling, support for AWS Lambda functions, and full integration with Let's Encrypt. Read [Netlify's Privacy Policy](https://www.netlify.com/privacy/).
+These terms and conditions are governed by and construed in accordance with the laws of India and you irrevocably submit to the exclusive jurisdiction of the courts in the State of India.
 
 ## Disclosure policy
 
@@ -67,8 +40,46 @@ Like this website, my disclosure policy is a work in progress. As the revenue st
 
 ## License
 
-All original content (e.g. articles, blog posts, illustrations, artwork, and photographs) available on MadeMistakes.com is released under a [Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License](http://creativecommons.org/licenses/by-nc-nd/3.0/deed.en_US) unless otherwise noted. Basically this means you are free to share, transmit, distribute, alter, transform, and build on my work as long as you don't use it for commercial purposes without my prior written consent.
+All original content (e.g. articles, blog posts, illustrations, artwork, and photographs) available on alokprateek.in is released under a [Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License](http://creativecommons.org/licenses/by-nc-nd/3.0/deed.en_US) unless otherwise noted. Basically this means you are free to share, transmit, distribute, alter, transform, and build on my work as long as you don't use it for commercial purposes without my prior written consent.
 
 ### Attribution
 
-If you're inclined to give credit --- a link back to the source article attributed to either [Made Mistakes](https://mademistakes.com) or [Michael Rose](https://mademistakes.com) is good enough for me. If you don't want to attribute my content, hey that's cool too. Just don't go stealing stuff and republishing it as your own.
+If you're inclined to give credit --- a link back to the source article attributed to either [Metoric Teachings](https://alokprateek.in) or [Alok Prateek](https://alokprateek.in) is good enough for me. If you don't want to attribute my content, hey that's cool too. Just don't go stealing stuff and republishing it as your own.
+
+## Google Analytics
+
+Google Analytics is a web analytics service provided by Google, Inc. (“Google”). Google Analytics uses “cookies”, which are text files placed on your computer, to help the website analyze how users use the site.
+
+Like many other web sites owners, I use Google Analytics on this site.
+
+### What does Google Analytics record?
+
+The information generated by the cookie about your use of the website (including your IP address) will be transmitted to and stored by Google on servers in the United States. In case of activation of the IP anonymization, Google will truncate/anonymize the last octet of the IP address for Member States of the European Union as well as for other parties to the Agreement on the European Economic Area. Only in exceptional cases, the full IP address is sent to and shortened by Google servers in the USA. On behalf of the website provider Google will use this information for the purpose of evaluating your use of the website, compiling reports on website activity for website operators and providing other services relating to website activity and internet usage to the website provider. Google will not associate your IP address with any other data held by Google.
+
+I use Google Analytics to collect non-personal data to answer questions such as:
+
+- What kind of browser & operating system you visited the site on?
+- How long you stay on the site?
+- What pages on the site you visit?
+- What area of the world you are located in?
+- How is this data is used?
+
+The data gathered allow me to better understand the visitors to this site and how it is viewed, this allows me to make better decisions about the site and any future additions to it.
+
+Occasionally I compile aggregate statistics on various usage and/or user metrics for the site. No personally identifying data is included in this type of reporting.
+
+None of the data gathered through Google Analytics is shared with any 3rd party.
+
+All of my activity falls within the bounds of the Google Analytics Terms of Service.
+
+### How to opt out of tracking
+
+You can opt out of the tracking conducted by Google Analytics by using the browser plugin provided by Google that prevents your data from being used by Google Analytics.
+
+You may refuse the use of cookies by selecting the appropriate settings on your browser. However, please note that if you do this, you may not be able to use the full functionality of this website. Furthermore you can prevent Google’s collection and use of data (cookies and IP address) by downloading and installing the browser plug-in available under [https://tools.google.com/dlpage/gaoptout?hl=en-GB](https://tools.google.com/dlpage/gaoptout?hl=en-GB).
+
+## Cloudflare
+
+Cloudflare, Inc. is a U.S. company that provides content delivery network services, DDoS mitigation, Internet security and distributed domain name server services. Cloudflare's `__cfduid` cookie is used to identify individual clients behind a shared IP address and apply security settings on a per-client basis. Read [Cloudflare's Privacy Policy](https://www.cloudflare.com/privacypolicy/).
+
+**This policy is effective as of 2nd of June, 2018.**

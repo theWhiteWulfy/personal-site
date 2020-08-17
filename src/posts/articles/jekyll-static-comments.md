@@ -127,13 +127,11 @@ $(form).addClass('disabled');
 $('#comment-form-submit').html('<svg class="icon spin"><use xlink:href="#icon-loading"></use></svg> Loading...');
 ```
 
-![Submit button loading animation](../../images/mm-submit-comment-loading.gif)
 
 If the form is successfully submitted a message appears notifying the user that the comment has been received and is pending moderation. Since my site takes a bit to generate with Jekyll I felt it necessary to convey this to the user, hopefully avoiding duplicate submissions. 
 
 With smaller sites hosted with GitHub Pages this becomes less of a problem, as they build much faster. Especially true if you decide to go with the auto merge option and skip [moderating comments](https://github.com/eduardoboucas/staticman#moderation-required).
 
-![Form submit success animation](../../images/mm-submit-comment-success.gif)
 
 ### Displaying comments
 
