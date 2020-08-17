@@ -1,0 +1,456 @@
+.anchor {
+  margin-left: calc((-1 * var(--text-sm)) - 4px) !important;
+
+  svg {
+    display: inline-block;
+    position: relative;
+    top: -0.125em;
+    width: 0.75em;
+    height: 0.75em;
+    line-height: 1;
+    vertical-align: middle;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-family: var(--monospace-font);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  border-radius: var(--border-radius);
+  border: 0;
+  cursor: pointer;
+
+  &.submit {
+    padding: 1em 1.5em;
+  }
+
+  &:hover {
+    background-color: color-mod(var(--button-background-color) tint(25%));
+    color: var(--button-text-color);
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: var(--button-text-color);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.custom-block {
+  position: relative;
+  min-height: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--text-width);
+  margin-bottom: 3rem;
+  padding: 1rem 1.5rem 1.5rem;
+  border: 2px solid var(--text-color);
+  box-shadow: 0.25rem 0.25rem 0 var(--text-color);
+}
+
+* + .custom-block {
+  margin-top: 2em;
+}
+
+.custom-block-heading {
+  display: block;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--text-color);
+  font-family: var(--serif-font);
+  font-size: var(--text-lg);
+  font-weight: 400;
+}
+
+.custom-block-body {
+  margin-bottom: 0;
+
+  > * {
+    margin-bottom: 0;
+  }
+
+  * + * {
+    margin-top: 1rem;
+  }
+
+  ul {
+    text-align: left;
+    padding: 0;
+    opacity: 0.85;
+    list-style-position: inside;
+    margin: 0.5rem 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    li {
+      position: relative;
+      list-style-type: none;
+      margin: 0 0 0.3em 1em;
+      padding: 0;
+
+      &::before {
+        position: absolute;
+        content: '•';
+        left: -1em;
+        height: 100%;
+        vertical-align: baseline;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.footnotes {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--text-width);
+  margin-bottom: 3em;
+  font-size: var(--text-sm);
+
+  p {
+    display: inline;
+  }
+}
+
+.footnote-ref,
+.footnote-backref {
+  text-decoration: none;
+}
+
+.social-media {
+  list-style: none;
+  padding: 0;
+
+  li {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0;
+    margin-bottom: 1em;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+
+  .icon {
+    padding: 0.5em;
+    margin-right: 1em;
+    border-radius: var(--border-radius);
+    background-color: #000;
+
+    svg {
+      display: inline-block;
+      fill: #fff;
+      height: 2em;
+      width: 2em;
+      line-height: 1;
+      vertical-align: middle;
+    }
+  }
+
+  .name {
+    font-weight: 700;
+  }
+
+  .description {
+    font-size: var(--text-sm);
+  }
+}
+
+.gatsby-highlight {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--text-width);
+
+  &::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0em 0.5em;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-size: 0.5em;
+    line-height: 2;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+}
+
+.gatsby-resp-iframe-wrapper {
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--container-width);
+  background-color: var(--input-background-color);
+
+  .gatsby-resp-image-wrapper {
+    margin-top: 1em;
+  }
+}
+
+p > .gatsby-resp-image-wrapper {
+  margin-top: 2em;
+}
+
+[data-theme='dark'] {
+  .gatsby-image-wrapper,
+  .gatsby-resp-image-wrapper {
+    opacity: 0.8;
+    transition: opacity 0.25s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.lazyload,
+.lazyloading {
+  opacity: 0 !important;
+  transition: opacity 300ms;
+}
+
+.lazyloaded {
+  opacity: 1 !important;
+  transition: opacity 300ms;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-family: var(--monospace-font);
+    font-size: var(--text-sm);
+  }
+
+  input,
+  textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0.25em 0 0 0;
+    padding: 0.75em 0.5em;
+    vertical-align: top;
+    overflow: visible;
+    color: var(--text-color);
+    font-family: var(--sans-serif-font);
+    font-size: var(--text-base);
+    background: var(--input-background-color);
+    border: 1px solid var(--input-background-color);
+    border-radius: 0.25em;
+    -webkit-appearance: none;
+
+    &:focus:required {
+      box-shadow: 0 0 0 0.2rem var(--danger-color);
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.browser-frame {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+  padding: 30px 0 0;
+  max-width: var(--text-width);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  box-shadow: 0.125em 0.25em 0.25em var(--shadow-color-alpha),
+    0.75em 0.5em 2em 0.5em var(--shadow-color);
+
+  img {
+    box-shadow: none;
+  }
+
+  &::before {
+    content: '\2022\2022\2022';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding: calc(0.5 * 30px) 0;
+    background: var(--border-color);
+    color: color-mod(var(--text-color) tint(25%));
+    font-family: var(--monospace-font);
+    font-size: 30px;
+    line-height: 0;
+    text-indent: calc(0.5 * 30px);
+  }
+}
+
+.twitter-tweet {
+  padding-bottom: 1rem;
+}
+
+/* Thumbnail Gallery */
+
+.gallery-thumbnails {
+  clear: both;
+  padding-left: 0;
+
+  @supports (display: grid) {
+    display: grid;
+    grid-gap: 0.5em;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  li {
+    float: left;
+    list-style: none;
+    margin: 0.25em;
+
+    @supports (display: grid) {
+      margin: 0;
+    }
+
+    a {
+      display: block;
+    }
+
+    img {
+      height: auto;
+      min-height: 100px;
+      width: 100%;
+    }
+  }
+}
+
+/* 2 column gallery */
+
+.two-column {
+  @media (--medium-up) {
+    display: flex;
+    flex-wrap: wrap;
+
+    &:after {
+      width: var(--two-col-width);
+    }
+  }
+
+  > * {
+    display: block;
+    margin-bottom: var(--two-col-gap);
+
+    @media (--medium-up) {
+      margin-right: var(--two-col-gap);
+      width: var(--two-col-width);
+      height: 100%;
+
+      /* Remove margin in last column */
+      &:nth-of-type(2n) {
+        margin-right: 0;
+      }
+
+      /* For when the last row is complete */
+      &:nth-of-type(2n-1):nth-last-of-type(2) {
+        margin-bottom: 0;
+      }
+
+      /* Creates a fake item that will push against real items in the last row */
+      &:after {
+        content: '';
+        display: block;
+        flex: 1 1 auto;
+      }
+    }
+  }
+
+  figcaption {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+/* 3 column gallery */
+
+.three-column {
+  @media (--medium-up) {
+    display: flex;
+    flex-wrap: wrap;
+
+    &:after {
+      width: var(--three-col-width);
+    }
+  }
+
+  > * {
+    display: block;
+    vertical-align: bottom;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    margin-bottom: var(--three-col-gap);
+
+    @media (--medium-up) {
+      margin-right: var(--three-col-gap);
+      width: var(--three-col-width);
+
+      /* Remove margin in last column */
+      &:nth-of-type(3n) {
+        margin-right: 0;
+      }
+
+      /* For when there are two items in the last row */
+      &:nth-of-type(3n-2):nth-last-of-type(2) {
+        margin-bottom: 0;
+      }
+
+      /* For when the last row is complete */
+      &:nth-of-type(3n-1):nth-last-of-type(2)
+        &:nth-of-type(3n-2):nth-last-of-type(3) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  figcaption {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}

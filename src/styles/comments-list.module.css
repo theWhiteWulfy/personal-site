@@ -1,0 +1,5 @@
+.title {
+  font-size: var(--text-2xl);
+  font-family: var(--serif-font);
+  font-weight: 400;
+}

@@ -1,0 +1,208 @@
+- id: Apple
+  excerpt:
+  html:
+
+- id: articles
+  name: Articles
+  excerpt: A collection of thoughts, inspiration, mistakes, and other long-form minutia I've written.
+  html: |
+    <p>A collection of thoughts, inspiration, mistakes, and other long-form minutia I've written. For smaller, more regular tidbits &mdash; peruse the <a href="/notes/">notes section</a>.</p>
+
+- id: beard
+  excerpt:
+  html:
+
+- id: black and white
+  excerpt:
+  html:
+
+- id: bokeh
+  excerpt:
+  html:
+
+- id: Buffalo
+  excerpt:
+  html:
+
+- id: design
+  excerpt:
+  html:
+
+- id: drawing
+  excerpt:
+  html:
+
+- id: Gatsby
+  excerpt: An archive of posts related to Gatsby, a framework based on React that helps developers build blazing fast websites and apps.
+  html: |
+    <p>An archive of posts related to <a href="https://www.gatsbyjs.org"><strong>Gatsby</strong></a>, a framework based on React that helps developers build blazing fast websites and apps.</p>
+
+- id: GitHub
+  excerpt:
+  html:
+
+- id: illustration
+  excerpt:
+  html:
+
+- id: Inktober
+  excerpt:
+  html:
+
+- id: inspiration
+  excerpt:
+  html:
+
+- id: iPad
+  excerpt:
+  html:
+
+- id: iPhone
+  excerpt:
+  html:
+
+- id: Jekyll
+  excerpt: An archive of posts related to Jekyll, a Ruby Gem that transforms plain text into static websites and blogs.
+  html: |
+    <p>An archive of posts related to <a href="https://jekyllrb.com"><strong>Jekyll</strong></a>, a Ruby Gem that transforms plain text into static websites and blogs.</p>
+
+- id: life
+  excerpt:
+  html:
+
+- id: logo
+  excerpt:
+  html:
+
+- id: mastering-paper
+  name: Mastering Paper for iOS
+  excerpt: Collection of tutorials written by an avid iPad illustrator to help you master Paper for iOS.
+  html: |
+    <p>Collection of tutorials written by an avid iPad illustrator to help you master <a href="https://www.fiftythree.com/paper">Paper for iOS</a>.</p>
+
+- id: Netlify
+  excerpt:
+  html:
+
+- id: notes
+  name: Notes
+  excerpt: Small, bite sized content I've written.
+  html: |
+    <p>Small, bite sized content I've written. For longer, more thorough writing &mdash; peruse the <a href="/articles/">articles section</a>.</p>
+
+- id: open source
+  excerpt:
+  html:
+
+- id: Palm Pre
+  excerpt:
+  html:
+
+- id: painting
+  excerpt:
+  html:
+
+- id: paperfaces
+  name: PaperFaces iPad project
+  excerpt:
+  html:
+
+- id: Paper for iOS
+  excerpt: A collection of art created on iPad with the iOS app Paper by WeTransfer. Tutorials and other learnings related to my Mastering Paper series are also included.
+  html: |
+    <p>A collection of art created on iPad with the iOS app <strong>Paper by WeTransfer</strong>. Tutorials and other learnings related to my <a href="/mastering-paper">Mastering Paper</a> series are also included.</p>
+
+- id: Pencil by 53
+  excerpt:
+  html:
+
+- id: Pogo Connect
+  excerpt:
+  html:
+
+- id: portrait
+  excerpt:
+  html:
+
+- id: Procreate
+  excerpt:
+  html:
+
+- id: procreate-paintings
+  name: Procreate iPad paintings
+  excerpt: Digital paintings created on an iPad using the iOS app Procreate by Savage Interactive.
+  html: |
+    <p>Digital paintings created on an iPad using the iOS app <a href="http://procreate.si/"><strong>Procreate</strong> by Savage Interactive</a>.</p>
+
+- id: review
+  excerpt:
+  html:
+
+- id: self portrait
+  excerpt:
+  html:
+
+- id: Sktchy
+  excerpt: Portraits painted and drawn in a variety of media inspired by photographs shared on Sktchy.
+  html: |
+    <p>Portraits painted and drawn in a variety of media inspired by photographs shared on <a href="https://get.sktchy.com"><strong>Sktchy</strong></a>.</p>
+
+- id: Star Wars
+  excerpt:
+  html:
+
+- id: tattoo
+  excerpt:
+  html:
+
+- id: tech geek
+  excerpt:
+  html:
+
+- id: TIL
+  excerpt: Learnings captured for educational purposes and posterity.
+  html: |
+    <p>Learnings captured for educational purposes and posterity.</p>
+
+- id: time lapse
+  excerpt:
+  html:
+
+- id: tiny-paintings
+  name: Tiny paintings
+  excerpt:
+  html:
+
+- id: tutorial
+  excerpt:
+  html:
+
+- id: twins
+  excerpt:
+  html:
+
+- id: vegan
+  excerpt:
+  html:
+
+- id: video games
+  excerpt:
+  html:
+
+- id: watercolor
+  excerpt:
+  html:
+
+- id: web development
+  excerpt:
+  html:
+
+- id: Wordpress
+  excerpt:
+  html:
+
+- id: work
+  name: Works
+  excerpt: A selection of things I’ve designed, illustrated, and developed.
+  html: |
+    <p>A selection of things I’ve designed, illustrated, and developed.</p>

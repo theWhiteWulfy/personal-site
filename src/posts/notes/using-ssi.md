@@ -1,0 +1,71 @@
+---
+title: "Using SSI to detect cookies"
+date: 2016-10-24
+path: /notes/using-ssi/
+excerpt: "In my never ending quest to micro-optimize the hell out of my site, I ran into a snag when trying to use SSI directives to improve the loading of critical CSS and cached stylesheets."
+categories: [notes]
+tags: [TIL, web development, Jekyll]
+last_modified_at: 2019-11-05T14:50:51-05:00
+---
+
+In my never ending quest to micro-optimize the hell out of my site, I ran into a snag when trying to use SSI directives.
+
+[Version 10.2](https://github.com/mmistakes/made-mistakes-jekyll/tree/10.3.0) of this site was my half-baked attempt at [eliminating render-blocking CSS](/articles/using-jekyll-2016/#critical-path-css) to speed up page loads. By manually inlining critical CSS via a [Jekyll include](http://jekyllrb.com/docs/templates/#includes) and using [**loadCSS**](https://github.com/filamentgroup/loadCSS) to asynchronously load the rest --- I did pretty good.
+
+![Made Mistakes version 10 analyzed with Google's PageSpeed Insights tool](../../images/mm-home-pagespeed-021116.jpg)
+
+This workflow wasn't ideal for a variety of reasons:
+
+1. Manual process.
+2. Need to maintain separate "critical" stylesheets for inlining.
+3. Included a bunch of declarations that aren't critical to rendering "above the fold" content --- causing some file size bloat.
+
+So with the help of [**Critical**](https://github.com/addyosmani/critical) (and friends) I attempted to automated the process. Getting it working within the constraints of a Jekyll site with thousands of posts wasn't easy, but I got close with [a set of Gulp tasks](https://github.com/mmistakes/made-mistakes-jekyll/tree/master/gulp/tasks). A tale for another day unfortunately...
+
+Sorry a little off topic there, back to SSI directives.
+
+I learned that to speed up things for repeat visitors, loading a cached version of the CSS instead of waiting for **loadCSS** to do its thing was preferred. By using Filament Group's aptly named [**Enhance.js**](https://github.com/filamentgroup/enhance) project as a boilerplate, this could be achieved by dropping a cookie and using SSI directives.
+
+Structuring our HTML looks a little like like this:
+
+```html
+<!--#if expr="$HTTP_COOKIE=/fullcss\=true/" -->
+  <link rel="stylesheet" href="assets/stylesheets/style.css">
+<!--#else-->
+  <style>
+     /* critical path CSS styles go here... */
+  </style>
+<!--#endif-->
+  <noscript><link rel="stylesheet" href="assets/stylesheets/style.css"></noscript>
+```
+
+The `#if` and `#else` conditionals are SSI directives used by Apache to do some neat things. In this context they determine if a cookie named `fullcss` has been set. If it has, cached CSS files will load using a standard `<link>` element. If it hasn't, the inline CSS will be rendered by the browser instead.
+
+*[SSI]: Server Side Includes
+
+For first time visitors:
+
+1. Critical CSS inlined within the `<style>` element will load almost instantly.
+2. **loadCSS** script will asynchronously load the remaining page CSS as not to block rendering.
+3. A cookie will be set to trigger the loading of cached CSS on future page loads.
+
+After setting all this up and testing my pages against [**WebPagetest**](https://www.webpagetest.org/), [**PageSpeed Insights**](https://developers.google.com/speed/pagespeed/insights/), and [**GTmetrix**](https://gtmetrix.com/) I saw an obvious drop in scrores. Apparently the SSI directives weren't working as intended, causing `style.css` to render block each page load. Hmmmm...
+
+Oh right, maybe it's Cloudflare's **Auto Minifying** setting mucking around! Sure enough, as soon I disabled their HTML minifier, lines like `<!--#if expr="$HTTP_COOKIE=/fullcss\=true/" -->` remained untouched. Unfortunately `style.css` was still render blocking the page.
+
+<figure>
+  <img alt="screenshot of Cloudflare's Auto Minify settings" src="../../images/cloudflare-auto-minify.jpg">
+  <figcaption><p>Auto Minify removes unnecessary characters from your source code (like extraneous whitespace and comments).</p></figcaption>
+</figure>
+
+Dug a little deeper and discovered you have to configure your server to [permit SSI](http://httpd.apache.org/docs/current/howto/ssi.html#configuring) before they'll be recognized. Oops! Dropped these two lines in my `.htaccess` file and everything magically worked.
+
+```
+Options +Includes
+AddHandler server-parsed .shtml .html .htm
+```
+
+<figure>
+  <img alt="Google PageSpeed Insights score screenshot" src="../../images/pagespeed-insights-99-100.jpg">
+  <figcaption><p>So close to 100. If it wasn't for the Google Analytics and AdSense scripts&hellip;</p></figcaption>
+</figure>

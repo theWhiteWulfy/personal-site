@@ -1,0 +1,26 @@
+{
+  "printWidth": 80,
+  "trailingComma": "es5",
+  "semi": false,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "*.{css,scss}",
+      "options": {
+        "parser": "css"
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown"
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}
