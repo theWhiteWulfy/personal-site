@@ -71,3 +71,6 @@ yarn-error.log
 
 # Local Netlify folder
 .netlify
+
+# Pesky comments
+src/comments
