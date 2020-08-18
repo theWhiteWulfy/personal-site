@@ -28,13 +28,15 @@ const FaqsPage = ({
           <span>Frequently asked questions</span>
         </h1>
       </div>
+
       <div className={style.content}>
         <p>
           Did I leave something out that you were looking for an answer to? Feel
           free to reach out on Instagram DM or <Link to="/contact/">ask me here</Link>.
         </p>
+
         <ul>
-          {edges.map(faq => (
+          {edges.map((faq) => (
             <li key={faq.node.id}>
               <Link to={faq.node.frontmatter.path}>
                 {faq.node.frontmatter.title}
