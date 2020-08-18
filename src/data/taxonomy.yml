@@ -24,7 +24,7 @@
   name: Bibliophile Diaries
   excerpt: Lessons and interesting quotes from books I've read.
   html: |
-    <p>Lessons and interesting quotes from books I've read.</a>.</p>
+    <p>Lessons and interesting quotes from books I've read.</p>
 
 - id: deno-guide
   name: Guide to Deno
@@ -142,7 +142,7 @@
   excerpt:
   html:
 
-- id: tutorial
+- id: tutorials
   excerpt:
   html:
 
@@ -186,5 +186,14 @@
   excerpt: "Vector Illustrations done on AI"
   html:
 
+- id: books
+  excerpt:
+  html:
 
-    
+- id: reading
+  excerpt:
+  html:    
+  
+- id: gist
+  excerpt:
+  html:    
