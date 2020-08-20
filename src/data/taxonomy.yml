@@ -196,4 +196,16 @@
   
 - id: gist
   excerpt:
-  html:    
+  html:      
+
+- id: academic
+  excerpt:
+  html:      
+
+- id: society
+  excerpt:
+  html:      
+
+- id: pop-culture
+  excerpt:
+  html:   
