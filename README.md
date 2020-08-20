@@ -3,6 +3,8 @@
 This is the source code of Metoric Teachings, a personal blog and portfolio built
 with [Gatsby](https://www.gatsbyjs.org/), [Travis CI](https://travis-ci.org/),  and [Netlify](https://www.netlify.com/).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e57b82b2-6e03-4991-9235-65db79341a3d/deploy-status)](https://app.netlify.com/sites/thewhitewulfy/deploys)
+
 ## Getting started
 
 1. **Install dependencies**
