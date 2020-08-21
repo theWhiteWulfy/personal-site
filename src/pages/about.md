@@ -9,6 +9,8 @@ image: ../images/about-michael-collage-2016.jpg
 
 Hello there! --- I'm **Alok Prateek**
 
+![My wide photo](../images/alok_back_wide_2.jpg)
+
 I am a **full-stack web developer** with decent experience of tinkering. I enjoy creating [Progressive Web Apps](https://web.dev) and sometimes drawing stuff in Illustrator. I've recently developed a keen interest in [openAPI](https://openapis.org) and have been exploring its possibilities. My future plans include a trip to Antarctica before the glaciers melt or the penguins migrate.
 
 I was born and brought up in Noida, and completed my schooling from [Delhi Public School](http://www.dpsgrnoida.com/). It provided me great exposure and helped me excel in my myriad interests. I always loved the idea of connecting known facts and recalling them, which made me a great quizzer. I helped my school team to win many a times in quizzes and conducted dozens. I developed a keen interest in web and graphic designing early on. An experience which helped me craft many posters and websites for school events. I also have a fair knowledge of German language, which I have studied until B2 Level.
@@ -27,15 +29,25 @@ Feel free to ask me any questions. I can help you in your project with everythin
 
 Call me a *Swiss Army Knife* in terms of web development.
 
-## Stories about wolves and meteors
+## I love to
 
-What does this place have to do with **Metoric Teachings** and why did I name it that?
+**Collect!** (cards, stamps, in-game collectibles & books),
 
-Read about it in FAQs().
+**Read!** Books, articles and blog posts on fantasy, sci-fi, infotainment, technology and history
 
-Why do I use **thewhitewulfy** as my username?
+## I like to
 
-Read about it in FAQs().
+Listen to rock and metal music,
+
+read marvel comics and watch their video adaptations,
+
+draw doodles, motifs and patterns,
+
+theme my android
+
+and watch the birds and the stars.
+
+![My wide photo](../images/alok_back_wide_1.jpg)
 
 ## Follow me on the internets
 
