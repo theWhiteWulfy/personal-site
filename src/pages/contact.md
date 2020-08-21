@@ -12,4 +12,32 @@ If you have a project that you'd like to discuss, then please contact me [on Wha
 
 For anything else use the form below.
 
-TODO
+<form id="contact-form" name="contact-form" accept-charset="UTF-8" autocomplete="off" enctype="multipart/form-data" method="post" data-netlify="true" action="/thank-you/" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="contact-form" />
+    <div class="form-group">
+        <label id="name-label" for="usrname">Name
+            <input id="usrname" name="usrname" type="text" spellcheck="false" maxlength="511" required>
+        </label>
+    </div>
+    <div class="form-group">
+        <label id="email-label" for="email">Email address <small>(will remain private)</small>
+            <input id="email" name="email" type="email" spellcheck="false" maxlength="511" required
+                pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
+        </label>
+    </div>
+    <div class="form-group">
+        <label id="msg-label" for="msg">Message
+            <textarea id="msg" name="msg" spellcheck="true" rows="10" cols="50" required></textarea>
+        </label>
+    </div>
+    <div class="form-group">
+        <label id="ref-label" for="ref">How&rsquo;d you hear about my website?
+            <input id="ref" name="ref" type="text" maxlength="255" placeholder="e.g. Searching the web">
+        </label>
+    </div>
+    <div class="form-group">
+        <button id="saveForm" name="saveForm" class="btn submit" type="submit">Send message</button>
+    </div>
+    <div class="form-group hidden" data-netlify-recaptcha="true"></div>
+    
+</form>
