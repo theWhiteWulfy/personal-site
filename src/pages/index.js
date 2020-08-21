@@ -269,7 +269,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    aboutImage: file(relativePath: { eq: "avatar3-glitched.png" }) {
+    aboutImage: file(relativePath: { eq: "avatar4.png" }) {
       childImageSharp {
         fluid(maxWidth: 720, maxHeight: 480, quality: 75) {
           ...GatsbyImageSharpFluid_noBase64
