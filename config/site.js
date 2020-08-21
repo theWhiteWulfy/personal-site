@@ -2,6 +2,7 @@ module.exports = {
   // pathPrefix: '/', // Prefix for all links. If you deploy your site to example.com/portfolio your pathPrefix should be "portfolio"
   title: 'Metoric Teachings', // Navigation and site title
   titleAlt: 'Metoric Teachings', // Title for schema.org JSONLD
+  // eslint-disable-next-line prettier/prettier
   description: 'Personal website of developer and designer Alok Prateek (@thewhitewulfy).',
   url: 'https://alokprateek.in', // Domain of your site. No trailing slash!
   siteLanguage: 'en', // Language Tag on <html> element
@@ -37,7 +38,7 @@ module.exports = {
   githubUrl: 'https://github.com/thewhitewulfy',
   instagramUrl: 'https://www.instagram.com/thewhitewulfy/',
   feedUrl: '/atom.xml',
-  githubApiToken: '672558f3d5f569c41ee7b7e07791df5f41823866', // process.env.GITHUB_API_TOKEN,
+  githubApiToken: process.env.GITHUB_API_TOKEN,
   /* githubApiQuery: `query ($number_of_repos: Int!) {
     viewer {
       name
@@ -76,7 +77,7 @@ module.exports = {
   },
   */
   reCaptcha: {
-    siteKey: '6Ld6GbkZAAAAADbn1evv7zBU3XAUADBmRw8Tz4bn',
-    secret: '6Ld6GbkZAAAAAGJ6psvqF-9sHf3H8BTouWxvW7ww',
+    siteKey: process.env.SITE_RECAPTCHA_SECRET,
+    secret: process.env.SITE_RECAPTCHA_SECRET,
   },
 }
