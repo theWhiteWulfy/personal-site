@@ -1,7 +1,7 @@
 import 'lazysizes'
 
 require('./src/styles/global.css')
-require('./src/styles/typeface-inter.css')
+require('./src/styles/typeface-prompt.css')
 require('fontsource-zilla-slab')
 require('./src/styles/prism.css')
 

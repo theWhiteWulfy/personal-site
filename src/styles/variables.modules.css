@@ -54,7 +54,7 @@
   --text-4xl: 2.25em;
   --text-5xl: 3em;
 
-  --sans-serif-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  --sans-serif-font: 'Prompt', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --serif-font: 'Zilla Slab', Georgia, serif;
