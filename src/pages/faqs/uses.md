@@ -30,10 +30,8 @@ Read on friend to learn about the hardware and software I use for play and to bu
   6. [**Markdown Preview GitHub Styling**](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
   7. [**Markdown TOC**](https://marketplace.visualstudio.com/items?itemName=AlanWalk.markdown-toc)
   8. [**Settings Sync**](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)
-- [**Sourcetree**](https://www.sourcetreeapp.com/) for Git heavy lifting when VS Code doesn't cut it.
+- [**Sourcetree**](https://www.sourcetreeapp.com/) for Git heavy lifting and my life so much simpler.
 - **Adobe Creative Suite** - Photoshop, Illustrator, and occasionally AfterEffects.
-- [**Jekyll**](https://jekyllrb.com/) - Ruby based static site generator.
-- [**Gatsby**](https://www.gatsbyjs.org/) - React based framework for building websites and apps.
 
 I've been on a [static site generator](/articles/going-static/) kick the last couple of years and use <s>[**Jekyll**](https://jekyllrb.com/)</s> [**Gatsby**](https://www.gatsbyjs.org/) to build this page and everything else found on the site. The basic idea is I write a bunch of text in Markdown and it spits out a set of files that are deployed to a webserver.
 
