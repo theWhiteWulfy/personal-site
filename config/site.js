@@ -13,12 +13,13 @@ module.exports = {
     height: 512,
   },
   ogLanguage: 'en_US', // Facebook Language
+  googleAnalyticsID: '',
+
+  // Indie web
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
   webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
   micropubUrl: 'https://mm-micropub-to-github.herokuapp.com/micropub/main',
-  googleAnalyticsID: '',
-  staticmanApi:
-    'https://mm-staticman.herokuapp.com/v2/entry/mmistakes/made-mistakes-gatsby/master/comments',
+  staticmanApi: 'https://mm-staticman.herokuapp.com/v2/entry/mmistakes/made-mistakes-gatsby/master/comments',
 
   // JSONLD / Manifest
   favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
