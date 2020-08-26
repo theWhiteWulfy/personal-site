@@ -51,7 +51,7 @@
     "gatsby-source-filesystem": "^2.3.14",
     "gatsby-source-github-api": "^0.2.1",
     "gatsby-transformer-remark": "^2.8.19",
-    "gatsby-transformer-sharp": "^2.5.7",
+    "gatsby-transformer-sharp": "^2.5.13",
     "gatsby-transformer-yaml": "^2.4.6",
     "intersection-observer": "^0.10.0",
     "lazysizes": "^5.2.2",
