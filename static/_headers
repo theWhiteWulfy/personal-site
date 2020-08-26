@@ -7,7 +7,8 @@
  Feature-Policy: geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; fullscreen 'none'; payment 'none'
 
 /sw.js   # Gatsby's default service worker file path
-   Cache-Control: no-cache
+   Cache-Control: public
+   Cache-Control: max-age=31536000
 
 /static/*
    Cache-Control: public
