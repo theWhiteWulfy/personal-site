@@ -64,7 +64,7 @@
     "preact": "^10.4.7",
     "prismjs": "^1.21.0",
     "prop-types": "^15.7.2",
-    "rambdax": "^3.7.0",
+    "rambdax": "^5.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
