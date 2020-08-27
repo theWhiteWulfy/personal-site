@@ -427,6 +427,9 @@ module.exports = {
         theme_color: site.themeColor,
         display: 'standalone',
         icon: `src${site.favicon}`,
+        icon_options: {
+          purpose: `maskable`,
+        },
       },
     },
     'gatsby-plugin-offline',
