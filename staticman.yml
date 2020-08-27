@@ -63,7 +63,7 @@ comments:
 
   # reCaptcha
   reCaptcha:
-    enabled: false
+    enabled: true
     siteKey: "6Ld6GbkZAAAAADbn1evv7zBU3XAUADBmRw8Tz4bn"
     secret: "H2HqJWlnz/Q6htA+gv7aAzG6P7/w36N4hzWgLCICgtI/nfCmnF3z17/V1df+ysuv7b8rlilID5OG2b61bLPo2a7CMI4aaqiiM1S8OHOJJEL4B99uPscyR1q1L6ZMe2fjB97E7oZcvWugoLlMP3c5eTZGpbPmAvN9LoYKCazlYyowmCVxrJsglRtmLeSBoo/4Kkp32+OY68MX3nq+hgvlV2GES0/IVcOV1qWBoGxsPNuM6Q2DTwEIihx0XCINFNARM9RCgFy/nkRtths15/ztPZXIsecJuEnPchH3nzJAfXr4V85ill7wl4+Fm4UCNg12vHdJERHUVQCdl13GEeZYsm44jxRCGUz99YgE2PiG2eoyEWziGGtBcYRMdyRM59evGM+QPhOnYv68t1GgpgzB+xINUl7epT8RLNNfPXLRDLRX5ke8aQ0P6+tiIcYCQ1BhBp+Ef/F4/ypieGb0cCZ6IpioqqvagsrvJKM43auxqXAuknt80m2cf4D7Ci9G19yLYlkmt/QLpX11XGrpwEd0HJJTjXThj1ZtUdAvR8bCeHPbfgGYsxzbvsL+6C5tVXPu3pfhif8DtqU57qpNZqISBkjpMPfzEV/w/RSVLqw+EOJUEpWs12LI2RtiUT4KYL0M7uop+xYfaj8W7t7T6So7TiRmTWQzRuNRj6epW693w+E="
 
