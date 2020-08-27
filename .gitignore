@@ -74,3 +74,6 @@ yarn-error.log
 
 # Pesky comments
 src/comments
+
+# Firebase
+.firebase/
