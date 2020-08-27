@@ -15,14 +15,12 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+        with: 
+          submodules: true
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.3
-      - name: Install yarn from NPM
-        run: npm i -g yarn
-      - name: Install yarn 2  
+      - name: Yarn install deps  
         run: yarn install
-      - name: Install gatsby-cli  
-        run: yarn add gatsby-cli  
       - name: Build Gatsby Site
         uses: jzweifel/gatsby-cli-github-action@master
         with:
