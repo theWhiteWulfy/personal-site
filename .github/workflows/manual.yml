@@ -17,10 +17,12 @@ jobs:
         uses: actions/checkout@master
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.3
-      - name: Install yarn 1
+      - name: Install yarn from NPM
         run: npm i -g yarn
       - name: Install yarn 2  
         run: yarn install
+      - name: Install gatsby-cli  
+        run: yarn add gatsby-cli  
       - name: Build
         run: gatsby build
       - name: Archive Production Artifact
