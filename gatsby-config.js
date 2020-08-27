@@ -429,5 +429,6 @@ module.exports = {
         icon: `src${site.favicon}`,
       },
     },
+    'gatsby-plugin-offline',
   ],
 }

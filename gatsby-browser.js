@@ -11,3 +11,7 @@ export const onClientEntry = () => {
     import(`intersection-observer`)
   }
 }
+
+export const onServiceWorkerUpdateReady = () => {
+  window.location.reload(true)
+}
