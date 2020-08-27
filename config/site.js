@@ -19,7 +19,7 @@ module.exports = {
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
   webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
   micropubUrl: 'https://mm-micropub-to-github.herokuapp.com/micropub/main',
-  staticmanApi: 'https://mm-staticman.herokuapp.com/v2/entry/mmistakes/made-mistakes-gatsby/master/comments',
+  staticmanApi: 'https://meteoric-teachings.herokuapp.com/v2/entry/theWhiteWulfy/personal-site/master/comments',
 
   // JSONLD / Manifest
   favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
