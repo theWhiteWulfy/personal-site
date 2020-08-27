@@ -13,7 +13,7 @@ module.exports = {
     height: 512,
   },
   ogLanguage: 'en_US', // Facebook Language
-  googleAnalyticsID: '',
+  googleAnalyticsID: 'UA-176420614-1',
 
   // Indie web
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
