@@ -59,7 +59,7 @@ comments:
   moderation: true
 
   # Name of the site. Used in notification emails.
-  name: "Metoric Teachings"
+  name: "Meteoric Teachings"
 
   # reCaptcha
   reCaptcha:

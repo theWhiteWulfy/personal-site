@@ -30,7 +30,7 @@ const HomePage = ({ data }) => {
         <div className={style.title}>
           <h1 className={style.heading}>
             <span>
-              Metoric Teachings is the personal site of{' '}
+              Meteoric Teachings is the personal site of{' '}
               <a href="/about/">Alok&nbsp;Prateek</a>.
             </span>
           </h1>

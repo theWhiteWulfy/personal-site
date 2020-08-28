@@ -1,7 +1,7 @@
 module.exports = {
   // pathPrefix: '/', // Prefix for all links. If you deploy your site to example.com/portfolio your pathPrefix should be "portfolio"
-  title: 'Metoric Teachings', // Navigation and site title
-  titleAlt: 'Metoric Teachings', // Title for schema.org JSONLD
+  title: 'Meteoric Teachings', // Navigation and site title
+  titleAlt: 'Meteoric Teachings', // Title for schema.org JSONLD
   // eslint-disable-next-line prettier/prettier
   description: 'Personal website of developer and designer Alok Prateek (@thewhitewulfy).',
   url: 'https://alokprateek.in', // Domain of your site. No trailing slash!
@@ -23,7 +23,7 @@ module.exports = {
 
   // JSONLD / Manifest
   favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
-  shortName: 'Metoric Teachings', // shortname for manifest. MUST be shorter than 12 characters
+  shortName: 'Meteoric Teachings', // shortname for manifest. MUST be shorter than 12 characters
   author: {
     // Author for schema.org JSONLD
     name: 'Alok Prateek',
@@ -34,7 +34,7 @@ module.exports = {
 
   twitter: '@thewhitewulfy', // Twitter username
   twitterUrl: 'https://twitter.com/thewhitewulfy',
-  facebook: 'Metoric Teachings', // Facebook site name
+  facebook: 'Meteoric Teachings', // Facebook site name
   linkedinUrl: 'https://www.linkedin.com/in/alokprateek/',
   githubUrl: 'https://github.com/thewhitewulfy',
   instagramUrl: 'https://www.instagram.com/thewhitewulfy/',

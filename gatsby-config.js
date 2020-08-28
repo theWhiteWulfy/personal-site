@@ -393,7 +393,7 @@ module.exports = {
                   site.siteMetadata.siteUrl + edge.node.frontmatter.path
                 }">${
                   edge.node.frontmatter.title
-                }</a> was originally published on Metoric Teachings.</p>`
+                }</a> was originally published on Meteoric Teachings.</p>`
 
                 return Object.assign({}, edge.node.frontmatter, {
                   title,
