@@ -20,6 +20,7 @@
   "dependencies": {
     "@githubprimer/octicons-react": "^8.5.0",
     "@weknow/gatsby-remark-twitter": "^0.2.3",
+    "cssnano": "^4.1.10",
     "fontsource-zilla-slab": "^3.0.3",
     "gatsby": "^2.22.4",
     "gatsby-awesome-pagination": "^0.3.6",
@@ -55,6 +56,7 @@
     "gatsby-transformer-yaml": "^2.4.6",
     "intersection-observer": "^0.10.0",
     "lazysizes": "^5.2.2",
+    "lodash-addons": "^2.0.1",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-mixins": "^6.2.2",
@@ -71,14 +73,13 @@
     "react-intersection-observer": "^8.26.2",
     "react-masonry-component": "^6.2.1",
     "react-recaptcha-google": "^1.1.1",
-    "cssnano": "^4.1.10",
-    "lodash-addons": "^2.0.1"
+    "string-similarity": "^4.0.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "babel-eslint": "^10.1.0",
-    "babel-preset-gatsby": "^0.4.2",    
+    "babel-preset-gatsby": "^0.4.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
