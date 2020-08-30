@@ -52,7 +52,7 @@ const LeadForm = () => {
             maxLength={511}
             required
             value={name}
-            onChange={e => setName(e.currentTarget.value)}
+            onChange={(e) => setName(e.currentTarget.value)}
           />
         </label>
       </div>
@@ -68,7 +68,7 @@ const LeadForm = () => {
             required
             pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
             value={email}
-            onChange={e => setEmail(e.currentTarget.value)}
+            onChange={(e) => setEmail(e.currentTarget.value)}
           />
         </label>
       </div>
@@ -84,7 +84,7 @@ const LeadForm = () => {
             required
             defaultValue={''}
             value={message}
-            onChange={e => setMessage(e.currentTarget.value)}
+            onChange={(e) => setMessage(e.currentTarget.value)}
           />
         </label>
       </div>
@@ -98,7 +98,7 @@ const LeadForm = () => {
             maxLength={255}
             placeholder="e.g. Came from LinkedIn/Github/Google"
             value={reference}
-            onChange={e => setReference(e.currentTarget.value)}
+            onChange={(e) => setReference(e.currentTarget.value)}
           />
         </label>
       </div>
@@ -120,7 +120,7 @@ const ContactPage = () => (
   <Layout>
     <SEO
       title={`Contact Me | ${site.titleAlt}`}
-      path="/contact-me/"
+      path="/contact/"
       description="Preferred methods of sending your questions, inquires, messages, and love letters to me."
       metaImage={metaImage}
     />
