@@ -14,7 +14,9 @@ const LeadForm = () => {
   const [email, setEmail] = useState('')
   const [reference, setReference] = useState('')
   const [message, setMessage] = useState('')
-
+  const [visible, setVisible] = useState(true)
+  const visiblityconditional = visible ? "contact-form-show" : "contact-form-hide"
+  const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-show'
   // The onSubmit function we takes the 'e' or event and submits it to Firebase
   const onSubmit = (e) => {
     e.preventDefault() // preventDefault is important because it prevents the whole page from reloading
@@ -26,9 +28,18 @@ const LeadForm = () => {
         email,
         reference,
         message,
+        timestamp: new Date().toISOString(),
       })
       // then will reset the form to nothing
-      .then(() => setName(''), setEmail(''), setReference(''), setMessage(''))
+      .then(() => {
+        /* 
+        setName('')
+        setEmail('')
+        setReference('')
+        setMessage('')
+        */
+        setVisible(!visible)
+      })
   }
 
   return (
@@ -41,7 +52,7 @@ const LeadForm = () => {
       method="post"
       onSubmit={onSubmit}
     >
-      <div className="form-group">
+      <div className={`${'form-group' + ' '}${visiblityconditional}`}>
         <label id="name-label" htmlFor="usrname">
           Name
           <input
@@ -56,7 +67,7 @@ const LeadForm = () => {
           />
         </label>
       </div>
-      <div className="form-group">
+      <div className={`${'form-group' + ' '}${visiblityconditional}`}>
         <label id="email-label" htmlFor="email">
           Email address <small>(will remain private)</small>
           <input
@@ -72,7 +83,7 @@ const LeadForm = () => {
           />
         </label>
       </div>
-      <div className="form-group">
+      <div className={`${'form-group' + ' '}${visiblityconditional}`}>
         <label id="msg-label" htmlFor="msg">
           Message
           <textarea
@@ -88,7 +99,7 @@ const LeadForm = () => {
           />
         </label>
       </div>
-      <div className="form-group">
+      <div className={`${'form-group' + ' '}${visiblityconditional}`}>
         <label id="ref-label" htmlFor="ref">
           How’d you hear about my website?
           <input
@@ -102,7 +113,7 @@ const LeadForm = () => {
           />
         </label>
       </div>
-      <div className="form-group">
+      <div className={`${'form-group' + ' '}${visiblityconditional}`}>
         <button
           id="saveForm"
           name="saveForm"
@@ -112,6 +123,30 @@ const LeadForm = () => {
           Send message
         </button>
       </div>
+
+      <div
+        className={`${
+          'custom-block' + ' ' + 'notice' + ' '
+        }${visiblityunconditional}`}
+      >
+        <div className="custom-block-heading">Message successfully sent!</div>
+        <div className="custom-block-body">
+          <p>Hey {name}!</p>
+          <p>
+            I have received your message, so keep an eye out on your mailbox to
+            see if you have a reply. I'll try my best to get back to you within
+            a day. And while you wait go ahead and read my{' '}
+            <Link to="/notes/">latest posts</Link>.
+          </p>
+          <p>
+            Till then, cheers!
+            <span role="img" aria-label="Cheers">
+              🍻
+            </span>
+          </p>
+        </div>
+      </div>
+
     </form>
   )
 }
@@ -149,6 +184,7 @@ const ContactPage = () => (
         </p>
         <p>For anything else use the form below.</p>
         <LeadForm />
+        
       </div>
     </main>
   </Layout>

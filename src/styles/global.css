@@ -454,3 +454,12 @@ p > .gatsby-resp-image-wrapper {
     margin-bottom: 0;
   }
 }
+
+
+.contact-form-hide{
+  display: none;
+}
+
+.contact-form-show{
+  display: block;
+}
