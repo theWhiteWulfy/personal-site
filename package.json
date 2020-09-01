@@ -64,7 +64,7 @@
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
     "postcss-url": "^8.0.0",
-    "preact": "^10.4.7",
+    "preact": "^10.4.8",
     "prismjs": "^1.21.0",
     "prop-types": "^15.7.2",
     "rambdax": "^3.7.0",
