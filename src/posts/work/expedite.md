@@ -14,7 +14,6 @@ breadcrumbs:
 comments: true
 hide_meta: false
 toc: true
-featured: true
 ---
 
 This is a PWA builder

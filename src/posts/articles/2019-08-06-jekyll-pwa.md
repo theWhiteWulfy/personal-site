@@ -8,7 +8,7 @@ date: 2019-08-06
 last_modified_at: 2020-01-06T09:59:14-05:00
 image: ../../images/going-static-feature.jpg
 comments: true
-comments_locked: true
+featured: true
 toc: true
 ---
 
