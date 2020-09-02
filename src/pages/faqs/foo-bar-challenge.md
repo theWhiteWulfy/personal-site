@@ -4,7 +4,7 @@ path: /faqs/foo-bar-challenge/
 type: growth
 date: 2018-09-26
 last_modified_at: 2019-09-19T11:33:50-04:00
-order: 4
+order: 6
 ---
 
 First of all, hearty congratulations to you, and you should know that this is not an ordinary invitation but the exclusive one that Google sends to only some special type of developers.

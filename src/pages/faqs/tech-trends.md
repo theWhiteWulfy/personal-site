@@ -4,7 +4,7 @@ path: /faqs/tech-trends/
 type: technology
 date: 2019-08-06
 last_modified_at: 2019-08-25T20:56:14-05:00
-order: 3
+order: 4
 ---
 
 If it wasn't painfully obvious, I use Google. You can follow your top searched items.
