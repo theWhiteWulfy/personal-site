@@ -1,15 +1,17 @@
 ---
-title: "Bibliophile Diaries: back to the basics"
-date: 2014-02-09
-path: /bibliophile-diaries/basics/
+title: "Bibliophile Diaries: an Introduction"
+date: 2020-09-01
+path: /bibliophile-diaries/introduction/
 excerpt: "An answer on why I want to write about books I read"
-last_modified_at: 2019-09-12T16:07:27-04:00
+last_modified_at: 2020-09-01T16:07:27-04:00
 categories: [bibliophile-diaries]
 tags: [reading, books, gist]
 toc: true
-featured: true
 comments: true
-comments_locked: true
 ---
 
-Reading through my earlier guides I came to the realization that I glossed over many basic techniques. 
+I enjoy reading/listening to books and always curious what others are reading. Mostly I enjoy reading from categories such as Science Fiction, Personal Development, Psycology or Technology.
+
+I thought I’d share my bookshelf here with you. The books that I particularly enjoyed are starred. The list is not in any particular order.
+
+If you want to suggest a book send me an email or drop a comment below.
