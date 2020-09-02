@@ -7,57 +7,56 @@ order: 1
 last_modified_at: 2020-08-01T09:56:34-05:00
 ---
 
-Read on friend to learn about the hardware and software I use for play and to build Metoric Teachings. None of it is terribly exciting or unexpected, but hey --- maybe the curious of you will find it interesting.
+Read on friend to learn about the hardware and software I use for play and to build my projects. None of it is terribly exciting or unexpected, but hey --- maybe the curious of you will find it interesting.
 
 ## Hardware
 
-- **iMac 21.5-inch**, Late 2013 model with 16GB memory, and stock Apple Magic Mouse and keyboard.
-- **Lenovo ThinkStation E30**, 3.30 GHz Intel Xeon with 16 GB memory.
-- **iPad 12.9&#x2033; Pro** with the Space Gray finish and Apple Pencil (first generation).
-- **iPhone 7 Plus** with Jet Black finish.
-- **Apple Watch Series 5** with Space Gray aluminum case.
-- [**Canon Rebel XTi DSLR Camera**](https://amzn.to/2R4A1YC) with EF-S 18-55mm and 50mm lenses.
+- [**HP zBook 15(2016)**](https://amzn.to/34U0CjR), with 32 GB memory, enough to keep all those 480+ chrome tabs nourished.
+- [**Logitech MK850 Multi-Device Wireless Keyboard and Mouse Combo**](https://amzn.to/34XnPSa) a multi-device keyboard that is surprisingly comfortable to use.
+- [**Mi Band 4**](https://amzn.to/34Ufcba) quite accurate fitness tracker for the price. tracks my steps all too nicely.
+- phone.
+- [**Skullcandy Ink'd Plus Active**](https://amzn.to/31L0eSO) a wireless earbuds with decent sound and great battery life that has constantly given me 20+ hours on a single charge.
+- [**Skullcandy Set Sport**](https://amzn.to/32OYkzE) great wired earphones to attend all those video calls.
+- **Toshiba External HDDs** to keep the backups and backups of backups.
 
 ## Design and development
 
-- Operating systems: **macOS Mojave** and **Windows 7**
-- [**Visual Studio Code**](https://code.visualstudio.com/) with the following notable extensions:
+- Operating systems: **Ubuntu 18.04** and **Windows 10**
+- **Adobe Creative Suite** - Photoshop, Illustrator, and occasionally AfterEffects.
+- [**Microsoft Terminal**](https://github.com/microsoft/terminal) to handle all command-line shit across Ubuntu(bash), cmd and powershell in one place. Bonus points to it since I contributed. 😜
+- [**Visual Studio Code**](https://code.visualstudio.com/) with these extensions:
   1. [**Material Theme Kit**](https://marketplace.visualstudio.com/items?itemName=ms-vscode.Theme-MaterialKit)
   2. [**GitLens**](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-  3. [**Write Good Linter**](https://marketplace.visualstudio.com/items?itemName=travisthetechie.write-good-linter)
-  4. [**Insert Date String**](https://marketplace.visualstudio.com/items?itemName=jsynowiec.vscode-insertdatestring)
-  5. [**Lorem ipsum**](https://marketplace.visualstudio.com/items?itemName=Tyriar.lorem-ipsum)
-  6. [**Markdown Preview GitHub Styling**](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
-  7. [**Markdown TOC**](https://marketplace.visualstudio.com/items?itemName=AlanWalk.markdown-toc)
-  8. [**Settings Sync**](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)
-- [**Sourcetree**](https://www.sourcetreeapp.com/) for Git heavy lifting and my life so much simpler.
-- **Adobe Creative Suite** - Photoshop, Illustrator, and occasionally AfterEffects.
+  3. [**Lorem ipsum**](https://marketplace.visualstudio.com/items?itemName=Tyriar.lorem-ipsum)
+  4. [**Settings Sync**](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)
+- [**GitKraken**](https://www.gitkraken.com/) for Git heavy lifting and my life so much simpler.
+- **Adobe XD** and [**Lunacy**](https://icons8.com/lunacy) to handle prototypng and designing
+- **Laragon** a local webserver with a huge out-of-the-box developer toolkit.
 
-I've been on a [static site generator](/articles/going-static/) kick the last couple of years and use <s>[**Jekyll**](https://jekyllrb.com/)</s> [**Gatsby**](https://www.gatsbyjs.org/) to build this page and everything else found on the site. The basic idea is I write a bunch of text in Markdown and it spits out a set of files that are deployed to a webserver.
 
-If you're interested in the specifics of how the site is built I've made its [source available on GitHub](https://github.com/thewhitewulfy/made-mistakes-gatsby) for anyone to fork and download. And because I'm such a cool dude I've also open sourced a couple of [Jekyll themes](/work/jekyll-themes/) for you to use and abuse --- you're welcome!
+## Other noteable software
 
-## Other software
-
-- [**BitWarden**](https://bitwarden.com/) - password manager.
-- [**Backblaze**](https://secure.backblaze.com/r/014jkj) - cloud backups.
-
-<figure class="three-column">
-  <img src="../../images/iphone-home-screen-1.jpg" alt="my iPhone home screen apps">
-  <img src="../../images/iphone-home-screen-2.jpg" alt="iPhone apps I use screen shot">
-  <img src="../../images/iphone-home-screen-3.jpg" alt="more iPhone ass I use screen shot">
-  <figcaption><p>Wouldn&rsquo;t want to leave out the mobile apps I use, so here&rsquo;s my iPhone&rsquo;s home screen.</p></figcaption>
-</figure>
+- **Microsoft Mathematics** for calculating stuff and doing stats.
+- **Draw.io** flowchats to express my process and brainstorming to the client.
+- [**Zettlr**](https://www.zettlr.com/) great editor to write stuff in markdown. I'm typing this article on it too.
+- **Prepos** great tool to complie and process css anh js files visually.
+- **Hemingway Editor** a tool to make my sentences less complicated.
+- **Ora** an awesome project management tool.
+- **Spotify** for music.
+- Meetings are usually held on **Zoom** or **Google Meet**.
+- I do API design and testing on **Postman** and **Stoplight Studio**
 
 ## Site stuff
 
-- Continuous integration and deployment via [**Travis CI**][travis-ci].
-- Hosting and CDN via [**Netlify**][netlify].
-- Domain name registered with [**Hover**][hover].
+This site is built using handful of really cool pieces of tech.
+
+- Continuous integration and deployment via [**GitHub Actions**](https://github.com).
+- Hosting, database, functions and CDN via [**Firebase**](https://firebase.com).
+- Domain name registered with [**Google Domains**](https://domains.google.com).
+- Built using static site framework [**Gatsby**](https://www.gatsbyjs.org/).
+
+And because I'm such a cool dude I've open sourced the specifics of how the site is built. I've made its [source available on GitHub](https://github.com/thewhitewulfy/personal-site) for anyone to use and abuse --- you're welcome!
+
+<hr>
 
 <small>Page may contain affiliate and/or referral links. For more information read my <a href="/terms/#disclosure-policy">disclosure policy</a>.</small>
-
-[travis-ci]: https://travis-ci.org/
-[netlify]: https://www.netlify.com/
-[cloudflare-ssl]: https://www.cloudflare.com/ssl/
-[hover]: https://hover.com/E4nZJYVH
