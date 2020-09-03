@@ -50,12 +50,12 @@
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/recent/",
+        "source": "/recent/",
         "destination": "/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/recent/page2/",
+        "source": "/recent/page2/",
         "destination": "/",
         "type": 301
       },
@@ -70,7 +70,7 @@
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/privacy/",
+        "source": "/privacy/",
         "destination": "/terms/",
         "type": 301
       },
@@ -80,92 +80,92 @@
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/tandc/",
+        "source": "/tandc/",
         "destination": "/terms/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/contact/",
+        "source": "/contact/",
         "destination": "/contact/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/categories/",
+        "source": "/categories/",
         "destination": "/tag/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/development/jekyll-pwa/",
+        "source": "/development/jekyll-pwa/",
         "destination": "/articles/jekyll-pwa/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/development/aws-terms/",
+        "source": "/development/aws-terms/",
         "destination": "/articles/aws-terms/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/development/web-accessibility/",
+        "source": "/development/web-accessibility/",
         "destination": "/articles/web-accessibility/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/development/jekyll-api-gh-pages-and-json-feed/",
+        "source": "/development/jekyll-api-gh-pages-and-json-feed/",
         "destination": "/articles/jekyll-api-gh-pages/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/random/fascism/",
+        "source": "/random/fascism/",
         "destination": "/notes/fascism/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/dev/",
+        "source": "/dev/",
         "destination": "/tag/development/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/work/",
+        "source": "/work/",
         "destination": "/work/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/random/",
+        "source": "/random/",
         "destination": "/notes/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/repos/",
+        "source": "/repos/",
         "destination": "/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/gists/",
+        "source": "/gists/",
         "destination": "/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/hardware/",
+        "source": "/hardware/",
         "destination": "/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/random/feynman-tecnique/",
+        "source": "/random/feynman-tecnique/",
         "destination": "/mod/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/random/color-purple/",
+        "source": "/random/color-purple/",
         "destination": "/mod/",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/404.html",
+        "source": "/404.html",
         "destination": "/404.html",
         "type": 301
       },
       {
-        "source": "blog.alokprateek.in/feed.xml",
+        "source": "/feed.xml",
         "destination": "/atom.xml",
         "type": 301
       }
