@@ -31,7 +31,7 @@ export default ({ location, data }) => {
         <h1 className={style.heading}>Yep, you're lost.</h1>
         <h3 className={style.intro}>
           Sorry, the pixels you are looking for are in another castle. But if
-          you want to keep exploring this castle, you can go
+          you want to keep exploring this castle, you can go{' '}
           <Link to="/">back to the gates</Link>.
         </h3>
       </>
