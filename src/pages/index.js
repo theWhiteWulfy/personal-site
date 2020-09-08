@@ -45,6 +45,8 @@ const HomePage = ({ data }) => {
           </div>
           <Img
             fluid={data.aboutImage.childImageSharp.fluid}
+            loading="eager"
+            fadeIn={false}
             className={style.cover}
             backgroundColor="var(--input-background-color)"
           />
