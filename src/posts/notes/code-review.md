@@ -11,6 +11,8 @@ support: true
 last_modified_at: 2020-09-10T16:21:31-05:00
 ---
 
+A note on how I like my code reviews. 
+
 I follow my checklist sequentially as it helps to reduce effort in subsequent steps.
 
 - Readability: This is where I check if the code follows a well defined style guide, consistent variable naming patterns as well as flagging functions that tries to do lot of things at once, and parts that do not have comments. A linting tool makes this step faster, if conventions are well documented and configured in the tool.
