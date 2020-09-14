@@ -1,4 +1,6 @@
 import 'lazysizes'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 require('./src/styles/global.css')
 require('./src/styles/typeface-prompt.css')
@@ -13,5 +15,21 @@ export const onClientEntry = () => {
 }
 
 export const onServiceWorkerUpdateReady = () => {
-  window.location.reload(true)
+  // window.location.reload(true)
+  const root = document.body.appendChild(document.createElement('div'))
+  ReactDOM.render(
+    <div id="sw-toast">
+      <p className="sw-toast-text">
+        Site has been updated. Please refresh to see the latest version.
+      </p>
+      <button
+        type="submit"
+        onClick={() => window.location.reload(true)}
+        className="btn sw-toast-btn"
+      >
+        Refresh
+      </button>
+    </div>,
+    root
+  )
 }
