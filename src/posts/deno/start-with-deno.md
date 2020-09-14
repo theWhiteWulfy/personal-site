@@ -244,7 +244,7 @@ deno run --allow-net deno2.js
 
 [Permissions for CLI](https://github.com/denoland/deno/blob/master/cli/permissions.rs)
 
-```rs
+```ts
 pub allow_read: PermissionState,
 pub read_allowlist: HashSet<PathBuf>,
 pub allow_write: PermissionState,
@@ -264,7 +264,7 @@ pub allow_hrtime: PermissionState,
 - Whitelisting is the practice of explicitly allowing some identified entities access to a particular privilege, service, mobility, access or recognition. It is the opposite of blacklisting.
 - [Drake — a task runner for Deno](https://github.com/srackham/drake)
 
-```console
+```bash
 deno run --allow-net deno2.js
 deno run --allow-env main.ts
 deno run --allow-all main.ts
