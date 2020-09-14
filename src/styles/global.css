@@ -463,3 +463,39 @@ p > .gatsby-resp-image-wrapper {
 .contact-form-show{
   display: block;
 }
+
+.sw-toast{
+  min-width: 50%;
+  background-color: var(--background-color);
+  mask-image: url('../images/theme/dust-and-scratches.png');
+  color: var(--text-color);
+  border-color: var(--button-background-color);
+  border-style: solid;
+  position: fixed;
+  z-index: 11;
+  left: 2vw;
+  right: 2vw;
+  bottom: 2vw;
+  display: grid;
+  grid-template-columns: 1fr 6em;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ".sw-toast-text .sw-toast-btn";
+}
+
+.sw-toast-text{    
+  margin-bottom: 0ch;
+  text-align: left;
+  padding-left: 3vw;
+  padding-top: 2ch;
+  padding-bottom: 2ch;
+}
+
+.sw-toast-btn{
+  margin-top: 2vh;
+  width: 6em;
+  margin-bottom: 2vh;
+  padding: 3vh 0ch;
+  max-height: 10vh;
+  align-self: center;
+}
