@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import Img from 'gatsby-image'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
@@ -36,11 +36,12 @@ const HomePage = ({ data }) => {
           </h1>
           <div className={style.intro}>
             <p>
-              I enjoy turning less ordinary problems into simple, beautiful and
-              intuitive designs, that are a delight. When I'm not coding or
-              pushing pixels, you could find me taking my dog, Zoe for walk in
-              the park. I'm also part of Startup Grind as Delhi Chapter
-              Director.
+              I'm a multi-talented human with over 11+ years of experience in a
+              wide range of design disciplines. I design, build and tinker with
+              digital products for a considerable time. I’m currently
+              self-employed and am working with a selected freelance client
+              base. In my spare time I usually partake in my duties as
+              Co-Director for Delhi Chapter of Startup Grind.
             </p>
           </div>
           <Img
@@ -52,6 +53,45 @@ const HomePage = ({ data }) => {
           />
         </div>
         <div className={style.content}>
+          <h2 className={style.subHeading}>
+            <span>How can I help you?</span>
+          </h2>
+          <div>
+            <p>
+              As a freelancer, I love to work with startups, consultancies, and
+              established companies. I don't put a lot of stock in job titles,
+              but I've been called a product designer, experience designer, UX
+              Developer, Information Architect, full-stack developer, webmaster,
+              advisor, creative technologist, or by any other market defined
+              function-title. I believe that extensive experience has given me
+              practical skills allied with real-world pragmatism.
+            </p>
+            <p>
+              Put simply, I'm great at making things work on the web —
+              technically, aesthetically, and always rooted in what your user
+              needs. I can help you with:
+            </p>
+            <ul style={{ marginLeft: '3ch' }}>
+              <li>ideation/requirement gathering workshops</li>
+              <li>brand identity and collaterals</li>
+              <li>planning and development of minimum viable product (MVP)</li>
+              <li>systems &amp; information architecture</li>
+              <li>migration of web infra between cloud providers</li>
+            </ul>
+            <p>
+              If you have an idea, I can sure help. Do get in touch and we can
+              connect anytime.
+            </p>
+            <div style={{ textAlign: 'center' }}>
+              <Link
+                to="/contact/"
+                className="btn"
+                style={{ fontSize: 'larger', marginBottom: '4em' }}
+              >
+                Get in touch with me.
+              </Link>
+            </div>
+          </div>
           <h2 className={style.subHeading}>
             <span>Recent posts</span>
           </h2>
