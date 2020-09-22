@@ -15,8 +15,12 @@ const LeadForm = () => {
   const [reference, setReference] = useState('')
   const [message, setMessage] = useState('')
   const [visible, setVisible] = useState(true)
-  const visiblityconditional = visible ? "contact-form-show" : "contact-form-hide"
-  const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-show'
+  const visiblityconditional = visible
+    ? 'contact-form-show'
+    : 'contact-form-hide'
+  const visiblityunconditional = visible
+    ? 'contact-form-hide'
+    : 'contact-form-show'
   // The onSubmit function we takes the 'e' or event and submits it to Firebase
   const onSubmit = (e) => {
     e.preventDefault() // preventDefault is important because it prevents the whole page from reloading
@@ -146,7 +150,6 @@ const LeadForm = () => {
           </p>
         </div>
       </div>
-
     </form>
   )
 }
@@ -176,15 +179,18 @@ const ContactPage = () => (
           make sure I haven't already answered it.
         </p>
         <p>
-          If you have a project that you'd like to discuss, then please contact
-          me <a href="https://wa.me/919315852108">on Whatsapp</a> or write to me
-          at <a href="mailto:i@alokprateek.in">i@alokprateek.in</a>. A good ol'
-          fashioned mail is always welcome, because I like reading and writing
-          long mails as I do not have much time for writing shorter replies.
+          If you have a project that you'd like to discuss, it is faster and
+          more efficient to contact me{' '}
+          <a href="https://wa.me/919315852108">on Whatsapp</a> or write a mail
+          to me at <a href="mailto:i@alokprateek.in">i@alokprateek.in</a>. A
+          good ol' fashioned mail is always welcome, because I like reading and
+          writing long mails as I do not have much time for writing shorter
+          replies.
         </p>
-        <p>For anything else use the form below.</p>
+        <p>
+          If you are willing to wait and for anything else use the form below.
+        </p>
         <LeadForm />
-        
       </div>
     </main>
   </Layout>
