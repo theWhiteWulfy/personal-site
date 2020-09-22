@@ -3,7 +3,7 @@ module.exports = {
   title: 'Meteoric Teachings', // Navigation and site title
   titleAlt: 'Meteoric Teachings', // Title for schema.org JSONLD
   // eslint-disable-next-line prettier/prettier
-  description: 'Alok Prateek is a multi-talented human with over 11+ years of experiences in wide range of design disciplines.',
+  description: 'Alok Prateek is a multi-talented human with over 11+ years of experience in a wide range of design disciplines.',
   url: 'https://alokprateek.in', // Domain of your site. No trailing slash!
   siteLanguage: 'en', // Language Tag on <html> element
   image: {
