@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
-
+import firebase from './firebase'
 import TwitterIcon from './icons/twitter-icon'
 import LinkedinIcon from './icons/linkedin-icon'
 import GithubIcon from './icons/github-icon'
@@ -18,6 +18,81 @@ const FooterMenu = ({ footerMenu }) => {
       <Link to={menuItem.path}>{menuItem.title}</Link>
     </li>
   ))
+}
+
+const NewsletterForm = () => {
+  // useState() hook captures the value from the input value
+  const [email, setEmail] = useState('')
+  const [visible, setVisible] = useState(true)
+  const visiblityconditional = visible
+    ? 'contact-form-show'
+    : 'contact-form-hide'
+  const visiblityunconditional = visible
+    ? 'contact-form-hide'
+    : 'contact-form-show'
+  // The onSubmit function we takes the 'e' or event and submits it to Firebase
+  const onNLSubmit = (e) => {
+    e.preventDefault() // preventDefault is important because it prevents the whole page from reloading
+    firebase
+      .firestore()
+      .collection('newsletter')
+      .add({
+        email,
+        timestamp: new Date().toISOString(),
+      })
+      // then will reset the form to nothing
+      .then(() => {
+        setVisible(!visible)
+      })
+  }
+
+  return (
+    <div className="custom-block notice newsletter-footer">
+      <div className="custom-block-heading nw-title">
+        <strong>Subscribe to my monthly newsletter!</strong>
+      </div>
+      <form
+        id="newsletter-form"
+        name="newsletter-form"
+        acceptCharset="UTF-8"
+        autoComplete="off"
+        encType="multipart/form-data"
+        method="post"
+        onSubmit={onNLSubmit}
+      >
+        <div className={`${'form-group' + ' '}${visiblityconditional}`}>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            spellCheck="false"
+            maxLength={511}
+            placeholder="Email address (will remain private)"
+            required
+            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
+          />
+        </div>
+        <div className={`${'form-group' + ' '}${visiblityconditional}`}>
+          <button
+            id="saveNLForm"
+            name="saveNLForm"
+            className="btn submit"
+            type="submit"
+          >
+            Sign me up!
+          </button>
+        </div>
+
+        <div
+          className={`${'custom-block-body' + ' '}${visiblityunconditional}`}
+        >
+          You have sucessfully registered for my newsletter!
+        </div>
+      </form>
+    </div>
+  )
 }
 
 const Footer = ({
@@ -75,6 +150,7 @@ const Footer = ({
         </li>
       )}
     </ul>
+    <NewsletterForm />
     {copyrights && (
       <div
         className={style.copyright}
