@@ -455,6 +455,45 @@ p > .gatsby-resp-image-wrapper {
   }
 }
 
+.newsletter-footer{
+  min-width: 100%;
+  margin-bottom: 1ch;
+
+  .nw-title{
+    font-size: large;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "input#email button#saveNLForm";
+    
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    input {
+      flex-grow:2;
+      border:none;
+      min-width: fit-content;
+      margin-top: 0px;
+      font-size: inherit;
+      height: 5ch;
+    }
+    
+    input:focus {
+      outline: none;
+    }
+
+    #saveNLForm {
+      padding: 2.5ch;
+      margin-left: 2ch;
+    }
+  }
+}
 
 .contact-form-hide{
   display: none;
