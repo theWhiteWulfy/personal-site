@@ -61,6 +61,7 @@ const NewsletterForm = () => {
         onSubmit={onNLSubmit}
       >
         <div className={`${'form-group' + ' '}${visiblityconditional}`}>
+          <label class="hidden" htmlFor="email"></label>
           <input
             id="email"
             name="email"

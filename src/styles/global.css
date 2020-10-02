@@ -291,6 +291,10 @@ p > .gatsby-resp-image-wrapper {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 .browser-frame {
   position: relative;
   margin-left: auto;
