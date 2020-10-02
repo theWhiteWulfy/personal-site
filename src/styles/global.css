@@ -291,8 +291,8 @@ p > .gatsby-resp-image-wrapper {
   }
 }
 
-.hidden {
-  display: none;
+.hidden-imp {
+  display: none !important;
 }
 
 .browser-frame {

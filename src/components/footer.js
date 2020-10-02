@@ -61,7 +61,9 @@ const NewsletterForm = () => {
         onSubmit={onNLSubmit}
       >
         <div className={`${'form-group' + ' '}${visiblityconditional}`}>
-          <label class="hidden" htmlFor="email"></label>
+          <label className="hidden-imp" htmlFor="email">
+            Please enter your email ID
+          </label>
           <input
             id="email"
             name="email"
