@@ -22,7 +22,7 @@ const FooterMenu = ({ footerMenu }) => {
 
 const NewsletterForm = () => {
   // useState() hook captures the value from the input value
-  const [email, setEmail] = useState('')
+  const [subsemail, setEmail] = useState('')
   const [visible, setVisible] = useState(true)
   const visiblityconditional = visible
     ? 'contact-form-show'
@@ -37,7 +37,7 @@ const NewsletterForm = () => {
       .firestore()
       .collection('newsletter')
       .add({
-        email,
+        subsemail,
         timestamp: new Date().toISOString(),
       })
       // then will reset the form to nothing
@@ -61,21 +61,21 @@ const NewsletterForm = () => {
         onSubmit={onNLSubmit}
       >
         <div className={`${'form-group' + ' '}${visiblityconditional}`}>
-          <label className="hidden-imp" htmlFor="email">
+          <label htmlFor="subsemail">
             Please enter your email ID
+            <input
+              id="subsemail"
+              name="subsemail"
+              type="email"
+              spellCheck="false"
+              maxLength={511}
+              placeholder="This will remain private."
+              required
+              pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+              value={subsemail}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+            />
           </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            spellCheck="false"
-            maxLength={511}
-            placeholder="Email address (will remain private)"
-            required
-            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-            value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
-          />
         </div>
         <div className={`${'form-group' + ' '}${visiblityconditional}`}>
           <button
