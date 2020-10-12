@@ -3,13 +3,11 @@ title: "About Alok Prateek"
 path: /about/
 date: 2020-07-26
 last_modified_at: 2020-07-26T12:15:53-05:00
-excerpt: "Alok Prateek is  ."
-image: ../images/about-michael-collage-2016.jpg
+excerpt: "Alok Prateek is a multi-talented human with over 11+ years of experience in a wide range of design disciplines."
+image: ../images/alok_back_wide_2.jpg
 ---
 
 Hello there! --- I'm **Alok Prateek**
-
-![My wide photo](../images/alok_back_wide_2.jpg)
 
 I am a **full-stack web developer** with decent experience of tinkering. I enjoy creating [Progressive Web Apps](https://web.dev) and sometimes drawing stuff in Illustrator. I've recently developed a keen interest in [openAPI](https://openapis.org) and have been exploring its possibilities. My future plans include a trip to Antarctica before the glaciers melt or the penguins migrate.
 
