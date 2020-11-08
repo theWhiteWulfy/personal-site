@@ -36,7 +36,7 @@
     "gatsby-plugin-preact": "^3.3.2",
     "gatsby-plugin-react-helmet": "^3.3.14",
     "gatsby-plugin-recaptcha": "^1.0.5",
-    "gatsby-plugin-sharp": "^2.6.43",
+    "gatsby-plugin-sharp": "^2.7.1",
     "gatsby-plugin-sitemap": "^2.5.0",
     "gatsby-remark-abbr": "^2.0.0",
     "gatsby-remark-autolink-headers": "^2.3.13",
