@@ -1,0 +1,10 @@
+---
+title: "Whatsapp me"
+path: /whatsapp/
+date: 2020-09-26
+last_modified_at: 2020-09-26T12:15:53-05:00
+excerpt: "Send me a message on whatsapp."
+redirect: https://wa.me/919315852108
+---
+
+Please wait...
