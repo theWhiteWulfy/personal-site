@@ -30,7 +30,7 @@
     "gatsby-plugin-css-customs": "^0.4.0",
     "gatsby-plugin-feed": "^2.6.0",
     "gatsby-plugin-google-analytics": "^2.4.0",
-    "gatsby-plugin-manifest": "^2.4.35",
+    "gatsby-plugin-manifest": "^2.5.2",
     "gatsby-plugin-offline": "^3.3.0",
     "gatsby-plugin-postcss": "^2.3.13",
     "gatsby-plugin-preact": "^3.3.2",
