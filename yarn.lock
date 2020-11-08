@@ -8373,10 +8373,10 @@ gatsby-remark-embed-video@mmistakes/gatsby-remark-embed-video:
     remark-burger "^1.0.1"
     unist-util-visit "^2.0.0"
 
-gatsby-remark-images@^3.3.37:
-  version "3.3.37"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-3.3.37.tgz#b45e50ad097aab9f01f216d613062bbc1209ee94"
-  integrity sha512-4nTIBtDwGQTQYe3fY7+AM7hDCIWqWgpvgkgB+YLMa5NaDFZ/dzFqDh8jWBIUW/VczoT4RAtBOWY0ub5LI2RLLQ==
+gatsby-remark-images@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-3.4.0.tgz#446dd4d55d37802209c22193368b787fb39bef56"
+  integrity sha512-gSaa1w6zGpIYU9Qhtg81gjG2GogcSuVDM1akIwMkOK0zOF7D2kTNUBHpv/uOoAS59mLhsR4E/yII9NNm5wH1hA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     chalk "^2.4.2"
