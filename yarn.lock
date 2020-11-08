@@ -8404,10 +8404,10 @@ gatsby-remark-numbered-footnotes@^1.0.0:
   dependencies:
     remark-numbered-footnotes "^1.0.1"
 
-gatsby-remark-prismjs@^3.5.13:
-  version "3.5.13"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-prismjs/-/gatsby-remark-prismjs-3.5.13.tgz#861c3646f777cc33cc0f503d745253bcefbed08b"
-  integrity sha512-dfDacOdbKq+u9FanylDIt+BrKMyw7eocNpoKSWXMXPXMWeo6ouiWQMLp8udtcTPM6J7Sb0mJo8cn517E/oGa0A==
+gatsby-remark-prismjs@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-prismjs/-/gatsby-remark-prismjs-3.6.0.tgz#a3209340c4fd9c6b419f21781808f3478eab2f00"
+  integrity sha512-8eruDDSs1OkoTmV8lN/pWUxscBf3tU0F9jIsOiNK22GB/h4/thwlPRR8Te631KrVeODTvcOQo2kcvGI1xr+dvQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     parse-numeric-range "^0.0.2"
