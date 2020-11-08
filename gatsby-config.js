@@ -159,6 +159,14 @@ module.exports = {
       },
     },
     'gatsby-plugin-css-customs',
+    {
+      resolve: `gatsby-plugin-redirect-to`,
+      options: {
+        force: true,
+        isPermanent: true,
+        redirectInBrowser: true,
+      },
+    },
     'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-plugin-sharp',
