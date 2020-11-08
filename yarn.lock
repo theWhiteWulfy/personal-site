@@ -8439,17 +8439,17 @@ gatsby-remark-source-name@^1.0.0:
   resolved "https://registry.yarnpkg.com/gatsby-remark-source-name/-/gatsby-remark-source-name-1.0.0.tgz#f8200e8ea17b8e242d3d34cd598836aaed3057a8"
   integrity sha512-FNukZxhn7ncOt7jHkl2raIRVVN7O+UPlihnzHfGgg8IBUGnAyDTQW88tcx1cEMXEwZTYNPIjY9txhtCkg1NfwA==
 
-gatsby-source-filesystem@^2.3.35:
-  version "2.3.35"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.3.35.tgz#a64815f1c0bc1614519ec2dd1eef49629de6c2e5"
-  integrity sha512-OHa7eDW9m/R8uIkAHpOZda517uT0yLPfLhZwEj3vqWgHRKg6bSghvKRDMQGmiD39EPur/Pl7JsotbFxGBRFRTQ==
+gatsby-source-filesystem@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.4.2.tgz#4d599f64058d4f25032b93eda2b036c9910a0d5b"
+  integrity sha512-we6z7h/KrhKcYhTo9HIVpmuiN15P/D+j3AgxAgJ1zZtCkGymffmhKwyTSMDAp/g0Grz+i6vvofYwOEhXOt62iA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     better-queue "^3.8.10"
     chokidar "^3.4.2"
     file-type "^12.4.2"
     fs-extra "^8.1.0"
-    gatsby-core-utils "^1.3.23"
+    gatsby-core-utils "^1.3.24"
     got "^9.6.0"
     md5-file "^5.0.0"
     mime "^2.4.6"
