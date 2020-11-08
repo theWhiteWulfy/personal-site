@@ -52,7 +52,7 @@
     "gatsby-remark-source-name": "^1.0.0",
     "gatsby-source-filesystem": "^2.3.35",
     "gatsby-source-github-api": "^0.2.1",
-    "gatsby-transformer-remark": "^2.8.44",
+    "gatsby-transformer-remark": "^2.9.2",
     "gatsby-transformer-sharp": "^2.5.21",
     "gatsby-transformer-yaml": "^2.4.15",
     "gatsby-transformer-sharp": "^2.5.15",
