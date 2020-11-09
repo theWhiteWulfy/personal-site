@@ -75,7 +75,7 @@
     "react-intersection-observer": "^8.30.0",
     "react-masonry-component": "^6.2.1",
     "react-recaptcha-google": "^1.1.1",
-    "string-similarity": "^4.0.2"
+    "string-similarity": "^4.0.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
