@@ -14502,10 +14502,10 @@ react-icons@^3.0.1:
   dependencies:
     camelcase "^5.0.0"
 
-react-intersection-observer@^8.30.0:
-  version "8.30.0"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.30.0.tgz#b6ba7c6baf6e960092850a2b84429af992e9030d"
-  integrity sha512-wllTVfvoA7aiKRgf/d4SYLhuNGad6AMyKezEN/V9P9T9J7BFQXOn9n+IZpPzdrRNN8EmB3mawI+Qr1z58E85Fg==
+react-intersection-observer@^8.30.1:
+  version "8.30.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.30.1.tgz#e0ce4835d2834fc712b096aec65230de79eeaadb"
+  integrity sha512-BGHGkmWz/d4Gs+44jWkrZBtJ6//HGwouZ9ub+kRRoRfguw2JoDlVrgTDwkQ/deDJAR9keTkQmMilNu+onhqfgw==
 
 react-is@^16.12.0:
   version "16.13.1"
