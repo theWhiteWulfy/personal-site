@@ -55,7 +55,7 @@
     "gatsby-source-github-api": "^0.2.1",
     "gatsby-transformer-remark": "^2.9.2",
     "gatsby-transformer-sharp": "^2.5.21",
-    "gatsby-transformer-yaml": "^2.4.15",
+    "gatsby-transformer-yaml": "^2.7.0",
     "intersection-observer": "^0.11.0",
     "lazysizes": "^5.2.2",
     "lodash-addons": "^2.0.1",
