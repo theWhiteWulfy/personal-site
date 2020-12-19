@@ -7,4 +7,11 @@ excerpt: "Schedule your time with me."
 image: ../images/
 ---
 
-<iframe src="https://www.meetingbird.com/h/thewhitewulfy" style="width: 100%; border: none; min-height: 550px;"></iframe>
+<!-- Start of Calendar Widget -->
+<div
+  id="calendar-inline-widget"
+  data-calendar-link="https://www.calendar.com/alok/"
+  style="position: relative; min-width: 330px; height: 600px;"
+></div>
+<script src="https://assets.calendar.com/widget.js"></script>
+<!-- End of Calendar Widget 
