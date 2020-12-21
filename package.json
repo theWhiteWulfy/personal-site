@@ -34,7 +34,7 @@
     "gatsby-plugin-offline": "^3.3.0",
     "gatsby-plugin-postcss": "^2.3.13",
     "gatsby-plugin-preact": "^3.3.2",
-    "gatsby-plugin-react-helmet": "^3.3.14",
+    "gatsby-plugin-react-helmet": "^3.7.0",
     "gatsby-plugin-recaptcha": "^1.0.5",
     "gatsby-plugin-redirect-to": "^1.0.2",
     "gatsby-plugin-sharp": "^2.7.1",
