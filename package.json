@@ -47,7 +47,7 @@
     "gatsby-remark-images": "^3.4.0",
     "gatsby-remark-lazy-load": "^1.0.2",
     "gatsby-remark-numbered-footnotes": "^1.0.0",
-    "gatsby-remark-prismjs": "^3.6.0",
+    "gatsby-remark-prismjs": "^3.11.0",
     "gatsby-remark-responsive-iframe": "^2.4.17",
     "gatsby-remark-smartypants": "^2.3.13",
     "gatsby-remark-source-name": "^1.0.0",
