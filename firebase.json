@@ -85,11 +85,6 @@
         "type": 301
       },
       {
-        "source": "/contact/",
-        "destination": "/contact/",
-        "type": 301
-      },
-      {
         "source": "/categories/",
         "destination": "/tag/",
         "type": 301
@@ -122,11 +117,6 @@
       {
         "source": "/dev/",
         "destination": "/tag/development/",
-        "type": 301
-      },
-      {
-        "source": "/work/",
-        "destination": "/work/",
         "type": 301
       },
       {
