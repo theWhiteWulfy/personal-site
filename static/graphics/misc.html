@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>Alok Prateek | Graphic Design Portfolio - misc</title>
+      <link rel="stylesheet" href="public\lightgallery\css\lightgallery.css" />
+      <link rel="stylesheet" href="public\lightslider\css\lightslider.min.css" />
+      <link rel="stylesheet" href="public\videojs\video-js.min.css" />
+      <link rel="stylesheet" href="public\lightgallery\css\lg-exif.min.css" />
+      <link rel="stylesheet" href="public\core.css" />
+      <link rel="stylesheet" href="public\theme.css" />
+      <link rel="stylesheet" href="public\justifiedgallery\justifiedGallery.min.css" />
+  </head>
+
+  <body>
+    
+    <div id="container">
+    
+      <!--
+        Gallery title
+      -->
+      <header>
+        <h1><a href="index.html">Alok Prateek | Graphic Design Portfolio</a></h1>
+      </header>
+    
+      <!--
+        Breadcrumbs of parent albums
+      -->
+      <nav class="breadcrumbs">
+    <a class="breadcrumb-item" href="index.html">Home</a>&nbsp;/&nbsp;<a class="breadcrumb-item" href="misc.html">misc</a>
+      </nav>
+    
+    
+      <!--
+        Nested albums, if any
+      -->
+      <div id="albums" class="justified-gallery">
+      </div>
+    
+      <!--
+        All photos and videos
+      -->
+      <ul id="media" class="clearfix justified-gallery">
+          
+          <div class="albumList"
+              data-sub-html=""
+              data-download-url="media/large/misc/web-20180504004043937741.png"data-src="media/large/misc/web-20180504004043937741.png"data-exthumbimage="media/thumbs/misc/web-20180504004043937741.png"data-filename="web-20180504004043937741.png"><a href="media/large/misc/web-20180504004043937741.png"><img
+                      src="media/small/misc/web-20180504004043937741.png"
+                      width="284.02010050251255"
+                      height="300"alt="web-20180504004043937741.png"/>
+              </a>
+          
+          </div>      
+          <div class="albumList"
+              data-sub-html="Left and right human brain cerebral hemispheres pictorial symbolic colorful figure with flowchart and activity zones vector illustration "
+              data-download-url="media/large/misc/3513.jpg"data-src="media/large/misc/3513.jpg"data-exthumbimage="media/thumbs/misc/3513.jpg"data-filename="3513.jpg"><a href="media/large/misc/3513.jpg"><img
+                      src="media/small/misc/3513.jpg"
+                      width="300"
+                      height="300"alt="3513.jpg"/>
+              </a>
+          
+          </div>      
+          <div class="albumList"
+              data-sub-html=""
+              data-download-url="media/large/misc/salasar-draft-8-ok.jpg"data-src="media/large/misc/salasar-draft-8-ok.jpg"data-exthumbimage="media/thumbs/misc/salasar-draft-8-ok.jpg"data-filename="salasar-draft-8-ok.jpg"><a href="media/large/misc/salasar-draft-8-ok.jpg"><img
+                      src="media/small/misc/salasar-draft-8-ok.jpg"
+                      width="300"
+                      height="300"alt="salasar-draft-8-ok.jpg"/>
+              </a>
+          
+          </div>      
+          <div class="albumList"
+              data-sub-html=""
+              data-download-url="media/large/misc/Shape-9.png"data-src="media/large/misc/Shape-9.png"data-exthumbimage="media/thumbs/misc/Shape-9.png"data-filename="Shape-9.png"><a href="media/large/misc/Shape-9.png"><img
+                      src="media/small/misc/Shape-9.png"
+                      width="198.1651376146789"
+                      height="300"alt="Shape-9.png"/>
+              </a>
+          
+          </div>      
+          <div class="albumList"
+              data-sub-html=""
+              data-download-url="media/large/misc/Shape-5.png"data-src="media/large/misc/Shape-5.png"data-exthumbimage="media/thumbs/misc/Shape-5.png"data-filename="Shape-5.png"><a href="media/large/misc/Shape-5.png"><img
+                      src="media/small/misc/Shape-5.png"
+                      width="275.2761257434155"
+                      height="300"alt="Shape-5.png"/>
+              </a>
+          
+          </div>  </ul>
+    
+      <!--
+        Pagination
+      -->
+    
+      <!--
+        Zip file link
+      -->
+    
+      <!--
+        Optional footer
+      -->
+      <footer>
+        <p>&copy; Alok Prateek</p>
+      </footer>
+    
+    </div>
+    <!-- Video loader -->
+    <div id="videos">
+    </div>
+
+    <!-- jQuery -->
+    <script src="public\jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="public\videojs\video.min.js"></script>
+    <!-- LightGallery -->
+    <script src="public\lightgallery\js\lightgallery.js"></script>
+    <script src="public\lightslider\js\lightslider.min.js"></script>
+    <script src="public\lightgallery\js\lg-autoplay.js"></script>
+    <script src="public\lightgallery\js\lg-pager.js"></script>
+    <script src="public\lightgallery\js\lg-thumbnail.js"></script>
+    <script src="public\lightgallery\js\lg-video.js"></script>
+    <script src="public\lightgallery\js\lg-exif.min.js"></script>
+    <script src="public\justifiedgallery\jquery.justifiedGallery.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#media").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true,
+          exThumbImage: 'data-exthumbimage',
+        });
+
+        // Init justified gallery for albums
+        $("#albums").justifiedGallery({
+          margins: 10,
+          rowHeight: 300,
+          maxRowHeight: 325,
+        });
+
+        // Init justified gallery for photos
+        $("#media").justifiedGallery({
+          selector: '.albumList',
+          waitThumbnailsLoad: false,
+          margins: 10,
+          rowHeight: 250,
+          maxRowHeight: 275,
+        });
+      });
+    </script>
+
+
+
+  </body>
+
+</html>
