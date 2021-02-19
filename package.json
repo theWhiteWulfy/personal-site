@@ -22,7 +22,7 @@
     "@weknow/gatsby-remark-twitter": "^0.2.3",
     "cssnano": "^4.1.10",
     "firebase": "^8.0.0",
-    "fontsource-zilla-slab": "^3.0.9",
+    "fontsource-zilla-slab": "^4.0.0",
     "gatsby": "^2.24.63",
     "gatsby-awesome-pagination": "^0.3.6",
     "gatsby-image": "^2.4.21",

@@ -7764,10 +7764,10 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
-fontsource-zilla-slab@^3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/fontsource-zilla-slab/-/fontsource-zilla-slab-3.0.9.tgz#177f28aa71d02d07a7d4dce8af8006419b073816"
-  integrity sha512-0RT1FLwUjRVDCrMrBvYWr1XFAycAcr1d1tI1ECVdtAGW5D4PafoG84tzP3zW2wTSe3oxxhQEs1qHxktyesawFw==
+fontsource-zilla-slab@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/fontsource-zilla-slab/-/fontsource-zilla-slab-4.0.0.tgz#112e69338297ffed54457f2a651908e9863a89ad"
+  integrity sha512-lcDo6ktUfG21ak5+GSD828PJImb+m5MKE6Pyk33zWVrKzcOTQHLGRRdC95hG++5F+gxPB74LErjFij6nBTQH1A==
 
 for-in@^1.0.2:
   version "1.0.2"
