@@ -28,7 +28,7 @@
     "gatsby-image": "^2.11.0",
     "gatsby-plugin-catch-links": "^2.10.0",
     "gatsby-plugin-css-customs": "^0.4.0",
-    "gatsby-plugin-feed": "^2.6.0",
+    "gatsby-plugin-feed": "^2.13.0",
     "gatsby-plugin-google-analytics": "^2.11.0",
     "gatsby-plugin-manifest": "^2.6.1",
     "gatsby-plugin-offline": "^3.10.1",
