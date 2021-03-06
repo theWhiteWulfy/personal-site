@@ -1,0 +1,22 @@
+name: Migrate Tests
+on:
+  push:
+    branches:
+    - migrate-v3
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+        with: 
+          submodules: true
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+      - name: Yarn install deps  
+        run: yarn install
+      - name: Build Gatsby Site
+        uses: theWhiteWulfy/gatsby-cli-github-action@2.0.b
+        with:
+          gatsby-arg: build
