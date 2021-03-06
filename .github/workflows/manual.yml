@@ -22,7 +22,7 @@ jobs:
       - name: Yarn install deps  
         run: yarn install
       - name: Build Gatsby Site
-        uses: jzweifel/gatsby-cli-github-action@v1.0.0
+        uses: theWhiteWulfy/gatsby-cli-github-action@2.0.b
         with:
           gatsby-arg: build
       - name: Archive Production Artifact
