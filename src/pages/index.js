@@ -21,7 +21,7 @@ const HomePage = ({ data }) => {
   return (
     <Layout>
       <SEO
-        title={`${site.title} - ${site.description}`}
+        title={`${site.title}`}
         path="/"
         description={site.description}
         metaImage={site.image}
