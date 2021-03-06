@@ -508,7 +508,7 @@ p > .gatsby-resp-image-wrapper {
   display: block;
 }
 
-.sw-toast{
+#sw-toast{
   min-width: 50%;
   background-color: var(--background-color);
   mask-image: url('../images/theme/dust-and-scratches.png');
