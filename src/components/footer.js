@@ -91,7 +91,7 @@ const NewsletterForm = () => {
         <div
           className={`${'custom-block-body' + ' '}${visiblityunconditional}`}
         >
-          You have sucessfully registered for my newsletter!
+          You have successfully registered for my newsletter!
         </div>
       </form>
     </div>
