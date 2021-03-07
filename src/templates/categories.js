@@ -77,10 +77,10 @@ const Categories = ({
           </h2>
           <div className={style.columnList} style={{ marginBottom: '3rem' }}>
             <ul>
-              {group.sort(propComparator(`fieldValue`)).map((tag) => (
-                <li key={tag.fieldValue}>
-                  <Link to={`/tag/${_.slugify(tag.fieldValue)}/`}>
-                    <strong>{tag.fieldValue}</strong>{' '}
+              {group.sort(propComparator(`value`)).map((tag) => (
+                <li key={tag.value}>
+                  <Link to={`/tag/${_.slugify(tag.value)}/`}>
+                    <strong>{tag.value}</strong>{' '}
                     <span className={style.count}>{tag.totalCount}</span>
                   </Link>
                 </li>
@@ -170,7 +170,7 @@ export const postsQuery = graphql`
       skip: $skip
     ) {
       group(field: frontmatter___tags) {
-        fieldValue
+        value
         totalCount
       }
       edges {
