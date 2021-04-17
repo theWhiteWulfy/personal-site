@@ -1,8 +1,12 @@
-name: Migrate Tests
+name: Build Test
 on:
   push:
     branches:
     - migrate-v3
+  pull_request:
+    branches: 
+    - master  
+    
 jobs:
   build:
     name: Build
