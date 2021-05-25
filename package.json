@@ -25,7 +25,7 @@
     "fontsource-zilla-slab": "^4.0.0",
     "gatsby": "^2.32.11",
     "gatsby-awesome-pagination": "^0.3.6",
-    "gatsby-image": "^3.1.0",
+    "gatsby-image": "^3.6.0",
     "gatsby-plugin-catch-links": "^2.10.0",
     "gatsby-plugin-css-customs": "^0.4.0",
     "gatsby-plugin-feed": "^2.13.1",
