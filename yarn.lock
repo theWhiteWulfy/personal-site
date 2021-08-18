@@ -1727,10 +1727,10 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.0", "@babel/runtime@^7.3.4", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
-  version "7.14.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.5.tgz#665450911c6031af38f81db530f387ec04cd9a98"
-  integrity sha512-121rumjddw9c3NCQ55KGkyE1h/nzWhU/owjhw0l4mQrkzz4x9SGS1X8gFLraHwX7td3Yo4QTL+qj0NcIzN87BA==
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.8", "@babel/runtime@^7.3.4", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
+  version "7.15.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.3.tgz#2e1c2880ca118e5b2f9988322bd8a7656a32502b"
+  integrity sha512-OvwMLqNXkCXSz1kSm58sEsNuhqOx/fKpnUnKnFB5v8uDda5bLNEHNgKPvhDN6IU0LDcnHQ90LlJ0Q6jnyBSIBA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -4801,7 +4801,7 @@ cheerio-select@^1.5.0:
     domhandler "^4.2.0"
     domutils "^2.7.0"
 
-cheerio@^1.0.0-rc.3, cheerio@^1.0.0-rc.9:
+cheerio@^1.0.0-rc.10, cheerio@^1.0.0-rc.3, cheerio@^1.0.0-rc.9:
   version "1.0.0-rc.10"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.10.tgz#2ba3dcdfcc26e7956fc1f440e61d51c643379f3e"
   integrity sha512-g0J0q/O6mW8z5zxQ3A8E8J1hUgp4SMOvEoW/x84OwyHKe/Zccz83PVT4y5Crcr530FV6NgmKI1qvGTKVl9XXVw==
@@ -7463,24 +7463,6 @@ file-type@^16.0.0, file-type@^16.2.0:
     strtok3 "^6.0.3"
     token-types "^2.0.0"
 
-file-type@^16.2.0:
-  version "16.5.1"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-16.5.1.tgz#dd697dc5c3a2f4db63af746f38a6322e5e7bc6a5"
-  integrity sha512-Pi1G43smrCy82Q3be3sfKaeS5uHdfj905dP88YqhroG6TYbVY2ljTdDXeXqa6Cn5nOk6znOjWM2uZptA8vH/qQ==
-  dependencies:
-    readable-web-to-node-stream "^3.0.0"
-    strtok3 "^6.0.3"
-    token-types "^2.0.0"
-
-file-type@^16.2.0:
-  version "16.5.1"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-16.5.1.tgz#dd697dc5c3a2f4db63af746f38a6322e5e7bc6a5"
-  integrity sha512-Pi1G43smrCy82Q3be3sfKaeS5uHdfj905dP88YqhroG6TYbVY2ljTdDXeXqa6Cn5nOk6znOjWM2uZptA8vH/qQ==
-  dependencies:
-    readable-web-to-node-stream "^3.0.0"
-    strtok3 "^6.0.3"
-    token-types "^2.0.0"
-
 file-type@^3.8.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
@@ -8246,13 +8228,13 @@ gatsby-remark-autolink-headers@^2.11.0:
     mdast-util-to-string "^1.1.0"
     unist-util-visit "^1.4.1"
 
-gatsby-remark-copy-linked-files@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-4.6.0.tgz#3a55025e94f68239e232fa7ab76b641719f7caca"
-  integrity sha512-QXf44POPTsbVoEc6faLeSeQ+Ypsq40f0EwhVQunwa0v2CY32sSufqOb0KbSGLeMRtUDhloAWDBndY2Mstigkcw==
+gatsby-remark-copy-linked-files@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-copy-linked-files/-/gatsby-remark-copy-linked-files-4.9.0.tgz#7e1d7a9262a34267a250eeffa40f5b3c712099a7"
+  integrity sha512-NLCHtll0aFg6IViZ3V9WQm+C077R0a1SFvdn7NAe+jbRZBVlvfrVLxzT8UI3toFMj2q3NwK2Rpca+iTP172ifw==
   dependencies:
-    "@babel/runtime" "^7.14.0"
-    cheerio "^1.0.0-rc.9"
+    "@babel/runtime" "^7.14.8"
+    cheerio "^1.0.0-rc.10"
     fs-extra "^8.1.0"
     is-relative-url "^3.0.0"
     lodash "^4.17.21"
