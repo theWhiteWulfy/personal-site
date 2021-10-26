@@ -18,7 +18,9 @@ jobs:
         with: 
           submodules: true
       - name: Setup Node.js environment
-        uses: actions/setup-node@master
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: Yarn install deps  
         run: yarn install
       - name: Build Gatsby Site
