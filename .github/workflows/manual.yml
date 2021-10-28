@@ -24,6 +24,7 @@ jobs:
       - name: Yarn install deps  
         run: yarn install
       - name: Build Gatsby Site
+        run: yarn global add gatsby-cli
         run: gatsby build
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
