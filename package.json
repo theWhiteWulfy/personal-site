@@ -33,7 +33,7 @@
     "gatsby-plugin-manifest": "^2.12.1",
     "gatsby-plugin-offline": "^4.9.0",
     "gatsby-plugin-postcss": "^2.3.13",
-    "gatsby-plugin-preact": "^5.9.0",
+    "gatsby-plugin-preact": "^6.1.0",
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-recaptcha": "^1.0.5",
     "gatsby-plugin-redirect-to": "^1.0.2",
