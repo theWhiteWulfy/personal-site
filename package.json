@@ -61,7 +61,7 @@
     "lodash-addons": "^2.0.1",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^3.0.0",
-    "postcss-mixins": "^8.1.0",
+    "postcss-mixins": "^9.0.1",
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
     "postcss-url": "^9.0.0",
