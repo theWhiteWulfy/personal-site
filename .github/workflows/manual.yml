@@ -2,49 +2,22 @@ name: Gatsby Firebase
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
-on:
+'on':
   push:
     branches:
     - master
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  
 jobs:
-  build:
-    name: Build
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-        with: 
-          submodules: true
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.4
-      - name: Yarn install deps  
-        run: yarn install
-      - name: Build Gatsby Site
-        uses: theWhiteWulfy/gatsby-cli-github-action@2.0.b
+      - uses: actions/checkout@v2
         with:
-          gatsby-arg: build
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
+          submodules: 'true'
+      - run: yarn install && gatsby build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          name: public
-          path: public
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: public
-          path: public
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AGG_BLOG }}'
+          channelId: live
+          projectId: meteoric-teachings 
