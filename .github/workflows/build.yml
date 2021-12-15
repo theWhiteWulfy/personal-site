@@ -8,19 +8,10 @@ on:
     - master  
     
 jobs:
-  build:
-    name: Build
+  build-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@master
-        with: 
-          submodules: true
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.4
-      - name: Yarn install deps  
-        run: yarn install
-      - name: Build Gatsby Site
-        uses: theWhiteWulfy/gatsby-cli-github-action@2.0.b
+      - uses: actions/checkout@v2
         with:
-          gatsby-arg: build
+          submodules: 'true'
+      - run: yarn install && npm run build
