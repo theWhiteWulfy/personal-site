@@ -225,3 +225,7 @@
 - id: philosophy
   excerpt:
   html:   
+
+- id: journal
+  excerpt: A place to write down any bullshit that comes to my mind
+  html:   
