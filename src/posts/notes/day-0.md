@@ -1,6 +1,6 @@
 ---
-title: "Finding Flow"
-date: 2020-09-08
+title: "Day #0"
+date: 2021-11-01
 path: /notes/day-0/
 excerpt: "On writing and accountability."
 layout: post
@@ -9,7 +9,7 @@ tags: [philosophy, life, TIL, journal]
 comments: true
 support: true
 toc: true
-last_modified_at: 2020-09-08T00:01:31-05:00
+last_modified_at: 2021-12-08T00:01:31-05:00
 ---
 
 So, let's begin.
