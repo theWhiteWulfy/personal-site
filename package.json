@@ -67,7 +67,7 @@
     "postcss-url": "^9.0.0",
     "preact": "^10.5.13",
     "prismjs": "^1.23.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.0",
     "rambdax": "^3.7.0",
     "react": "^16.14.0",
     "react-dom": "^17.0.2",
