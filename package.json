@@ -63,7 +63,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-mixins": "^6.2.2",
     "postcss-nested": "^4.2.3",
-    "postcss-preset-env": "^6.7.0",
+    "postcss-preset-env": "^6.7.1",
     "postcss-url": "^9.0.0",
     "preact": "^10.5.13",
     "prismjs": "^1.23.0",
