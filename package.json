@@ -21,7 +21,7 @@
     "@githubprimer/octicons-react": "^8.5.0",
     "@weknow/gatsby-remark-twitter": "^0.2.3",
     "cssnano": "^4.1.11",
-    "firebase": "^8.6.8",
+    "firebase": "^9.6.11",
     "fontsource-zilla-slab": "^4.0.0",
     "gatsby": "^2.32.13",
     "gatsby-awesome-pagination": "^0.3.8",
