@@ -40,8 +40,7 @@ const HomePage = ({ data }) => {
               wide range of design disciplines. I design, build and tinker with
               digital products for a considerable time. I’m currently
               self-employed and am working with a selected freelance client
-              base. In my spare time I usually partake in my duties as
-              Co-Director for Delhi Chapter of Startup Grind.
+              base.
             </p>
           </div>
           <Img
