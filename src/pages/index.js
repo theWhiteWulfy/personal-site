@@ -273,7 +273,7 @@ export const pageQuery = graphql`
             image {
               childImageSharp {
                 fluid(maxWidth: 400, quality: 75) {
-                  ...GatsbyImageSharpFluid_noBase64
+                  ...GatsbyImageSharpFluid_withWebp_noBase64
                 }
               }
             }
@@ -312,8 +312,13 @@ export const pageQuery = graphql`
     }
     aboutImage: file(relativePath: { eq: "avatar4.png" }) {
       childImageSharp {
-        fluid(maxWidth: 720, maxHeight: 480, quality: 75) {
-          ...GatsbyImageSharpFluid_noBase64
+        fluid(
+          maxWidth: 720
+          maxHeight: 480
+          quality: 75
+          srcSetBreakpoints: [390, 480, 590, 720, 1440]
+        ) {
+          ...GatsbyImageSharpFluid_withWebp_noBase64
         }
       }
     }

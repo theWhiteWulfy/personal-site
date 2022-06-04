@@ -154,7 +154,7 @@ export const postsQuery = graphql`
             image {
               childImageSharp {
                 fluid(maxWidth: 760, quality: 75) {
-                  ...GatsbyImageSharpFluid_noBase64
+                  ...GatsbyImageSharpFluid_withWebp_noBase64
                 }
               }
             }
