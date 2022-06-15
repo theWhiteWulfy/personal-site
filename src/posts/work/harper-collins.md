@@ -2,7 +2,7 @@
 title: "Websites for Harper Collins"
 date: 2018-10-15
 path: /work/harper-collins/
-excerpt: ""
+excerpt: "Small custom websites for marketing of new books and authors."
 last_modified_at: 2020-08-13T12:25:41-05:00
 image: ../../images/harper-collins-feature.png
 categories: [work]
