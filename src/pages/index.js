@@ -37,10 +37,10 @@ const HomePage = ({ data }) => {
           <div className={style.intro}>
             <p>
               I'm a multi-talented human with over 11+ years of experience in a
-              wide range of design disciplines. I design, build and tinker with
-              digital products for a considerable time. I’m currently
-              self-employed and am working with a selected freelance client
-              base.
+              wide range of design disciplines. I have designed, built and
+              tinkered with digital products for a considerable time. I'm
+              currently self-employed and am working with a selected freelance
+              client base.
             </p>
           </div>
           <Img
@@ -61,8 +61,8 @@ const HomePage = ({ data }) => {
               established companies. I don't put a lot of stock in job titles,
               but I've been called a product designer, experience designer, UX
               Developer, Information Architect, full-stack developer, webmaster,
-              advisor, creative technologist, or by any other market defined
-              function-title. I believe that extensive experience has given me
+              advisor, creative technologist, or by any other market-defined
+              function title. I believe that extensive experience has given me
               practical skills allied with real-world pragmatism.
             </p>
             <p>
@@ -78,8 +78,8 @@ const HomePage = ({ data }) => {
               <li>migration of web infra between cloud providers</li>
             </ul>
             <p>
-              If you have an idea, I can sure help. Do get in touch and we can
-              connect anytime.
+              If you have an idea, I can surely help. Do get in touch, and we
+              can connect anytime.
             </p>
             <div style={{ textAlign: 'center' }}>
               <Link
