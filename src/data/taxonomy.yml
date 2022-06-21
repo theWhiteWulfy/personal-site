@@ -43,6 +43,32 @@
   html: |
     <p>Hand-picked selection of things I've designed, illustrated, and developed.</p>
 
+- id: illustrations
+  name: Illustrations
+  excerpt:
+  html:
+
+- id: web experiments
+  name: Web Experiments
+  excerpt: Using Experimental Web standards to make cool stuff.
+  html:
+
+- id: review
+  excerpt:
+  html:
+
+- id: saas-guide
+  name: Software-as-a-Service Guide
+  excerpt:
+  html:
+
+- id: journal
+  excerpt: A place to write down any bullshit that comes to my mind
+  html:  
+
+- id: react
+  excerpt: A place to write down any bullshit that comes to my mind
+  html:     
 
 - id: Apple
   excerpt:
@@ -100,20 +126,11 @@
   excerpt:
   html:
 
-- id: illustrations
-  name: Illustrations
-  excerpt:
-  html:
-
 - id: portrait
   excerpt:
   html:
 
 - id: Deno
-  excerpt:
-  html:
-
-- id: review
   excerpt:
   html:
 
@@ -134,11 +151,6 @@
   html:
 
 - id: time lapse
-  excerpt:
-  html:
-
-- id: saas-guide
-  name: Software-as-a-Service Guide
   excerpt:
   html:
 
@@ -224,8 +236,4 @@
 
 - id: philosophy
   excerpt:
-  html:   
-
-- id: journal
-  excerpt: A place to write down any bullshit that comes to my mind
   html:   
