@@ -18,9 +18,9 @@ toc: true
 
 Baario is an ever-growing knowledge base of local information sourced and verified by local community members. Whether it's about solving a local issue, finding local help, or sharing something cool with the community, Baario has got it covered. It's a free and open platform where anyone can participate and contribute.
 
-This platform was acquired by Google neighbourly in late 2017, and the links may now be defunct.
+This platform was acquired by Google Neighbourly in late 2017, and the links may now be defunct.
 
-Current app status: Sunsetted in Jan 2018.
-Website: baario.com,
-Twitter: @thebaario,
-Instagram: @thebaario
+Current app status: Sunsetted in Jan 2018.<br>
+Website: baario.com,<br>
+Twitter: @thebaario,<br>
+Instagram: @thebaario<br>
