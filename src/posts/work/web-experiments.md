@@ -22,21 +22,25 @@ I've used Experimental Web standards to make cool stuff.
 
 I created these as fan art for star wars. This project DOESN'T use images. But instead, this project involved creating polygons and manipulating them using CSS. JS is only used to switch between figures.
 
-[See This Now](./web/experiment/polygon.html)
+[See This Now](/web/experiment/polygon.html)
 
-![star wars image](./web/img/star.jpg)
+![star wars image](/web/img/star.jpg)
 
 ### 3D Chess Rendering
 
 This project was built for an interschool competition which involved creating an interactable object using JS. I created the chessboard because of my very limited knowledge of JS, and also, it could do much more in less. Surprisingly this little experiment won me the second prize.
 
-[See This Now](./web/experiment/chess.html)
+[See This Now](/web/experiment/chess.html)
+
+![3d chess image](/web/img/chess.jpg)
 
 ### Spiral Generator
 
 This project helps to create spirals based on values entered by the user using JavaScript. There is also an option to render random spirals.
 
-[See This Now](./web/experiment/spiral.html)
+[See This Now](/web/experiment/spiral.html)
+
+![spiral generator image](/web/img/spi.jpg)
 
 ### Into the space?
 
@@ -44,40 +48,54 @@ This project helps to create spirals based on values entered by the user using J
 
 Another animation that I created purely using CSS.
 
-[See This Now](./web/experiment/strek.html)
+[See This Now](/web/experiment/strek.html)
+
+![star trek uss image](/web/img/trek.jpg)
 
 ### Space game using ONLY CSS
 
 This is a rip-off of a cheap space invaders clone. The original one used shabby JS code, which was hard to understand and did nothing noticeable. I removed all of the JS and tried to do it using only CSS. I succeded. Partially. Two things still don't work well. Play to find out.
 
-[See This Now](./web/experiment/spacegame.html)
+[See This Now](/web/experiment/spacegame.html)
+
+![space games image](/web/img/game.jpg)
 
 ### Dance of robots
 
 This one is my favourite. This project was built mainly on JS, in which I explored different aspects of JS to a fairly advanced level. And the end output was also pleasing. At the start, each robot acts together, but after 180 seconds of manual intervention, they break away and dance separately.
 
-[See This Now](./web/experiment/dance.html)
+[See This Now](/web/experiment/dance.html)
+
+![dancing robots image](/web/img/dance.jpg)
 
 ### Story of My Life
 
 An infinite animation sequence made in CSS. I made this to experiment with CSS animation property.
 
-[See This Now](./web/experiment/daylife.html)
+[See This Now](/web/experiment/daylife.html)
+
+![story of my life image](/web/img/story.jpg)
 
 ### Windows 98
 
 Windows 98 mockup using CSS.
 
-[See This Now](./web/experiment/98.html)
+[See This Now](/web/experiment/98.html)
+
+![windows 98 using css image](/web/img/98.jpg)
 
 ### Fluid JS
 
 Liquid properties simulation using JS.
 
-[See This Now](./web/experiment/fluid.html)
+[See This Now](/web/experiment/fluid.html)
+
+![fluid blobs image](/web/img/fluid.jpg)
 
 ### Planet JS
 
 Planetary Environment simulation using JS.
 
-[See This Now](./web/experiment/planet.html)
+[See This Now](/web/experiment/planet.html)
+
+![planet environment image](/web/img/planet.jpg)
