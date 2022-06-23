@@ -9,8 +9,8 @@ module.exports = {
   image: {
     // Used for SEO, relative to /static/ folder
     src: '/images/theme/alok-logo.png',
-    width: 512,
-    height: 512,
+    width: 675,
+    height: 675,
   },
   ogLanguage: 'en_US', // Facebook Language
   googleAnalyticsID: 'UA-85177250-1',
@@ -19,7 +19,8 @@ module.exports = {
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
   webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
   micropubUrl: 'https://mm-micropub-to-github.herokuapp.com/micropub/main',
-  staticmanApi: 'https://meteoric-teachings.herokuapp.com/v2/entry/theWhiteWulfy/personal-site/master/comments',
+  staticmanApi:
+    'https://meteoric-teachings.herokuapp.com/v2/entry/theWhiteWulfy/personal-site/master/comments',
 
   // JSONLD / Manifest
   favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
@@ -79,6 +80,8 @@ module.exports = {
   */
   reCaptcha: {
     siteKey: '6LeYVMQZAAAAAEgY7amRTLlepClKbmkcxbrr5-yG',
-    secret: 'F3N1PkfFCaf3RAhFf1J8+OYqRSxmOtPrD2K7bI8NkdvG8j8tfoU7EG3RWcOqG2CSLTdHCfD2Tt+888SF0ZkYwWDpSkELxVB3lmzAo9Ah18fNQ2P9lswpW1yMa6vd2IZL8qf4CJ0Kxew6UabcCW0moJ60Hc7Pp0zG4cViehD1a9S2JQ6Jarg4KZ2kYtLFBbO2zzrxqSAlyb3WTwtoMibAHLvBVXU6Wf90aJt8ejD1VADaPq7HiXJZhI/70NHMPtKcVCQkuy20Z4Vt6EDDX7u+5u70FdfUNTB6X2eqiklT5+M+G8Goaj4BoUjzNBToXKrFThJKDDXTX8kC7BBAeoz933IYSbAJJxIwkF/icMCdYriUPSI/1GgryylSseOb7x5opHWEX/9Z7ooYKhJq6pQzqmOVuM6gH9C13stNp+8IK2VJlcxLAhsOpKc9Frze2AMR3LpvirgLvR2cvCsJttK06ebznoldVyCdFmeI1RVZjSvQhY8cpnGjrSWNptPs3hVfsBVo8NDutDIooRy3EKTErRdrvFg66VKlHuub2HTYcEs2nWhDSsJImYLFEIGsq5PPY0u6giSI0xi5xWxGWmVyA27ZR9blMLIkYI3EBGyFze6fSUMuzK+C2YbUrxFdu3PZnndd0LGtpHZgZQncJKfRuJiEQ6j3YZ705H1E5y3Ap9Q=',
+    secret:
+      // eslint-disable-next-line max-len
+      'F3N1PkfFCaf3RAhFf1J8+OYqRSxmOtPrD2K7bI8NkdvG8j8tfoU7EG3RWcOqG2CSLTdHCfD2Tt+888SF0ZkYwWDpSkELxVB3lmzAo9Ah18fNQ2P9lswpW1yMa6vd2IZL8qf4CJ0Kxew6UabcCW0moJ60Hc7Pp0zG4cViehD1a9S2JQ6Jarg4KZ2kYtLFBbO2zzrxqSAlyb3WTwtoMibAHLvBVXU6Wf90aJt8ejD1VADaPq7HiXJZhI/70NHMPtKcVCQkuy20Z4Vt6EDDX7u+5u70FdfUNTB6X2eqiklT5+M+G8Goaj4BoUjzNBToXKrFThJKDDXTX8kC7BBAeoz933IYSbAJJxIwkF/icMCdYriUPSI/1GgryylSseOb7x5opHWEX/9Z7ooYKhJq6pQzqmOVuM6gH9C13stNp+8IK2VJlcxLAhsOpKc9Frze2AMR3LpvirgLvR2cvCsJttK06ebznoldVyCdFmeI1RVZjSvQhY8cpnGjrSWNptPs3hVfsBVo8NDutDIooRy3EKTErRdrvFg66VKlHuub2HTYcEs2nWhDSsJImYLFEIGsq5PPY0u6giSI0xi5xWxGWmVyA27ZR9blMLIkYI3EBGyFze6fSUMuzK+C2YbUrxFdu3PZnndd0LGtpHZgZQncJKfRuJiEQ6j3YZ705H1E5y3Ap9Q=',
   },
 }
