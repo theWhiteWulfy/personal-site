@@ -444,7 +444,6 @@ reCaptcha:
 
 ## License
 
-Copyright (c) 2004-2020 Alok Prateek
+Copyright (c) 2010-2022 Alok Prateek
 
-Metoric Teachings incorporates photographs from [Unsplash](https://unsplash.com).
 
