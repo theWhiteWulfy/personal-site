@@ -26,4 +26,4 @@ The platform was made on Jekyll. I started off with a readily available theme bu
 
 The logo and the splash screen design were my own concept but derived from their idea, which wasn't that well-formed. They wanted something on lines of holding hands and vines, but I didn't feel it was the way to proceed. In the end, what I have always focused on is simplicity. Which they loved.
 
-website: [themedley.in](https://themedley.in)
+Website: [themedley.in](https://themedley.in)
