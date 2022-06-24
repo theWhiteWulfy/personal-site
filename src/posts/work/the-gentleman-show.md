@@ -6,7 +6,7 @@ excerpt: "Logo and production management."
 last_modified_at: 2022-03-16T12:25:41-05:00
 image: ../../images/the-gentleman-show-feature.png
 categories: [work]
-tags: [Jekyll, web development, design, GitHub]
+tags: [logo, podcast, design, production, graphics, illustrator]
 work: "Design & Development"
 breadcrumbs:
   - label: "Work"
