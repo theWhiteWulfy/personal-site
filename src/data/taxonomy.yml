@@ -98,7 +98,7 @@
   excerpt:
   html:
 
-- id: illustration
+- id: illustrator
   excerpt:
   html:
 
@@ -259,5 +259,17 @@
   html:  
 
 - id: animations
+  excerpt:
+  html:  
+
+- id: podcast
+  excerpt:
+  html:  
+
+- id: graphics
+  excerpt:
+  html:  
+
+- id: production
   excerpt:
   html:  
