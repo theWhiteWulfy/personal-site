@@ -48,6 +48,11 @@
   excerpt:
   html:
 
+- id: illustration
+  name: Illustrations
+  excerpt:
+  html:
+
 - id: web experiments
   name: Web Experiments
   excerpt: Using Experimental Web standards to make cool stuff.
