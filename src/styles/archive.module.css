@@ -231,6 +231,7 @@
     width: 100%;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
+    flex-wrap: wrap;
 
     > * {
       flex: 1 0 240px;
