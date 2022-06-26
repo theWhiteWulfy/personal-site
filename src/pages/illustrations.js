@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
-
+import GalleryBlock from '../components/galleryblock'
 import site from '../../config/site'
-
 import style from '../styles/archive.module.css'
 
 const metaImage = site.image
+
 const IllustrationPage = ({
   data: {
     allMarkdownRemark: { edges },
@@ -40,7 +40,7 @@ const IllustrationPage = ({
           If you scroll down far enough you can see how my technique has evolved
           from 2008 to present date.
         </p>
-
+        {/*
         <ul>
           {edges.map((post) => (
             <li key={post.node.id}>
@@ -49,7 +49,8 @@ const IllustrationPage = ({
               </Link>
             </li>
           ))}
-        </ul>
+          </ul>*/}
+        <GalleryBlock></GalleryBlock>
       </div>
     </main>
   </Layout>
@@ -67,17 +68,21 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(
-      filter: {
-        fileAbsolutePath: { regex: "/posts/illustrations/" }
-        fields: { sourceName: { ne: "comments" } }
+      filter: 
+      {
+        fileAbsolutePath: {regex: "/posts/illustrations/"}, 
+        fields: {sourceName: {ne: "comments"}}, 
         frontmatter: {
-          categories: { in: "illustrations" },
-          published: { ne: false },
-          output: { ne: false }
+          categories: {in: "illustrations"},
+          published: {ne: false}, 
+          output: {ne: false}
         }
-      }
-      sort: { fields: [frontmatter___order], order: ASC }
-    ) {
+      }, 
+      sort: 
+      {
+        fields: [frontmatter___order], 
+        order: ASC
+      }) {
       edges {
         node {
           id
