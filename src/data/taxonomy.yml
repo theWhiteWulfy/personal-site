@@ -195,10 +195,6 @@
   excerpt:
   html:
 
-- id: Planning
-  excerpt:
-  html:
-
 - id: vector
   excerpt: "Vector Illustrations done on AI"
   html:
@@ -236,10 +232,6 @@
   html:   
   
 - id: web-app
-  excerpt:
-  html:   
-
-- id: optimization
   excerpt:
   html:   
 
