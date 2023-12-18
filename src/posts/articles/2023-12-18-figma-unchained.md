@@ -3,7 +3,7 @@ title: "Figma Unchained and Unchallenged : The Silver Lining"
 excerpt: "Adobe's dance partner bailed! Figma flies solo, user focus soaring. Can Adobe remix its moves to compete? Design world plot twist - who wins this collab chaos?"
 path: /articles/figma-unchained/
 categories: [articles]
-tags: [web development, design, figma, adobe]
+tags: [web development, design]
 date: 2023-12-18
 last_modified_at: 2023-12-18T20:49:14-05:00
 comments: true
