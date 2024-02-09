@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
-import Img from 'gatsby-image'
+import Link from 'next/link'
+import Image from 'next/image'
 
 import style from '../styles/entry.module.css'
 
@@ -22,7 +22,7 @@ const Entry = ({
     <>
       <article className={`${style.entry} h-entry`}>
         <h2 className={`${style.title} p-name`}>
-          <Link to={path}>{title}</Link>
+          <Link href={path}>{title}</Link>
         </h2>
         <div className={style.meta}>
           {author && (
@@ -52,7 +52,7 @@ const Entry = ({
           {tags ? (
             <div className={style.tags}>
               {tags.map(tag => (
-                <Link to={`/tag/${_.slugify(tag)}/`} key={_.slugify(tag)}>
+                <Link href={`/tag/${_.slugify(tag)}/`} key={_.slugify(tag)}>
                   <span>#{tag}</span>
                 </Link>
               ))}
@@ -61,8 +61,9 @@ const Entry = ({
         </div>
 
         {image && (
-          <Img
-            fluid={image.childImageSharp.fluid}
+          <Image
+            src={image}
+            alt=" "
             className={style.cover}
             backgroundColor="var(--input-background-color)"
           />

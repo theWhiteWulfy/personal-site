@@ -1,5 +1,5 @@
 import React from 'react'
-import { Helmet } from 'react-helmet'
+import Head from 'next/head'
 import PropTypes from 'prop-types'
 import { useStaticQuery, graphql } from 'gatsby'
 import OpenGraph from './open-graph'
@@ -120,7 +120,7 @@ const SEO = ({
 
   return (
     <>
-      <Helmet title={seo.title}>
+      <Head title={seo.title}>
         <html lang={siteLanguage} />
         <link rel="canonical" href={seo.url} />
         {pingbackUrl && <link rel="pingback" href={pingbackUrl} />}
@@ -139,7 +139,7 @@ const SEO = ({
             {JSON.stringify(schemaArticle)}
           </script>
         )}
-      </Helmet>
+      </Head>
       <OpenGraph
         description={seo.description}
         image={seo.image}

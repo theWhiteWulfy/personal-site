@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Helmet } from 'react-helmet'
+import Head from 'next/head'
 
 const TwitterCard = ({ type, username, title, description, image }) => (
-  <Helmet>
+  <Head>
     {username && <meta name="twitter:creator" content={username} />}
     <meta name="twitter:card" content={type} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
-  </Helmet>
+  </Head>
 )
 
 export default TwitterCard

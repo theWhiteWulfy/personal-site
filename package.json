@@ -1,16 +1,10 @@
 {
-  "name": "Meteoric-teachings",
+  "name": "personal-site",
   "description": "Personal website of Alok Prateek.",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": "Alok Prateek",
-  "keywords": [
-    "gatsby",
-    "minimal",
-    "blog",
-    "personal site",
-    "portfolio"
-  ],
   "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",

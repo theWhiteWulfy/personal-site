@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
+import Link from 'next/link'
 import firebase from './firebase'
 import TwitterIcon from './icons/twitter-icon'
 import LinkedinIcon from './icons/linkedin-icon'
@@ -15,7 +15,7 @@ const FooterMenu = ({ footerMenu }) => {
 
   return menu.map((menuItem, index) => (
     <li key={index}>
-      <Link to={menuItem.path}>{menuItem.title}</Link>
+      <Link href={menuItem.path}>{menuItem.title}</Link>
     </li>
   ))
 }

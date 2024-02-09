@@ -79,7 +79,7 @@ const Categories = ({
             <ul>
               {group.sort(propComparator(`fieldValue`)).map((tag) => (
                 <li key={tag.fieldValue}>
-                  <Link to={`/tag/${_.slugify(tag.fieldValue)}/`}>
+                  <Link href={`/tag/${_.slugify(tag.fieldValue)}/`}>
                     <strong>{tag.fieldValue}</strong>{' '}
                     <span className={style.count}>{tag.totalCount}</span>
                   </Link>

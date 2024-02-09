@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
+import Link from 'next/link'
 
 import style from '../styles/pagination.module.css'
 
@@ -8,7 +8,7 @@ const Pagination = ({ nextPath, previousPath, nextLabel, previousLabel }) =>
   previousPath || nextPath ? (
     <nav className={style.pagination}>
       {previousPath ? (
-        <Link to={previousPath} rel="prev" className={style.item}>
+        <Link href={previousPath} rel="prev" className={style.item}>
           <span className={style.iconPrev}>←</span>
           <span className={style.itemText}>{previousLabel}</span>
         </Link>

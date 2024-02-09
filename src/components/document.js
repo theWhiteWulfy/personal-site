@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
-import Img from 'gatsby-image'
+import Link from 'next/link'
+import Image from 'next/image'
 
 import style from '../styles/document.module.css'
 
@@ -83,8 +83,9 @@ const Document = ({
       </div>
 
       {image && (
-        <Img
-          fluid={image.childImageSharp.fluid}
+        <Image
+          src={image}
+          alt=" "
           className={style.cover}
           backgroundColor="var(--input-background-color)"
         />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
-import { Helmet } from 'react-helmet'
+import Link from 'next/link'
+import Head from 'next/head'
 import MeteoricIcon from './icons/meteoric-icon'
 
 import Menu from './menu'
@@ -26,13 +26,13 @@ const Header = props => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <body
           data-theme={`${
             (userTheme || defaultTheme) === 'light' ? 'light' : 'dark'
           }`}
         />
-      </Helmet>
+      </Head>
       <nav className={style.skipLinks}>
         <ul>
           <li>
@@ -54,7 +54,7 @@ const Header = props => {
       </nav>
       <header className={style.header}>
         <div className={style.name}>
-          <Link to="/">
+          <Link href="/">
             <MeteoricIcon />
             <span className={style.logoLabel}>{siteTitle}</span>
           </Link>

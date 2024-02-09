@@ -95,7 +95,7 @@ const PostTemplate = ({ data, pageContext }) => {
                   </div>
                   <div className="custom-block-body">
                     If you have a question concerning the content of this page,
-                    please feel free to <Link to="/contact/">contact me</Link>.
+                    please feel free to <Link href="/contact/">contact me</Link>.
                   </div>
                 </div>
               ) : (
