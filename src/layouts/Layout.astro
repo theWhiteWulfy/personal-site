@@ -1,9 +1,13 @@
 ---
+import '../styles/layout.module.css';
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import PageFind from "@components/PageFind.astro";
-import { SITE } from "@consts";
+import site from "../config/site"
+import Alert from "../components/custom/alert.astro";
+import style from "../styles/grid.module.css";
+
 
 type Props = {
   title: string;
@@ -16,14 +20,45 @@ const { title, description } = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={`${title} | ${SITE.TITLE}`} description={description} />
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <Head title={`${title} | ${site.title}`} description={description} />
   </head>
-  <body>
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
-    <PageFind />
+  <body data-theme="light">
+    <!-- {Astro.props.preBodyComponents} -->
+    <noscript id="gatsby-noscript">
+      <Alert align="center">
+        <p>
+          <strong>Heads up!</strong> This website works best with JavaScript enabled.
+        </p>
+      </Alert>
+    </noscript>
+    <div id="___gatsby">
+      <div class={style.wrapper}>
+        <Header
+          siteTitle={site.title}
+          defaultTheme={site.defaultTheme}
+          mainMenu={site.mainMenu}
+        /> 
+
+        <slot />
+
+        <Footer
+          footerMenu={site.footerMenu}
+          twitter={site.twitterUrl}
+          github={site.githubUrl}
+          instagram={site.instagramUrl}
+          linkedin={site.linkedinUrl}
+          feed={site.feedUrl}
+        /> 
+        <PageFind />
+
+      </div>
+    </div>
+    <!-- {Astro.props.postBodyComponents} -->
   </body>
 </html>
