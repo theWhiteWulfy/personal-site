@@ -1,5 +1,4 @@
 ---
-import { cn } from "@lib/utils";
 
 type Props = {
   href: string;
@@ -20,11 +19,7 @@ const {
 <a
   href={href}
   target={external ? "_blank" : "_self"}
-  class={cn(
-    "inline-block decoration-black/30 dark:decoration-white/30 hover:decoration-black/50 focus-visible:decoration-black/50 dark:hover:decoration-white/50 dark:focus-visible:decoration-white/50 text-current hover:text-black focus-visible:text-black dark:hover:text-white dark:focus-visible:text-white transition-colors duration-300 ease-in-out",
-    underline && "underline underline-offset-[3px]",
-    group && "group"
-  )}
+  class={ "group" }
   {...rest}
 >
   <slot />
