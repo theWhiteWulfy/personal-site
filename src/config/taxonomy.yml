@@ -1,0 +1,300 @@
+- id: articles
+  name: Articles
+  excerpt: Long pieces of text mostly about design and web development.
+  html: |
+    <p>Long pieces of text mostly about design and web development. For more tidbits &mdash; see the <a href="/notes/">notes section</a>.</p>
+
+- id: notes
+  name: Notes
+  excerpt: Rants, inspiration, thoughts, and other things you should find in a blog.
+  html: |
+    <p>Rants, inspiration, thoughts, and other things you should find in a blog.</p>
+
+- id: Gatsby
+  excerpt: An archive of posts related to Gatsby, a framework based on React that helps developers build blazing fast websites and apps.
+  html: |
+    <p>An archive of posts related to <a href="https://www.gatsbyjs.org"><strong>Gatsby</strong></a>, a framework based on React that helps developers build blazing fast websites and apps.</p>
+
+- id: Jekyll
+  excerpt: An archive of posts related to Jekyll, a Ruby Gem that transforms plain text into static websites and blogs.
+  html: |
+    <p>An archive of posts related to <a href="https://jekyllrb.com"><strong>Jekyll</strong></a>, a Ruby Gem that transforms plain text into static websites and blogs.</p>
+
+- id: bibliophile-diaries
+  name: Bibliophile Diaries
+  excerpt: Lessons and interesting quotes from books I've read.
+  html: |
+    <p>Lessons and interesting quotes from books I've read.</p>
+
+- id: deno-guide
+  name: Guide to Deno
+  excerpt: A guide to get started with Deno, the hard and dirty way.
+  html: |
+    <p>A guide to get started with Deno, the hard and dirty way.</p>
+
+- id: TIL
+  excerpt: Learnings captured for educational purposes and posterity.
+  html: |
+    <p>Learnings captured for educational purposes and posterity.</p>
+
+- id: work
+  name: Works
+  excerpt: Hand-picked selection of things I've designed, illustrated, and developed.
+  html: |
+    <p>Hand-picked selection of things I've designed, illustrated, and developed.</p>
+
+- id: illustrations
+  name: Illustrations
+  excerpt:
+  html:
+
+- id: illustration
+  name: Illustrations
+  excerpt:
+  html:
+
+- id: web experiments
+  name: Web Experiments
+  excerpt: Using Experimental Web standards to make cool stuff.
+  html:
+
+- id: review
+  excerpt:
+  html:
+
+- id: saas-guide
+  name: Software-as-a-Service Guide
+  excerpt:
+  html:
+
+- id: journal
+  excerpt: A place to write down any bullshit that comes to my mind
+  html:  
+
+- id: react
+  excerpt: A place to write down any bullshit that comes to my mind
+  html:     
+
+- id: Apple
+  excerpt:
+  html:
+
+- id: beard
+  excerpt:
+  html:
+
+- id: black and white
+  excerpt:
+  html:
+
+- id: bokeh
+  excerpt:
+  html:
+
+- id: design
+  excerpt:
+  html:
+
+- id: drawing
+  excerpt:
+  html:
+
+- id: GitHub
+  excerpt:
+  html:
+
+- id: illustrator
+  excerpt:
+  html:
+
+- id: inspiration
+  excerpt:
+  html:
+
+- id: life
+  excerpt:
+  html:
+
+- id: logo
+  excerpt:
+  html:
+
+- id: Netlify
+  excerpt:
+  html:
+
+- id: open source
+  excerpt:
+  html:
+
+- id: painting
+  excerpt:
+  html:
+
+- id: portrait
+  excerpt:
+  html:
+
+- id: Deno
+  excerpt:
+  html:
+
+- id: self portrait
+  excerpt:
+  html:
+
+- id: Star Wars
+  excerpt:
+  html:
+
+- id: Contest of Champions
+  excerpt:
+  html:
+
+- id: tech geek
+  excerpt:
+  html:
+
+- id: time lapse
+  excerpt:
+  html:
+
+- id: tutorials
+  excerpt:
+  html:
+
+- id: video games
+  excerpt:
+  html:
+
+- id: watercolor
+  excerpt:
+  html:
+
+- id: web development
+  excerpt:
+  html:
+
+- id: Tutorials
+  excerpt:
+  html:
+
+- id: Typescript
+  excerpt:
+  html:
+
+- id: Development
+  excerpt: Writings on software development and trends
+  html:
+
+- id: Software
+  excerpt:
+  html:
+
+- id: Project Management
+  excerpt:
+  html:
+
+- id: vector
+  excerpt: "Vector Illustrations done on AI"
+  html:
+
+- id: books
+  excerpt:
+  html:
+
+- id: reading
+  excerpt:
+  html:    
+  
+- id: gist
+  excerpt:
+  html:      
+
+- id: academic
+  excerpt:
+  html:      
+
+- id: society
+  excerpt:
+  html:      
+
+- id: pop-culture
+  excerpt:
+  html:   
+
+- id: code review
+  excerpt:
+  html:   
+
+- id: process
+  excerpt:
+  html:   
+  
+- id: web-app
+  excerpt:
+  html:   
+
+- id: philosophy
+  excerpt:
+  html:   
+
+- id: jquery
+  excerpt:
+  html:  
+  
+- id: css
+  excerpt:
+  html:  
+  
+- id: javascript
+  excerpt:
+  html:  
+  
+- id: codeignitor
+  excerpt:
+  html:  
+
+- id: animations
+  excerpt:
+  html:  
+
+- id: podcast
+  excerpt:
+  html:  
+
+- id: graphics
+  excerpt:
+  html:  
+
+- id: production
+  excerpt:
+  html:  
+
+- id: API
+  excerpt:
+  html:  
+
+- id: Open API
+  excerpt:
+  html:  
+
+- id: Documentation
+  excerpt:
+  html:  
+
+- id: API development
+  excerpt:
+  html:  
+
+- id: packaging
+  excerpt:
+  html:  
+
+- id: startup
+  excerpt:
+  html:  
+
+- id: foodtech
+  excerpt:
+  html:  
