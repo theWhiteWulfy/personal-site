@@ -16,6 +16,7 @@ const blog = defineCollection({
     comments: z.boolean().optional(),
     comments_locked: z.boolean().optional(),
     featured: z.boolean().optional(),
+    draft: z.boolean().optional(),
   }),
 });
 
@@ -23,7 +24,7 @@ const projects = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    excerpt: z.string(),
     date: z.coerce.date(),
     draft: z.boolean().optional(),
     demoURL: z.string().optional(),
