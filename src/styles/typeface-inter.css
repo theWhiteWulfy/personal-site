@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../static/fonts/inter/inter-regular-latin.woff2') format('woff2'),
+    url('../../static/fonts/inter/inter-regular-latin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../../static/fonts/inter/inter-italic-latin.woff2') format('woff2'),
+    url('../../static/fonts/inter/inter-italic-latin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../static/fonts/inter/inter-bold-latin.woff2') format('woff2'),
+    url('../../static/fonts/inter/inter-bold-latin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../../static/fonts/inter/inter-bolditalic-latin.woff2') format('woff2'),
+    url('../../static/fonts/inter/inter-bolditalic-latin.woff') format('woff');
+}

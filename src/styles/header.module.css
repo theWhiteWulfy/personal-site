@@ -1,0 +1,81 @@
+.header {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: calc(100% - 2rem);
+  max-width: var(--container-width);
+  margin: 1rem auto;
+  font-size: var(--text-sm);
+}
+
+.skipLinks {
+  position: absolute;
+  width: 100%;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+.shortcut {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  overflow: hidden;
+
+  &:focus {
+    display: block;
+    top: 5px;
+    left: 5px;
+    width: auto;
+    height: auto;
+    padding: 0.75em 1em;
+    clip: auto !important;
+    border-radius: var(--border-radius);
+    background-color: var(--text-color);
+    color: var(--background-color);
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    z-index: 100000;
+  }
+}
+
+.shortcut:focus {
+  width: auto;
+  height: auto;
+  clip: auto !important;
+  text-decoration: none;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  z-index: 100000;
+}
+
+.name {
+  display: block;
+  margin-right: 2rem;
+
+  @media (--small-down) {
+    flex: 1;
+  }
+
+  a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.logoLabel {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+}

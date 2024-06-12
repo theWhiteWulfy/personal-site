@@ -1,0 +1,315 @@
+@import "./variables.modules.css";
+@import "./reset.css";
+
+* {
+  transition: background 0.25s ease;
+}
+
+html {
+  font-size: var(--base-font-size);
+
+  @media (--extra-large-up) {
+    font-size: calc(var(--base-font-size) * var(--base-ratio));
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font-kerning: normal;
+  word-wrap: break-word;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--sans-serif-font);
+  text-rendering: optimizeLegibility; /* enable common ligatures and kerning */
+}
+
+h1 {
+  font-size: var(--text-3xl);
+}
+
+* + h1 {
+  margin-top: 3em;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+* + h2 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+* + h3 {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h4 {
+  font-size: var(--text-lg);
+}
+
+* + h4 {
+  margin-top: 1em;
+  margin-bottom: 0.75em;
+}
+
+h5 {
+  font-size: var(--text-base);
+}
+
+* + h5,
+* + h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+h6 {
+  font-size: var(--text-sm);
+}
+
+blockquote {
+  margin-right: 0;
+  margin-left: calc(-1em - 0.25em);
+  padding: 0 1em;
+  border-left: 0.25em solid var(--border-color);
+}
+
+blockquote,
+q {
+  font-style: italic;
+}
+
+blockquote cite,
+q cite {
+  font-family: var(--sans-serif-font);
+  font-size: var(--text-sm);
+  font-style: normal;
+  font-weight: 700;
+}
+
+blockquote :last-child {
+  margin-bottom: 0;
+}
+
+hr {
+  box-sizing: content-box;
+  display: block;
+  border: 0;
+  margin-top: 3em;
+  margin-bottom: 3em;
+  text-align: center;
+}
+
+hr::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  background-color: var(--text-color);
+}
+
+a {
+  color: var(--link-color);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+p img {
+  max-width: 100%;
+}
+
+:focus:not([tabindex="-1"]) {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+input,
+textarea,
+select {
+  &:focus:not([tabindex="-1"]) {
+    box-shadow: 0 0 0 0.2rem var(--secondary-color);
+    outline: 0;
+    outline-offset: 0;
+  }
+}
+
+input:required,
+textarea:required {
+  box-shadow: none;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--monospace-font);
+}
+
+pre {
+  overflow-x: auto;
+}
+
+:not(pre) > code {
+  padding: 0.125em 0.25em;
+  color: var(--code-text-color);
+  background: var(--code-background-color);
+  border-radius: var(--border-radius);
+  white-space: normal;
+}
+
+kbd {
+  background-color: rgb(247, 247, 247);
+  border-radius: 3px;
+  border: 1px solid rgb(204, 204, 204);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), inset 0 0 0 2px #fff;
+  display: inline-block;
+  margin: 0 0.125em;
+  padding: 0.125em 0.5em;
+  text-shadow: 0 1px 0 #fff;
+}
+
+dt {
+  font-weight: 700;
+
+  &:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+dd {
+  margin: 0;
+}
+
+figure {
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+
+  > p {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  > img {
+    width: 100%;
+  }
+}
+
+figcaption {
+  position: relative;
+  margin: 0.75rem 0;
+  font-size: var(--text-xs);
+}
+
+img {
+  /* lazysizes plugin */
+  &[data-sizes="auto"] {
+    display: block;
+    width: 100%;
+  }
+}
+
+ul, ol {
+  @media (--medium-up) {
+    padding-left: 0;
+    list-style-position: outside;
+  }
+}
+
+ul {
+  list-style-type: square;
+}
+
+li {
+
+  + li {
+    margin-top: 0.5em;
+  }
+
+  > img {
+    margin: 1rem 0;
+  }
+}
+
+iframe {
+  max-width: 100%;
+}
+
+::selection {
+  color: #fff;
+  background: #000;
+}
+
+main article {
+  > * {
+    margin-bottom: 0;
+  }
+
+  p, ol, ul {
+    margin-bottom: 1.5em;
+  }
+
+  blockquote, figure, video, iframe {
+    margin-bottom: 2em;
+  }
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--text-sm);
+  /* For Firefox to horizontally scroll wider tables */
+  word-break: normal;
+  word-break: keep-all;
+
+  code {
+    word-break: break-all;
+  }
+}
+
+tr th {
+  border-bottom: 1px solid var(--border-color);
+}
+
+tr:not(:last-child) {
+  td {
+    border-bottom: 1px solid var(--border-color);
+  }
+}
+
+th {
+  font-weight: 700;
+  padding: 0.5em;
+  text-align: left;
+}
+
+td {
+  padding: 0.5em;
+}
+
+tr,
+td,
+th {
+  vertical-align: middle;
+}

@@ -1,0 +1,57 @@
+.pagination {
+  width: calc(100% - 2rem);
+  max-width: var(--container-width);
+  margin-top: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (--medium-up) {
+    display: flex;
+    jusitfy-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.item {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: var(--text-sm);
+
+  &:visited {
+    color: var(--text-color);
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    .itemText {
+      text-decoration: underline;
+    }
+  }
+
+  @media (--medium-up) {
+    flex-basis: 50%;
+  }
+}
+
+.itemRight {
+  justify-content: flex-end;
+}
+
+.itemLabel {
+  @media (--medium-up) {
+    display: block;
+    font-family: var(--sans-serif-font);
+  }
+}
+
+.iconNext {
+  padding-left: 0.5em;
+}
+
+.iconPrev {
+  padding-right: 0.5em;
+}

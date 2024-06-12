@@ -1,0 +1,151 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: calc(100% - 2rem);
+  max-width: var(--container-width);
+  margin: 2rem auto 1rem auto;
+  padding-top: 1rem;
+  color: var(--muted-text-color);
+  font-size: var(--text-xs);
+  border-top: 1px solid var(--border-color);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.iconLabel {
+  padding-left: 0.5em;
+
+  @media (--medium-up) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+.menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans-serif-font);
+  font-weight: 400;
+
+  @media (--medium-up) {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  li {
+    flex-basis: 50%;
+    margin: 0;
+
+    @media (--medium-up) {
+      flex-basis: auto;
+
+      &:not(:last-child)::after {
+        content: '·';
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+    }
+
+    a {
+      display: inline-block;
+      margin-bottom: 0;
+      padding: 0.5em 0;
+      color: inherit;
+      white-space: nowrap;
+
+      @media (--medium-down) {
+        padding: 0.75em 0;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--text-color);
+      }
+    }
+  }
+}
+
+.menuSocial {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans-serif-font);
+  font-weight: 400;
+
+  @media (--medium-up) {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  li {
+    flex-basis: 50%;
+    margin: 0;
+
+    @media (--medium-up) {
+      flex-basis: auto;
+    }
+
+    &:not(:last-child) {
+      a {
+        @media (--medium-up) {
+          margin-right: 2em;
+        }
+      }
+    }
+
+    a {
+      display: block;
+      margin-bottom: 0;
+      padding: 0.5em 0;
+      color: inherit;
+      white-space: nowrap;
+
+      @media (--medium-down) {
+        padding: 0.75em 0;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--text-color);
+      }
+    }
+  }
+
+  svg {
+    font-size: var(--text-base);
+  }
+}
+
+.copyright {
+  margin-top: 2em;
+  width: 100%;
+  font-size: var(--text-sm);
+
+  p {
+    margin-bottom: 0;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--text-color);
+    }
+  }
+}
