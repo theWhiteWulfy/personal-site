@@ -1,5 +1,4 @@
 ---
-import BackToTop from "@components/BackToTop.astro";
 import TwitterIcon from './icons/twitter-icon.astro'
 import LinkedinIcon from './icons/linkedin-icon.astro'
 import GithubIcon from './icons/github-icon.astro'
@@ -14,14 +13,7 @@ interface MenuItem {
 }
 ---
 
-<footer class="animate">
-  <BackToTop />
-
-
-
-</footer>
-
-<footer id="footer" class={style.footer}>
+<footer id="footer" class={`${style.footer} animate`}>
   <ul class={style.menu}>
     <!-- <FooterMenu footerMenu={footerMenu} /> -->
     {footerMenu.map((menuItem: MenuItem, index: number) => (
