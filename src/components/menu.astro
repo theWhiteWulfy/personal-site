@@ -1,0 +1,70 @@
+---
+import style from '../styles/menu.module.css'
+import { Debug } from 'astro:components';
+let { mainMenu } = Astro.props
+
+interface MenuItem {
+  path: string;
+  title: string;
+}
+
+---
+    <nav
+      id="nav-primary"
+      itemscope
+      itemtype="http://schema.org/SiteNavigationElement"
+      aria-label="Primary navigation"
+      class={style.primaryNavigation}
+    >
+      <ul class={style.primaryMenu}>
+        <!-- <Debug {mainMenu} /> -->
+        {mainMenu.map((menuItem: MenuItem, index: number) => (
+          <li id={index.toString()} class={style.primaryMenuItem}>
+            <a
+              href={menuItem.path}
+              itemprop="url"
+             
+            >
+                
+              {menuItem.title}
+            </a>
+          </li>
+        ))}
+        <!-- class={{ [style.active]: window.location.pathname.includes(menuItem.path)  -->
+      </ul>
+    </nav>
+    <div class={style.siteControls}>
+      <button
+        class={style.themeToggle}
+       id="themeToggleButton"
+        type="button"
+        aria-label="Toggle dark mode"
+        title="Toggle dark mode"
+      >
+        <span class={style.themeToggleInner}>
+          <span class={style.themeToggleIcon} />
+        </span>
+      </button>
+    </div>
+    <script>
+        // This script will run on the client-side
+        window.addEventListener('load', () => {
+            let { defaultTheme } = Astro.props
+          const themeToggleButton = document.getElementById('themeToggleButton');
+          let userTheme = localStorage.getItem('theme') || null;
+          const onChangeTheme = () => {
+            const alternateTheme = (userTheme || defaultTheme) === 'light' ? 'dark' : 'light';
+            userTheme = alternateTheme;
+            localStorage.setItem('theme', alternateTheme);
+            document.body.dataset.theme = alternateTheme;
+          }
+  
+          // Set initial theme
+          document.body.dataset.theme = userTheme || defaultTheme;
+  
+          // Attach event listener to the button
+          if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', onChangeTheme);
+            }
+        });
+     </script>
