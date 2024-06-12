@@ -47,6 +47,51 @@ const site = {
       // eslint-disable-next-line max-len
       'F3N1PkfFCaf3RAhFf1J8+OYqRSxmOtPrD2K7bI8NkdvG8j8tfoU7EG3RWcOqG2CSLTdHCfD2Tt+888SF0ZkYwWDpSkELxVB3lmzAo9Ah18fNQ2P9lswpW1yMa6vd2IZL8qf4CJ0Kxew6UabcCW0moJ60Hc7Pp0zG4cViehD1a9S2JQ6Jarg4KZ2kYtLFBbO2zzrxqSAlyb3WTwtoMibAHLvBVXU6Wf90aJt8ejD1VADaPq7HiXJZhI/70NHMPtKcVCQkuy20Z4Vt6EDDX7u+5u70FdfUNTB6X2eqiklT5+M+G8Goaj4BoUjzNBToXKrFThJKDDXTX8kC7BBAeoz933IYSbAJJxIwkF/icMCdYriUPSI/1GgryylSseOb7x5opHWEX/9Z7ooYKhJq6pQzqmOVuM6gH9C13stNp+8IK2VJlcxLAhsOpKc9Frze2AMR3LpvirgLvR2cvCsJttK06ebznoldVyCdFmeI1RVZjSvQhY8cpnGjrSWNptPs3hVfsBVo8NDutDIooRy3EKTErRdrvFg66VKlHuub2HTYcEs2nWhDSsJImYLFEIGsq5PPY0u6giSI0xi5xWxGWmVyA27ZR9blMLIkYI3EBGyFze6fSUMuzK+C2YbUrxFdu3PZnndd0LGtpHZgZQncJKfRuJiEQ6j3YZ705H1E5y3Ap9Q=',
   },
+  // Site config
+  copyrights: `&copy; 2010&mdash;${new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.`,
+  defaultTheme: 'light',
+  postsPerPage: 10,
+  mainMenu: [
+    {
+      title: 'Articles',
+      path: '/articles/',
+    },
+    {
+      title: 'Notes',
+      path: '/notes/',
+    },
+    {
+      title: 'Works',
+      path: '/work/',
+    },
+    {
+      title: 'About',
+      path: '/about/',
+    },
+    {
+      title: 'Contact',
+      path: '/contact/',
+    },
+  ],
+  footerMenu: [
+    {
+      title: 'Support me',
+      path: '/support/',
+    },
+    {
+      title: 'FAQs',
+      path: '/faqs/',
+    },
+    {
+      title: 'Terms & policies',
+      path: '/terms/',
+    },
+    {
+      title: 'Sitemap',
+      path: '/sitemap/',
+    },
+  ],
+  
 }
 
 export default site;
