@@ -4,9 +4,15 @@ import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
 import Layout from "./Layout.astro";
-import { Debug } from "astro:components";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+
 const { frontmatter, headings } = Astro.props;
 
+let lastModified = frontmatter.lastModified
+    ? dayjs(frontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
+    : null;
 
 type pageFrontmatter = {
     id?: number;
@@ -75,7 +81,7 @@ type pageFrontmatter = {
                                         class="dt-updated"
                                         datetime={frontmatter.lastModified}
                                     >
-                                        {frontmatter.lastModified}
+                                        {lastModified}
                                     </time>
                                 </>
                             )
