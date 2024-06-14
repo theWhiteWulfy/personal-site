@@ -1,0 +1,135 @@
+---
+import style from "../styles/document.module.css";
+import Link from "@components/Link.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import AstroImage from "@components/AstroImage.astro";
+import Layout from "./Layout.astro";
+import { Debug } from "astro:components";
+const { frontmatter, headings } = Astro.props;
+
+
+type pageFrontmatter = {
+    id?: number;
+    title: string;
+    hideMeta?: boolean;
+    date: string;
+    last_modified_at?: string;
+    lastModified: string;
+    timeToRead: string;
+    tags?: string[];
+    author?: {
+        name: string;
+        url: string;
+    };
+};
+---
+<Layout title={frontmatter.title} description={frontmatter.title}>
+<main id="main">
+    <article class={`${style.document} h-entry`}>
+        <div class={style.title}>
+            <h1 class={`${style.heading} p-name`}>{frontmatter.title}</h1>
+            <div class={style.meta}>
+                <div style={{ display: frontmatter.hideMeta && `none` }}>
+                    <span>
+                        {
+                            frontmatter.author && (
+                                <>
+                                    {frontmatter.last_modified_at
+                                        ? `Updated`
+                                        : `Published`}{" "}
+                                    <span style={{ display: "none" }}>
+                                        by{" "}
+                                        <a
+                                            class="p-author h-card"
+                                            href={frontmatter.author.url}
+                                        >
+                                            {frontmatter.author.name}
+                                        </a>
+                                    </span>
+                                </>
+                            )
+                        }
+                        {
+                            frontmatter.date && (
+                                <span
+                                    style={{
+                                        display:
+                                            frontmatter.lastModified && `none`,
+                                    }}
+                                >
+                                    {" "}
+                                    <time
+                                        class="dt-published"
+                                        datetime={frontmatter.date}
+                                    >
+                                        {frontmatter.date}
+                                    </time>
+                                </span>
+                            )
+                        }
+                        {
+                            frontmatter.lastModified && (
+                                <>
+                                    {" "}
+                                    <time
+                                        class="dt-updated"
+                                        datetime={frontmatter.lastModified}
+                                    >
+                                        {frontmatter.lastModified}
+                                    </time>
+                                </>
+                            )
+                        }
+                    </span>
+                    {
+                        frontmatter.timeToRead && (
+                            <>
+                                {" "}
+                                <span class={style.readTime}>
+                                    {frontmatter.timeToRead}
+                                </span>
+                            </>
+                        )
+                    }
+                </div>
+                {
+                    frontmatter.tags ? (
+                        <div class={style.tags}>
+                            {frontmatter.tags.map((tag: string) => (
+                                <Link className={style.tag}
+                                    href={`/tag/${tag}/`}
+                                >
+                                    <span>#{tag}</span>
+                                </Link>
+                            ))}
+                        </div>
+                    ) : null
+                }
+            </div>
+        </div>
+        {
+            frontmatter.image && (
+                <AstroImage
+                    imagePath={ frontmatter.image }
+                    className={style.cover}
+                    styles="background-color:var(--input-background-color)"
+                    altText={frontmatter.title}
+                />
+            )
+        }
+
+        <details class={style.tocWrap}>
+            <summary class={style.tocTitle}>
+                Table of contents
+            </summary>
+            <div class={style.toc}>
+                <TableOfContents headings={headings} />
+            </div>
+        </details>
+
+        <div class={`${style.content} e-content`}>
+            <slot />
+        </div>
+    </article>
+</main>
+</Layout>
