@@ -1,9 +1,10 @@
 import rss from "@astrojs/rss";
-import { SITE } from "@consts";
+import site from '@config/site'
 import { getCollection } from "astro:content";
 
 export async function GET(context) {
-  const blog = (await getCollection("blog")).filter((post) => !post.data.draft);
+  const blog = (await getCollection("blog")).filter(
+    (post) => !post.data.draft);
 
   const projects = (await getCollection("projects")).filter(
     (project) => !project.data.draft,
@@ -14,8 +15,10 @@ export async function GET(context) {
   );
 
   return rss({
-    title: SITE.TITLE,
-    description: SITE.DESCRIPTION,
+    stylesheet: '/rss/pretty-feed-v3.xsl',
+    title: site.title,
+    description: site.description,
+    author: site.author.name,
     site: context.site,
     items: items.map((item) => ({
       title: item.data.title,
