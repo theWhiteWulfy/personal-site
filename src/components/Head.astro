@@ -57,7 +57,7 @@ const {
     inLanguage: site.siteLanguage,
     mainEntityOfPage: path,
     description: description,
-    name: site.titleAlt,
+    name: title,
     author: {
       '@type': 'Person',
       name: author.name,
@@ -121,6 +121,8 @@ const {
     }
   }
 
+  let pageSchema = article ? schemaArticle : schemaOrgWebPage;
+
 ---
 
 <!-- Global Metadata -->
@@ -170,16 +172,22 @@ const {
 
 <ViewTransitions />
 
+<script
+  type="application/ld+json"
+  id="pageSchema"
+  data-page-schema={JSON.stringify(pageSchema)}
+>
+</script>
+
 <script is:inline>
-  // JSON-LD
-  const schemaWebPage = JSON.stringify(schemaOrgWebPage);
-  const schemaArticle = JSON.stringify(schemaArticle);
-
-  const schema = [schemaWebPage, schemaArticle].filter(Boolean);
-
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.text = schema.join('\n');
-  document.head.appendChild(script);
-
+  // Client-side JavaScript to access and parse the pageSchema
+  document.addEventListener('DOMContentLoaded', () => {
+    const schemaElement = document.getElementById('pageSchema');
+    if (schemaElement) {
+      const pageSchema = JSON.parse(
+        schemaElement.getAttribute('data-page-schema')
+      );
+      schemaElement.innerHTML = JSON.stringify(pageSchema, null, 2); 
+    }
+  });
 </script>
