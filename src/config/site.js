@@ -39,7 +39,7 @@ const site = {
   linkedinUrl: 'https://www.linkedin.com/in/alokprateek/',
   githubUrl: 'https://github.com/thewhitewulfy',
   instagramUrl: 'https://www.instagram.com/thewhitewulfy/',
-  feedUrl: '/atom.xml',
+  feedUrl: '/rss.xml',
   githubApiToken: process.env.GITHUB_API_TOKEN,
   reCaptcha: {
     siteKey: '6LeYVMQZAAAAAEgY7amRTLlepClKbmkcxbrr5-yG',
