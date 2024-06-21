@@ -19,6 +19,7 @@ type pageFrontmatter = {
     title: string;
     hideMeta?: boolean;
     date: string;
+    image?: string;
     last_modified_at?: string;
     lastModified: string;
     timeToRead: string;
@@ -29,7 +30,15 @@ type pageFrontmatter = {
     };
 };
 ---
-<Layout title={frontmatter.title} description={frontmatter.title}>
+<Layout 
+    title={frontmatter.title} 
+    description={frontmatter.title}
+    image={frontmatter.image}
+    datePublished={frontmatter.date}
+    dateModified={frontmatter.lastModified}
+    metaImageSrc={frontmatter.image}
+    article={false}
+>
 <main id="main">
     <article class={`${style.document} h-entry`}>
         <div class={style.title}>

@@ -3,7 +3,7 @@ import '../styles/layout.module.css';
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import PageFind from "@components/PageFind.astro";
+//import PageFind from "@components/PageFind.astro";
 import site from "../config/site"
 import Alert from "../components/custom/alert.astro";
 import style from "../styles/grid.module.css";
@@ -12,9 +12,32 @@ import style from "../styles/grid.module.css";
 type Props = {
   title: string;
   description: string;
+  image?: string;
+  datePublished?: string,
+  dateModified?: string,
+  metaImageSrc?: string,
+  metaImageHeight?: string,
+  metaImageWidth?: string,
+  path?: string,
+  article?: boolean,
+  authorname?: string,
+  authorurl?: string,
 };
 
-const { title, description } = Astro.props;
+const { 
+  title,
+  description,
+  image,
+  datePublished,
+  metaImageSrc,
+  metaImageHeight,
+  metaImageWidth,
+  path,
+  article,
+  authorname,
+  authorurl,
+  } = Astro.props;
+  
 ---
 
 <!doctype html>
@@ -26,7 +49,24 @@ const { title, description } = Astro.props;
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <Head title={`${title} | ${site.title}`} description={description} />
+    <Head 
+      title={`${title}`} 
+      description={description}
+      datePublished = {datePublished},
+      dateModified = {new Date().toISOString()},
+      metaImage = {{
+        src: metaImageSrc,
+        height: metaImageHeight,
+        width: metaImageWidth,
+      }},
+      path = {path},
+      article = {article},
+      author = {{
+        name: authorname,
+        url: authorurl,
+      }}
+    />
+
   </head>
   <body data-theme="light">
     <!-- {Astro.props.preBodyComponents} -->
@@ -55,7 +95,7 @@ const { title, description } = Astro.props;
           linkedin={site.linkedinUrl}
           feed={site.feedUrl}
         /> 
-        <PageFind />
+        <!-- <PageFind /> -->
 
       </div>
     </div>
