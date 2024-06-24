@@ -6,6 +6,7 @@ type Props = {
   underline?: boolean;
   group?: boolean;
   className?: string;
+  rel?: string;
 };
 
 const {
@@ -14,6 +15,7 @@ const {
   underline = true,
   group = false,
   className,
+  rel,
   ...rest
 } = Astro.props;
 ---
@@ -22,6 +24,7 @@ const {
   href={to}
   target={external ? "_blank" : "_self"}
   class={className}
+  rel={rel}
   {...rest}
 >
   <slot />
