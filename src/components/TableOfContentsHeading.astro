@@ -8,7 +8,7 @@ const { heading } = Astro.props;
 ---
 
 <li>
-  <Link href={"#" + heading.slug} underline>
+  <Link to={"#" + heading.slug} underline>
     {heading.text}
   </Link>
   {

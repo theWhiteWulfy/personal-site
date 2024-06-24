@@ -112,7 +112,7 @@ type pageFrontmatter = {
                         <div class={style.tags}>
                             {frontmatter.tags.map((tag: string) => (
                                 <Link className={style.tag}
-                                    href={`/tag/${tag}/`}
+                                    to={`/tag/${tag}/`}
                                 >
                                     <span>#{tag}</span>
                                 </Link>
