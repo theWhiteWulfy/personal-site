@@ -5,6 +5,9 @@ module.exports = {
       require('postcss-url')(),
       require('postcss-mixins')(),
       require('postcss-nested')(),
+      require('postcss-custom-media')({
+        importFrom: 'src/styles/variables.modules.css'
+      }),
       require('postcss-preset-env')({
         importFrom: 'src/styles/variables.modules.css',
         stage: 1,
