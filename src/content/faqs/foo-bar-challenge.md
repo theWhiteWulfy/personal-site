@@ -9,7 +9,7 @@ order: 6
 
 First of all, hearty congratulations to you, and you should know that this is not an ordinary invitation but the exclusive one that Google sends to only some special type of developers.
 
-### I want to take this challenge
+## I want to take this challenge
 
 It’s good to see your spirit, but it is a sad thing that ou cannot take this challenge whenever you want.
 Google Foobar is an invitation based hiring challenge. Means, you can only take the challenge if you have got the invitation from Google for Foobar.

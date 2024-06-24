@@ -7,7 +7,7 @@ last_modified_at: 2018-11-07T10:07:51-05:00
 order: 2
 ---
 
-#### FRONT-END WEB DEVELOPMENT
+## FRONT-END WEB DEVELOPMENT
 
 **I specialize in applications written in both [React](https://reactjs.org/) or [Vue](https://vuejs.org/)**  
 
@@ -27,7 +27,7 @@ With these, I can build a working native application for iOS and Android (both a
 
 <!-- -->
 
-#### BACK-END WEB DEVELOPMENT
+## BACK-END WEB DEVELOPMENT
 
 **In back-end development, my current stack involves [NodeJS](<http://nodejs.org/>) and [Express Framework](<https://expressjs.com/>)**, or as alternates [Meteor](<https://meteor.com/>) or [Total.JS](<https://www.totaljs.com/>).
 
@@ -46,7 +46,7 @@ What I can do is:
 
 <!-- -->
 
-#### WHAT ABOUT DEV-OPS & UI ?
+## WHAT ABOUT DEV-OPS & UI ?
 
 **During my time I have built and released tens of websites.**
 
@@ -60,7 +60,7 @@ Thus, not only I have coded their back-end and front-end code, but often I also 
 
 <!-- -->
 
-#### DESIGN, ILLUSTRATION & BRANDING
+## DESIGN, ILLUSTRATION & BRANDING
 
 **Any successful project needs strong brand identity and beautiful but usable designs.**
 

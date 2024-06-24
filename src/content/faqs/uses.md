@@ -2,6 +2,7 @@
 title: "What tech do you use?"
 excerpt: "A list detailing my developer setup, gear, software, and preferred configurations."
 path: /uses/
+slug: /uses/
 date: 2020-08-01
 order: 1
 last_modified_at: 2020-08-01T09:56:34-05:00
