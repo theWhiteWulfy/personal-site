@@ -141,9 +141,10 @@ const faqs = defineCollection({
   schema: z.object({
     title: z.string(),
     path: z.string(),
+    order: z.number(),
     date: z.coerce.date(),
     last_modified_at: z.coerce.date(),
-    excerpt: z.string(),
+    excerpt: z.string().optional(),
     image: z.string().optional(),
     categories: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
