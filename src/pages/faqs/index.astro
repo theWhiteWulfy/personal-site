@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import style from "../../styles/archive.module.css";
+import Link from "@components/Link.astro";
+
+const data = (await getCollection("faqs"))
+    .filter((faq) => !faq.data.draft)
+    .sort((a, b) => b.data.order.valueOf() - a.data.order.valueOf());
+---
+
+<Layout
+    title={`Frequently asked questions`}
+    path="/faqs/"
+    description="Because no one likes to repeat things here's a compilation of answers to some questions that I liked answering."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>Frequently asked questions</span>
+            </h1>
+        </div>
+
+        <div class={style.content}>
+            <p>
+                Did I leave something out that you were looking for an answer
+                to? Feel free to reach out on Instagram DM or <Link
+                    to="/contact/">ask me here</Link
+                >.
+            </p>
+
+            <ul>
+                {
+                    data.map((faq) => (
+                        <li id={faq.id}>
+                            <Link to={`/${faq.collection}/${faq.slug}`}>
+                                {faq.data.title}
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </main>
+</Layout>
