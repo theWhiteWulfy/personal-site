@@ -1,0 +1,51 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import style from "../../styles/archive.module.css";
+import Link from "@components/Link.astro";
+
+const data = (await getCollection("saasguide"))
+    .filter((faq) => !faq.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+    title={`SaaS Guide`}
+    path="/saas-guide/"
+    description="Getting started with building your own software as a service platform."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>SaaS Guide</span>
+            </h1>
+        </div>
+
+        <div class={style.content}>
+            <p>
+                For the past one year I've been accumulating my knowledge in the
+                field of Software-as-a-Service and got several leads. This is my
+                attempt to attempt to put that knowledge into one single place
+                and organize facts, information, my thoughts, and opinions at
+                one single place.
+            </p>
+            <p>
+                My plan was to complete a post a day, but the challenge is
+                eating way too much time. Instead I’m going to keep things as
+                they are happen happen as they happen.
+            </p>
+
+            <ul>
+                {
+                    data.map((node) => (
+                        <li id={node.id}>
+                            <Link to={`/${node.collection}/${node.slug}`}>
+                                {node.data.title}
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </main>
+</Layout>
