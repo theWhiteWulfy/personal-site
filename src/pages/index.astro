@@ -4,7 +4,7 @@ import site from "../config/site";
 import Entry from "@components/Entry.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import style from '../styles/archive.module.css'
+import style from "../styles/archive.module.css";
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -30,11 +30,10 @@ const projects: CollectionEntry<"projects">[] = (
       </h1>
       <div class={style.intro}>
         <p>
-          I'm a multi-talented human with over 11+ years of experience in a
-          wide range of design disciplines. I have designed, built and
-          tinkered with digital products for a considerable time. I'm
-          currently self-employed and am working with a selected freelance
-          client base.
+          I'm a multi-talented human with over 11+ years of experience in a wide
+          range of design disciplines. I have designed, built and tinkered with
+          digital products for a considerable time. I'm currently self-employed
+          and am working with a selected freelance client base.
         </p>
       </div>
 
@@ -54,19 +53,19 @@ const projects: CollectionEntry<"projects">[] = (
       <div>
         <p>
           As a freelancer, I love to work with startups, consultancies, and
-          established companies. I don't put a lot of stock in job titles,
-          but I've been called a product designer, experience designer, UX
+          established companies. I don't put a lot of stock in job titles, but
+          I've been called a product designer, experience designer, UX
           Developer, Information Architect, full-stack developer, webmaster,
           advisor, creative technologist, or by any other market-defined
           function title. I believe that extensive experience has given me
           practical skills allied with real-world pragmatism.
         </p>
         <p>
-          Put simply, I'm great at making things work on the web —
-          technically, aesthetically, and always rooted in what your user
-          needs. I can help you with:
+          Put simply, I'm great at making things work on the web — technically,
+          aesthetically, and always rooted in what your user needs. I can help
+          you with:
         </p>
-        <ul style={{ marginLeft: '3ch' }}>
+        <ul style={{ marginLeft: "3ch" }}>
           <li>ideation/requirement gathering workshops</li>
           <li>brand identity and collaterals</li>
           <li>planning and development of minimum viable product (MVP)</li>
@@ -74,17 +73,17 @@ const projects: CollectionEntry<"projects">[] = (
           <li>migration of web infra between cloud providers</li>
         </ul>
         <p>
-          If you have an idea, I can surely help. Do get in touch, and we
-          can connect anytime.
+          If you have an idea, I can surely help. Do get in touch, and we can
+          connect anytime.
         </p>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <a
             href="/contact/"
             class="btn"
-            style={{ fontSize: 'larger', marginBottom: '4em' }}
+            style={{ fontSize: "larger", marginBottom: "4em" }}
           >
             Get in touch with me.
-        </a>
+          </a>
         </div>
       </div>
       <h2 class={style.subHeading}>
@@ -159,7 +158,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="articles-home-link"
               title="Articles"
               path="/articles/"
-              excerpt="<p>Long pieces of text mostly about design and web development.</p>"
+              excerpt="Long pieces of text mostly about design and web development."
             />
           </li>
           <li id="notes">
@@ -167,7 +166,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="notes-home-link"
               title="Notes"
               path="/notes/"
-              excerpt="<p>Rants, inspiration, thoughts, and other things you should find in a blog.</p>"
+              excerpt="Rants, inspiration, thoughts, and other things you should find in a blog."
             />
           </li>
           <li id="works">
@@ -175,8 +174,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="works-home-link"
               title="Works"
               path="/works/"
-              excerpt="<p>Hand-picked selection of things I've designed, illustrated,
-              and developed.</p>"
+              excerpt="Hand-picked selection of things I've designed, illustrated, and developed."
             />
           </li>
           <li id="bibliophile-diaries">
@@ -184,7 +182,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="bibliophile-diaries-home-link"
               title="Bibliophile Diaries"
               path="/bibliophilediaries/"
-              excerpt="<p>Lessons and interesting quotes from books I've read.</p>"
+              excerpt="Lessons and interesting quotes from books I've read."
             />
           </li>
           <li id="contact">
@@ -192,8 +190,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="contact-home-link"
               title="Contact"
               path="/contact/"
-              excerpt="<p>Ideal ways of sending questions, messages, and
-              love letters to me.</p>"
+              excerpt="Ideal ways of sending questions, messages, and love letters to me."
             />
           </li>
           <li id="support">
@@ -201,7 +198,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="support-home-link"
               title="Show your support"
               path="/support/"
-              excerpt="<p>Buy me a coffee or maybe why not buy me a tree?</p>"
+              excerpt="Buy me a coffee or maybe why not buy me a tree?"
             />
           </li>
           <li id="faqs">
@@ -209,7 +206,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="faqs-home-link"
               title="Frequently asked questions"
               path="/faqs/"
-              excerpt="<p>There&rsquo;s no such thing as a dumb question&hellip;</p>"
+              excerpt="There’s no such thing as a dumb question…"
             />
           </li>
           <li id="topics">
@@ -217,7 +214,7 @@ const projects: CollectionEntry<"projects">[] = (
               key="topics-home-link"
               title="All topics"
               path="/tag/"
-              excerpt="<p>Archive of all posts organized by topic.</p>"
+              excerpt="Archive of all posts organized by topic."
             />
           </li>
         </ul>
