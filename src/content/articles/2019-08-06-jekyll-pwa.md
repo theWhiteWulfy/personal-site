@@ -6,7 +6,6 @@ categories: [articles]
 tags: [web development, design, open source]
 date: 2019-08-06
 last_modified_at: 2020-01-06T09:59:14-05:00
-image: ../../images/going-static-feature.jpg
 comments: true
 featured: true
 toc: true
@@ -247,6 +246,6 @@ First you'll have to enter the url of your site and click enter. It will rate yo
 
 You will see a bright purple button on top right, a page will come with instructions to download the apps and proceed further. If you need help, you can always drop a comment below.😀
 
-##### Until next time!
+Until next time!
 
 Cheers!🍻

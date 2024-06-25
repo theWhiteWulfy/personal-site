@@ -6,7 +6,6 @@ categories: [articles]
 tags: [web development, design, open source]
 date: 2019-07-16
 last_modified_at: 2020-01-06T09:59:14-05:00
-image: ../../images/going-static-feature.jpg
 comments: true
 toc: true
 ---
@@ -30,7 +29,7 @@ Browsers come at with a default font size of `16px`. We should try to not go bel
 At the very minimum set your font sizes in em unit so that users can zoom in your website to increase font sizes.
 
 > Except for captions and images of text, text can be resized without assistive technology up to 200 percent without loss of content or functionality.
-> - w3.org
+> -w3.org
 
 ## Better Color Contrast
 
@@ -39,7 +38,7 @@ Users of the Internet have varying eye sight levels and it's important to have a
 This is why there is a recommended guideline just to prevent this issue. It requires that,
 
 > The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.
-> - w3.org
+> -w3.org
 
 ## Make text content easy to read and understandable
 
@@ -48,7 +47,7 @@ Some sentences are just highly compounded and complex that require the reader to
 Here is the required guideline:
 
 > When text requires reading ability more advanced than the lower secondary education level after removal of proper names and titles, supplemental content, or a version that does not require reading ability more advanced than the lower secondary education level, is available.
-> - w3.org
+> -w3.org
 
 In short,
 
@@ -64,7 +63,7 @@ Yes, we know that once a while we see a checkbox that is too small to be clicked
 This is one of the reasons why there is a recommended guideline to associate a `<label>` element with the `<input>` element (with all form controls in general). This makes the label also a clickable part of the form control. So you don't have to pin-point the form control.
 
 > Present instructions or labels that identify the controls in a form so that users know what input data is expected.
-> - w3.org
+> -w3.org
 
 Again, note that this is just one of the reasons why form controls should be correctly labelled. There are more benefits to it, Which I will come to in the next part
 
@@ -75,12 +74,12 @@ Unfortunately, the developer decided to put it as the placeholder of the input. 
 What's wrong in it? Nowadays many input fields in the forms are auto-filled by browsers for us. In such a situation, if the user wants to cross-check the filled values if they are appropriate, they have no way to know what's really asked in a particular input field! The same issue also applies to a user with short memory who started filling the form and then wants to verify the fields mid-way. So always label your input fields such that the label/instruction is accessible to the user at all times.
 
 > Present instructions or labels that identify the controls in a form so that users know what input data is expected.
-> - w3.org
+> -w3.org
 
 ## Adjustable Timings
 
 >Ensure that users with disabilities are given adequate time to interact with Web content whenever possible. People with disabilities such as blindness, low vision, dexterity impairments, and cognitive limitations may require more time to read content or to perform functions such as filling out on-line forms.
-> - w3.org
+> -w3.org
 
 Websites are filled with things like alerts, notification etc that show for a short duration and then go away. Here are few things you can do to make them more accessible:
 

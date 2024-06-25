@@ -6,7 +6,6 @@ categories: [articles]
 tags: [Jekyll, web development, design, open source]
 date: 2019-07-14
 last_modified_at: 2020-01-06T09:59:14-05:00
-image: ../../images/going-static-feature.jpg
 comments: true
 featured: true
 toc: true
