@@ -1,8 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import ArrowCard from "@components/ArrowCard.astro";
 import { BLOG } from "@consts";
 
 const data = (await getCollection("blog"))
@@ -26,7 +24,7 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
 ---
 
 <Layout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
-  <Container>
+
     <div class="space-y-10">
       <div class="space-y-4">
         {
@@ -37,7 +35,7 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
                 <ul class="not-prose flex flex-col gap-4">
                   {posts[year].map((post) => (
                     <li>
-                      <ArrowCard entry={post} />
+                   {post} 
                     </li>
                   ))}
                 </ul>
@@ -47,5 +45,5 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
         }
       </div>
     </div>
-  </Container>
+
 </Layout>
