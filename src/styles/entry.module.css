@@ -77,6 +77,31 @@
   }
 }
 
+.tags {
+  margin-top: 0.25rem;
+  a{
+    text-decoration: none;
+  }
+
+  span{
+    display: inline-block;
+    padding: 0.125rem 0.25rem;
+    color: var(--muted-text-color);
+    background-color: var(--code-background-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--button-background-color);
+    &:hover {
+      color: var(--code-text-color);
+    }
+  }
+
+  .tag + .tag {
+    margin-top: 0.25rem;
+    margin-left: 0.5rem;
+  }
+}
+
 .cover {
   margin-bottom: 0.5rem;
   order: -1;
