@@ -16,6 +16,7 @@ type Props = {
     authorurl?: string;
     timeToRead?: string;
     excerpt: string;
+    key?: string;
     imgFolderForCollection?: string;
     tags?: Array<string>;
 };
@@ -24,6 +25,7 @@ const {
     title,
     date,
     path,
+    key,
     imagepath,
     authorname,
     authorurl,
@@ -36,7 +38,7 @@ const {
 let datePretty = dayjs(date).utc().format("dddd, MMMM D, YYYY [at] h:mm A");
 ---
 
-<div>
+<div data-key={key}>
     <article class={`${style.entry} h-entry`}>
         <h2 class={`${style.title} p-name`}>
             <Link to={path}>{title}</Link>
