@@ -1,137 +1,228 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Container from "@components/Container.astro";
-import { SITE, HOME, SOCIALS } from "@consts";
-import ArrowCard from "@components/ArrowCard.astro";
-import Link from "@components/Link.astro";
+import site from "../config/site";
+import Entry from "@components/Entry.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import style from '../styles/archive.module.css'
 
 const blog = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+  .slice(0, 5);
 
 const projects: CollectionEntry<"projects">[] = (
   await getCollection("projects")
 )
   .filter((project) => !project.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+  .slice(0, 5);
 ---
 
-<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
-  <Container>
-    <h1 class="animate font-semibold text-black dark:text-white">
-      Introducing Astro Micro 🔬
-    </h1>
-    <div class="space-y-16">
-      <section>
-        <article class="space-y-4">
-          <span class="animate">
-            <p>
-              Astro Micro is an accessible theme for <Link
-                to="https://astro.build/">Astro</Link
-              >. It's a fork of
-              <Link to="https://github.com/markhorn-dev"> Mark Horn's </Link> popular
-              theme <Link to="https://astro.build/themes/details/astronano/"
-                >Astro Nano</Link
-              >. Like Nano, Micro comes with zero frameworks installed.
-            </p>
-            <p>
-              Micro adds features like <Link to="https://pagefind.app/"
-                >Pagefind</Link
-              > for search, <Link to="https://giscus.app">Giscus</Link> for comments,
-              and more. For a full list of changes, see this <Link
-                to="/blog/00-micro-changelog">blog post</Link
-              >.
-            </p>
-          </span>
-          <span class="animate">
-            <p>
-              Micro still comes with everything great about Nano — full type
-              safety, a sitemap, an RSS feed, and Markdown + MDX support. Styled
-              with CSS and preconfigured with system, light, and dark
-              themes.
-            </p>
-            <p>
-              Visit
-              <Link to="https://github.com/trevortylerlee/astro-micro">
-                Astro Micro on GitHub
-              </Link>
-              to fork the repository to get started.
-            </p>
-          </span>
-        </article>
-      </section>
+<Layout title={site.title} description={site.description}>
+  
+  <main id="main" class={style.main}>
+    <div class={style.title}>
+      <h1 class={style.heading}>
+        <span>
+          Meteoric Teachings is the personal site of <a href="/about/">Alok&nbsp;Prateek</a>.
+        </span>
+      </h1>
+      <div class={style.intro}>
+        <p>
+          I'm a multi-talented human with over 11+ years of experience in a
+          wide range of design disciplines. I have designed, built and
+          tinkered with digital products for a considerable time. I'm
+          currently self-employed and am working with a selected freelance
+          client base.
+        </p>
+      </div>
 
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-y-2">
-          <h2 class="font-semibold text-black dark:text-white">Latest posts</h2>
-          <Link to="/blog"> See all posts </Link>
-        </div>
-        <ul class="not-prose flex flex-col gap-4">
-          {
-            blog.map((post) => (
-              <li>
-                <ArrowCard entry={post} />
-              </li>
-            ))
-          }
+      <!-- <Img
+        fluid={data.aboutImage.childImageSharp.fluid}
+        loading="eager"
+        fadeIn={false}
+        className={style.cover}
+        backgroundColor="var(--input-background-color)"
+      /> -->
+
+    </div>
+    <div class={style.content}>
+      <h2 class={style.subHeading}>
+        <span>How can I help you?</span>
+      </h2>
+      <div>
+        <p>
+          As a freelancer, I love to work with startups, consultancies, and
+          established companies. I don't put a lot of stock in job titles,
+          but I've been called a product designer, experience designer, UX
+          Developer, Information Architect, full-stack developer, webmaster,
+          advisor, creative technologist, or by any other market-defined
+          function title. I believe that extensive experience has given me
+          practical skills allied with real-world pragmatism.
+        </p>
+        <p>
+          Put simply, I'm great at making things work on the web —
+          technically, aesthetically, and always rooted in what your user
+          needs. I can help you with:
+        </p>
+        <ul style={{ marginLeft: '3ch' }}>
+          <li>ideation/requirement gathering workshops</li>
+          <li>brand identity and collaterals</li>
+          <li>planning and development of minimum viable product (MVP)</li>
+          <li>systems &amp; information architecture</li>
+          <li>migration of web infra between cloud providers</li>
         </ul>
-      </section>
-
-      <section class="animate space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-y-2">
-          <h2 class="font-semibold text-black dark:text-white">
-            Recent projects
-          </h2>
-          <Link to="/projects"> See all projects </Link>
+        <p>
+          If you have an idea, I can surely help. Do get in touch, and we
+          can connect anytime.
+        </p>
+        <div style={{ textAlign: 'center' }}>
+          <a
+            href="/contact/"
+            class="btn"
+            style={{ fontSize: 'larger', marginBottom: '4em' }}
+          >
+            Get in touch with me.
+        </a>
         </div>
-        <ul class="not-prose flex flex-col gap-4">
-          {
-            projects.map((project) => (
-              <li>
-                <ArrowCard entry={project} />
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+      </div>
+      <h2 class={style.subHeading}>
+        <span>Recent posts</span>
+      </h2>
+      <div class={style.list}>
+        <!-- {recentPosts.map(({ node }) => {
+          const {
+            id,
+            excerpt: autoExcerpt,
+            timeToRead,
+            frontmatter: { title, date, date_pretty, path, excerpt },
+          } = node
 
-      <section class="animate space-y-4">
-        <h2 class="font-semibold text-black dark:text-white">Let's Connect</h2>
-        <article>
-          <p>
-            If you want to get in touch with me about something or just to say
-            hi, reach out on social media or send me an email.
-          </p>
-        </article>
-        <ul class="not-prose flex flex-wrap gap-2">
-          {
-            SOCIALS.map((SOCIAL) => (
-              <li class="flex gap-x-2 text-nowrap">
-                <Link
-                  to={SOCIAL.HREF}
-                  external
-                  aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
-                >
-                  {SOCIAL.NAME}
-                </Link>
-                {"/"}
-              </li>
-            ))
-          }
-          <li class="line-clamp-1">
-            <Link
-              to={`mailto:${SITE.EMAIL}`}
-              aria-label={`Email ${SITE.TITLE}`}
-            >
-              {SITE.EMAIL}
-            </Link>
+          return (
+            <Entry
+              key={id}
+              title={title}
+              date={date}
+              datePretty={date_pretty}
+              path={path}
+              timeToRead={timeToRead}
+              excerpt={excerpt || autoExcerpt}
+            />
+          )
+        })} -->
+      </div>
+      <h2 class={style.subHeading}>
+        <span>Featured articles</span>
+      </h2>
+      <div class={style.gridList}>
+
+        <!-- {featuredPosts.map(({ node }) => {
+          const {
+            id,
+            excerpt: autoExcerpt,
+            timeToRead,
+            frontmatter: {
+              title,
+              date,
+              date_pretty,
+              path,
+              author,
+              excerpt,
+              image,
+            },
+          } = node
+
+          return (
+            <Entry
+              key={id}
+              title={title}
+              date={date}
+              datePretty={date_pretty}
+              path={path}
+              author={author || siteAuthor}
+              timeToRead={timeToRead}
+              image={image}
+              excerpt={excerpt || autoExcerpt}
+            />
+          )
+        })} -->
+
+      </div>
+      <h2 class={style.subHeading}>
+        <span>Explore more on this site</span>
+      </h2>
+      <div>
+        <ul class={`${style.gridListExpanded} ${style.navList}`}>
+          <li id="articles">
+            <Entry
+              key="articles-home-link"
+              title="Articles"
+              path="/articles/"
+              excerpt="<p>Long pieces of text mostly about design and web development.</p>"
+            />
+          </li>
+          <li id="notes">
+            <Entry
+              key="notes-home-link"
+              title="Notes"
+              path="/notes/"
+              excerpt="<p>Rants, inspiration, thoughts, and other things you should find in a blog.</p>"
+            />
+          </li>
+          <li id="works">
+            <Entry
+              key="works-home-link"
+              title="Works"
+              path="/works/"
+              excerpt="<p>Hand-picked selection of things I've designed, illustrated,
+              and developed.</p>"
+            />
+          </li>
+          <li id="bibliophile-diaries">
+            <Entry
+              key="bibliophile-diaries-home-link"
+              title="Bibliophile Diaries"
+              path="/bibliophilediaries/"
+              excerpt="<p>Lessons and interesting quotes from books I've read.</p>"
+            />
+          </li>
+          <li id="contact">
+            <Entry
+              key="contact-home-link"
+              title="Contact"
+              path="/contact/"
+              excerpt="<p>Ideal ways of sending questions, messages, and
+              love letters to me.</p>"
+            />
+          </li>
+          <li id="support">
+            <Entry
+              key="support-home-link"
+              title="Show your support"
+              path="/support/"
+              excerpt="<p>Buy me a coffee or maybe why not buy me a tree?</p>"
+            />
+          </li>
+          <li id="faqs">
+            <Entry
+              key="faqs-home-link"
+              title="Frequently asked questions"
+              path="/faqs/"
+              excerpt="<p>There&rsquo;s no such thing as a dumb question&hellip;</p>"
+            />
+          </li>
+          <li id="topics">
+            <Entry
+              key="topics-home-link"
+              title="All topics"
+              path="/tag/"
+              excerpt="<p>Archive of all posts organized by topic.</p>"
+            />
           </li>
         </ul>
-      </section>
+      </div>
     </div>
-  </Container>
+  </main>
+  
 </Layout>
