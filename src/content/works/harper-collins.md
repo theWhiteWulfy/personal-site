@@ -4,7 +4,7 @@ date: 2018-11-15
 path: /work/harper-collins/
 excerpt: "Small custom websites for marketing of new books and authors."
 last_modified_at: 2021-08-13T12:25:41-05:00
-image: ../../images/harper-collins-feature.png
+image: /src/images/cover/harper-collins-feature.png
 categories: [work]
 tags: [react, web development, design]
 work: "Design & Development"
