@@ -9,8 +9,8 @@ export function formatDate(date: Date) {
 }
 
 export function readingTime(html: string) {
-  const textOnly = html.replace(/<[^>]+>/g, "");
-  const wordCount = textOnly.split(/\s+/).length;
-  const readingTimeMinutes = (wordCount / 200 + 1).toFixed();
+  const textOnly = html.replace(/<[^>]+>/g, "");   // remove html tags
+  const wordCount = textOnly.split(/\s+/).length; // split by whitespace  
+  const readingTimeMinutes = (wordCount / 180 + 1).toFixed(); // 180 words per minute
   return `${readingTimeMinutes} min read`;
 }
