@@ -11,7 +11,7 @@ support: true
 last_modified_at: 2020-09-10T16:21:31-05:00
 ---
 
-A note on how I like my code reviews. 
+A note on how I like my code reviews.
 
 I follow my checklist sequentially as it helps to reduce effort in subsequent steps.
 

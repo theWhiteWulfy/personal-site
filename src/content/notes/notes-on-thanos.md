@@ -11,7 +11,7 @@ support: true
 last_modified_at: 2020-10-10T16:21:31-05:00
 ---
 
-Thanos of Titan. The greatest villain the MCU has ever seen. Possibly even any other superhero film. 
+Thanos of Titan. The greatest villain the MCU has ever seen. Possibly even any other superhero film.
 
 Thanos had one very clear goal. He wanted to reduce the population to half in a flash. No pain. No blood. Just wiped from existence. He never wanted power, riches, or fame. He wanted to preserve life. But ultimately, he wanted to watch the sun rise on a grateful universe.
 
