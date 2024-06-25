@@ -1,0 +1,160 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import PostNavigation from "@components/PostNavigation.astro";
+import style from "@styles/document.module.css";
+import { slugify } from '@lib/slugify.mjs';
+import Link from "@components/Link.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import AstroImage from "@components/AstroImage.astro";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("bibliophilediaries"))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"bibliophilediaries">;
+
+const posts = await getCollection("bibliophilediaries");
+
+function getNextPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.slug === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex + 1];
+    }
+  }
+}
+
+function getPrevPost() {
+  let postIndex;
+  for (const post of posts) {
+    if (post.slug === Astro.params.slug) {
+      postIndex = posts.indexOf(post);
+      return posts[postIndex - 1];
+    }
+  }
+}
+
+const nextPost = getNextPost();
+const prevPost = getPrevPost();
+
+const post = Astro.props;
+const { Content, headings, remarkPluginFrontmatter } = await post.render();
+
+let lastModified = remarkPluginFrontmatter.lastModified
+    ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
+    : null;
+---
+
+
+<Layout 
+    title={post.data.title} 
+    description={post.data.title}
+    image={post.data.image}
+    datePublished={post.data.date.toDateString()}
+    dateModified={lastModified}
+    metaImageSrc={post.data.image}
+    article={false}
+>
+<main id="main">
+    <article class={`${style.document} h-entry`}>
+        <div class={style.title}>
+            <h1 class={`${style.heading} p-name`}>{post.data.title}</h1>
+            <div class={style.meta}>
+                <div style={{ display: post.data.hide_meta ? `none` : undefined }}>
+                    <span>
+                        {
+                            post.data.date && (
+                                <span
+                                    style={{
+                                        display:
+                                            post.data.last_modified_at && `none`,
+                                    }}
+                                >
+                                    {" "}
+                                    <time
+                                        class="dt-published"
+                                        datetime={post.data.date.toDateString()}
+                                    >
+                                        {post.data.date}
+                                    </time>
+                                </span>
+                            )
+                        }
+                        {
+                            lastModified && (
+                                <>
+                                    {" "}
+                                    <time
+                                        class="dt-updated"
+                                        datetime={lastModified}
+                                    >
+                                        {lastModified}
+                                    </time>
+                                </>
+                            )
+                        }
+                    </span>
+                    {
+                        remarkPluginFrontmatter.timeToRead && (
+                            <>
+                                {" "}
+                                <span class={style.readTime}>
+                                    {remarkPluginFrontmatter.timeToRead}
+                                </span>
+                            </>
+                        )
+                    }
+                </div>
+                {
+                    post.data.tags ? (
+                        <div class={style.tags}>
+                            {post.data.tags.map((tag: string) => (
+                                <Link className={style.tag}
+                                    to={`/tag/${slugify(tag)}/`}
+                                >
+                                    <span>#{tag}</span>
+                                </Link>
+                            ))}
+                        </div>
+                    ) : null
+                }
+            </div>
+        </div>
+        {
+            post.data.image && (
+                <AstroImage
+                    imagePath={ post.data.image }
+                    className={style.cover}
+                    styles="background-color:var(--input-background-color)"
+                    altText={post.data.title}
+                />
+            )
+        }
+
+        <details class={style.tocWrap}>
+            <summary class={style.tocTitle}>
+                Table of contents
+            </summary>
+            <div class={style.toc}>
+                <TableOfContents headings={headings} />
+            </div>
+        </details>
+
+        <div class={`${style.content} e-content`}>
+            <Content />
+        </div>
+    </article>
+</main>
+<PostNavigation prevPost={prevPost} nextPost={nextPost} />
+
+</Layout>

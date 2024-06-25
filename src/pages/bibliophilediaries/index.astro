@@ -1,0 +1,50 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/archive.module.css";
+import Link from "@components/Link.astro";
+import Entry from "@components/Entry.astro";
+import { readingTime } from "@lib/utils";
+
+
+const data = (await getCollection("bibliophilediaries"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+---
+
+<Layout
+    title={`Bibliophile Diaries`}
+    path="/bibliophilediaries/"
+    description="Lessons and interesting quotes from books I've read."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>Bibliophile Diaries</span>
+            </h1>
+        </div>
+
+        <div class={style.content}>
+            <p>
+                Lessons and interesting quotes from books I've read. For more tidbits — see the <Link to='/notes/'>notes section</Link>.
+            </p>
+
+            <ul>
+                {
+                    data.map((node) => (
+                            <Entry 
+                                title = {node.data.title}
+                                date = {node.data.date.toString()}
+                                path = { '/' + node.collection + '/' + node.slug}
+                                timeToRead = {readingTime(node.body)}
+                                excerpt = {node.data.excerpt}
+                                tags = {node.data.tags}
+                            />
+                    ))
+                }
+            </ul>
+          
+        </div>
+    </main>
+</Layout>
