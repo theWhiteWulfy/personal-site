@@ -1,0 +1,54 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/archive.module.css";
+import Link from "@components/Link.astro";
+import Entry from "@components/Entry.astro";
+
+
+const data = (await getCollection("works"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+---
+
+<Layout
+    title={`Works`}
+    path="/work/"
+    description="A selection of things I've designed, illustrated, and developed."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>Works</span>
+            </h1>
+        </div>
+
+        <div class={style.content}>
+            <div class={style.intro}>
+              <p>
+                A selection of things I&rsquo;ve designed, illustrated, and
+                developed.
+              </p>
+            </div>
+            <h2 class={style.subHeading}>
+              <span>Featured work</span>
+            </h2>
+
+            <div class={style.gridList}>
+                {
+                    data.map((node) => (
+                            <Entry 
+                                imgFolderForCollection = "cover"
+                                imagepath = {node.data.image}
+                                title = {node.data.title}
+                                path = { '/' + node.collection + '/' + node.slug}
+                                excerpt = {node.data.excerpt}
+                            />
+                    ))
+                }
+            </div>
+          
+        </div>
+    </main>
+</Layout>
