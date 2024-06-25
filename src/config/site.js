@@ -62,7 +62,7 @@ const site = {
     },
     {
       title: 'Works',
-      path: '/work/',
+      path: '/works/',
     },
     {
       title: 'About',
