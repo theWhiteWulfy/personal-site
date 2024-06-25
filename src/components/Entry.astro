@@ -1,0 +1,106 @@
+---
+import style from "@styles/entry.module.css";
+import Link from "@components/Link.astro";
+import AstroImage from "@components/AstroImage.astro";
+import { slugify } from '@lib/slugify.mjs';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+
+type Props = {
+    title: string;
+    date?: string;
+    path: string;
+    imagepath?: string;
+    authorname?: string;
+    authorurl?: string;
+    timeToRead?: string;
+    excerpt: string;
+    tags?: Array<string>;
+};
+
+const {
+    title,
+    date,
+    path,
+    imagepath,
+    authorname,
+    authorurl,
+    timeToRead,
+    excerpt,
+    tags,
+} = Astro.props;
+
+let datePretty = dayjs(date).utc().format("dddd, MMMM D, YYYY [at] h:mm A");
+---
+
+<div>
+    <article class={`${style.entry} h-entry`}>
+        <h2 class={`${style.title} p-name`}>
+            <Link to={path}>{title}</Link>
+        </h2>
+        <div class={style.meta}>
+            {
+                ( authorname || authorurl ) && (
+                    <span style={{ display: "none" }}>
+                        Published by{" "}
+                        <a class="p-author h-card" href={authorurl}>
+                            {authorname}
+                        </a>
+                    </span>
+                )
+            }
+            {
+                date && (
+                    <>
+                        {" "}
+                        <time
+                            class={`${style.date} dt-published`}
+                            datetime={date}
+                        >
+                            {datePretty}
+                        </time>
+                    </>
+                )
+            }
+            {
+                timeToRead && (
+                    <>
+                        {" "}
+                        <span class={style.readTime}>{timeToRead}</span>
+                    </>
+                )
+            }
+        </div>
+
+        {
+            imagepath && (
+                <>
+                    <AstroImage
+                        imagePath={imagepath}
+                        className={style.cover}
+                        styles="background-color:var(--input-background-color)"
+                        altText={title}
+                    />
+                </>
+            )
+        }
+
+        <div class={`${style.excerpt} p-summary`}>
+            {excerpt}
+        </div>
+        <div class={style.meta}>
+            {
+                tags ? (
+                    <div class={style.tags}>
+                        {tags.map((tag) => (
+                            <Link to={`/tag/${slugify(tag)}/`}>
+                                <span>#{tag}</span>
+                            </Link>
+                        ))}
+                    </div>
+                ) : null
+            }
+        </div>
+    </article>
+</div>
