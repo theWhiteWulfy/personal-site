@@ -3,7 +3,6 @@ title: "EAST a simple and pragmatic approach to optimization"
 date: 2020-09-09
 path: /notes/east-optimization/
 excerpt: "EAST is a human-centric model for continuous process improvement and minimalism."
-layout: post
 categories: [notes]
 tags: [process, optimization, TIL, Planning]
 comments: true

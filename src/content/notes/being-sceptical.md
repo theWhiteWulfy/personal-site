@@ -3,7 +3,6 @@ title: "Reasons to be Sceptical"
 excerpt: "A note on how we can counter unquestioning belief pervading in global culture"
 date: 2020-09-24
 path: /notes/reasons-to-be-sceptical/
-layout: post
 categories: [notes]
 tags: [philosophy, life, TIL]
 comments: true

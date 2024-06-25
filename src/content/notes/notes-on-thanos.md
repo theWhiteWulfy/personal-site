@@ -3,7 +3,6 @@ title: "Notes on Thanos"
 excerpt: "A note on why I liked Thanos"
 date: 2020-10-09
 path: /notes/note-on-thanos/
-layout: post
 categories: [notes]
 tags: [philosophy, life, TIL]
 comments: true

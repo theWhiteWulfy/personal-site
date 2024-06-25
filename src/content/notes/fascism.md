@@ -3,7 +3,6 @@ title: "Fascism"
 excerpt: "A paper on Fascism"
 date: 2016-10-15
 path: /notes/fascism/
-layout: post
 categories: [notes]
 tags: [academic, society, pop-culture]
 comments: true
@@ -13,6 +12,8 @@ last_modified_at: 2017-01-30T16:21:31-05:00
 ---
 
 The Oxford English Dictionary defines fascism as: _“An authoritian and nationalistic right wing form of the government.”_ It also further states that: _” Fascism tends to include a belief in the supremacy of one national or ethnic group, contempt for democracy, an insistence on obedience to a powerful leader and strong demagogic approach.”_ And how many times one goes by the book? I as individual partially disagree with above definition, and believe that though they consider one national or ethnic group as supreme they might include other group or people from other group if they need their support (For e.g.: In the movie The Pianist there is group of Jews’ who help S.S. in sending other Jews to concentration camps. This is seen in scene where Spilzmann’s family is loaded to the train but Spilzmann’s Jew friend gets him away from the train and asks him to run away). This is also mentioned by Mussolini in his book on Fascism.
+
+## On fascism
 
 Some scholars view fascism in narrow terms, and insist that the ideology was limited to Italy under Mussolini, as he was founder of National Fascist Party. This point troubled me a lot while writing on this topic for the first time. But some writers define fascism more broadly to include many movements, from Italian Fascism to contemporary neo-Nazi movements in the United States which according to me should fit under this term. I also read a very apt definition of Fascism by **Kurt Vonnegut** in his satirical novel _‘Breakfast of Champions’_. It states that: _**” Fascism was a fairly popular political philosophy which made sacred whatever nation and race the philosopher happened to belong to.”**_
 Fascism gained popularity because many intellectuals, artists, and political thinkers in the late 19th century began to reject the philosophical emphasis on rationality and progress that had emerged from the 18th century intellectual movement in Europe known as the Enlightenment. Even today looking towards the ideas of rationality presented during Enlightenment period I doubt their correctness. Popular enthusiasm for such movements was especially strong in Germany and Italy, whose parliamentary traditions were weak as they became nations in late 18th century. Despite having fought on opposite sides, both countries emerged from the war to face political instability and a widespread feeling that the nation had been humiliated in the war and by the settlement terms of the Treaty of Versailles which heavily favored the winning sides.
@@ -29,7 +30,7 @@ On a closing note I would like to assert my thoughts on fascism and the term fas
 
 And finally I hope that I have conveyed to the reader the essence of the topic and its relevance todays scenario and a wish that I write on a better and interesting topic next time around.
 
-#### Citations
+### Citations
 
 - Griffin, Roger D. “Fascism.” Microsoft® Student. Redmond, WA: ©Microsoft Corporation, 2012.
 - “National Socialism.” Microsoft® Student. Redmond, WA: ©Microsoft Corporation, 2012.

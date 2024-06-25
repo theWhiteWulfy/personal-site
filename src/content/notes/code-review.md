@@ -3,7 +3,6 @@ title: "Code Reviews"
 excerpt: "A gist on my process of code reviews"
 date: 2020-09-10
 path: /notes/code-review/
-layout: post
 categories: [notes]
 tags: [development, code review, process]
 comments: true

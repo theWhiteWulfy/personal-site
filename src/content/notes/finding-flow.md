@@ -3,7 +3,6 @@ title: "Finding Flow"
 date: 2020-09-08
 path: /notes/finding-flow/
 excerpt: "A brief on how to find the ultimate balance of challenge."
-layout: post
 categories: [notes]
 tags: [philosophy, life, TIL, Planning]
 comments: true

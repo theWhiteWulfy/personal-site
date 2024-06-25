@@ -3,7 +3,6 @@ title: "Liminality and pandemic"
 excerpt: "A note on why we are changing during the pandemic"
 date: 2020-09-13
 path: /notes/liminality/
-layout: post
 categories: [notes]
 tags: [philosophy, life, TIL]
 comments: true

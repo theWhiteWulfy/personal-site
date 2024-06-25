@@ -3,7 +3,6 @@ title: "Day #0"
 date: 2021-11-01
 path: /notes/day-0/
 excerpt: "On writing and accountability."
-layout: post
 categories: [notes]
 tags: [philosophy, life, TIL, journal]
 comments: true

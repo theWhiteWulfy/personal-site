@@ -3,7 +3,6 @@ title: "5 life lessons from video games"
 date: 2020-09-11
 path: /notes/lessons-from-video-games/
 excerpt: "5 life lessons that I learnt from video games recorded here for all posterity."
-layout: post
 categories: [notes]
 tags: [video games, life, TIL, Planning]
 comments: true
