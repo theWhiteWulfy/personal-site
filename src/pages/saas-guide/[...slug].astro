@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import PostNavigation from "@components/PostNavigation.astro";
 import style from "@styles/document.module.css";
+import { slugify } from '@lib/slugify.mjs';
 import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
@@ -124,7 +125,7 @@ let lastModified = remarkPluginFrontmatter.lastModified
                         <div class={style.tags}>
                             {post.data.tags.map((tag: string) => (
                                 <Link className={style.tag}
-                                    to={`/tag/${tag}/`}
+                                    to={`/tag/${slugify(tag)}/`}
                                 >
                                     <span>#{tag}</span>
                                 </Link>

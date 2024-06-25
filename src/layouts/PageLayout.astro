@@ -4,6 +4,7 @@ import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
 import Layout from "./Layout.astro";
+import { slugify } from '@lib/slugify.mjs';
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
@@ -112,7 +113,7 @@ type pageFrontmatter = {
                         <div class={style.tags}>
                             {frontmatter.tags.map((tag: string) => (
                                 <Link className={style.tag}
-                                    to={`/tag/${tag}/`}
+                                    to={`/tag/${slugify(tag)}/`}
                                 >
                                     <span>#{tag}</span>
                                 </Link>
