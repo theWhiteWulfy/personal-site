@@ -7,13 +7,19 @@ interface Props {
    altText: string;
    className?: string;
    styles?: string;
+   imgFolder?: string;
 }
 
-const { imagePath, altText, className, styles } = Astro.props;
+const { imagePath, altText, className, styles, imgFolder } = Astro.props;
 //console.log(imagePath, altText, className, styles);
 const images = import.meta.glob<{ default: ImageMetadata }>('@images/*.{jpeg,jpg,png,gif}');
-//console.log(images);
-if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "folders/*.{jpeg,jpg,png,gif}"`);
+const coverimages = import.meta.glob<{ default: ImageMetadata }>('@images/cover/*.{jpeg,jpg,png,gif}');
+//console.log(!images[imagePath]);
+//if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "@images/*.{jpeg,jpg,png,gif}"`);
 ---
-
-<Image src={images[imagePath]()} alt={altText} class={className} style={styles}/>
+{ 
+   (imgFolder == 'cover') ? 
+      <Image src={coverimages[imagePath]()} alt={altText} class={className} style={styles}/>
+   :
+      <Image src={images[imagePath]()} alt={altText} class={className} style={styles}/>
+}
