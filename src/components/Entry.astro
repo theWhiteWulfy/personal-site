@@ -16,6 +16,7 @@ type Props = {
     authorurl?: string;
     timeToRead?: string;
     excerpt: string;
+    imgFolderForCollection?: string;
     tags?: Array<string>;
 };
 
@@ -29,6 +30,7 @@ const {
     timeToRead,
     excerpt,
     tags,
+    imgFolderForCollection
 } = Astro.props;
 
 let datePretty = dayjs(date).utc().format("dddd, MMMM D, YYYY [at] h:mm A");
@@ -77,6 +79,7 @@ let datePretty = dayjs(date).utc().format("dddd, MMMM D, YYYY [at] h:mm A");
             imagepath && (
                 <>
                     <AstroImage
+                        imgFolder = {imgFolderForCollection}
                         imagePath={imagepath}
                         className={style.cover}
                         styles="background-color:var(--input-background-color)"
