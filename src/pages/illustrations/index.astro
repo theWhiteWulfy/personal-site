@@ -1,0 +1,50 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import style from "../../styles/archive.module.css";
+import Link from "@components/Link.astro";
+
+const data = (await getCollection("illustrations"))
+    .filter((node) => !node.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+    title={`Vector Illustrations`}
+    path="/illustrations/"
+    description="Illustrations made digitally."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>Vector Illustrations</span>
+            </h1>
+        </div>
+
+        <div class={style.content}>
+            <p>
+                Vector Illustrations and graphics have become a staple essentials of
+                the web as they engage, fascinate and connect audiences to your brand.
+                I have experience of designing all sorts of graphics for the web as
+                well as the print media. This collection gallery can guide you in
+                exploring my works.
+              </p>
+              <p>
+                If you scroll down far enough you can see how my technique has evolved
+                from 2008 to present date.
+              </p>
+
+            <ul>
+                {
+                    data.map((node) => (
+                        <li id={node.id}>
+                            <Link to={`/${node.collection}/${node.slug}`}>
+                                {node.data.title}
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </main>
+</Layout>
