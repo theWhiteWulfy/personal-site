@@ -93,6 +93,7 @@ const works = defineCollection({
     comments_locked: z.boolean().optional(),
     featured: z.boolean().optional(),
     draft: z.boolean().optional(),
+    output: z.boolean().optional(),
   }),
 });
 
