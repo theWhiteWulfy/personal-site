@@ -35,7 +35,7 @@ const {
     imgFolderForCollection
 } = Astro.props;
 
-let datePretty = dayjs(date).utc().format("dddd, MMMM D, YYYY [at] h:mm A");
+let datePretty = dayjs(date).utc().format("MMMM D, YYYY");
 ---
 
 <div data-key={key}>
