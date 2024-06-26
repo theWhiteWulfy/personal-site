@@ -1,39 +1,5 @@
 import { defineCollection, z } from "astro:content";
 
-// TEST COLLECTION
-
-const blog = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    path: z.string(),
-    date: z.coerce.date(),
-    last_modified_at: z.coerce.date(),
-    excerpt: z.string(),
-    image: z.string().optional(),
-    categories: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    toc: z.boolean().optional(),
-    hide_meta: z.boolean().optional(),
-    comments: z.boolean().optional(),
-    comments_locked: z.boolean().optional(),
-    featured: z.boolean().optional(),
-    draft: z.boolean().optional(),
-  }),
-});
-
-const projects = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    date: z.coerce.date(),
-    draft: z.boolean().optional(),
-    demoURL: z.string().optional(),
-    repoURL: z.string().optional(),
-  }),
-});
-
 // REAL COLLECTIONS
 
 const articles = defineCollection({
@@ -179,4 +145,4 @@ const faqs = defineCollection({
 });
 
 
-export const collections = { blog, projects , articles, notes, works, illustrations, bibliophilediaries, faqs, saasguide };
+export const collections = { articles, notes, works, illustrations, bibliophilediaries, faqs, saasguide };
