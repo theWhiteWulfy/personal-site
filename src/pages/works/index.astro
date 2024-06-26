@@ -4,11 +4,16 @@ import Layout from "@layouts/Layout.astro";
 import style from "@styles/archive.module.css";
 import Link from "@components/Link.astro";
 import Entry from "@components/Entry.astro";
-
+import { Debug } from 'astro:components';
 
 const data = (await getCollection("works"))
-    .filter((article) => !article.data.draft)
+    .filter((article) => !article.data.draft && article.data.output !== false)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const data1 = (await getCollection("works"))
+    .filter((article) => !article.data.draft && article.data.output == false)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
 
 ---
 
@@ -26,29 +31,48 @@ const data = (await getCollection("works"))
 
         <div class={style.content}>
             <div class={style.intro}>
-              <p>
-                A selection of things I&rsquo;ve designed, illustrated, and
-                developed.
-              </p>
+                <p>
+                    A selection of things I&rsquo;ve designed, illustrated, and
+                    developed.
+                </p>
             </div>
+
             <h2 class={style.subHeading}>
-              <span>Featured work</span>
+                <span>Featured work</span>
             </h2>
 
             <div class={style.gridList}>
                 {
                     data.map((node) => (
-                            <Entry 
-                                imgFolderForCollection = "cover"
-                                imagepath = {node.data.image}
-                                title = {node.data.title}
-                                path = { '/' + node.collection + '/' + node.slug}
-                                excerpt = {node.data.excerpt}
-                            />
+                        <Entry
+                            imgFolderForCollection="cover"
+                            imagepath={node.data.image}
+                            title={node.data.title}
+                            path={"/" + node.collection + "/" + node.slug}
+                            excerpt={node.data.excerpt}
+                        />
                     ))
                 }
             </div>
-          
+
+            <h2 class={style.subHeading}>
+                <span>Featured Portfolios</span>
+            </h2>
+            
+
+            <div class={style.gridList}>
+                {
+                    data1.map((node) => (
+                        <Entry
+                            imgFolderForCollection="cover"
+                            imagepath={node.data.image}
+                            title={node.data.title}
+                            path={node.data.path}
+                            excerpt={node.data.excerpt}
+                        />
+                    ))
+                }
+            </div>
         </div>
     </main>
 </Layout>
