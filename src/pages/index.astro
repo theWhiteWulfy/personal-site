@@ -3,29 +3,46 @@ import Layout from "@layouts/Layout.astro";
 import site from "../config/site";
 import Entry from "@components/Entry.astro";
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 import style from "../styles/archive.module.css";
+import { Image } from "astro:assets";
+import coverimage from "@images/avatar4.png";
+import { readingTime } from "@lib/utils";
 
-const blog = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+const data1 = (await getCollection("notes"))
+  .filter((note) => note.data.featured && !note.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const data2 = (await getCollection("articles"))
+  .filter((article) => article.data.featured && !article.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const data3 = (await getCollection("bibliophilediaries"))
+  .filter((entry) => entry.data.featured && !entry.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const projects: CollectionEntry<"projects">[] = (
-  await getCollection("projects")
-)
-  .filter((project) => !project.data.draft)
+const data = [...data1, ...data2, ...data3];
+
+const fdata1 = (await getCollection("notes")).filter(
+  (note) => !note.data.draft,
+);
+const fdata2 = (await getCollection("articles")).filter(
+  (article) => !article.data.draft,
+);
+const fdata3 = (await getCollection("bibliophilediaries")).filter(
+  (entry) => !entry.data.draft,
+);
+
+const fdata = [...fdata1, ...fdata2, ...fdata3]
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+  .slice(0, 6);
 ---
 
 <Layout title={site.title} description={site.description}>
-  
   <main id="main" class={style.main}>
     <div class={style.title}>
       <h1 class={style.heading}>
         <span>
-          Meteoric Teachings is the personal site of <a href="/about/">Alok&nbsp;Prateek</a>.
+          Meteoric Teachings is the personal site of <a href="/about/"
+            >Alok&nbsp;Prateek</a
+          >.
         </span>
       </h1>
       <div class={style.intro}>
@@ -36,15 +53,13 @@ const projects: CollectionEntry<"projects">[] = (
           and am working with a selected freelance client base.
         </p>
       </div>
-
-      <!-- <Img
-        fluid={data.aboutImage.childImageSharp.fluid}
+      <Image
+        src={coverimage}
+        alt="Cover image of Alok Prateek"
         loading="eager"
-        fadeIn={false}
-        className={style.cover}
-        backgroundColor="var(--input-background-color)"
-      /> -->
-
+        class={style.cover}
+        style="background-color: var(--input-background-color)"
+      />
     </div>
     <div class={style.content}>
       <h2 class={style.subHeading}>
@@ -89,65 +104,39 @@ const projects: CollectionEntry<"projects">[] = (
       <h2 class={style.subHeading}>
         <span>Recent posts</span>
       </h2>
-      <div class={style.list}>
-        <!-- {recentPosts.map(({ node }) => {
-          const {
-            id,
-            excerpt: autoExcerpt,
-            timeToRead,
-            frontmatter: { title, date, date_pretty, path, excerpt },
-          } = node
-
-          return (
+      <div class={style.gridList}>
+        {
+          fdata.map((node) => (
             <Entry
-              key={id}
-              title={title}
-              date={date}
-              datePretty={date_pretty}
-              path={path}
-              timeToRead={timeToRead}
-              excerpt={excerpt || autoExcerpt}
+              title={node.data.title}
+              date={node.data.date.toString()}
+              path={"/" + node.collection + "/" + node.slug}
+              timeToRead={readingTime(node.body)}
+              excerpt={node.data.excerpt}
+              tags={node.data.tags}
             />
-          )
-        })} -->
+          ))
+        }
       </div>
+
       <h2 class={style.subHeading}>
         <span>Featured articles</span>
       </h2>
       <div class={style.gridList}>
-
-        <!-- {featuredPosts.map(({ node }) => {
-          const {
-            id,
-            excerpt: autoExcerpt,
-            timeToRead,
-            frontmatter: {
-              title,
-              date,
-              date_pretty,
-              path,
-              author,
-              excerpt,
-              image,
-            },
-          } = node
-
-          return (
+        {
+          data.map((node) => (
             <Entry
-              key={id}
-              title={title}
-              date={date}
-              datePretty={date_pretty}
-              path={path}
-              author={author || siteAuthor}
-              timeToRead={timeToRead}
-              image={image}
-              excerpt={excerpt || autoExcerpt}
+              title={node.data.title}
+              date={node.data.date.toString()}
+              path={"/" + node.collection + "/" + node.slug}
+              timeToRead={readingTime(node.body)}
+              excerpt={node.data.excerpt}
+              tags={node.data.tags}
             />
-          )
-        })} -->
-
+          ))
+        }
       </div>
+
       <h2 class={style.subHeading}>
         <span>Explore more on this site</span>
       </h2>
@@ -221,5 +210,4 @@ const projects: CollectionEntry<"projects">[] = (
       </div>
     </div>
   </main>
-  
 </Layout>
