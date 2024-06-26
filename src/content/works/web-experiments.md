@@ -1,7 +1,7 @@
 ---
 title: "Web Experiments"
 date: 2017-10-23
-path: /work/web-experiments/
+path: /works/web-experiments/
 excerpt: "Some of my eye catching experiments with CSS and JS."
 last_modified_at: 2017-10-23T12:25:41-05:00
 image: /src/images/cover/web-experiments-feature.png
@@ -13,6 +13,7 @@ breadcrumbs:
     url: /work/
 comments: true
 hide_meta: false
+output: false
 toc: true
 ---
 
