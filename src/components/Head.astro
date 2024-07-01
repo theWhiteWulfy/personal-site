@@ -28,7 +28,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { 
   title = site.title,
   description = site.description,
-  image,
   datePublished,
   dateModified = new Date().toISOString(),
   metaImage = {
@@ -181,6 +180,7 @@ const {
   type="application/ld+json"
   id="pageSchema"
   data-page-schema={JSON.stringify(pageSchema)}
+  is:inline
 >
 </script>
 
