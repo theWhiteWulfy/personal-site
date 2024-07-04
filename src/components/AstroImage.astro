@@ -15,7 +15,7 @@ const { imagePath, altText, className, styles, imgFolder } = Astro.props;
 
 const images = import.meta.glob<{ default: ImageMetadata }>('../images/*.{jpeg,jpg,png,gif}', { eager: true });
 const coverimages = import.meta.glob<{ default: ImageMetadata }>('../images/cover/*.{jpeg,jpg,png,gif}', { eager: true });
-console.log(images, coverimages);
+//console.log(images, coverimages);
 //console.log(!images[imagePath]);
 //if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "@images/*.{jpeg,jpg,png,gif}"`);
 const getImageSrc = (path: string, folder: string | undefined) => {
