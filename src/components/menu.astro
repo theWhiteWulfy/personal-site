@@ -16,10 +16,10 @@ interface MenuItem {
   class={style.primaryNavigation}
 >
   <ul class={style.primaryMenu}>
-    <!-- <Debug {mainMenu} /> -->
+    
     {
       mainMenu.map((menuItem: MenuItem, index: number) => (
-        <li id={index.toString()} class={style.primaryMenuItem}>
+        <li id={index.toString()} class={style.primaryMenuItem} data-path={menuItem.path}>
           <a href={menuItem.path} itemprop="url">
             {menuItem.title}
           </a>
@@ -43,8 +43,11 @@ interface MenuItem {
     </span>
   </button>
 </div>
+
+
 <script>
   // This script will run on the client-side
+  // It will toggle the theme based on the user's preference
   window.addEventListener("load", () => {
     
     const themeToggleButton = document.getElementById("themeToggleButton");
