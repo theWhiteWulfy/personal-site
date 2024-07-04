@@ -4,7 +4,7 @@ date: 2020-08-13
 path: /work/textedu/
 excerpt: "A online SaaS for multi-channel messaging and analytics."
 last_modified_at: 2020-08-13T12:25:41-05:00
-image: /src/images/cover/textedu-feature.png
+image: /images/cover/textedu-feature.png
 categories: [work]
 tags: [web-app, web development, optimization, code review, Project Management]
 work: "Design & Development"

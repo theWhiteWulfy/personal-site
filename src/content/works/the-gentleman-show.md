@@ -4,7 +4,7 @@ date: 2022-03-16
 path: /work/the-gentleman-show/
 excerpt: "Logo and production management."
 last_modified_at: 2022-03-16T12:25:41-05:00
-image: /src/images/cover/the-gentleman-show-feature.png
+image: /images/cover/the-gentleman-show-feature.png
 categories: [work]
 tags: [logo, podcast, design, production, graphics, illustrator]
 work: "Design & Development"

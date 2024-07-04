@@ -4,7 +4,7 @@ date: 2021-06-29
 path: /work/tubelight-comm/
 excerpt: "Multiple verticals. API Design, Website, SaaS."
 last_modified_at: 2021-06-29T10:25:41-05:00
-image: /src/images/cover/tubelight-comm-feature.png
+image: /images/cover/tubelight-comm-feature.png
 categories: [work]
 tags: [API, web development, Open API, Documentation, API development]
 work: "Design & Development"

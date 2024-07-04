@@ -4,7 +4,7 @@ date: 2017-10-23
 path: /works/web-experiments/
 excerpt: "Some of my eye catching experiments with CSS and JS."
 last_modified_at: 2017-10-23T12:25:41-05:00
-image: /src/images/cover/web-experiments-feature.png
+image: /images/cover/web-experiments-feature.png
 categories: [work]
 tags: [css, web development, design, javascript, animations, web experiments ]
 work: "Design & Development"

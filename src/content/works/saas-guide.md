@@ -2,7 +2,7 @@
 title: "SaaS"
 path: /saasguide/
 excerpt: "Getting started with building your own software as a service platform."
-image: /src/images/cover/saas-guide-feature.png
+image: /images/cover/saas-guide-feature.png
 categories: [work]
 tags: [Development, Tutorials, Software, Project Management, Planning]
 date: 2020-04-08

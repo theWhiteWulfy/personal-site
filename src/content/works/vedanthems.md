@@ -4,7 +4,7 @@ date: 2021-03-10
 path: /work/vedanthems/
 excerpt: "Logo, packaging and website design."
 last_modified_at: 2021-03-10T12:25:41-05:00
-image: /src/images/cover/vedanthems-feature.png
+image: /images/cover/vedanthems-feature.png
 categories: [work]
 tags: [logo, web development, design, packaging, startup, foodtech]
 work: "Design & Development"
