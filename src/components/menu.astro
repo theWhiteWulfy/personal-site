@@ -69,4 +69,33 @@ interface MenuItem {
       themeToggleButton.addEventListener("click", onChangeTheme);
     }
   });
+
+  // Add active class to the current menu item
+  function updateMenuStyles() {
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('li[data-path]').forEach(li => {
+    if (li instanceof HTMLElement) {
+      // Reset style for all elements first to avoid multiple selections
+      li.style.fontWeight = 'normal'; 
+      // Apply style if the path matches
+      if (currentPath.includes(li.getAttribute('data-path') || '')) {
+        li.style.fontWeight = '700';
+      }
+    }
+  });
+}
+
+// Run once when the page is fully loaded
+document.addEventListener('DOMContentLoaded', updateMenuStyles);
+
+// Optional: Check for path changes periodically
+// This is a simple but not the most efficient way to detect URL changes
+let lastPath = window.location.pathname;
+setInterval(() => {
+  const currentPath = window.location.pathname;
+  if (lastPath !== currentPath) {
+    lastPath = currentPath;
+    updateMenuStyles();
+  }
+}, 300); // Check every second
 </script>
