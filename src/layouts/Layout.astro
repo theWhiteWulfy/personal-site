@@ -10,7 +10,7 @@ import style from "../styles/grid.module.css";
 
 
 type Props = {
-  title: string;
+  title?: string;
   description: string;
   image?: string;
   datePublished?: string,
@@ -46,7 +46,7 @@ const {
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <Head 
-      title={`${title}`} 
+      title={ title ? `${title} - ${site.title}` : `${site.title}` } 
       description={description}
       datePublished = {datePublished},
       dateModified = {new Date().toISOString()},
