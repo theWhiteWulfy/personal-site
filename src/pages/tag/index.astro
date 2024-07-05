@@ -4,7 +4,6 @@ import Layout from "@layouts/Layout.astro";
 import style from "@styles/archive.module.css";
 import { slugify } from "@lib/slugify.mjs";
 import Link from "@components/Link.astro";
-import Debug from "astro/debug";
 
 const articles = (await getCollection("articles"))
     .filter((article) => !article.data.draft)
