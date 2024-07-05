@@ -74,7 +74,11 @@ const currentTag = tag;
 
 <Layout title={`Posts tagged with "${currentTag}"`} description="Posts with ${currentTag}">
     <main>
-        <h1>Posts tagged with "{currentTag}"</h1>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>#{currentTag}</span>
+            </h1>
+        </div>
         <div class={style.content}>
 
             <ul>
