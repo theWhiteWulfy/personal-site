@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"saasguide">;
 
 const posts = await getCollection("saasguide");
-console.log(posts);
 
 function getNextPost() {
   let postIndex;
@@ -48,7 +47,6 @@ function getPrevPost() {
 
 const nextPost = getNextPost();
 const prevPost = getPrevPost();
-console.log(nextPost, prevPost);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await post.render();
