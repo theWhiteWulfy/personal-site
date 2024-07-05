@@ -28,7 +28,7 @@ tags: [Deno, Typescript, Tutorials, web development]
 
 ### 6. Deno Installation
 
-```console
+```shell
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
 
@@ -37,7 +37,7 @@ curl -fsSL https://deno.land/x/install/install.sh | sh
   - export DENO_INSTALL="/Users/chesterheng/.deno"
   - export PATH="$DENO_INSTALL/bin:$PATH"
 
-```console
+```shell
 open /Users/chesterheng/.deno/bin/deno
 /Users/chesterheng/.deno/bin/deno --help
 deno
@@ -53,7 +53,7 @@ deno
 
 ### 10. Setting Up Our Developer Environment
 
-```console
+```shell
 deno run deno.js
 deno run deno2.ts
 ```
@@ -111,7 +111,7 @@ console.log(b)
 - [✂️ Copy and 📋 Paste Emoji](https://getemoji.com)
 - [deno doc](https://doc.deno.land/builtin/stable)
 
-```console
+```shell
 deno run deno.js 'love'
 ```
 
@@ -134,7 +134,7 @@ if(food === 'love') {
 
 ### 13. Exercise: Our First Deno App
 
-```console
+```shell
 deno run deno.js 'love' 'ryan'
 ```
 
@@ -168,7 +168,7 @@ if (food === 'love' && parent === 'ryan') {
 
 ### 17. Deno Metrics
 
-```console
+```shell
 deno run deno.js
 ```
 
@@ -213,7 +213,7 @@ import "https://deno.land/std@0.65.0/examples/welcome.ts"
 import "https://deno.land/std@0.65.0/examples/chat/server.ts"
 ```
 - Security first
-```console
+```shell
 deno run --allow-net deno2.js
 ```
 - ["Decentralized" modules](https://deno.land/x): developer can host modules anywhere -> 
@@ -318,7 +318,7 @@ console.log("Hello", Deno.env.get("USER"));
 <details>
 <summary>deno info deno3.js</summary>
 
-```console
+```shell
 local: deno3.js
 type: JavaScript
 deps:
@@ -360,7 +360,7 @@ console.log(denode("NODE"));
 <details>
 <summary>deno info deno3.js</summary>
 
-```console
+```shell
 Download https://deno.land/std@0.66.0/examples/welcome.ts
 local: deno3.js
 type: JavaScript
@@ -375,7 +375,7 @@ deno3.js
 <details>
 <summary>deno info https://deno.land/std@0.66.0/examples/welcome.ts</summary>
 
-```console
+```shell
 local: /Users/chesterheng/Library/Caches/deno/deps/https/deno.land/aaa5f7b759111e731af7b564810dc454f6ecbeb452c020834e6e6782a3fd973e
 type: TypeScript
 compiled: /Users/chesterheng/Library/Caches/deno/gen/https/deno.land/aaa5f7b759111e731af7b564810dc454f6ecbeb452c020834e6e6782a3fd973e.js
@@ -423,7 +423,7 @@ console.log(denode("NODE"));
 <details>
 <summary>deno info https://deno.land/std/http/server.ts</summary>
 
-```console
+```shell
 Download https://deno.land/std/http/server.ts
 Warning Implicitly using latest version (0.66.0) for https://deno.land/std/http/server.ts
 Download https://deno.land/std@0.66.0/http/server.ts
@@ -487,14 +487,14 @@ https://deno.land/std/http/server.ts
 
 [Linking to third party code](https://deno.land/manual/linking_to_external_code)
 
-```console
+```shell
 open $HOME/Library/Caches/deno
 ```
 
 <details>
 <summary>deno run deno3.js</summary>
 
-```console
+```shell
 Download https://deno.land/std@0.66.0/examples/welcome.ts
 Check deno3.js
 Welcome to Deno 🦕
@@ -506,7 +506,7 @@ DENO
 <details>
 <summary>deno run deno3.js</summary>
 
-```console
+```shell
 Check deno3.js
 Welcome to Deno 🦕
 DENO
@@ -517,7 +517,7 @@ DENO
 <details>
 <summary>deno run --reload deno3.js</summary>
 
-```console
+```shell
 Download https://deno.land/std@0.66.0/examples/welcome.ts
 Check deno3.js
 Welcome to Deno 🦕
