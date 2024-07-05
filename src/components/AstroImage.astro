@@ -8,9 +8,10 @@ interface Props {
    className?: string;
    styles?: string;
    imgFolder?: string;
+   loading?: 'lazy' | 'eager';
 }
 
-const { imagePath, altText, className, styles, imgFolder } = Astro.props;
+const { imagePath, altText, className, styles, imgFolder, loading } = Astro.props;
 //console.log(imagePath, altText, className, styles);
 
 const images = import.meta.glob<{ default: ImageMetadata }>('../images/*.{jpeg,jpg,png,gif}', { eager: true });
@@ -28,7 +29,7 @@ const imageSrc = getImageSrc(imagePath, imgFolder);
 ---
 {
    imageSrc ? 
-      <Image src={imageSrc} alt={altText} class={className} style={styles}/>
+      <Image src={imageSrc} alt={altText} class={className} style={styles} loading={loading}/>
    :
       <p>Image not found</p>
 }
