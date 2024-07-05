@@ -8,7 +8,7 @@ const { heading } = Astro.props;
 ---
 
 <li>
-  <Link to={"#" + heading.slug} underline>
+  <Link to={"#" + heading.slug} aria-label={heading.text} underline>
     {heading.text}
   </Link>
   {
