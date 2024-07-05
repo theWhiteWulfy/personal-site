@@ -1,0 +1,97 @@
+---
+// Import necessary utilities and components
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import { slugify } from '@lib/slugify.mjs';
+import Entry from "@components/Entry.astro";
+import style from "@styles/archive.module.css";
+import { readingTime } from "@lib/utils";
+
+// Define getStaticPaths to generate paths for each tag
+export async function getStaticPaths() {
+
+    // Fetch all entries from the collections
+const articles = (await getCollection("articles"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const works = (await getCollection("works"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const notes = (await getCollection("notes"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const bibilio = (await getCollection("bibliophilediaries"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const saasguide = (await getCollection("saasguide"))
+    .filter((faq) => !faq.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Combine all entries into one array
+const allEntries = [...articles, ...works, ...notes, ...bibilio, ...saasguide];
+
+let allUnsafeTags = new Set();
+
+// Get all uniquie tags from all entries and add them to allUnsafeTags
+allEntries.forEach((entry) => {
+    if (entry.data.tags) {
+        entry.data.tags.forEach((tag) => {
+            allUnsafeTags.add(tag);
+        });
+    }
+});
+
+// create a array of objects with the tag and the slugified tag, and an array of entries for each tag
+
+let tagsObject = Array.from(allUnsafeTags).map((tag) => {
+    return {
+        tag: tag,
+        slug: slugify(tag),
+        entries: allEntries.filter((entry) => entry.data.tags && entry.data.tags.includes(tag as string)),
+    };
+});
+
+    // Use the tagsObject to generate paths using the slug and pass the tag and entries as props to the page
+    return tagsObject.map((tag) => ({
+            params: {
+                slug: tag.slug,
+            },
+            props: {
+                tag: tag.tag,
+                entries: tag.entries,
+            },
+        }));
+}
+
+const { tag, entries } = Astro.props;
+
+const currentTag = tag;
+---
+
+<Layout title={`Posts tagged with "${currentTag}"`} description="Posts with ${currentTag}">
+    <main>
+        <h1>Posts tagged with "{currentTag}"</h1>
+        <div class={style.content}>
+
+            <ul>
+                {
+                    entries.map((node) => (
+                            <Entry 
+                                title = {node.data.title}
+                                date = {node.data.date.toString()}
+                                path = { '/' + node.collection + '/' + node.slug}
+                                timeToRead = {readingTime(node.body)}
+                                excerpt = {node.data.excerpt}
+                                tags = {node.data.tags}
+                            />
+                    ))
+                }
+            </ul>
+          
+        </div>
+    </main>
+</Layout>
