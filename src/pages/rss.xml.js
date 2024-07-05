@@ -3,14 +3,24 @@ import site from '@config/site'
 import { getCollection } from "astro:content";
 
 export async function GET(context) {
-  const blog = (await getCollection("blog")).filter(
-    (post) => !post.data.draft);
+      // Fetch all entries from the collections
+const articles = (await getCollection("articles"))
+.filter((article) => !article.data.draft);
 
-  const projects = (await getCollection("projects")).filter(
-    (project) => !project.data.draft,
-  );
+const works = (await getCollection("works"))
+.filter((article) => !article.data.draft);
 
-  const items = [...blog, ...projects].sort(
+const notes = (await getCollection("notes"))
+.filter((article) => !article.data.draft);
+
+const bibilio = (await getCollection("bibliophilediaries"))
+.filter((article) => !article.data.draft);
+
+const saasguide = (await getCollection("saasguide"))
+.filter((faq) => !faq.data.draft);
+  
+
+  const items = [...articles, ...works, ...notes, ...bibilio, ...saasguide].sort(
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf(),
   );
 
