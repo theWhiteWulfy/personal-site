@@ -335,7 +335,7 @@
     }
 
     a {
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--text-color);
       color: inherit;
       display: flex;
       justify-content: space-between;
