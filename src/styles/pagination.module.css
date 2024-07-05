@@ -7,7 +7,7 @@
 
   @media (--medium-up) {
     display: flex;
-    jusitfy-content: space-between;
+    justify-content: space-between;
     align-items: flex-start;
   }
 }
