@@ -1,0 +1,93 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/archive.module.css";
+import { slugify } from "@lib/slugify.mjs";
+import Link from "@components/Link.astro";
+import Debug from "astro/debug";
+
+const articles = (await getCollection("articles"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const works = (await getCollection("works"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const notes = (await getCollection("notes"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const bibilio = (await getCollection("bibliophilediaries"))
+    .filter((article) => !article.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const saasguide = (await getCollection("saasguide"))
+    .filter((faq) => !faq.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Combine tags from both collections
+const combinedTags = [
+    ...works,
+    ...notes,
+    ...articles,
+    ...bibilio,
+    ...saasguide,
+].reduce<any[]>((acc, article) => {
+    article.data.tags?.forEach((tag) => {
+        acc.push(tag);
+    });
+    return acc;
+}, []);
+
+// Count occurrences of each tag
+const tagCounts = combinedTags.reduce((acc, tag) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+    return acc;
+}, {});
+
+// Convert counts object to an array and sort it
+// Sorting by count (descending), then alphabetically
+const sortedTags = Object.entries(tagCounts)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort(
+        (a, b) =>
+            (b as { count: number }).count - (a as { count: number }).count ||
+            a.tag.localeCompare(b.tag),
+    );
+---
+
+<Layout
+    title={`All tags`}
+    path="/tag/"
+    description="An archive of posts organized by topic."
+>
+    <main class={style.main}>
+        <div class={style.title}>
+            <h1 class={style.heading}>
+                <span>All tags</span>
+            </h1>
+        </div>
+        <div class={style.content}>
+            <h2 class={style.subHeading}>
+                <span>Browse by topic</span>
+            </h2>
+            <div class={style.columnList}>
+                <ul>
+                    
+                    {
+                        sortedTags.map(({ tag, count }) => (
+                            <li id={tag}>
+                                <Link to={`/tag/${slugify(tag)}/`}>
+                                    <strong>{tag}</strong>{" "}
+                                    <span class={style.count}>{count}</span>
+                                </Link>
+                            </li>
+                        ))
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </main>
+</Layout>
