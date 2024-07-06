@@ -51,18 +51,29 @@ interface MenuItem {
   window.addEventListener("load", () => {
     
     const themeToggleButton = document.getElementById("themeToggleButton");
-    let defaultThemer = themeToggleButton?.dataset.message;
-    let userTheme = localStorage.getItem("theme") || null;
+
+    const userThemeSetting = (() => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme') as string;
+    }
+
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+
+    return themeToggleButton?.dataset.message || 'light';
+  })();
+
+  let userTheme = userThemeSetting;
+
     const onChangeTheme = () => {
-      const alternateTheme =
-        (userTheme || defaultThemer) === "light" ? "dark" : "light";
+      const alternateTheme = (userTheme) === "light" ? "dark" : "light";
       userTheme = alternateTheme;
       localStorage.setItem("theme", alternateTheme);
       document.body.dataset.theme = alternateTheme;
     };
-
     // Set initial theme
-    document.body.dataset.theme = userTheme || defaultThemer;
+    document.body.dataset.theme = userTheme;
 
     // Attach event listener to the button
     if (themeToggleButton) {
