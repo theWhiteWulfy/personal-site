@@ -460,6 +460,21 @@ p > .gatsby-resp-image-wrapper {
   }
 }
 
+/* code copy button */
+.copy-code{
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-variant-caps: small-caps;
+  font-family: 'Zilla Slab';
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #ddd;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+/* Newsletter Form */
 .newsletter-footer{
   min-width: 100%;
   margin-bottom: 1ch;

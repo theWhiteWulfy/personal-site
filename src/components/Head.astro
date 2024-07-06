@@ -212,6 +212,45 @@ const {
 </script>
 
 <script is:inline>
+  function addCopyCodeButtons() {
+    let copyButtonLabel = "✂️ copy";
+    let codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    async function copyCode(codeBlock, copyButton) {
+        const codeText = codeBlock.innerText;
+        const buttonText = copyButton.innerText;
+        const textToCopy = codeText.replace(buttonText, "");
+
+        await navigator.clipboard.writeText(textToCopy);
+        copyButton.innerText = "✅ copied!";
+
+        setTimeout(() => {
+            copyButton.innerText = copyButtonLabel;
+        }, 2000);
+    }
+
+    for (let codeBlock of codeBlocks) {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+
+        const copyButton = document.createElement("button");
+        copyButton.innerText = copyButtonLabel;
+        copyButton.classList = "copy-code";
+
+        codeBlock.setAttribute("tabindex", "0");
+        codeBlock.appendChild(copyButton);
+
+        codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+        wrapper.appendChild(codeBlock);
+
+        copyButton?.addEventListener("click", async () => {
+            await copyCode(codeBlock, copyButton);
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
+document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
   // Client-side JavaScript to access and parse the pageSchema
   document.addEventListener('DOMContentLoaded', () => {
     const schemaElement = document.getElementById('pageSchema');
