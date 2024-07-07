@@ -144,5 +144,14 @@ const faqs = defineCollection({
   }),
 });
 
+const albums = defineCollection({
+  type: "data",
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      cover: image(),
+    }),
+});
 
-export const collections = { articles, notes, works, illustrations, bibliophilediaries, faqs, saasguide };
+export const collections = { articles, notes, works, illustrations, bibliophilediaries, faqs, saasguide, albums };
