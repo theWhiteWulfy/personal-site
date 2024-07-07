@@ -5,6 +5,7 @@ import AstroImage from "@components/AstroImage.astro";
 import { slugify } from '@lib/slugify.mjs';
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { Image } from "astro:assets";
 dayjs.extend(utc);
 
 type Props = {
@@ -32,7 +33,9 @@ const {
     timeToRead,
     excerpt,
     tags,
-    imgFolderForCollection
+    imgFolderForCollection,
+    galleryCover,
+    galleryCoverWidth
 } = Astro.props;
 
 let datePretty = dayjs(date).utc().format("MMMM D, YYYY");
@@ -87,6 +90,21 @@ let datePretty = dayjs(date).utc().format("MMMM D, YYYY");
                         styles="background-color:var(--input-background-color)"
                         altText={title}
                         loading="eager"
+                    />
+                </>
+            )
+        }
+        {
+            galleryCover && (
+                <>
+                    <Image
+                        src={galleryCover}
+                        alt={title}
+                        format="avif"
+                        width={galleryCoverWidth}
+                        quality="mid"
+                        class={style.cover}
+                        style="background-color:var(--input-background-color)"
                     />
                 </>
             )
