@@ -4,6 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import { getAlbumImages } from "@lib/albums";
 import { Image } from "astro:assets";
 import style from "../../styles/archive.module.css";
+import Lightbox from "@components/Lightbox.astro";
 
 export async function getStaticPaths() {
   const albums = await getCollection("albums");
@@ -44,20 +45,129 @@ console.log(images);
         {album.data.description}
       </p>
 
-      <div>
+      <div class={style.gridList}>
         {
           images.map((image) => (
+            <div data-lightbox="true">
             <Image
               src={image}
               alt={`Image from ${album.data.title} album`}
               format="avif"
               quality={50}
-              class="rounded mb-4 border border-transparent hover:border-gray-300 transition-all duration-300 ease-in-out hover:shadow-lg"
+              class="galleryImage"
               loading="lazy"
             />
+            </div>
           ))
         }
       </div>
     </div>
   </main>
 </Layout>
+
+
+
+
+<div class="app-lightbox">
+  <div class="portal"></div>
+</div>
+
+<script is:inline>
+  const lbTriggers = document.querySelectorAll('[data-lightbox="true"]');
+  const lightbox = document.querySelector(".app-lightbox");
+  const portal = lightbox.querySelector(".portal");
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const trig of lbTriggers) {
+      trig.addEventListener("click", () => {
+          portal.innerHTML = trig.innerHTML;
+
+          setTimeout(() => {
+              // Adapt size attribute dynamically
+              const img = portal.querySelectorAll("img")[0];
+              const ratio = img.naturalWidth / img.naturalHeight;
+              // console.log({
+              //   s: {
+              //     ratio,
+              //     j: window.innerHeight,
+              //     w: img.naturalWidth,
+              //     h: img.naturalHeight,
+              //   },
+              // });
+              img.sizes = `${window.innerHeight * ratio}px`;
+          }, 352);
+          // console.log('cli');
+          lightbox.classList.add("is-active");
+          document.documentElement.classList.add("scrollIsLocked");
+      });
+  }
+
+  lightbox.addEventListener("click", () => {
+      // console.log('cli');
+      lightbox.classList.remove("is-active");
+      document.documentElement.classList.remove("scrollIsLocked");
+  });
+
+  document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+          // console.log(e);
+          lightbox.classList.remove("is-active");
+          document.documentElement.classList.remove("scrollIsLocked");
+      }
+  });
+
+  // TODO: taken window resize into account
+  // window.addEventListener('resize', (e) => {
+
+  // });
+
+  // console.log({ lbTriggers });
+</script>
+
+<style>
+  .app-lightbox {
+      position: fixed;
+      top: 0;
+      z-index: 99999;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      cursor: zoom-out;
+      /* TODO: map color to API */
+      background-color: var(--bg-color, hsl(0, 0%, 0%, 0.85));
+      opacity: 0;
+      transition: opacity 0.35s;
+
+      &.is-active {
+          pointer-events: initial;
+          opacity: 1;
+      }
+  }
+
+  :global([data-lightbox]) {
+      cursor: zoom-in;
+  }
+
+  .portal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      /* TODO: map speed to API */
+      transition:
+          opacity 0.35s,
+          transform 0.35s;
+      transform: scale(0.2);
+
+      :global(img) {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+      }
+
+      .is-active & {
+          transform: scale(1);
+      }
+  }
+</style>
