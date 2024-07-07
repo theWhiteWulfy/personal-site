@@ -8,19 +8,21 @@ import utc from "dayjs/plugin/utc";
 import { Image } from "astro:assets";
 dayjs.extend(utc);
 
-type Props = {
-    title: string;
-    date?: string;
-    path: string;
-    imagepath?: string;
-    authorname?: string;
-    authorurl?: string;
-    timeToRead?: string;
-    excerpt: string;
-    key?: string;
-    imgFolderForCollection?: string;
-    tags?: Array<string>;
-};
+// type Props = {
+//     title: string;
+//     date?: string;
+//     path: string;
+//     imagepath?: string;
+//     authorname?: string;
+//     authorurl?: string;
+//     timeToRead?: string;
+//     excerpt?: string;
+//     key?: string;
+//     imgFolderForCollection?: string;
+//     galleryCover?: string;
+//     galleryCoverWidth?: number;
+//     tags?: Array<string>;
+// };
 
 const {
     title,
@@ -117,7 +119,7 @@ let datePretty = dayjs(date).utc().format("MMMM D, YYYY");
             {
                 tags ? (
                     <div class={style.tags}>
-                        {tags.map((tag) => (
+                        {tags.map((tag:string) => (
                             <Link to={`/tag/${slugify(tag)}/`}>
                                 <span>#{tag}</span>
                             </Link>
