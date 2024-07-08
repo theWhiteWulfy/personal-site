@@ -1,11 +1,12 @@
 ---
 import style from "@styles/entry.module.css";
 import Link from "@components/Link.astro";
+import { Image } from "astro:assets";
 import AstroImage from "@components/AstroImage.astro";
 import { slugify } from '@lib/slugify.mjs';
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { Image } from "astro:assets";
+
 dayjs.extend(utc);
 
 // type Props = {
