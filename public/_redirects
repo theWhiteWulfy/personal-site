@@ -1,13 +1,17 @@
-# Redirect default Netlify subdomain to primary domain
-https://meteoric=teachings.web.app/* https://alokprateek.in/:splat 301!
-http://meteoric=teachings.web.app/* https://alokprateek.in/:splat 301!
-https://meteoric=teachings.web.app/* https://alokprateek.in/:splat 301!
-http://meteoric=teachings.web.app/* https://alokprateek.in/:splat 301!
+# Redirect default subdomain to primary domain
+# https://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
+# http://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
 
 # ----------------------------------------------------------------------
 # Page redirects
 # ----------------------------------------------------------------------
-
+/work /works 301
+/work/* /works/* 301
+/saas-guide /saasguide 301
+/saas-guide/* /saasguide/* 301
+/bibliophile-diaries /bibliophilediaries 301
+/bibliophile-diaries/* /bibliophilediaries/* 301
+/deno-guide/start-deno /articles/start-with-deno 301
 
 # ----------------------------------------------------------------------
 # Sitemap redirects
@@ -18,8 +22,8 @@ http://meteoric=teachings.web.app/* https://alokprateek.in/:splat 301!
 # Feed redirects
 # ----------------------------------------------------------------------
 
-/atom /atom.xml 301
-/rss /atom.xml 301
-/feed /atom.xml 301
-/feed.xml /atom.xml 301
-/everything.xml /atom.xml 301
+/atom /feed.xml 301
+/rss /feed.xml 301
+/feed /feed.xml 301
+/atom.xml /feed.xml 301
+/everything.xml /feed.xml 301
