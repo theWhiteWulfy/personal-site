@@ -37,18 +37,6 @@ const albums = await getCollection("albums");
                 evolved from 2008 to present date.
             </p>
 
-            <ul>
-                {
-                    data.map((node) => (
-                        <li id={node.id}>
-                            <Link to={`/${node.collection}/${node.slug}`}>
-                                {node.data.title}
-                            </Link>
-                        </li>
-                    ))
-                }
-            </ul>
-            <!--TBD Add gallery from folders -->
             <div class={style.gridList}>
                 {
                     albums.map((item) => (
