@@ -6,16 +6,9 @@
 # Page redirects
 # ----------------------------------------------------------------------
 /work /works 301
-/work/* /works/* 301
 /saas-guide /saasguide 301
-/saas-guide/* /saasguide/* 301
 /bibliophile-diaries /bibliophilediaries 301
-/bibliophile-diaries/* /bibliophilediaries/* 301
 /deno-guide/start-deno /articles/start-with-deno 301
-
-# ----------------------------------------------------------------------
-# Sitemap redirects
-# ----------------------------------------------------------------------
 
 
 # ----------------------------------------------------------------------
@@ -27,3 +20,11 @@
 /feed /feed.xml 301
 /atom.xml /feed.xml 301
 /everything.xml /feed.xml 301
+
+
+# ----------------------------------------------------------------------
+# Dynamic redirects
+# ----------------------------------------------------------------------
+/work/* /works/* 301
+/saas-guide/* /saasguide/* 301
+/bibliophile-diaries/* /bibliophilediaries/* 301
