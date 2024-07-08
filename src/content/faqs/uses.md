@@ -2,7 +2,7 @@
 title: "What tech do you use?"
 excerpt: "A list detailing my developer setup, gear, software, and preferred configurations."
 path: /uses/
-slug: /uses/
+slug: uses/
 date: 2020-08-01
 order: 1
 last_modified_at: 2020-08-01T09:56:34-05:00
@@ -40,7 +40,7 @@ Read on friend to learn about the hardware and software I use for play and to bu
 - **Microsoft Mathematics** for calculating stuff and doing stats.
 - **Draw.io** flowchats to express my process and brainstorming to the client.
 - [**Zettlr**](https://www.zettlr.com/) great editor to write stuff in markdown. I'm typing this article on it too.
-- **Prepos** great tool to complie and process css anh js files visually.
+- **Prepos** great tool to complie and process css and js files visually.
 - **Hemingway Editor** a tool to make my sentences less complicated.
 - **Ora** an awesome project management tool.
 - **Spotify** for music.
