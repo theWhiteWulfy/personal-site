@@ -1,6 +1,10 @@
 import rss from "@astrojs/rss";
 import site from '@config/site'
 import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 export async function GET(context) {
       // Fetch all entries from the collections
@@ -32,8 +36,8 @@ const saasguide = (await getCollection("saasguide"))
     site: context.site,
     items: items.map((item) => ({
       title: item.data.title,
-      description: item.data.description,
-      pubDate: item.data.date,
+      description: item.data.excerpt,
+      pubDate: dayjs(item.data.date).utc().format("MMMM D, YYYY"),
       link: `/${item.collection}/${item.slug}/`,
     })),
   });
