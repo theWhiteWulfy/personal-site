@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 
 const { album } = Astro.props;
 const images = await getAlbumImages(album.id);
-console.log(images);
 ---
 
 <Layout
@@ -95,21 +94,19 @@ console.log(images);
               // });
               img.sizes = `${window.innerHeight * ratio}px`;
           }, 352);
-          // console.log('cli');
+
           lightbox.classList.add("is-active");
           document.documentElement.classList.add("scrollIsLocked");
       });
   }
 
   lightbox.addEventListener("click", () => {
-      // console.log('cli');
       lightbox.classList.remove("is-active");
       document.documentElement.classList.remove("scrollIsLocked");
   });
 
   document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-          // console.log(e);
           lightbox.classList.remove("is-active");
           document.documentElement.classList.remove("scrollIsLocked");
       }

@@ -55,7 +55,6 @@ const { Content, headings, remarkPluginFrontmatter } = await post.render();
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
     : null;
-    console.log(lastModified);
 ---
 
 
