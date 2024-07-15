@@ -1,0 +1,95 @@
+---
+import style from "../../styles/archive.module.css";
+
+let visible = false;
+let username = "user2s";
+
+const visiblityconditional = visible ? 'contact-form-show' : 'contact-form-hide';
+const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-show';
+
+---
+
+<form
+  id="contact-form"
+  name="contact-form"
+  accept-charset="UTF-8"
+  auto-complete="off"
+  enctype="multipart/form-data"
+  method="post"
+>
+  <div class={`${"form-group" + " "}${visiblityconditional}`}>
+    <label id="name-label" for="usrname">
+      Name
+      <input
+        id="usrname"
+        name="usrname"
+        type="text"
+        spellcheck="false"
+        maxlength={511}
+        required
+      />
+    </label>
+  </div>
+  <div class={`${"form-group" + " "}${visiblityconditional}`}>
+    <label id="email-label" for="email">
+      Email address <small>(will remain private)</small>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        spellcheck="false"
+        maxlength={511}
+        required
+        pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+        
+      />
+    </label>
+  </div>
+  <div class={`${"form-group" + " "}${visiblityconditional}`}>
+    <label id="msg-label" for="msg">
+      Message
+      <textarea
+        id="msg"
+        name="msg"
+        spellcheck="true"
+        rows={10}
+        cols={50}
+        required
+        ></textarea>
+    </label>
+  </div>
+  <div class={`${"form-group" + " "}${visiblityconditional}`}>
+    <label id="ref-label" for="ref">
+      How’d you hear about my website?
+      <input 
+        id="ref"
+        name="ref"
+        type="text"
+        maxlength={255}
+        placeholder="e.g. Came from LinkedIn/Github/Google"
+      />
+    </label>
+  </div>
+  <div class={`${"form-group" + " "}${visiblityconditional}`}>
+    <button id="saveForm" name="saveForm" class="btn submit" type="submit">
+      Send message
+    </button>
+  </div>
+
+  <div class={`${"custom-block" + " " + "notice" + " "}${visiblityunconditional}`}>
+    <div class="custom-block-heading">Message successfully sent!</div>
+    <div class="custom-block-body">
+      <p>Hey {username}!</p>
+      <p>
+        I have received your message, so keep an eye out on your mailbox to see
+        if you have a reply. I'll try my best to get back to you within a day.
+        And while you wait go ahead and read my{" "}
+        <a href="/notes/">latest posts</a>.
+      </p>
+      <p>
+        Till then, cheers!
+        <span role="img" aria-label="Cheers"> 🍻 </span>
+      </p>
+    </div>
+  </div>
+</form>
