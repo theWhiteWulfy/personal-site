@@ -5,6 +5,7 @@ import GithubIcon from './icons/github-icon.astro'
 import InstagramIcon from './icons/instagram-icon.astro'
 import RSSIcon from './icons/rss-icon.astro'
 import style from '../styles/footer.module.css'
+import NewsletterForm from './custom/NewsletterForm.astro'
 
 const { footerMenu, twitter, github, instagram, linkedin, feed } = Astro.props
 interface MenuItem {
@@ -15,7 +16,6 @@ interface MenuItem {
 
 <footer id="footer" class={`${style.footer} animate`}>
   <ul class={style.menu}>
-    <!-- <FooterMenu footerMenu={footerMenu} /> -->
     {footerMenu.map((menuItem: MenuItem, index: number) => (
       <li id={index.toString()}>
         <a href={menuItem.path}>{menuItem.title}</a>
@@ -55,7 +55,7 @@ interface MenuItem {
       </li>
     
   </ul>
-  <!-- <NewsletterForm /> -->
+   <NewsletterForm /> 
   
     <div class={style.copyright}>
       &copy; 2010&mdash;{new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.
