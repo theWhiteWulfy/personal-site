@@ -1,0 +1,75 @@
+---
+
+// function NewsletterForm() {
+//     // useState() hook captures the value from the input value
+//     const [subsemail, setEmail] = useState('')
+    let visible = true;
+
+    const visiblityconditional = visible ? 'contact-form-show' : 'contact-form-hide';
+    const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-show';
+//     // The onSubmit function we takes the 'e' or event and submits it to Firebase
+//     const onNLSubmit = (e) => {
+//       e.preventDefault() // preventDefault is important because it prevents the whole page from reloading
+//       firebase
+//         .firestore()
+//         .collection('newsletter')
+//         .add({
+//           subsemail,
+//           timestamp: new Date().toISOString(),
+//         })
+//         // then will reset the form to nothing
+//         .then(() => {
+//           setVisible(!visible)
+//         })
+//     }
+
+
+---
+    
+
+      <div class="custom-block notice newsletter-footer">
+        <div class="custom-block-heading nw-title">
+          <strong>Subscribe to my monthly newsletter!</strong>
+        </div>
+        <form
+          id="newsletter-form"
+          name="newsletter-form"
+          accept-charset="UTF-8"
+          autocomplete="off"
+          enctype="multipart/form-data"
+          method="post"
+        >
+          <div class={`${'form-group' + ' '}${visiblityconditional}`}>
+            <label for="subsemail">
+              Please enter your email ID
+              <input
+                id="subsemail"
+                name="subsemail"
+                type="email"
+                spellcheck="false"
+                maxlength={511}
+                placeholder="This will remain private."
+                required
+                pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+              />
+            </label>
+          </div>
+          <div class={`${'form-group' + ' '}${visiblityconditional}`}>
+            <button
+              id="saveNLForm"
+              name="saveNLForm"
+              class="btn submit"
+              type="submit"
+            >
+              Sign me up!
+            </button>
+          </div>
+  
+          <div
+            class={`${'custom-block-body' + ' '}${visiblityunconditional}`}
+          >
+            You have successfully registered for my newsletter!
+          </div>
+        </form>
+      </div>
+   
