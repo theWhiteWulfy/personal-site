@@ -32,6 +32,6 @@ export default defineConfig({
       }
     })]
   },
-  output: "server",
+  output: "hybrid", // add `export const prerender = false` to any files that should be server-rendered on demand
   adapter: cloudflare()
 });
