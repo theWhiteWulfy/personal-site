@@ -5,6 +5,7 @@ import style from "@styles/archive.module.css";
 import Link from "@components/Link.astro";
 import Entry from "@components/Entry.astro";
 import { readingTime } from "@lib/utils";
+import NewsletterForm from '@components/custom/NewsletterForm.astro'
 
 
 const data = (await getCollection("articles"))
@@ -44,7 +45,8 @@ const data = (await getCollection("articles"))
                     ))
                 }
             </ul>
-          
+            <!--TBD add NL form -->
+            <NewsletterForm /> 
         </div>
     </main>
 </Layout>

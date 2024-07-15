@@ -5,7 +5,7 @@ import GithubIcon from './icons/github-icon.astro'
 import InstagramIcon from './icons/instagram-icon.astro'
 import RSSIcon from './icons/rss-icon.astro'
 import style from '../styles/footer.module.css'
-import NewsletterForm from './custom/NewsletterForm.astro'
+
 
 const { footerMenu, twitter, github, instagram, linkedin, feed } = Astro.props
 interface MenuItem {
@@ -55,7 +55,6 @@ interface MenuItem {
       </li>
     
   </ul>
-   <NewsletterForm /> 
   
     <div class={style.copyright}>
       &copy; 2010&mdash;{new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.
