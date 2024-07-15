@@ -29,6 +29,7 @@ type pageFrontmatter = {
         name: string;
         url: string;
     };
+    redirect?: string;
 };
 ---
 <Layout 
@@ -40,6 +41,12 @@ type pageFrontmatter = {
     metaImageSrc={frontmatter.image}
     article={false}
 >
+<head>
+    {frontmatter.redirect && (
+        <meta http-equiv="refresh" content={`3; url=${frontmatter.redirect}`} />
+    )
+    }
+</head>
 <main id="main">
     <article class={`${style.document} h-entry`}>
         <div class={style.title}>
