@@ -21,6 +21,7 @@
         "@astrojs/mdx": "^3.1.0",
         "@astrojs/rss": "^4.0.6",
         "@astrojs/sitemap": "^3.1.5",
+        "@cloudflare/workers-types": "^4.20240729.0",
         "@playform/compress": "^0.0.13",
         "astro": "^4.10.1",
         "astro-pagefind": "^1.5.0",
@@ -40,6 +41,7 @@
         "prettier-plugin-organize-imports": "^3.2.4",
         "reading-time": "^1.5.0",
         "typescript": "^5.4.5",
-        "vite-plugin-pwa": "^0.16.4"
+        "vite-plugin-pwa": "^0.16.4",
+        "wrangler": "^3.68.0"
     }
 }
