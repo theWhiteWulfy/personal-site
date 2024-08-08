@@ -9,7 +9,8 @@
         "start": "astro dev",
         "build": "astro check && astro build",
         "preview": "astro preview",
-        "astro": "astro"
+        "astro": "astro",
+        "cfpreview": "wrangler pages dev ./dist"
     },
     "dependencies": {
         "@astrojs/cloudflare": "^11.0.1",
