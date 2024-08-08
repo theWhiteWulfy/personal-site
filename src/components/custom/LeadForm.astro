@@ -1,7 +1,6 @@
 ---
-import style from "../../styles/archive.module.css";
 
-let visible = false;
+let visible = true;
 let username = "user2s";
 
 const visiblityconditional = visible ? 'contact-form-show' : 'contact-form-hide';
@@ -10,7 +9,7 @@ const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-sho
 ---
 
 <form
-  id="contact-form"
+  id="contact-form" 
   name="contact-form"
   accept-charset="UTF-8"
   auto-complete="off"
@@ -21,8 +20,7 @@ const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-sho
     <label id="name-label" for="usrname">
       Name
       <input
-        id="usrname"
-        name="usrname"
+        id="usrname" name="usrname"
         type="text"
         spellcheck="false"
         maxlength={511}
@@ -34,8 +32,7 @@ const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-sho
     <label id="email-label" for="email">
       Email address <small>(will remain private)</small>
       <input
-        id="email"
-        name="email"
+        id="email" name="email"
         type="email"
         spellcheck="false"
         maxlength={511}
@@ -49,8 +46,7 @@ const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-sho
     <label id="msg-label" for="msg">
       Message
       <textarea
-        id="msg"
-        name="msg"
+        id="msg" name="msg"
         spellcheck="true"
         rows={10}
         cols={50}
@@ -62,8 +58,7 @@ const visiblityunconditional = visible ? 'contact-form-hide' : 'contact-form-sho
     <label id="ref-label" for="ref">
       How’d you hear about my website?
       <input 
-        id="ref"
-        name="ref"
+        id="ref" name="ref"
         type="text"
         maxlength={255}
         placeholder="e.g. Came from LinkedIn/Github/Google"
