@@ -37,6 +37,6 @@ export default defineConfig({
     platformProxy: {
       enabled: true,
     },
-    imageService: 'compile',
+    imageService: 'passthrough',
   })
 });
