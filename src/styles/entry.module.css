@@ -8,7 +8,7 @@
   a:active,
   a:visited {
     color: var(--text-color);
-    text-decoration-color: color-mod(var(--text-color) lightness(60%));
+    text-decoration-color: rgba(var(--text-color), 0.6);
     text-decoration-skip-ink: auto;
   }
 
