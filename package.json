@@ -29,7 +29,7 @@
         "cssnano": "^7.0.2",
         "dayjs": "^1.11.11",
         "mdast-util-to-string": "^4.0.0",
-        "pagefind": "^1.1.0",
+        "pagefind": "^1.1.1",
         "postcss-custom-media": "^8.0.2",
         "postcss-import": "^16.1.0",
         "postcss-loader": "^8.1.1",
