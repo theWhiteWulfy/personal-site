@@ -1,6 +1,9 @@
 # Redirect default subdomain to primary domain
 https://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
 http://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
+http://alokprateek.in/* https://alokprateek.in/:splat 301
+http://www.alokprateek.in/* https://alokprateek.in/:splat 301
+https://www.alokprateek.in/* https://alokprateek.in/:splat 301
 
 # ----------------------------------------------------------------------
 # Page redirects
@@ -9,7 +12,25 @@ http://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
 /saas-guide /saasguide 301
 /bibliophile-diaries /bibliophilediaries 301
 /deno-guide/start-deno /articles/start-with-deno 301
-
+/tandc/ /terms 301
+/development/jekyll-api-gh-pages-and-json-feed/ /articles/jekyll-api-gh-pages-and-json-feed 301
+/uses /faqs/uses/ 302
+/recent/ / 301
+/privacy.html /terms 301
+/pressdoc.html /terms 301
+/hardware/ /faqs/uses/ 301
+/development/web-accessibility/ /articles/web-accessibility 301
+/development/jekyll-api-gh-pages-and-json-feed/ /articles/jekyll-api-gh-pages-and-json-feed 301
+/development/aws-terms/ /articles/aws-terms 301
+/deno-guide/ /articles/start-with-deno 301
+/work/web-experiments/ /works/web-experiments/ 301
+https://alokprateek.in/work/tubelight-comm/ /works/tubelight-comm 301
+https://alokprateek.in/work/the-gentleman-show/ /works/the-gentleman-show 301
+https://alokprateek.in/work/harper-collins/ /works/harper-collins 301
+https://alokprateek.in/pricing/ /faqs/pricing 301
+https://alokprateek.in/development/jekyll-pwa/ /articles/jekyll-pwa 301
+https://alokprateek.in/categories/ /tag/ 301
+https://alokprateek.in/bibliophile-diaries/ /bibliophilediaries/ 301
 
 # ----------------------------------------------------------------------
 # Feed redirects
@@ -20,6 +41,21 @@ http://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
 /feed /feed.xml 301
 /atom.xml /feed.xml 301
 /everything.xml /feed.xml 301
+https://blog.alokprateek.in/feed.xml /feed.xml 301
+
+# ----------------------------------------------------------------------
+# Old blog redirects
+# ----------------------------------------------------------------------
+https://blog.alokprateek.in/ https://alokprateek.in/articles 301
+https://blog.alokprateek.in/work/ /works 301
+https://blog.alokprateek.in/privacy/ /terms 301
+https://blog.alokprateek.in/hardware/ /faqs/uses/ 301
+https://blog.alokprateek.in/contact/ /contact 301
+https://blog.alokprateek.in/api/  https://alokprateek.in 301
+https://blog.alokprateek.in/?amp=1 https://alokprateek.in 301
+https://blog.alokprateek.in/development/web-accessibility/ /articles/web-accessibility 301
+https://blog.alokprateek.in/development/aws-terms/ /articles/aws-terms 301
+https://blog.alokprateek.in/development/jekyll-api-gh-pages-and-json-feed/ /articles/jekyll-api-gh-pages-and-json-feed 301
 
 
 # ----------------------------------------------------------------------
