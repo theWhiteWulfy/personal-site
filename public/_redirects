@@ -1,7 +1,6 @@
 # Redirect default subdomain to primary domain
 # https://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
 # http://meteoricteachings.pages.dev/* https://alokprateek.in/:splat 301
-http://alokprateek.in/* https://alokprateek.in/:splat 301
 # http://www.alokprateek.in/* https://alokprateek.in/:splat 301
 # https://www.alokprateek.in/* https://alokprateek.in/:splat 301
 
@@ -62,3 +61,4 @@ http://alokprateek.in/* https://alokprateek.in/:splat 301
 /work/* /works/:splat 301
 /saas-guide/* /saasguide/:splat 301
 /bibliophile-diaries/* /bibliophilediaries/:splat 301
+http://alokprateek.in/* https://alokprateek.in/:splat 301
