@@ -1,8 +1,13 @@
 ---
 title: "Why I Ditched Gatsby: A Migration Story to Astro for Simplicity and Speed"
-description: "A personal and technical story of migrating a blog from Gatsby to Astro, focusing on the move away from complexity towards a more streamlined and stable development workflow."
-publishDate: "13 Jul 2025"
-tags: ["web-development", "astro", "gatsby", "javascript", "frontend"]
+excerpt: "A personal and technical story of migrating a blog from Gatsby to Astro, focusing on the move away from complexity towards a more streamlined and stable development workflow."
+path: /articles/migrating-to-astro/
+categories: [articles]
+tags: [web development, astro, gatsby, javascript, frontend]
+date: 2025-07-13
+last_modified_at: 2025-07-14T20:49:14-05:00
+comments: true
+toc: true
 ---
 
 ## Part 1: The Breaking Point and The Migration
