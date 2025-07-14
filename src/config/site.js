@@ -57,8 +57,8 @@ const site = {
       path: '/articles/',
     },
     {
-      title: 'Notes',
-      path: '/notes/',
+      title: 'Services',
+      path: '/services/',
     },
     {
       title: 'Works',
