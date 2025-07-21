@@ -15,25 +15,60 @@ import Link from "@components/Link.astro";
         </div>
   
         <div class={style.content}>
-          <p>
-            Have a question for me? My direct messages are open on either{' '}
-            <a href="https://instagram.com/thewhitewulfy">Instagram</a> or{' '}
-            <a href="https://twitter.com/thewhitewulfy">Twitter</a> for short and
-            succinct messages. Before sending, please read my{' '}
-            <Link to="/faqs/">frequently asked questions section</Link> first to
-            make sure I haven't already answered it.
-          </p>
-          <p>
-            If you have a project that you'd like to discuss, it is faster and
-            more efficient to contact me <a href="https://wa.me/919315852108">on Whatsapp</a> or write a mail
-            to me at <a href="mailto:i@alokprateek.in">i@alokprateek.in</a>. A
-            good ol' fashioned mail is always welcome, because I like reading and
-            writing long mails as I do not have much time for writing shorter
-            replies.
-          </p>
-          <p>
-            If you are willing to wait and for anything else use the form below.
-          </p>
+
+          <article class={`${style.gridList} h-entry`}>
+            <h2 class={style.subHeading}>
+              <span>End Repetitive Manual Work with Custom Automation</span>
+            </h2>
+            <div class={`${style.excerpt} p-summary`}>
+              <p>
+                <strong>Who it's for:</strong> For businesses struggling with
+                manual data entry, disconnected applications, and workflows that
+                can't keep up with their growth.
+              </p>
+              <p>
+                <strong>What you deliver:</strong> I will design, build, and manage
+                robust automation systems for you. Using tools like n8n, custom
+                APIs, and secure, private AI models, I connect your existing
+                software to eliminate bottlenecks. I have experience taking products
+                from concept to platforms serving over 100,000 users and can build
+                solutions that scale.
+              </p>
+              <p>
+                <a href="mailto:i@alokprateek.in?subject=Free%20Automation%20Audit"
+                  >Book a Free Automation Audit</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <article class={`${style.gridList} h-entry`}>
+            <h2 class={style.subHeading}>
+              <span>Own Your Software: Whitelabel Open-Source Alternatives</span>
+            </h2>
+            <div class={`${style.excerpt} p-summary`}>
+              <p>
+                <strong>Who it's for:</strong> For agencies and companies who want
+                the functionality of expensive SaaS products without the vendor
+                lock-in, recurring fees, and data privacy concerns.
+              </p>
+              <p>
+                <strong>What you deliver:</strong> I deploy, customize, and manage
+                powerful open-source tools for analytics, project management,
+                scheduling, and more. You get a solution branded for your business,
+                running on secure cloud infrastructure (AWS, Azure, GCP) that I
+                manage for you. My experience includes migrating entire frontends to
+                modern frameworks and creating documentation systems from the ground
+                up.
+              </p>
+              <p>
+                <a
+                  href="mailto:i@alokprateek.in?subject=Get%20a%20Whitelabel%20Solution%20Quote"
+                  >Get a Whitelabel Solution Quote</a
+                >
+              </p>
+            </div>
+          </article>
         </div>
       </main>
 </Layout>
