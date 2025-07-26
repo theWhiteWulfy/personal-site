@@ -126,6 +126,59 @@ const {
 
 <!-- Global Metadata -->
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Resource Hints for Performance -->
+<!-- DNS Prefetch for external resources - improves connection time -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+<link rel="dns-prefetch" href="//clarity.microsoft.com" />
+<link rel="dns-prefetch" href="//webmention.io" />
+<link rel="dns-prefetch" href="//mm-micropub-to-github.herokuapp.com" />
+<link rel="dns-prefetch" href="//giscus.app" />
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+<link rel="dns-prefetch" href="//unpkg.com" />
+
+<!-- Preconnect for critical external resources - establishes early connections -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Analytics preconnect - critical for tracking -->
+<link rel="preconnect" href="https://www.google-analytics.com" />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+
+<!-- Conditional preconnect for analytics and tracking services -->
+{(pageType === 'service' || pageType === 'contact' || pageType === 'home') && (
+  <link rel="preconnect" href="https://clarity.microsoft.com" />
+)}
+
+<!-- Webmention and social services preconnect -->
+<link rel="preconnect" href="https://webmention.io" />
+
+<!-- Conditional preconnect for comment system on article pages -->
+{pageType === 'article' && (
+  <link rel="preconnect" href="https://giscus.app" />
+)}
+
+<!-- Note: Font preloading for fontsource fonts is handled automatically by Astro -->
+<!-- Fontsource fonts are bundled and optimized during build with proper font-display: swap -->
+<!-- Manual preloading of hashed font files would require dynamic resolution -->
+
+<!-- Preload critical images -->
+<link rel="preload" href={metaImage.src} as="image" />
+<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+
+<!-- Conditional preload for service-specific assets -->
+{pageType === 'service' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" />
+)}
+
+<!-- Conditional preload for home page hero image -->
+{pageType === 'home' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" />
+)}
+
 <link
     rel="alternate"
     type="application/rss+xml"
