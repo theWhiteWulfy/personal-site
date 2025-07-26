@@ -8,6 +8,8 @@ import Alert from "../components/custom/alert.astro";
 import style from "../styles/grid.module.css";
 
 
+import type { ServiceData, FAQData, PersonData } from '@lib/schema-generators';
+
 type Props = {
   title?: string;
   description: string;
@@ -21,6 +23,11 @@ type Props = {
   article?: boolean,
   authorname?: string,
   authorurl?: string,
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  serviceData?: ServiceData;
+  faqs?: FAQData[];
+  includeBreadcrumbs?: boolean;
+  includeLocalBusiness?: boolean;
 };
 
 const { 
@@ -34,6 +41,11 @@ const {
   article,
   authorname,
   authorurl,
+  pageType,
+  serviceData,
+  faqs,
+  includeBreadcrumbs,
+  includeLocalBusiness,
   } = Astro.props;
   
 ---
@@ -59,7 +71,12 @@ const {
       author = {{
         name: authorname,
         url: authorurl,
-      }}
+      }},
+      pageType = {pageType},
+      serviceData = {serviceData},
+      faqs = {faqs},
+      includeBreadcrumbs = {includeBreadcrumbs},
+      includeLocalBusiness = {includeLocalBusiness}
     />
       <!-- Service worker registration. -->
 

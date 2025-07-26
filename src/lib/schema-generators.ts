@@ -1,0 +1,364 @@
+import site from '@config/site';
+
+// Base schema interfaces
+export interface LocalBusinessData {
+  name?: string;
+  description?: string;
+  url?: string;
+  telephone?: string;
+  email?: string;
+  address?: {
+    streetAddress: string;
+    addressLocality: string;
+    addressRegion: string;
+    postalCode: string;
+    addressCountry: string;
+  };
+  geo?: {
+    latitude: number;
+    longitude: number;
+  };
+  openingHours?: string[];
+  sameAs?: string[];
+  priceRange?: string;
+  areaServed?: string[];
+}
+
+export interface ServiceData {
+  name: string;
+  description: string;
+  serviceType: string;
+  provider?: {
+    name: string;
+    url: string;
+  };
+  areaServed?: string[];
+  hasOfferCatalog?: {
+    name: string;
+    itemListElement: Array<{
+      name: string;
+      description: string;
+      price?: string;
+      priceCurrency?: string;
+    }>;
+  };
+  aggregateRating?: {
+    ratingValue: number;
+    reviewCount: number;
+  };
+}
+
+export interface FAQData {
+  question: string;
+  answer: string;
+}
+
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface PersonData {
+  name?: string;
+  url?: string;
+  image?: string;
+  jobTitle?: string;
+  worksFor?: {
+    name: string;
+    url: string;
+  };
+  sameAs?: string[];
+  knowsAbout?: string[];
+  description?: string;
+}
+
+// Schema generation functions
+export function generateLocalBusinessSchema(data?: Partial<LocalBusinessData>) {
+  const businessData: LocalBusinessData = {
+    name: site.titleAlt,
+    description: site.description,
+    url: site.url,
+    telephone: '+91-9999999999', // Default phone number - should be updated with real data
+    email: 'hello@alokprateek.in', // Default email - should be updated with real data
+    address: {
+      streetAddress: 'Delhi',
+      addressLocality: 'Delhi',
+      addressRegion: 'Delhi',
+      postalCode: '110001',
+      addressCountry: 'IN'
+    },
+    geo: {
+      latitude: 28.6139,
+      longitude: 77.2090
+    },
+    openingHours: [
+      'Mo-Fr 09:00-18:00'
+    ],
+    sameAs: [
+      site.twitterUrl,
+      site.linkedinUrl,
+      site.githubUrl,
+      site.instagramUrl
+    ],
+    priceRange: '$$',
+    areaServed: ['India', 'Global'],
+    ...data
+  };
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: businessData.name,
+    description: businessData.description,
+    url: businessData.url,
+    telephone: businessData.telephone,
+    email: businessData.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: businessData.address?.streetAddress,
+      addressLocality: businessData.address?.addressLocality,
+      addressRegion: businessData.address?.addressRegion,
+      postalCode: businessData.address?.postalCode,
+      addressCountry: businessData.address?.addressCountry
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: businessData.geo?.latitude,
+      longitude: businessData.geo?.longitude
+    },
+    openingHours: businessData.openingHours,
+    sameAs: businessData.sameAs,
+    priceRange: businessData.priceRange,
+    areaServed: businessData.areaServed,
+    founder: {
+      '@type': 'Person',
+      name: site.author.name,
+      url: site.author.url
+    },
+    logo: {
+      '@type': 'ImageObject',
+      url: `${site.url}${site.image.src}`,
+      width: site.image.width,
+      height: site.image.height
+    }
+  };
+}
+
+export function generateServiceSchema(serviceData: ServiceData) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: serviceData.name,
+    description: serviceData.description,
+    serviceType: serviceData.serviceType,
+    provider: {
+      '@type': 'LocalBusiness',
+      name: serviceData.provider?.name || site.titleAlt,
+      url: serviceData.provider?.url || site.url
+    },
+    areaServed: serviceData.areaServed || ['India', 'Global'],
+    hasOfferCatalog: serviceData.hasOfferCatalog ? {
+      '@type': 'OfferCatalog',
+      name: serviceData.hasOfferCatalog.name,
+      itemListElement: serviceData.hasOfferCatalog.itemListElement.map(item => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: item.name,
+          description: item.description
+        },
+        price: item.price,
+        priceCurrency: item.priceCurrency || 'USD'
+      }))
+    } : undefined,
+    aggregateRating: serviceData.aggregateRating ? {
+      '@type': 'AggregateRating',
+      ratingValue: serviceData.aggregateRating.ratingValue,
+      reviewCount: serviceData.aggregateRating.reviewCount
+    } : undefined
+  };
+}
+
+export function generateFAQPageSchema(faqs: FAQData[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
+  };
+}
+
+export function generateBreadcrumbListSchema(breadcrumbs: BreadcrumbItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: breadcrumb.name,
+      item: breadcrumb.url
+    }))
+  };
+}
+
+export function generateBreadcrumbsFromPath(path: string, baseUrl: string = site.url): BreadcrumbItem[] {
+  const pathSegments = path.split('/').filter(segment => segment !== '');
+  const breadcrumbs: BreadcrumbItem[] = [
+    { name: 'Home', url: baseUrl }
+  ];
+
+  let currentPath = '';
+  pathSegments.forEach(segment => {
+    currentPath += `/${segment}`;
+    const name = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+    breadcrumbs.push({
+      name,
+      url: `${baseUrl}${currentPath}`
+    });
+  });
+
+  return breadcrumbs;
+}
+
+export function generatePersonSchema(personData?: Partial<PersonData>) {
+  const defaultPersonData: PersonData = {
+    name: site.author.name,
+    url: site.author.url,
+    image: `${site.url}${site.image.src}`,
+    jobTitle: 'Designer & Developer',
+    worksFor: {
+      name: site.titleAlt,
+      url: site.url
+    },
+    sameAs: [
+      site.twitterUrl,
+      site.linkedinUrl,
+      site.githubUrl,
+      site.instagramUrl
+    ],
+    knowsAbout: [
+      'Web Design',
+      'User Experience Design',
+      'Frontend Development',
+      'Automation',
+      'AI Integration',
+      'Whitelabel Solutions'
+    ],
+    description: site.description,
+    ...personData
+  };
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: defaultPersonData.name,
+    url: defaultPersonData.url,
+    image: {
+      '@type': 'ImageObject',
+      url: defaultPersonData.image
+    },
+    jobTitle: defaultPersonData.jobTitle,
+    worksFor: {
+      '@type': 'Organization',
+      name: defaultPersonData.worksFor?.name,
+      url: defaultPersonData.worksFor?.url
+    },
+    sameAs: defaultPersonData.sameAs,
+    knowsAbout: defaultPersonData.knowsAbout,
+    description: defaultPersonData.description
+  };
+}
+
+// Utility function to safely generate schema with error handling
+export function safeSchemaGeneration<T>(
+  generator: () => T,
+  fallback: T | null = null
+): T | null {
+  try {
+    return generator();
+  } catch (error) {
+    console.error('Schema generation error:', error);
+    return fallback;
+  }
+}
+
+// Combined schema generator for different page types
+export interface PageSchemaOptions {
+  pageType: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  title: string;
+  description: string;
+  path: string;
+  datePublished?: string;
+  dateModified?: string;
+  author?: Partial<PersonData>;
+  serviceData?: ServiceData;
+  faqs?: FAQData[];
+  includeBreadcrumbs?: boolean;
+  includeLocalBusiness?: boolean;
+}
+
+export function generatePageSchema(options: PageSchemaOptions) {
+  const schemas: any[] = [];
+
+  // Always include breadcrumbs unless explicitly disabled
+  if (options.includeBreadcrumbs !== false) {
+    const breadcrumbs = generateBreadcrumbsFromPath(options.path);
+    schemas.push(safeSchemaGeneration(() => generateBreadcrumbListSchema(breadcrumbs)));
+  }
+
+  // Include LocalBusiness schema for home, about, contact, or service pages
+  if (options.includeLocalBusiness || ['home', 'about', 'contact', 'service'].includes(options.pageType)) {
+    schemas.push(safeSchemaGeneration(() => generateLocalBusinessSchema()));
+  }
+
+  // Include Person schema for about page or when author data is provided
+  if (options.pageType === 'about' || options.author) {
+    schemas.push(safeSchemaGeneration(() => generatePersonSchema(options.author)));
+  }
+
+  // Include Service schema for service pages
+  if (options.pageType === 'service' && options.serviceData) {
+    schemas.push(safeSchemaGeneration(() => generateServiceSchema(options.serviceData!)));
+  }
+
+  // Include FAQ schema for FAQ pages
+  if (options.pageType === 'faq' && options.faqs) {
+    schemas.push(safeSchemaGeneration(() => generateFAQPageSchema(options.faqs!)));
+  }
+
+  // Base page/article schema
+  const baseSchema = {
+    '@context': 'https://schema.org',
+    '@type': options.pageType === 'article' ? 'Article' : 'WebPage',
+    url: `${site.url}${options.path}`,
+    name: options.title,
+    description: options.description,
+    inLanguage: site.siteLanguage,
+    datePublished: options.datePublished,
+    dateModified: options.dateModified || new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: options.author?.name || site.author.name,
+      url: options.author?.url || site.author.url
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: site.titleAlt,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${site.url}${site.image.src}`
+      }
+    }
+  };
+
+  schemas.unshift(baseSchema);
+
+  // Filter out null schemas and return
+  return schemas.filter(schema => schema !== null);
+}

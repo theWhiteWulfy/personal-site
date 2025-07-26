@@ -3,10 +3,47 @@ import Layout from "@layouts/Layout.astro";
 import site from "../config/site";
 import style from "../styles/archive.module.css";
 import Link from "@components/Link.astro";
+import type { ServiceData } from "@lib/schema-generators";
+
+// Define service data for schema markup
+const serviceData: ServiceData = {
+  name: "Custom Automation & Whitelabel Solutions",
+  description: "Professional automation services and whitelabel open-source solutions for businesses looking to eliminate manual work and reduce vendor lock-in.",
+  serviceType: "Technology Consulting",
+  provider: {
+    name: site.titleAlt,
+    url: site.url
+  },
+  areaServed: ["India", "Global"],
+  hasOfferCatalog: {
+    name: "Service Offerings",
+    itemListElement: [
+      {
+        name: "Custom Automation Solutions",
+        description: "End repetitive manual work with custom automation using n8n, APIs, and AI models",
+        price: "Starting at $4,000",
+        priceCurrency: "USD"
+      },
+      {
+        name: "Whitelabel Open-Source Solutions",
+        description: "Deploy and customize powerful open-source tools branded for your business",
+        price: "Starting at $2,000",
+        priceCurrency: "USD"
+      }
+    ]
+  }
+};
 
 ---
 
-<Layout title={site.title} description={site.description}>
+<Layout 
+  title="Services" 
+  description="Professional automation services and whitelabel solutions to eliminate manual work and reduce vendor dependencies."
+  pageType="service"
+  serviceData={serviceData}
+  includeLocalBusiness={true}
+  path="/services/"
+>
     <main class={style.main}>
         <div class={style.title}>
           <h1 class={style.heading}>

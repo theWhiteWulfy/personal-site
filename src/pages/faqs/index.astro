@@ -3,16 +3,33 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import style from "../../styles/archive.module.css";
 import Link from "@components/Link.astro";
+import type { FAQData } from "@lib/schema-generators";
 
 const data = (await getCollection("faqs"))
     .filter((faq) => !faq.data.draft)
     .sort((a, b) => b.data.order.valueOf() - a.data.order.valueOf());
+
+// Convert FAQ collection data to schema format
+const faqsData: FAQData[] = await Promise.all(
+    data.map(async (faq) => {
+        const { Content } = await faq.render();
+        // Extract text content from rendered content for schema
+        // This is a simplified approach - in production you might want more sophisticated content extraction
+        return {
+            question: faq.data.title,
+            answer: faq.data.excerpt || faq.data.title // Fallback to title if no excerpt
+        };
+    })
+);
 ---
 
 <Layout
     title={`Frequently asked questions`}
     path="/faqs/"
     description="Because no one likes to repeat things here's a compilation of answers to some questions that I liked answering."
+    pageType="faq"
+    faqs={faqsData}
+    includeLocalBusiness={true}
 >
     <main class={style.main}>
         <div class={style.title}>

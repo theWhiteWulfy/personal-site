@@ -5,6 +5,15 @@ import { ViewTransitions } from "astro:transitions";
 import '@fontsource/prompt';
 import '@fontsource/zilla-slab';
 import site from '@config/site';
+import { 
+  generatePageSchema, 
+  safeSchemaGeneration,
+  type PageSchemaOptions,
+  type ServiceData,
+  type FAQData,
+  type PersonData
+} from '@lib/schema-generators';
+
 interface Props {
   title: string;
   description: string;
@@ -20,7 +29,13 @@ interface Props {
   article?: boolean,
   author?: {
     name: string,
+    url?: string,
   },
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  serviceData?: ServiceData;
+  faqs?: FAQData[];
+  includeBreadcrumbs?: boolean;
+  includeLocalBusiness?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -41,86 +56,113 @@ const {
     name: site.author.name,
     url: site.author.url,
   },
-
+  pageType = article ? 'article' : 'default',
+  serviceData,
+  faqs,
+  includeBreadcrumbs = true,
+  includeLocalBusiness = false,
   } = Astro.props;
 
-  // schema.org in JSONLD format
-  // https://developers.google.com/search/docs/guides/intro-structured-data
-
-  let schemaArticle = null
-
-  const schemaOrgWebPage = {
-    '@context': 'http://schema.org',
-    '@type': 'WebPage',
-    url: path,
-    inLanguage: site.siteLanguage,
-    mainEntityOfPage: path,
-    description: description,
-    name: title,
-    author: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    copyrightHolder: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    creator: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: site.titleAlt,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${site.url}${metaImage.src}`,
-      },
-    },
+  // Generate enhanced schema using new utility functions with error handling
+  const schemaOptions: PageSchemaOptions = {
+    pageType,
+    title,
+    description,
+    path,
     datePublished,
     dateModified,
-    image: {
-      '@type': 'ImageObject',
-      url: metaImage.src,
-    },
-  }
+    author: author ? {
+      name: author.name,
+      url: author.url
+    } : undefined,
+    serviceData,
+    faqs,
+    includeBreadcrumbs,
+    includeLocalBusiness
+  };
 
-  if (article) {
-    schemaArticle = {
-      '@context': 'http://schema.org',
-      '@type': 'Article',
-      author: {
-        '@type': 'Person',
-        name: author.name,
-      },
-      creator: {
-        '@type': 'Person',
-        name: author.name,
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: site.titleAlt,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${site.url}${metaImage.src}`,
-        },
-      },
-      headline: title,
-      datePublished,
-      dateModified,
-      description: description,
-      inLanguage: site.siteLanguage,
-      url: path,
-      name: title,
-      image: {
-        '@type': 'ImageObject',
-        url: metaImage.src,
-      },
-      mainEntityOfPage: path,
+  // Enhanced error handling for schema generation with detailed logging
+  let pageSchemas: any[] = [];
+  try {
+    pageSchemas = generatePageSchema(schemaOptions);
+    
+    // Validate that we have valid schemas
+    if (!Array.isArray(pageSchemas)) {
+      throw new Error('Schema generation returned invalid format');
     }
+    
+    // Filter out any null or invalid schemas
+    pageSchemas = pageSchemas.filter(schema => {
+      if (!schema || typeof schema !== 'object') {
+        console.warn('Invalid schema object filtered out:', schema);
+        return false;
+      }
+      if (!schema['@context'] || !schema['@type']) {
+        console.warn('Schema missing required @context or @type:', schema);
+        return false;
+      }
+      return true;
+    });
+    
+  } catch (error) {
+    console.error('Schema generation failed:', error);
+    console.error('Schema options that caused failure:', schemaOptions);
+    
+    // Fallback to basic schema with additional error handling
+    const fallbackSchema = safeSchemaGeneration(() => {
+      const baseSchema: any = {
+        '@context': 'https://schema.org',
+        '@type': article ? 'Article' : 'WebPage',
+        url: `${site.url}${path}`,
+        name: title,
+        description: description,
+        inLanguage: site.siteLanguage,
+        dateModified: dateModified
+      };
+      
+      // Safely add author information
+      if (author?.name || site.author?.name) {
+        baseSchema.author = {
+          '@type': 'Person',
+          name: author?.name || site.author.name,
+          ...(author?.url || site.author.url ? { url: author?.url || site.author.url } : {})
+        };
+      }
+      
+      // Add publisher for articles
+      if (article) {
+        baseSchema.publisher = {
+          '@type': 'Organization',
+          name: site.titleAlt,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${site.url}${site.image.src}`
+          }
+        };
+        
+        if (datePublished) {
+          baseSchema.datePublished = datePublished;
+        }
+      }
+      
+      return [baseSchema];
+    }, []);
+    
+    pageSchemas = fallbackSchema || [];
   }
-
-  let pageSchema = article ? schemaArticle : schemaOrgWebPage;
+  
+  // Final validation to ensure we have at least one valid schema
+  if (pageSchemas.length === 0) {
+    console.warn('No valid schemas generated, creating minimal fallback');
+    pageSchemas = [{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: `${site.url}${path}`,
+      name: title,
+      description: description,
+      inLanguage: site.siteLanguage
+    }];
+  }
 
 ---
 
@@ -252,13 +294,44 @@ const {
 
 <ViewTransitions />
 
-<script
-  type="application/ld+json"
-  id="pageSchema"
-  data-page-schema={JSON.stringify(pageSchema)}
-  is:inline
->
-</script>
+<!-- Enhanced Schema.org JSON-LD with multiple schema types and error handling -->
+{pageSchemas && pageSchemas.length > 0 && pageSchemas.map((schema, index) => {
+  try {
+    // Additional validation before JSON stringification
+    if (!schema || typeof schema !== 'object') {
+      console.warn(`Skipping invalid schema at index ${index}:`, schema);
+      return null;
+    }
+    
+    // Attempt to stringify with error handling for circular references
+    let jsonString;
+    try {
+      jsonString = JSON.stringify(schema, null, 0);
+    } catch (stringifyError) {
+      console.error(`JSON stringify error for schema ${index}:`, stringifyError);
+      console.error('Problematic schema object:', schema);
+      return null;
+    }
+    
+    // Validate that we have a valid JSON string
+    if (!jsonString || jsonString === '{}' || jsonString === 'null') {
+      console.warn(`Empty or invalid JSON for schema ${index}`);
+      return null;
+    }
+    
+    return (
+      <script
+        type="application/ld+json"
+        id={`pageSchema-${index}`}
+        set:html={jsonString}
+      />
+    );
+  } catch (error) {
+    console.error(`Schema rendering error for schema ${index}:`, error);
+    console.error('Schema that caused error:', schema);
+    return null;
+  }
+}).filter(Boolean)}
 
 <script is:inline>
   function addCopyCodeButtons() {
@@ -300,14 +373,4 @@ const {
 
 document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
 document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
-  // Client-side JavaScript to access and parse the pageSchema
-  document.addEventListener('DOMContentLoaded', () => {
-    const schemaElement = document.getElementById('pageSchema');
-    if (schemaElement) {
-      const pageSchema = JSON.parse(
-        schemaElement.getAttribute('data-page-schema')
-      );
-      schemaElement.innerHTML = JSON.stringify(pageSchema, null, 2); 
-    }
-  });
 </script>

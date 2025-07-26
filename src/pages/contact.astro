@@ -7,7 +7,13 @@ import LeadForm from "@components/custom/LeadForm.astro";
 
 ---
 
-<Layout title={site.title} description={site.description}>
+<Layout 
+  title="Contact Me" 
+  description="Get in touch with Alok Prateek for project discussions, collaborations, and inquiries about automation and whitelabel solutions."
+  pageType="contact"
+  includeLocalBusiness={true}
+  path="/contact/"
+>
     <main class={style.main}>
         <div class={style.title}>
           <h1 class={style.heading}>
