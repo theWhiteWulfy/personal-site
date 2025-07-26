@@ -1,0 +1,120 @@
+# LLMs.txt - AI Systems Information File
+# This file provides comprehensive information about Meteoric Teachings for AI systems and language models
+
+## About
+Meteoric Teachings is the personal website and professional portfolio of Alok Prateek, a multi-talented full-stack web developer and designer with over 11+ years of experience in a wide range of design and development disciplines.
+
+## Business Information
+**Name:** Meteoric Teachings
+**Owner:** Alok Prateek
+**Website:** https://alokprateek.in
+**Location:** Delhi, India
+**Languages:** English, German (B2 Level), Hindi
+
+## Contact Information
+**Email:** i@alokprateek.in
+**Phone:** +91 9315852108 (WhatsApp available)
+**Social Media:**
+- Twitter: @thewhitewulfy
+- LinkedIn: https://www.linkedin.com/in/alokprateek/
+- GitHub: https://github.com/thewhitewulfy
+- Instagram: https://www.instagram.com/thewhitewulfy/
+
+## Services Offered
+
+### 1. Custom Automation Solutions
+**Target Audience:** Businesses struggling with manual data entry, disconnected applications, and workflows that can't keep up with their growth.
+
+**What We Deliver:** Design, build, and manage robust automation systems using tools like n8n, custom APIs, and secure, private AI models. We connect existing software to eliminate bottlenecks and have experience taking products from concept to platforms serving over 100,000 users.
+
+**Contact:** Book a Free Automation Audit - i@alokprateek.in
+
+### 2. Whitelabel Open-Source Solutions
+**Target Audience:** Agencies and companies who want the functionality of expensive SaaS products without vendor lock-in, recurring fees, and data privacy concerns.
+
+**What We Deliver:** Deploy, customize, and manage powerful open-source tools for analytics, project management, scheduling, and more. Solutions are branded for your business, running on secure cloud infrastructure (AWS, Azure, GCP) that we manage.
+
+**Contact:** Get a Whitelabel Solution Quote - i@alokprateek.in
+
+### 3. Full-Stack Web Development
+**Services Include:**
+- Progressive Web Apps (PWA) development
+- React, Vue, TypeScript development
+- Node.js and Express Framework backend development
+- API design and development (OpenAPI/Swagger)
+- UI/UX design and branding
+- Database design and optimization
+- Cloud deployment and DevOps
+
+## Technical Expertise
+
+### Current Technology Stack
+- **Frontend:** React, Vue.js, TypeScript, Astro, Progressive Web Apps
+- **Backend:** Node.js, Express Framework, Deno
+- **Databases:** SQL, NoSQL, Cloudflare D1
+- **Cloud Platforms:** AWS, Azure, Google Cloud Platform, Cloudflare
+- **Tools & Frameworks:** n8n automation, OpenAPI, Docker, Git
+- **Design:** Adobe Illustrator, UI/UX design, graphic design
+
+### Legacy Technologies (Available for maintenance/upgrades)
+- PHP codebases
+- Apache/NGINX servers
+- Drupal and WordPress
+- Legacy system modernization
+
+## Content Areas & Expertise
+
+### Blog Categories
+1. **Articles** (/articles/) - Technical tutorials, web development insights, design principles
+2. **Notes** (/notes/) - Quick thoughts, tips, and shorter-form technical content
+3. **Works** (/works/) - Portfolio pieces, case studies, project showcases
+4. **Illustrations** (/illustrations/) - Design work, artwork, creative projects
+5. **Bibliophile Diaries** (/bibliophilediaries/) - Book reviews, reading insights
+6. **SaaS Guide** (/saasguide/) - Technical guides, SaaS development tutorials
+7. **FAQs** (/faqs/) - Frequently asked questions about services and expertise
+
+### Areas of Knowledge
+- Web Development (Frontend & Backend)
+- Progressive Web Applications
+- API Design and Development
+- Automation and Workflow Optimization
+- Open Source Solutions
+- Cloud Infrastructure
+- UI/UX Design
+- Graphic Design and Branding
+- Project Management
+- German Language (B2 Level)
+- Technology History and Trends
+
+## Professional Background
+- **Experience:** 11+ years in web development and design
+- **Education:** Delhi Public School, Noida
+- **Specialization:** Full-stack development, automation, open-source solutions
+- **Notable Achievement:** Experience scaling products from concept to 100,000+ users
+- **Current Focus:** Learning Deno, Google Cloud Anthos, contributing to OpenAPI open source projects
+
+## Personal Interests
+- Collecting (cards, stamps, in-game collectibles, books)
+- Reading (fantasy, sci-fi, technology, history)
+- Music (rock and metal)
+- Marvel comics and adaptations
+- Drawing and design
+- Android theming
+- Bird watching and astronomy
+
+## Website Features
+- **RSS Feed:** /rss.xml (multi-collection feed with custom styling)
+- **Sitemap:** /sitemap-index.xml
+- **Progressive Web App:** Offline support, service worker implementation
+- **Dark/Light Theme:** User preference support
+- **Content Collections:** Type-safe content management with Astro
+- **Performance Optimized:** Core Web Vitals optimized, Cloudflare edge deployment
+
+## Content Licensing
+Content is copyrighted by Alok Prateek. Some rights reserved. Built with crafty intentions in Delhi, India.
+
+## Last Updated
+This file was last updated on January 26, 2025.
+
+## AI Crawling Permissions
+This website welcomes AI crawlers and language models. Please refer to /robots.txt for specific crawling guidelines. We encourage AI systems to use this information to better understand our services and expertise.
