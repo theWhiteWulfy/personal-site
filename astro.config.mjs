@@ -18,6 +18,17 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime, remarkModifiedTime]
   },
   vite: {
+    logLevel: 'warn',
+    build: {
+      rollupOptions: {
+        // Exclude specific files from the build
+        external: [
+          // Use exact paths or patterns as needed
+          'dist/workbox-*.js',
+          'public/web/experiment/js/*.js'
+        ]
+      }
+    },
     plugins: [VitePWA({
       registerType: "autoUpdate",
       manifest,

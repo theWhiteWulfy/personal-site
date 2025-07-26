@@ -6,5 +6,9 @@
     "paths": {
       "@*": ["./src/*"]
     }
-  }
+  },
+  "exclude": [
+    "dist",
+    "public/web/experiment/js"
+  ]
 }
