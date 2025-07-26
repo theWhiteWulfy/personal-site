@@ -32,7 +32,6 @@
 - **PWA**: Vite PWA plugin with service worker and manifest
 - **Sitemap**: Automatic XML sitemap generation
 - **RSS**: Multi-collection feed with custom XSL styling
-- **Pagefind**: Client-side search (currently commented out)
 - **Giscus**: GitHub-based commenting system
 - **Compress**: Asset optimization and compression
 
