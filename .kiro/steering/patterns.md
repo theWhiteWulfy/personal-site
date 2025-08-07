@@ -57,36 +57,64 @@ import style from '@styles/component.module.css';
 </div>
 ```
 
-### Design Token Usage
+### Component Styling Pattern
 ```css
-/* Use CSS custom properties from variables.modules.css */
-.component {
-  color: var(--text-color);
-  font-family: var(--sans-serif-font);
-  font-size: var(--text-lg);
-  transition: var(--global-transition);
+/* Component-specific styles with CSS modules */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
-/* Responsive with custom media queries */
+.heading {
+  font-size: var(--text-xl);
+  color: var(--text-color);
+  margin-bottom: var(--space-sm);
+}
+
+/* Responsive styling */
 @media (--medium-up) {
-  .component {
-    font-size: var(--text-xl);
+  .wrapper {
+    flex-direction: row;
+    align-items: center;
   }
 }
 ```
 
-### Theme Support Pattern
+### Theme-Aware Styling
 ```css
-/* Light mode (default) */
-.component {
+/* Styles that adapt to theme changes */
+.card {
   background: var(--background-color);
   color: var(--text-color);
+  border: 1px solid var(--border-color);
+  transition: var(--global-transition);
 }
 
-/* Dark mode automatically handled via CSS custom properties */
-[data-theme="dark"] .component {
-  /* Variables automatically switch values */
+.card:hover {
+  background: var(--background-hover);
+  transform: translateY(-2px);
 }
+```
+
+### Utility Class Pattern
+```css
+/* Reusable utility classes */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-muted { color: var(--text-muted); }
+.mb-0 { margin-bottom: 0; }
 ```
 
 ## Content Processing Patterns
@@ -125,32 +153,72 @@ import { slugify } from '@lib/slugify.mjs';
 
 ## API Endpoint Patterns
 
-### Cloudflare D1 Database Pattern
+### Basic API Route Pattern
 ```typescript
 // src/pages/api/endpoint.ts
-export const prerender = false;
+export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
 
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
   const formData = await request.formData();
-  const email = formData.get('email');
+  const data = formData.get('data');
 
-  if (!locals?.runtime?.env?.DB) {
-    return new Response(JSON.stringify({ error: 'Database not configured' }), {
-      status: 500,
+  // Process the request data
+  const result = await processData(data);
+
+  return new Response(JSON.stringify({ result }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
+```
+
+### Form Processing Pattern
+```typescript
+// Handle form submissions with validation
+export const POST: APIRoute = async ({ request }: APIContext) => {
+  const formData = await request.formData();
+  const email = formData.get('email') as string;
+  
+  // Validation
+  if (!email || !email.includes('@')) {
+    return new Response(JSON.stringify({ error: 'Invalid email' }), {
+      status: 400,
       headers: { 'Content-Type': 'application/json' }
     });
   }
 
-  const { DB } = locals.runtime.env;
-  const query = 'INSERT INTO table (email) VALUES (?1)';
-  await DB.prepare(query).bind(email).run();
+  // Process form data
+  await handleFormSubmission(email);
 
   return new Response(JSON.stringify({ message: 'Success' }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   });
+};
+```
+
+### Error Handling Pattern
+```typescript
+// Consistent error handling across API routes
+export const POST: APIRoute = async ({ request }: APIContext) => {
+  try {
+    const data = await request.json();
+    const result = await processRequest(data);
+    
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 };
 ```
 
