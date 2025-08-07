@@ -28,6 +28,7 @@ type Props = {
   faqs?: FAQData[];
   includeBreadcrumbs?: boolean;
   includeLocalBusiness?: boolean;
+  keywords?: string[];
 };
 
 const { 
@@ -46,6 +47,7 @@ const {
   faqs,
   includeBreadcrumbs,
   includeLocalBusiness,
+  keywords,
   } = Astro.props;
   
 ---
@@ -76,7 +78,8 @@ const {
       serviceData = {serviceData},
       faqs = {faqs},
       includeBreadcrumbs = {includeBreadcrumbs},
-      includeLocalBusiness = {includeLocalBusiness}
+      includeLocalBusiness = {includeLocalBusiness},
+      keywords = {keywords}
     />
       <!-- Service worker registration. -->
 
