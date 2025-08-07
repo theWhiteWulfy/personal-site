@@ -79,10 +79,35 @@ Layout.astro (base HTML, Head, Header, Footer)
 ```
 
 ### CSS Architecture
-- **Variables**: `variables.modules.css` defines design tokens and custom media queries
-- **Global**: `global.css` contains utility classes and component styles
-- **Modules**: Component-specific styles with `.module.css` extension
-- **Theme**: Dark/light mode via `[data-theme]` attribute
+
+#### Build System & Processing
+- **PostCSS**: CSS processing with plugins (`postcss-import`, `postcss-nested`, `postcss-mixins`, `postcss-preset-env`, `cssnano`)
+- **Build Integration**: Integrated into Astro's Vite build pipeline
+- **Optimization**: Automatic minification and vendor prefixing via `cssnano` and `postcss-preset-env`
+
+#### File Organization & Structure
+- **Variables**: `variables.modules.css` defines design tokens, custom media queries, and CSS custom properties
+- **Global**: `global.css` contains utility classes, component styles, and base styling
+- **Reset**: `reset.css` provides consistent cross-browser baseline styles
+- **Modules**: Component-specific styles with `.module.css` extension for scoped styling
+- **Directory**: All CSS files organized in `src/styles/` directory
+
+#### Design System Architecture
+- **CSS Custom Properties**: Design tokens and theming system using CSS variables
+- **Design Tokens**: Centralized color, spacing, typography, and layout values
+- **Custom Media Queries**: Responsive breakpoints defined in variables file
+- **Theme Support**: Dark/light mode via `[data-theme]` attribute on document root
+
+#### Styling Methodologies
+- **CSS Modules**: Scoped component styles preventing global namespace pollution
+- **Utility Classes**: Reusable helper classes for common styling patterns
+- **Component-First**: Styles organized by component with modular architecture
+- **Progressive Enhancement**: Base styles with enhanced features for capable browsers
+
+#### Typography & Fonts
+- **Fontsource**: Self-hosted web fonts (Prompt, Zilla Slab) for performance and privacy
+- **Font Loading**: Optimized font loading strategy with fallbacks
+- **Typography Scale**: Consistent font sizing using CSS custom properties
 
 ### Remark Plugin Chain
 1. **Reading Time**: Calculates reading time from content
@@ -98,26 +123,32 @@ Layout.astro (base HTML, Head, Header, Footer)
 - **Collections**: Lowercase, plural directory names
 
 ## Content Frontmatter Standards
-Required fields for all content:
+
+### Required Fields Schema
 ```yaml
-title: string
-path: string  
-date: YYYY-MM-DD
-last_modified_at: YYYY-MM-DD
-excerpt: string
+title: string           # Content title
+path: string           # URL path/slug
+date: YYYY-MM-DD       # Publication date
+last_modified_at: YYYY-MM-DD  # Last modification date
+excerpt: string        # Content summary
 ```
 
-Optional fields:
+### Optional Fields Schema
 ```yaml
-image: string (relative path)
-categories: string[]
-tags: string[]
-toc: boolean
-hide_meta: boolean
-comments: boolean
-featured: boolean
-draft: boolean
+image: string          # Relative path to cover image
+categories: string[]   # Content categorization
+tags: string[]         # Content tagging
+toc: boolean          # Table of contents display
+hide_meta: boolean    # Hide metadata display
+comments: boolean     # Enable/disable comments
+featured: boolean     # Featured content flag
+draft: boolean        # Draft status
 ```
+
+### Schema Validation
+- All frontmatter validated via Zod schemas in `src/content/config.ts`
+- Type safety enforced at build time
+- Required fields cause build failure if missing
 
 ## API Endpoint Patterns
 - **Location**: `src/pages/api/[endpoint].ts`

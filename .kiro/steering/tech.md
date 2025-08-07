@@ -59,9 +59,7 @@ export default defineConfig({
 - **Frontmatter**: YAML metadata with strict schema validation
 
 ## Styling & Design System
-- **PostCSS**: CSS processing with plugins (`postcss-import`, `postcss-nested`, `postcss-mixins`, `postcss-preset-env`, `cssnano`)
-- **CSS Modules**: Scoped component styles (`.module.css`)
-- **CSS Custom Properties**: Design tokens and theming
+- **PostCSS**: CSS processing with plugins (see structure.md for complete CSS architecture)
 - **Fontsource**: Self-hosted web fonts (Prompt, Zilla Slab)
 
 ## Key Integrations & APIs
