@@ -18,21 +18,12 @@ Node.js (latest)
 ```
 
 ### Astro Cloudflare Adapter
-```javascript
-// astro.config.mjs
-import cloudflare from "@astrojs/cloudflare";
+Deployment uses the Cloudflare adapter (see tech.md for full Astro configuration). Key deployment-specific settings:
 
-export default defineConfig({
-  site: "https://alokprateek.in/",
-  output: "hybrid", // Static + server-rendered pages
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true,  // Access to Cloudflare runtime in dev
-    },
-    imageService: 'passthrough', // Use Cloudflare's image optimization
-  })
-});
-```
+- **adapter: cloudflare()**: Enables Cloudflare Pages deployment
+- **platformProxy.enabled**: Access to Cloudflare runtime in development
+- **imageService: 'passthrough'**: Delegates image optimization to Cloudflare
+- **output: "hybrid"**: Combines static generation with server-rendered API routes
 
 ## Wrangler Configuration
 
@@ -49,11 +40,8 @@ database_id = "8380ec22-098e-4814-a56f-48d907425b35"
 
 ### Local Development
 ```bash
-# Preview with Cloudflare Pages locally
-npm run cfpreview
-
-# Uses wrangler pages dev ./dist
-# Provides access to D1 database and other Cloudflare features
+# Preview with Cloudflare Pages locally (see tech.md for all commands)
+npm run cfpreview   # Uses wrangler pages dev ./dist
 ```
 
 ## Security Headers
@@ -191,11 +179,8 @@ export default defineConfig({
 
 ### Local Development
 ```bash
-# Standard development
+# Standard development (see tech.md for all commands)
 npm run dev          # Astro dev server (no Cloudflare features)
-
-# Cloudflare development
-npm run build        # Build for production
 npm run cfpreview    # Preview with Cloudflare runtime
 ```
 

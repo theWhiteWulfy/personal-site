@@ -6,25 +6,12 @@ The site implements a Progressive Web App using Vite PWA plugin with automatic s
 ## Core PWA Architecture
 
 ### Vite PWA Plugin Configuration
-```javascript
-// astro.config.mjs
-import { VitePWA } from "vite-plugin-pwa";
-import { manifest } from "./src/config/manifest";
+PWA configuration is integrated into the main Astro config (see tech.md). Key PWA-specific settings:
 
-export default defineConfig({
-  vite: {
-    plugins: [VitePWA({
-      registerType: "autoUpdate",
-      manifest,
-      workbox: {
-        globDirectory: 'dist',
-        globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
-        navigateFallback: null // Prevents console errors for document-based requests
-      }
-    })]
-  }
-});
-```
+- **registerType: "autoUpdate"**: Service worker updates automatically
+- **manifest**: Web app manifest from `src/config/manifest.ts`
+- **workbox.globPatterns**: Asset caching patterns for offline support
+- **workbox.navigateFallback: null**: Prevents console errors for document requests
 
 ### Web App Manifest
 ```typescript
@@ -135,9 +122,8 @@ globPatterns: [
 
 ### Testing PWA Features
 ```bash
-# Build and preview to test PWA
-npm run build
-npm run preview
+# Build and preview to test PWA (see tech.md for all commands)
+npm run build && npm run preview
 
 # Test with Cloudflare Pages locally
 npm run cfpreview
@@ -158,16 +144,10 @@ npm run cfpreview
 ## Integration with Astro
 
 ### Hybrid Rendering Compatibility
-```javascript
-// astro.config.mjs
-export default defineConfig({
-  output: "hybrid", // Static + server-rendered pages
-  adapter: cloudflare({
-    platformProxy: { enabled: true },
-    imageService: 'passthrough',
-  })
-});
-```
+PWA works with Astro's hybrid rendering mode (see tech.md for full configuration):
+- **Static pages**: Pre-rendered content pages cached by service worker
+- **Server-rendered pages**: API endpoints excluded from aggressive caching
+- **Cloudflare adapter**: Enables PWA deployment on Cloudflare Pages
 
 ### API Route Considerations
 ```typescript

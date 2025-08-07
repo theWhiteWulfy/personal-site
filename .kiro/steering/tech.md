@@ -6,6 +6,46 @@
 - **TypeScript**: Type-safe JavaScript with strict configuration
 - **Vite**: Build tool and dev server
 
+### Core Astro Configuration
+```javascript
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import cloudflare from "@astrojs/cloudflare";
+import { VitePWA } from "vite-plugin-pwa";
+import playformCompress from "@playform/compress";
+import { manifest } from "./src/config/manifest";
+
+export default defineConfig({
+  site: "https://alokprateek.in/",
+  output: "hybrid", // Static + server-rendered pages
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,  // Access to Cloudflare runtime in dev
+    },
+    imageService: 'passthrough', // Use Cloudflare's image optimization
+  }),
+  integrations: [playformCompress()], // Asset compression
+  vite: {
+    plugins: [VitePWA({
+      registerType: "autoUpdate",
+      manifest,
+      workbox: {
+        globDirectory: 'dist',
+        globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+        navigateFallback: null // Prevents console errors for document-based requests
+      }
+    })]
+  }
+});
+```
+
+### Astro Project Structure
+- **Hybrid Rendering**: Static generation with on-demand server rendering
+- **File-based Routing**: Pages in `src/pages/` directory
+- **Dynamic Routes**: `[...slug].astro` pattern for collection pages
+- **API Endpoints**: Server routes in `/api/` directory with TypeScript
+- **Static Generation**: `getStaticPaths()` for build-time page generation
+
 ## Deployment & Hosting
 - **Cloudflare Pages**: Static hosting with edge functions
 - **Wrangler**: Cloudflare deployment tool (`wrangler.toml`)
@@ -19,39 +59,32 @@
 - **Frontmatter**: YAML metadata with strict schema validation
 
 ## Styling & Design System
-- **PostCSS**: CSS processing with modern features
-  - `postcss-import`, `postcss-nested`, `postcss-mixins`
-  - `postcss-preset-env` for future CSS features
-  - `cssnano` for optimization
+- **PostCSS**: CSS processing with plugins (`postcss-import`, `postcss-nested`, `postcss-mixins`, `postcss-preset-env`, `cssnano`)
 - **CSS Modules**: Scoped component styles (`.module.css`)
-- **CSS Custom Properties**: Design tokens in `src/styles/variables.modules.css`
-- **Custom Media Queries**: Responsive breakpoints via PostCSS
+- **CSS Custom Properties**: Design tokens and theming
 - **Fontsource**: Self-hosted web fonts (Prompt, Zilla Slab)
 
 ## Key Integrations & APIs
 - **PWA**: Vite PWA plugin with service worker and manifest
-- **Sitemap**: Automatic XML sitemap generation
+- **Sitemap**: Automatic XML sitemap generation (`@astrojs/sitemap`)
 - **RSS**: Multi-collection feed with custom XSL styling
 - **Giscus**: GitHub-based commenting system
-- **Compress**: Asset optimization and compression
+- **Compress**: Asset optimization and compression (`@playform/compress`)
+- **Cloudflare D1**: SQLite database for newsletter subscriptions
+- **Wrangler**: Cloudflare deployment and development tool
 
 ## Development Patterns
 
 ### Component Architecture
 - **Layout System**: `Layout.astro` (base) → `PageLayout.astro` (content pages)
 - **Head Component**: Centralized SEO, meta tags, and schema.org JSON-LD
-- **CSS Modules**: Component-scoped styles with BEM-like naming
 - **Astro Components**: `.astro` files with frontmatter logic and template
 
 ### Content Processing
-- **Dynamic Routes**: `[...slug].astro` pattern for collection pages
-- **Static Generation**: `getStaticPaths()` for build-time page generation  
 - **Remark Pipeline**: Reading time calculation and Git modification dates
 - **Image Processing**: Custom `AstroImage` component with lazy loading
 
 ### API Endpoints
-- **Server Routes**: `/api/` directory with TypeScript endpoints
-- **Cloudflare Integration**: Access to D1 database via `locals.runtime.env`
 - **Form Handling**: Newsletter and contact form processing
 
 ## Development Tools
@@ -59,7 +92,7 @@
 - **TypeScript**: Strict type checking with path aliases (`@*` → `./src/*`)
 - **Path Aliases**: Clean imports from src root
 
-## Common Commands & Workflows
+## Development Commands
 
 ```bash
 # Development
