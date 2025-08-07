@@ -6,12 +6,22 @@ The site implements a Progressive Web App using Vite PWA plugin with automatic s
 ## Core PWA Architecture
 
 ### Vite PWA Plugin Configuration
-PWA configuration is integrated into the main Astro config (see tech.md). Key PWA-specific settings:
+PWA configuration is integrated into the main Astro config (see tech.md for complete Astro configuration). Key PWA-specific settings:
 
-- **registerType: "autoUpdate"**: Service worker updates automatically
-- **manifest**: Web app manifest from `src/config/manifest.ts`
-- **workbox.globPatterns**: Asset caching patterns for offline support
-- **workbox.navigateFallback: null**: Prevents console errors for document requests
+```javascript
+// astro.config.mjs - PWA-specific configuration only
+vite: {
+  plugins: [VitePWA({
+    registerType: "autoUpdate",        // Service worker updates automatically
+    manifest,                          // Web app manifest from src/config/manifest.ts
+    workbox: {
+      globDirectory: 'dist',
+      globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}'],
+      navigateFallback: null           // Prevents console errors for document requests
+    }
+  })]
+}
+```
 
 ### Web App Manifest
 ```typescript
@@ -32,28 +42,11 @@ export const manifest: Partial<ManifestOptions> = {
 
 ## Service Worker Integration
 
-### Registration Pattern
-```astro
-<!-- src/layouts/Layout.astro -->
-<head>
-  <!-- Service worker registration -->
-  <script is:inline src="/registerSW.js"></script>
-  <link rel="manifest" href="/manifest.webmanifest" />
-</head>
-
-<body>
-  <!-- Vite PWA hack - DO NOT REMOVE -->
-  <script>
-    // This is a hack to get vite-plugin-pwa to generate a sw.js file.
-    // Do not remove this script tag.
-  </script>
-</body>
-```
-
 ### Auto-Update Behavior
 - **registerType: "autoUpdate"**: Service worker updates automatically
 - **No user prompt**: Updates happen seamlessly in background
 - **Cache Strategy**: Workbox handles caching with glob patterns
+- **Update Detection**: Service worker controller changes trigger notifications
 
 ## Update Notification System
 
@@ -118,14 +111,43 @@ globPatterns: [
 - ✅ **Security Headers**: CSP and security headers via Cloudflare
 - ✅ **Performance**: Optimized asset caching strategy
 
-## Development Patterns
+## PWA Development Patterns
+
+### Service Worker Registration Pattern
+```astro
+<!-- src/layouts/Layout.astro - PWA integration -->
+<head>
+  <!-- Service worker registration -->
+  <script is:inline src="/registerSW.js"></script>
+  <link rel="manifest" href="/manifest.webmanifest" />
+</head>
+
+<body>
+  <!-- Vite PWA hack - DO NOT REMOVE -->
+  <script>
+    // This is a hack to get vite-plugin-pwa to generate a sw.js file.
+    // Do not remove this script tag.
+  </script>
+</body>
+```
+
+### PWA Update Detection Pattern
+```javascript
+// Custom update notification handling
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    // Show update notification
+    showUpdateNotification();
+  });
+}
+```
 
 ### Testing PWA Features
 ```bash
-# Build and preview to test PWA (see tech.md for all commands)
+# Build and preview to test PWA functionality (see tech.md for all development commands)
 npm run build && npm run preview
 
-# Test with Cloudflare Pages locally
+# Test PWA with Cloudflare Pages locally for service worker functionality
 npm run cfpreview
 ```
 
@@ -134,6 +156,7 @@ npm run cfpreview
 2. **Manifest**: Application tab → Manifest
 3. **Cache**: Application tab → Storage → Cache Storage
 4. **Network**: Test offline functionality
+5. **Lighthouse**: PWA audit and performance testing
 
 ### Icon Generation
 - **Source**: Favicon files in `/public/favicons/`
@@ -144,24 +167,17 @@ npm run cfpreview
 ## Integration with Astro
 
 ### Hybrid Rendering Compatibility
-PWA works with Astro's hybrid rendering mode (see tech.md for full configuration):
+PWA works with Astro's hybrid rendering mode (see tech.md for complete Astro configuration):
 - **Static pages**: Pre-rendered content pages cached by service worker
 - **Server-rendered pages**: API endpoints excluded from aggressive caching
-- **Cloudflare adapter**: Enables PWA deployment on Cloudflare Pages
-
-### API Route Considerations
-```typescript
-// src/pages/api/newsletter.ts
-export const prerender = false; // Server-rendered API routes
-```
+- **PWA Assets**: Service worker and manifest files deployed with static assets
 
 ## Performance Optimizations
 
-### Asset Optimization
-- **Compression**: `@playform/compress` integration
-- **Image Processing**: Custom `AstroImage` component
-- **Font Loading**: Fontsource self-hosted fonts
-- **CSS**: PostCSS optimization pipeline
+### PWA Asset Optimization
+- **Service Worker Caching**: Optimized asset caching for offline functionality
+- **Manifest Optimization**: Compressed icons and optimized manifest delivery
+- **Cache Strategy**: Intelligent caching of PWA-specific assets
 
 ### Caching Strategy
 - **Static Assets**: Long-term caching via service worker
@@ -170,38 +186,92 @@ export const prerender = false; // Server-rendered API routes
 
 ## Deployment Considerations
 
-### Cloudflare Pages Integration
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist/`
+### PWA Deployment Integration
 - **Service Worker**: Automatically deployed with static assets
-- **Headers**: Security headers via `public/_headers`
+- **Manifest File**: Deployed to root directory as `/manifest.webmanifest`
+- **PWA Assets**: Icons and PWA-specific files deployed with build
 
-### Security Headers
-```
-# public/_headers
-/*
-  X-XSS-Protection: 1; mode=block
-  X-Content-Type-Options: nosniff
-  Content-Security-Policy: form-action https:
-  Referrer-Policy: strict-origin-when-cross-origin
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
-```
+### PWA Security Considerations
+- **Content Security Policy**: PWA assets served with appropriate CSP headers (see deploy.md for complete security configuration)
+- **Service Worker Security**: Secure service worker registration and update mechanisms
+- **Manifest Security**: Web app manifest served with proper MIME types and security headers
 
 ## Troubleshooting
 
-### Common Issues
-1. **Service Worker Not Updating**: Check cache headers and version
-2. **Manifest Not Loading**: Verify path and MIME type
-3. **Icons Not Displaying**: Check icon paths and sizes
-4. **Offline Not Working**: Verify glob patterns and cache strategy
+### Common PWA Issues
 
-### Debug Commands
-```bash
-# Check service worker registration
+#### Service Worker Issues
+1. **Service Worker Not Updating**: 
+   - Check cache headers and version
+   - Verify `registerType: "autoUpdate"` configuration
+   - Clear browser cache and hard refresh
+   - Check for console errors during registration
+
+2. **Service Worker Not Registering**:
+   - Verify `/registerSW.js` file exists in public directory
+   - Check HTTPS requirement (service workers require secure context)
+   - Verify script tag in Layout.astro is not removed
+
+#### Manifest Issues
+3. **Manifest Not Loading**: 
+   - Verify `/manifest.webmanifest` path and MIME type
+   - Check manifest link tag in head section
+   - Validate manifest JSON structure
+
+4. **Icons Not Displaying**: 
+   - Check icon paths and sizes in manifest
+   - Verify all icon files exist in `/public/favicons/`
+   - Ensure icons support "any maskable" purpose
+
+#### Caching Issues
+5. **Offline Not Working**: 
+   - Verify glob patterns in workbox configuration
+   - Check service worker cache storage in DevTools
+   - Test network throttling in DevTools
+
+6. **Assets Not Caching**:
+   - Verify file extensions in globPatterns
+   - Check cache storage size limits
+   - Ensure assets are within cache scope
+
+#### Installation Issues
+7. **Install Prompt Not Showing**:
+   - Verify all PWA criteria are met (manifest, service worker, HTTPS)
+   - Check browser PWA installation requirements
+   - Test on different browsers and devices
+
+### PWA Debug Commands
+```javascript
+// Check service worker registration status
 console.log(navigator.serviceWorker.controller);
 
-# Force service worker update
+// Get all service worker registrations
+navigator.serviceWorker.getRegistrations().then(registrations => {
+  console.log('Registered service workers:', registrations);
+});
+
+// Force service worker update
 navigator.serviceWorker.getRegistrations().then(registrations => {
   registrations.forEach(registration => registration.update());
 });
+
+// Check cache storage
+caches.keys().then(cacheNames => {
+  console.log('Available caches:', cacheNames);
+});
+
+// Check if app is installable
+window.addEventListener('beforeinstallprompt', (e) => {
+  console.log('App is installable');
+});
 ```
+
+### PWA Testing Checklist
+- [ ] Service worker registers successfully
+- [ ] Manifest loads without errors
+- [ ] All icons display correctly
+- [ ] Offline functionality works
+- [ ] Install prompt appears (when criteria met)
+- [ ] Updates work automatically
+- [ ] Cache strategy functions properly
+- [ ] PWA passes Lighthouse audit
