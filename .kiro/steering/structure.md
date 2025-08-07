@@ -26,13 +26,13 @@ src/
 │   ├── manifest.ts   # PWA manifest
 │   └── taxonomy.yml  # Content taxonomy
 ├── content/          # Content collections (Markdown/MDX)
-│   ├── articles/     # Blog articles
-│   ├── notes/        # Short-form content
-│   ├── works/        # Portfolio pieces
-│   ├── illustrations/ # Design work
-│   ├── bibliophilediaries/ # Book reviews
-│   ├── saasguide/    # Technical guides
-│   ├── faqs/         # FAQ content
+│   ├── articles/     # Blog articles (Content collection)
+│   ├── notes/        # Short-form content (Content collection)
+│   ├── works/        # Portfolio pieces (Content collection)
+│   ├── illustrations/ # Design work (Content collection)
+│   ├── bibliophilediaries/ # Book reviews (Content collection)
+│   ├── saasguide/    # Technical guides (Content collection)
+│   ├── faqs/         # FAQ content (Content collection)
 │   ├── albums/       # Photo albums (data collection)
 │   └── config.ts     # Content collection schemas
 ├── images/           # Image assets
