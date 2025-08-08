@@ -13,6 +13,10 @@ import {
   type FAQData,
   type PersonData
 } from '@lib/schema-generators';
+import { 
+  initializeAnalyticsConfig,
+  type AnalyticsConfig 
+} from '@lib/analytics';
 
 interface Props {
   title: string;
@@ -165,6 +169,9 @@ const {
       inLanguage: site.siteLanguage
     }];
   }
+
+  // Initialize analytics configuration
+  const analyticsConfig: AnalyticsConfig = initializeAnalyticsConfig(site);
 
 ---
 
@@ -337,6 +344,260 @@ const {
     return null;
   }
 }).filter(Boolean)}
+
+<!-- Google Analytics 4 -->
+{analyticsConfig.ga4.enabled && analyticsConfig.ga4.measurementId && (
+  <>
+    <!-- GA4 Global Site Tag (gtag.js) -->
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
+    <script is:inline define:vars={{ 
+      measurementId: analyticsConfig.ga4.measurementId,
+      anonymizeIp: analyticsConfig.ga4.anonymizeIp,
+      cookieConsent: analyticsConfig.ga4.cookieConsent,
+      trackingOptOut: analyticsConfig.ga4.trackingOptOut,
+      customDimensions: analyticsConfig.ga4.customDimensions
+    }}>
+      // Initialize Google Analytics 4
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Configure GA4 with privacy settings
+      const ga4Config = {
+        anonymize_ip: anonymizeIp,
+        allow_google_signals: !trackingOptOut,
+        allow_ad_personalization_signals: !trackingOptOut,
+        cookie_flags: 'SameSite=Strict;Secure'
+      };
+
+      // Add custom dimensions if provided
+      if (customDimensions && Object.keys(customDimensions).length > 0) {
+        Object.assign(ga4Config, customDimensions);
+      }
+
+      // Set consent mode if required
+      if (cookieConsent) {
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied',
+          'functionality_storage': 'denied',
+          'personalization_storage': 'denied',
+          'security_storage': 'granted'
+        });
+      }
+
+      gtag('config', measurementId, ga4Config);
+
+      // Enhanced measurement events for engagement tracking
+      gtag('config', measurementId, {
+        ...ga4Config,
+        enhanced_measurement: {
+          scrolls: true,
+          outbound_clicks: true,
+          site_search: true,
+          video_engagement: true,
+          file_downloads: true
+        }
+      });
+
+      console.log('Analytics: GA4 initialized with measurement ID:', measurementId);
+    </script>
+  </>
+)}
+
+<!-- Microsoft Clarity -->
+{analyticsConfig.clarity.enabled && analyticsConfig.clarity.projectId && (
+  <script is:inline define:vars={{ 
+    projectId: analyticsConfig.clarity.projectId,
+    cookieConsent: analyticsConfig.clarity.cookieConsent
+  }}>
+    // Initialize Microsoft Clarity with privacy considerations
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", projectId);
+
+    console.log('Analytics: Microsoft Clarity initialized with project ID:', projectId);
+  </script>
+)}
+
+<!-- Analytics Consent Management -->
+<script is:inline define:vars={{ 
+  requireConsent: analyticsConfig.consentRequired,
+  optOutCookieName: analyticsConfig.optOutCookieName,
+  ga4MeasurementId: analyticsConfig.ga4.measurementId,
+  clarityProjectId: analyticsConfig.clarity.projectId
+}}>
+  // Analytics consent and opt-out management
+  function checkAnalyticsConsent() {
+    if (!requireConsent) return true;
+    
+    try {
+      const consentCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('analytics_consent='));
+      return consentCookie?.split('=')[1] === 'true';
+    } catch (error) {
+      console.warn('Analytics: Error checking consent:', error);
+      return false;
+    }
+  }
+
+  function hasOptedOut() {
+    try {
+      const optOutCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(optOutCookieName + '='));
+      return optOutCookie?.split('=')[1] === 'true';
+    } catch (error) {
+      console.warn('Analytics: Error checking opt-out status:', error);
+      return true;
+    }
+  }
+
+  function setAnalyticsConsent(consent) {
+    try {
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = `analytics_consent=${consent}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+      
+      if (consent && !hasOptedOut() && window.gtag) {
+        // Update consent for GA4
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'granted',
+          'ad_storage': 'denied', // Keep ad storage denied for privacy
+          'functionality_storage': 'granted'
+        });
+      }
+    } catch (error) {
+      console.warn('Analytics: Error setting consent:', error);
+    }
+  }
+
+  function setOptOutPreference(optOut) {
+    try {
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = `${optOutCookieName}=${optOut}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+      
+      if (optOut && window.gtag) {
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied'
+        });
+      }
+    } catch (error) {
+      console.warn('Analytics: Error setting opt-out preference:', error);
+    }
+  }
+
+  // Enhanced event tracking for engagement
+  function trackEngagementEvent(eventName, parameters) {
+    if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
+      return;
+    }
+
+    try {
+      // Track with GA4
+      if (window.gtag) {
+        window.gtag('event', eventName, {
+          ...parameters,
+          event_category: 'engagement',
+          send_to: ga4MeasurementId
+        });
+      }
+
+      // Track with Clarity
+      if (window.clarity) {
+        window.clarity('event', eventName, parameters);
+      }
+    } catch (error) {
+      console.warn('Analytics: Error tracking engagement event:', error);
+    }
+  }
+
+  function trackConversionEvent(eventName, parameters) {
+    if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
+      return;
+    }
+
+    try {
+      // Track with GA4
+      if (window.gtag) {
+        window.gtag('event', eventName, {
+          ...parameters,
+          event_category: 'conversion',
+          send_to: ga4MeasurementId
+        });
+      }
+
+      // Track with Clarity
+      if (window.clarity) {
+        window.clarity('event', eventName, parameters);
+      }
+    } catch (error) {
+      console.warn('Analytics: Error tracking conversion event:', error);
+    }
+  }
+
+  // Make functions globally available for engagement components
+  window.trackEngagementEvent = trackEngagementEvent;
+  window.trackConversionEvent = trackConversionEvent;
+  window.setAnalyticsConsent = setAnalyticsConsent;
+  window.setOptOutPreference = setOptOutPreference;
+  window.checkAnalyticsConsent = checkAnalyticsConsent;
+  window.hasOptedOut = hasOptedOut;
+
+  // Auto-track phone and email clicks
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track phone number clicks
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('phone_click', {
+          conversion_type: 'phone_contact',
+          phone_number: this.href.replace('tel:', ''),
+          value: 10
+        });
+      });
+    });
+
+    // Track email clicks
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('email_click', {
+          conversion_type: 'email_contact',
+          email_address: this.href.replace('mailto:', ''),
+          value: 8
+        });
+      });
+    });
+  });
+
+  // Re-initialize tracking after page transitions
+  document.addEventListener('astro:after-swap', function() {
+    // Re-attach event listeners for phone and email tracking
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('phone_click', {
+          conversion_type: 'phone_contact',
+          phone_number: this.href.replace('tel:', ''),
+          value: 10
+        });
+      });
+    });
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('email_click', {
+          conversion_type: 'email_contact',
+          email_address: this.href.replace('mailto:', ''),
+          value: 8
+        });
+      });
+    });
+  });
+</script>
 
 <script is:inline>
   function addCopyCodeButtons() {

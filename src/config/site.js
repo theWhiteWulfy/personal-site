@@ -13,7 +13,16 @@ const site = {
     height: 675,
   },
   ogLanguage: 'en_US', // Facebook Language
-  googleAnalyticsID: 'UA-85177250-1',
+  googleAnalyticsID: 'UA-85177250-1', // Legacy GA (deprecated)
+  
+  // Analytics Configuration
+  ga4MeasurementId: 'G-XXXXXXXXXX', // Replace with actual GA4 measurement ID
+  clarityProjectId: 'XXXXXXXXXX', // Replace with actual Clarity project ID
+  enableAnalytics: true,
+  requireCookieConsent: true,
+  anonymizeIp: true,
+  privacyMode: true,
+  optOutCookieName: 'analytics_opt_out',
 
   // Indie web
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
