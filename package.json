@@ -10,7 +10,12 @@
         "build": "astro check && astro build",
         "preview": "astro preview",
         "astro": "astro",
-        "cfpreview": "wrangler pages dev ./dist"
+        "cfpreview": "wrangler pages dev ./dist",
+        "db:migrate": "node scripts/migrate-database.js",
+        "db:migrate:local": "node scripts/migrate-database.js --local",
+        "db:verify": "node scripts/verify-database.js",
+        "db:verify:local": "node scripts/verify-database.js --local",
+        "test:wrangler": "node scripts/test-wrangler-v4.js"
     },
     "dependencies": {
         "@astrojs/cloudflare": "^11.0.1",
@@ -41,6 +46,6 @@
         "reading-time": "^1.5.0",
         "typescript": "^5.4.5",
         "vite-plugin-pwa": "^0.16.4",
-        "wrangler": "^3.68.0"
+        "wrangler": "^4.28.1"
     }
 }
