@@ -1,4 +1,5 @@
 import site from '@config/site';
+import { SCHEMA_CONFIG } from '@config/system.js';
 
 // Base schema interfaces
 export interface LocalBusinessData {
@@ -78,30 +79,28 @@ export function generateLocalBusinessSchema(data?: Partial<LocalBusinessData>) {
     name: site.titleAlt,
     description: site.description,
     url: site.url,
-    telephone: '+91-9999999999', // Default phone number - should be updated with real data
-    email: 'hello@alokprateek.in', // Default email - should be updated with real data
+    telephone: SCHEMA_CONFIG.BUSINESS.PHONE,
+    email: SCHEMA_CONFIG.BUSINESS.EMAIL,
     address: {
-      streetAddress: 'Delhi',
-      addressLocality: 'Delhi',
-      addressRegion: 'Delhi',
-      postalCode: '110001',
-      addressCountry: 'IN'
+      streetAddress: SCHEMA_CONFIG.BUSINESS.ADDRESS.STREET,
+      addressLocality: SCHEMA_CONFIG.BUSINESS.ADDRESS.LOCALITY,
+      addressRegion: SCHEMA_CONFIG.BUSINESS.ADDRESS.REGION,
+      postalCode: SCHEMA_CONFIG.BUSINESS.ADDRESS.POSTAL_CODE,
+      addressCountry: SCHEMA_CONFIG.BUSINESS.ADDRESS.COUNTRY
     },
     geo: {
-      latitude: 28.6139,
-      longitude: 77.2090
+      latitude: SCHEMA_CONFIG.BUSINESS.GEO.LATITUDE,
+      longitude: SCHEMA_CONFIG.BUSINESS.GEO.LONGITUDE
     },
-    openingHours: [
-      'Mo-Fr 09:00-18:00'
-    ],
+    openingHours: SCHEMA_CONFIG.BUSINESS.OPENING_HOURS,
     sameAs: [
       site.twitterUrl,
       site.linkedinUrl,
       site.githubUrl,
       site.instagramUrl
     ],
-    priceRange: '$$',
-    areaServed: ['India', 'Global'],
+    priceRange: SCHEMA_CONFIG.BUSINESS.PRICE_RANGE,
+    areaServed: SCHEMA_CONFIG.BUSINESS.AREA_SERVED,
     ...data
   };
 
@@ -231,7 +230,7 @@ export function generatePersonSchema(personData?: Partial<PersonData>) {
     name: site.author.name,
     url: site.author.url,
     image: `${site.url}${site.image.src}`,
-    jobTitle: 'Designer & Developer',
+    jobTitle: SCHEMA_CONFIG.PERSON.JOB_TITLE,
     worksFor: {
       name: site.titleAlt,
       url: site.url
@@ -242,14 +241,7 @@ export function generatePersonSchema(personData?: Partial<PersonData>) {
       site.githubUrl,
       site.instagramUrl
     ],
-    knowsAbout: [
-      'Web Design',
-      'User Experience Design',
-      'Frontend Development',
-      'Automation',
-      'AI Integration',
-      'Whitelabel Solutions'
-    ],
+    knowsAbout: SCHEMA_CONFIG.PERSON.KNOWS_ABOUT,
     description: site.description,
     ...personData
   };

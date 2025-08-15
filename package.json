@@ -14,8 +14,7 @@
         "db:migrate": "node scripts/migrate-database.js",
         "db:migrate:local": "node scripts/migrate-database.js --local",
         "db:verify": "node scripts/verify-database.js",
-        "db:verify:local": "node scripts/verify-database.js --local",
-        "test:wrangler": "node scripts/test-wrangler-v4.js"
+        "db:verify:local": "node scripts/verify-database.js --local"
     },
     "dependencies": {
         "@astrojs/cloudflare": "^11.0.1",
