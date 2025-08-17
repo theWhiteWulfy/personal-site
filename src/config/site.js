@@ -34,7 +34,7 @@ const site = {
   // Analytics Configuration
   analytics: {
     ga4: {
-      measurementId: 'G-XXXXXXXXXX', // Replace with actual GA4 measurement ID
+      measurementId: 'G-RGPN7NRJDQ', 
       enhancedMeasurement: true,
       conversionEvents: [
         'phone_click',
@@ -52,7 +52,7 @@ const site = {
       }
     },
     clarity: {
-      projectId: 'XXXXXXXXXX', // Replace with actual Clarity project ID
+      projectId: 'sw2f0ourfn', // Replace with actual Clarity project ID
       enableHeatmaps: true,
       enableRecordings: true,
       privacyMode: 'balanced',

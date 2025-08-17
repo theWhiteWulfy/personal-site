@@ -172,12 +172,9 @@ export const PERFORMANCE_CONFIG = {
             '//www.google-analytics.com',
             '//www.googletagmanager.com',
             '//clarity.microsoft.com',
-            '//webmention.io',
-            '//giscus.app'
+            '//webmention.io'
         ],
         PRECONNECT: [
-            'https://fonts.googleapis.com',
-            'https://fonts.gstatic.com',
             'https://www.google-analytics.com',
             'https://www.googletagmanager.com'
         ]
