@@ -24,16 +24,16 @@ import LeadForm from "@components/custom/LeadForm.astro";
         <div class={style.content}>
           <p>
             Have a question for me? My direct messages are open on either{' '}
-            <a href="https://instagram.com/thewhitewulfy">Instagram</a> or{' '}
-            <a href="https://twitter.com/thewhitewulfy">Twitter</a> for short and
+            <a href={site.instagramUrl}>Instagram</a> or{' '}
+            <a href={site.twitterUrl}>Twitter</a> for short and
             succinct messages. Before sending, please read my{' '}
             <Link to="/faqs/">frequently asked questions section</Link> first to
             make sure I haven't already answered it.
           </p>
           <p>
             If you have a project that you'd like to discuss, it is faster and
-            more efficient to contact me <a href="https://wa.me/919315852108">on Whatsapp</a> or write a mail
-            to me at <a href="mailto:i@alokprateek.in">i@alokprateek.in</a>. A
+            more efficient to contact me <a href={site.whatsappUrl}>on Whatsapp</a> or write a mail
+            to me at <a href={site.emailUrl}>i@alokprateek.in</a>. A
             good ol' fashioned mail is always welcome, because I like reading and
             writing long mails as I do not have much time for writing shorter
             replies.

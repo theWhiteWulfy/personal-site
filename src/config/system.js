@@ -14,8 +14,8 @@
 export const SCHEMA_CONFIG = {
     // Default business information
     BUSINESS: {
-        PHONE: '+91-9999999999',
-        EMAIL: 'hello@alokprateek.in',
+        PHONE: '+91-9315852108',
+        EMAIL: 'i@alokprateek.in',
         ADDRESS: {
             STREET: 'Delhi',
             LOCALITY: 'Delhi',

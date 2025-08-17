@@ -13,7 +13,23 @@ const site = {
     height: 675,
   },
   ogLanguage: 'en_US', // Facebook Language
-  googleAnalyticsID: 'UA-85177250-1', // Legacy GA (deprecated)
+
+  // Site config
+  feedUrl: '/rss.xml',
+  copyrights: `&copy; 2010&mdash;${new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.`,
+  defaultTheme: 'light',
+  postsPerPage: 10,
+
+  // JSONLD / Manifest
+  favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
+  shortName: 'Meteoric Teachings', // shortname for manifest. MUST be shorter than 12 characters
+  author: {
+    // Author for schema.org JSONLD
+    name: 'Alok Prateek',
+    url: 'https://alokprateek.in',
+  },
+  themeColor: '#ffffff',
+  backgroundColor: '#111111',
   
   // Analytics Configuration
   ga4MeasurementId: 'G-XXXXXXXXXX', // Replace with actual GA4 measurement ID
@@ -27,39 +43,32 @@ const site = {
   // Indie web
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
   webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
-  micropubUrl: 'https://mm-micropub-to-github.herokuapp.com/micropub/main',
+  micropubUrl: '', //todo: add url after creating the api for micropub
   staticmanApi:
     'https://meteoric-teachings.herokuapp.com/v2/entry/theWhiteWulfy/personal-site/master/comments',
 
-  // JSONLD / Manifest
-  favicon: '/images/theme/alok-logo.png', // Used for manifest favicon generation
-  shortName: 'Meteoric Teachings', // shortname for manifest. MUST be shorter than 12 characters
-  author: {
-    // Author for schema.org JSONLD
-    name: 'Alok Prateek',
-    url: 'https://alokprateek.in',
-  },
-  themeColor: '#ffffff',
-  backgroundColor: '#111111',
-
+  // Social links and ids
   twitter: '@thewhitewulfy', // Twitter username
   twitterUrl: 'https://twitter.com/thewhitewulfy',
   facebook: 'Meteoric Teachings', // Facebook site name
   linkedinUrl: 'https://www.linkedin.com/in/alokprateek/',
   githubUrl: 'https://github.com/thewhitewulfy',
   instagramUrl: 'https://www.instagram.com/thewhitewulfy/',
-  feedUrl: '/rss.xml',
+  whatsappUrl: 'https://wa.me/919315852108', // WhatsApp number with country code
+  emailAddress: 'i@alokprateek.in', // Email address
+  emailUrl: 'mailto:i@alokprateek.in',
+
+  // tokens and keys
   githubApiToken: process.env.GITHUB_API_TOKEN,
   reCaptcha: {
-    siteKey: '6LeYVMQZAAAAAEgY7amRTLlepClKbmkcxbrr5-yG',
+    siteKey: '',
     secret:
       // eslint-disable-next-line max-len
-      'F3N1PkfFCaf3RAhFf1J8+OYqRSxmOtPrD2K7bI8NkdvG8j8tfoU7EG3RWcOqG2CSLTdHCfD2Tt+888SF0ZkYwWDpSkELxVB3lmzAo9Ah18fNQ2P9lswpW1yMa6vd2IZL8qf4CJ0Kxew6UabcCW0moJ60Hc7Pp0zG4cViehD1a9S2JQ6Jarg4KZ2kYtLFBbO2zzrxqSAlyb3WTwtoMibAHLvBVXU6Wf90aJt8ejD1VADaPq7HiXJZhI/70NHMPtKcVCQkuy20Z4Vt6EDDX7u+5u70FdfUNTB6X2eqiklT5+M+G8Goaj4BoUjzNBToXKrFThJKDDXTX8kC7BBAeoz933IYSbAJJxIwkF/icMCdYriUPSI/1GgryylSseOb7x5opHWEX/9Z7ooYKhJq6pQzqmOVuM6gH9C13stNp+8IK2VJlcxLAhsOpKc9Frze2AMR3LpvirgLvR2cvCsJttK06ebznoldVyCdFmeI1RVZjSvQhY8cpnGjrSWNptPs3hVfsBVo8NDutDIooRy3EKTErRdrvFg66VKlHuub2HTYcEs2nWhDSsJImYLFEIGsq5PPY0u6giSI0xi5xWxGWmVyA27ZR9blMLIkYI3EBGyFze6fSUMuzK+C2YbUrxFdu3PZnndd0LGtpHZgZQncJKfRuJiEQ6j3YZ705H1E5y3Ap9Q=',
+      '',
   },
-  // Site config
-  copyrights: `&copy; 2010&mdash;${new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.`,
-  defaultTheme: 'light',
-  postsPerPage: 10,
+
+
+  // Menus - header(main) & footer
   mainMenu: [
     {
       title: 'Articles',
