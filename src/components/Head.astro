@@ -10,13 +10,13 @@ import {
   safeSchemaGeneration,
   type PageSchemaOptions,
   type ServiceData,
-  type FAQData,
-  type PersonData
+  type FAQData
 } from '@lib/schema-generators';
 import { 
   initializeAnalyticsConfig,
   type AnalyticsConfig 
 } from '@lib/analytics';
+import { initializeAnalyticsDebugger } from '@lib/analytics-testing';
 
 interface Props {
   title: string;
@@ -172,6 +172,9 @@ const {
 
   // Initialize analytics configuration
   const analyticsConfig: AnalyticsConfig = initializeAnalyticsConfig(site);
+  
+  // Initialize analytics debugger in development
+  const isDevelopment = import.meta.env.DEV;
 
 ---
 
@@ -627,3 +630,183 @@ const {
 document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
 document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
 </script>
+
+<!-- Analytics Testing and Debugging (Development Only) -->
+{isDevelopment && (
+  <script is:inline define:vars={{ 
+    enableDebug: isDevelopment,
+    testingGuide: {
+      ga4: 'Check Network tab for google-analytics.com requests and use GA4 DebugView',
+      clarity: 'Check Network tab for clarity.ms requests',
+      privacy: 'Check Application tab for consent cookies and localStorage',
+      console: 'Use analyticsDebugger.runFullTestSuite() in console'
+    }
+  }}>
+    // Analytics Testing Utilities (Development Only)
+    class AnalyticsDebugger {
+      constructor() {
+        this.setupDebugConsole();
+      }
+
+      runFullTestSuite() {
+        console.log('🚀 Running Analytics Test Suite');
+        console.log('================================');
+        
+        this.testGA4Integration();
+        this.testClarityIntegration();
+        this.testPhoneClickTracking();
+        this.testEmailClickTracking();
+        this.testFormTracking();
+        this.testPrivacyCompliance();
+        
+        console.log('✅ Analytics test suite completed');
+        console.log('📊 Testing Guide:', testingGuide);
+      }
+
+      testGA4Integration() {
+        console.group('🔍 Testing GA4 Integration');
+        
+        if (typeof window.gtag === 'function') {
+          console.log('✅ GA4 gtag function is available');
+          
+          if (window.dataLayer && Array.isArray(window.dataLayer)) {
+            console.log('✅ dataLayer is initialized:', window.dataLayer.length, 'items');
+          } else {
+            console.warn('⚠️ dataLayer not found');
+          }
+
+          // Test event firing
+          window.gtag('event', 'debug_test', {
+            event_category: 'debug',
+            event_label: 'integration_test',
+            value: 1
+          });
+          console.log('📤 Test event sent to GA4');
+          
+        } else {
+          console.error('❌ GA4 gtag function not found');
+        }
+        
+        console.groupEnd();
+      }
+
+      testClarityIntegration() {
+        console.group('🔍 Testing Microsoft Clarity Integration');
+        
+        if (typeof window.clarity === 'function') {
+          console.log('✅ Microsoft Clarity function is available');
+          
+          window.clarity('event', 'debug_test', {
+            test_type: 'integration_check',
+            timestamp: new Date().toISOString()
+          });
+          console.log('📤 Test event sent to Clarity');
+        } else {
+          console.error('❌ Microsoft Clarity function not found');
+        }
+        
+        console.groupEnd();
+      }
+
+      testPhoneClickTracking() {
+        console.group('🔍 Testing Phone Click Tracking');
+        
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        console.log(`📞 Found ${phoneLinks.length} phone links`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('phone_click', {
+            conversion_type: 'phone_contact',
+            phone_number: 'test_number',
+            value: 10
+          });
+          console.log('📤 Test phone click event sent');
+        } else {
+          console.warn('⚠️ trackConversionEvent function not available');
+        }
+        
+        console.groupEnd();
+      }
+
+      testEmailClickTracking() {
+        console.group('🔍 Testing Email Click Tracking');
+        
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        console.log(`📧 Found ${emailLinks.length} email links`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('email_click', {
+            conversion_type: 'email_contact',
+            email_address: 'test@example.com',
+            value: 8
+          });
+          console.log('📤 Test email click event sent');
+        }
+        
+        console.groupEnd();
+      }
+
+      testFormTracking() {
+        console.group('🔍 Testing Form Tracking');
+        
+        const forms = document.querySelectorAll('form');
+        console.log(`📝 Found ${forms.length} forms`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('form_submit', {
+            form_type: 'test_form',
+            form_location: 'debug_test',
+            success: true
+          });
+          console.log('📤 Test form submission event sent');
+        }
+        
+        console.groupEnd();
+      }
+
+      testPrivacyCompliance() {
+        console.group('🔍 Testing Privacy Compliance');
+        
+        if (typeof window.privacyManager === 'object') {
+          const privacyManager = window.privacyManager;
+          console.log('✅ Privacy manager is available');
+          console.log('🔒 Has consent:', privacyManager.hasConsent());
+          console.log('🔒 Has opted out:', privacyManager.hasOptedOut());
+        } else {
+          console.warn('⚠️ Privacy manager not available');
+        }
+        
+        console.log('🔒 Do Not Track:', navigator.doNotTrack);
+        
+        const cookies = document.cookie.split(';');
+        const consentCookies = cookies.filter(cookie => 
+          cookie.includes('consent') || cookie.includes('analytics')
+        );
+        console.log('🍪 Consent cookies:', consentCookies);
+        
+        console.groupEnd();
+      }
+
+      setupDebugConsole() {
+        window.analyticsDebugger = this;
+        
+        console.log('🔧 Analytics Debugger loaded. Available commands:');
+        console.log('  - analyticsDebugger.runFullTestSuite()');
+        console.log('  - analyticsDebugger.testGA4Integration()');
+        console.log('  - analyticsDebugger.testClarityIntegration()');
+        console.log('  - analyticsDebugger.testPhoneClickTracking()');
+        console.log('  - analyticsDebugger.testEmailClickTracking()');
+        console.log('  - analyticsDebugger.testFormTracking()');
+        console.log('  - analyticsDebugger.testPrivacyCompliance()');
+      }
+    }
+
+    // Initialize analytics debugger
+    const analyticsDebugger = new AnalyticsDebugger();
+    
+    // Auto-run tests after page load
+    setTimeout(() => {
+      analyticsDebugger.runFullTestSuite();
+    }, 2000);
+  </script>
+)}

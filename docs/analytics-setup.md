@@ -48,10 +48,10 @@ The following privacy settings are already configured:
 ### Event Tracking
 The following events are automatically tracked:
 
-#### Engagement Events
-- `reaction_click` - When users click reaction buttons
-- `comment_submit` - When users submit comments
+#### Content Events
 - `content_view` - When users view content pages
+- `newsletter_signup` - When users subscribe to newsletter
+- `contact_form_submit` - When users submit contact form
 - `content_share` - When users share content
 - `micropub_create` - When content is created via Micropub
 

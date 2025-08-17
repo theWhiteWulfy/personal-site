@@ -32,13 +32,43 @@ const site = {
   backgroundColor: '#111111',
   
   // Analytics Configuration
-  ga4MeasurementId: 'G-XXXXXXXXXX', // Replace with actual GA4 measurement ID
-  clarityProjectId: 'XXXXXXXXXX', // Replace with actual Clarity project ID
-  enableAnalytics: true,
-  requireCookieConsent: true,
-  anonymizeIp: true,
-  privacyMode: true,
-  optOutCookieName: 'analytics_opt_out',
+  analytics: {
+    ga4: {
+      measurementId: 'G-XXXXXXXXXX', // Replace with actual GA4 measurement ID
+      enhancedMeasurement: true,
+      conversionEvents: [
+        'phone_click',
+        'form_submit', 
+        'resource_download',
+        'email_click'
+      ],
+      customDimensions: {
+        content_group1: 'custom_dimension_1', // Collection type
+        content_group2: 'custom_dimension_2', // Category/tag
+      },
+      customMetrics: {
+        engagement_score: 'custom_metric_1',
+        conversion_value: 'custom_metric_2',
+      }
+    },
+    clarity: {
+      projectId: 'XXXXXXXXXX', // Replace with actual Clarity project ID
+      enableHeatmaps: true,
+      enableRecordings: true,
+      privacyMode: 'balanced',
+      cookieConsent: true,
+    },
+    privacy: {
+      enableOptOut: true,
+      cookieConsentRequired: true,
+      dataRetentionDays: 365,
+      anonymizeIp: true,
+      respectDoNotTrack: true,
+      consentStorageKey: 'meteoric_analytics_consent',
+    },
+    enabled: true,
+    debug: false, // Set to true for development
+  },
 
   // Indie web
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
