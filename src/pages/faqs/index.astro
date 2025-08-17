@@ -14,7 +14,7 @@ const faqsData: FAQData[] = await Promise.all(
     data.map(async (faq) => {
         const { Content } = await faq.render();
         // Extract text content from rendered content for schema
-        // This is a simplified approach - in production you might want more sophisticated content extraction
+        // use content to create a 60 character excerpt if not present 
         return {
             question: faq.data.title,
             answer: faq.data.excerpt || faq.data.title // Fallback to title if no excerpt

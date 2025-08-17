@@ -181,7 +181,6 @@ const {
 <!-- Resource Hints for Performance - Only for services actually used -->
 <!-- Webmention and IndieWeb services (actually used) -->
 <link rel="dns-prefetch" href="//webmention.io" />
-<link rel="dns-prefetch" href="//mm-micropub-to-github.herokuapp.com" />
 <link rel="preconnect" href="https://webmention.io" />
 
 <!-- Analytics hints - Google Analytics and Microsoft Clarity (under implementation) -->
@@ -320,6 +319,7 @@ const {
     
     return (
       <script
+        is:inline
         type="application/ld+json"
         id={`pageSchema-${index}`}
         set:html={jsonString}
@@ -336,7 +336,7 @@ const {
 {analyticsConfig.ga4.enabled && analyticsConfig.ga4.measurementId && (
   <>
     <!-- GA4 Global Site Tag (gtag.js) -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
     <script is:inline define:vars={{ 
       measurementId: analyticsConfig.ga4.measurementId,
       anonymizeIp: analyticsConfig.ga4.anonymizeIp,
@@ -627,5 +627,3 @@ const {
 document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
 document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
 </script>
-
-<!-- Performance monitoring removed to eliminate overhead -->
