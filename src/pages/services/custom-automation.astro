@@ -6,6 +6,7 @@ import ServiceCTA from '@components/ServiceCTA.astro';
 import ServiceTestimonials from '@components/ServiceTestimonials.astro';
 import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
 
 // Service-specific data
@@ -120,36 +121,42 @@ const features = [
 ];
 
 // Testimonials data
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     quote: 'The automation solution Alok built for us saved our team 15 hours per week. Our invoice processing that used to take days now happens automatically overnight.',
     author: {
       name: 'Sarah Chen',
       title: 'Operations Manager',
-      company: 'TechFlow Solutions'
+      company: 'TechFlow Solutions',
+      handle: '@sarahchen'
     },
     rating: 5,
-    project: 'Invoice Processing Automation'
+    project: 'Invoice Processing Automation',
+    platform: 'linkedin'
   },
   {
     quote: 'Incredible ROI! The custom workflow automation paid for itself in just 2 months. Our approval processes are now lightning fast and error-free.',
     author: {
       name: 'Michael Rodriguez',
       title: 'CEO',
-      company: 'GrowthCorp'
+      company: 'GrowthCorp',
+      handle: '@mrodriguez'
     },
     rating: 5,
-    project: 'Approval Workflow System'
+    project: 'Approval Workflow System',
+    platform: 'x'
   },
   {
     quote: 'Alok transformed our manual data entry nightmare into a smooth, automated process. We can now focus on strategy instead of repetitive tasks.',
     author: {
       name: 'Jennifer Park',
       title: 'Data Manager',
-      company: 'Analytics Plus'
+      company: 'Analytics Plus',
+      handle: '@jennpark'
     },
     rating: 5,
-    project: 'Data Processing Pipeline'
+    project: 'Data Processing Pipeline',
+    platform: 'linkedin'
   }
 ];
 
@@ -212,11 +219,10 @@ const relatedServices = [
     />
 
     <ServiceTestimonials
-      title="Success Stories"
+      title="Partner Success Stories"
       subtitle="Client Results"
       testimonials={testimonials}
-      layout="grid"
-      showRatings={true}
+      layout="social"
     />
 
     <RelatedServices

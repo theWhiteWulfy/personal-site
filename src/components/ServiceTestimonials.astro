@@ -1,5 +1,5 @@
 ---
-interface Testimonial {
+export interface Testimonial {
   quote: string;
   author: {
     name: string;
@@ -14,7 +14,7 @@ interface Testimonial {
   url?: string;
 }
 
-interface Props {
+export interface Props {
   title?: string;
   subtitle?: string;
   testimonials: Testimonial[];

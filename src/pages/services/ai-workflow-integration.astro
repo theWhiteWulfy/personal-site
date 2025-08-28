@@ -6,6 +6,7 @@ import ServiceCTA from '@components/ServiceCTA.astro';
 import ServiceTestimonials from '@components/ServiceTestimonials.astro';
 import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
 
 // Service-specific data
@@ -183,7 +184,7 @@ const useCases = [
 ];
 
 // Testimonials data
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     quote: 'The AI document processing solution has revolutionized our legal practice. We can now process contracts 10x faster with higher accuracy than manual review.',
     author: {

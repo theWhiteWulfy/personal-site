@@ -6,6 +6,7 @@ import ServiceCTA from '@components/ServiceCTA.astro';
 import ServiceTestimonials from '@components/ServiceTestimonials.astro';
 import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
 
 // Service-specific data
@@ -154,36 +155,42 @@ const features = [
 ];
 
 // Testimonials data
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     quote: 'The whitelabel SaaS platform allowed us to enter a new market segment in just 6 weeks. Our clients love the professional interface and robust features.',
     author: {
       name: 'David Thompson',
       title: 'Founder',
-      company: 'TechSolutions Pro'
+      company: 'TechSolutions Pro',
+      handle: '@davidthompson'
     },
     rating: 5,
-    project: 'Project Management SaaS'
+    project: 'Project Management SaaS',
+    platform: 'linkedin'
   },
   {
     quote: 'Incredible value! We got a complete e-commerce platform that would have cost us $100K+ to develop in-house. The ROI has been phenomenal.',
     author: {
       name: 'Lisa Wang',
       title: 'CEO',
-      company: 'Digital Commerce Hub'
+      company: 'Digital Commerce Hub',
+      handle: '@lisawang'
     },
     rating: 5,
-    project: 'Multi-vendor Marketplace'
+    project: 'Multi-vendor Marketplace',
+    platform: 'x'
   },
   {
     quote: 'The automation tool we licensed has become our flagship product. Alok\'s team provided excellent customization and ongoing support.',
     author: {
       name: 'Robert Martinez',
       title: 'CTO',
-      company: 'Workflow Experts'
+      company: 'Workflow Experts',
+      handle: '@robmartinez'
     },
     rating: 5,
-    project: 'Workflow Automation Platform'
+    project: 'Workflow Automation Platform',
+    platform: 'linkedin'
   }
 ];
 
@@ -304,8 +311,7 @@ const relatedServices = [
       title="Partner Success Stories"
       subtitle="Client Results"
       testimonials={testimonials}
-      layout="grid"
-      showRatings={true}
+      layout="social"
     />
 
     <RelatedServices
