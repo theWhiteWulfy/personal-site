@@ -12,7 +12,7 @@ const data = (await getCollection("faqs"))
 // Convert FAQ collection data to schema format
 const faqsData: FAQData[] = await Promise.all(
     data.map(async (faq) => {
-        const { Content } = await faq.render();
+        const { Content: _Content } = await faq.render();
         // Extract text content from rendered content for schema
         // use content to create a 60 character excerpt if not present 
         return {
