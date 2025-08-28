@@ -192,13 +192,6 @@ const schemas = generatePageSchema({
             </div>
           </div>
 
-          <div class="author-info">
-            <h3>About the Author</h3>
-            <p>
-              Created by Alok Prateek, a seasoned business automation expert with over 11 years of experience 
-              helping companies streamline their operations and maximize efficiency.
-            </p>
-          </div>
         </div>
       </div>
     </section>
@@ -290,30 +283,6 @@ const schemas = generatePageSchema({
     margin: 0;
   }
 
-  .author-info {
-    margin-top: 3rem;
-    padding: 2rem;
-    background-color: var(--background-secondary-color);
-    border: 1px solid var(--border-color);
-    border-radius: calc(var(--border-radius) * 2);
-    text-align: center;
-  }
-
-  .author-info h3 {
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0 0 1rem 0;
-    font-family: var(--serif-font);
-  }
-
-  .author-info p {
-    font-size: var(--text-base);
-    line-height: var(--line-height);
-    color: var(--muted-text-color);
-    margin: 0;
-  }
-
   /* Responsive design */
   @media (max-width: 767px) {
     .resource-form-section,
@@ -339,8 +308,5 @@ const schemas = generatePageSchema({
       padding: 1rem;
     }
 
-    .author-info {
-      padding: 1.5rem;
-    }
   }
 </style>

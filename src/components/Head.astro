@@ -10,13 +10,13 @@ import {
   safeSchemaGeneration,
   type PageSchemaOptions,
   type ServiceData,
-  type FAQData
+  type FAQData,
+  type CampaignData
 } from '@lib/schema-generators';
 import { 
   initializeAnalyticsConfig,
   type AnalyticsConfig 
 } from '@lib/analytics';
-import { initializeAnalyticsDebugger } from '@lib/analytics-testing';
 
 interface Props {
   title: string;
@@ -35,9 +35,10 @@ interface Props {
     name: string,
     url?: string,
   },
-  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default';
   serviceData?: ServiceData;
   faqs?: FAQData[];
+  campaignData?: CampaignData;
   includeBreadcrumbs?: boolean;
   includeLocalBusiness?: boolean;
   keywords?: string[];
@@ -64,6 +65,7 @@ const {
   pageType = article ? 'article' : 'default',
   serviceData,
   faqs,
+  campaignData,
   includeBreadcrumbs = true,
   includeLocalBusiness = false,
   keywords,
@@ -83,6 +85,7 @@ const {
     } : undefined,
     serviceData,
     faqs,
+    campaignData,
     includeBreadcrumbs,
     includeLocalBusiness
   };
@@ -216,7 +219,12 @@ const {
 
 <!-- Conditional preload for home page hero image -->
 {pageType === 'home' && (
-  <link rel="preload" href="/images/theme/alok-logo.png" as="image" />
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
+)}
+
+<!-- Conditional preload for campaign page assets -->
+{pageType === 'campaign' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
 )}
 
 <link
@@ -338,8 +346,8 @@ const {
 <!-- Google Analytics 4 -->
 {analyticsConfig.ga4.enabled && analyticsConfig.ga4.measurementId && (
   <>
-    <!-- GA4 Global Site Tag (gtag.js) -->
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
+    <!-- GA4 Global Site Tag (gtag.js) - defer for better performance -->
+    <script is:inline defer src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
     <script is:inline define:vars={{ 
       measurementId: analyticsConfig.ga4.measurementId,
       anonymizeIp: analyticsConfig.ga4.anonymizeIp,
@@ -589,7 +597,8 @@ const {
   });
 </script>
 
-<script is:inline>
+<!-- Copy code button functionality - deferred for performance -->
+<script is:inline defer>
   function addCopyCodeButtons() {
     let copyButtonLabel = "✂️ copy";
     let codeBlocks = Array.from(document.querySelectorAll("pre"));
