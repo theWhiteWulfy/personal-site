@@ -8,6 +8,11 @@ import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
 import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import TargetIcon from '@components/logos/Target.astro';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
 
 // Service-specific data
 const serviceData: ServiceData = {
@@ -85,6 +90,9 @@ const features = [
     title: 'Document Intelligence',
     description: 'Transform document-heavy processes with AI that can read, understand, and extract information from any document type.',
     icon: '📄',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Document Intelligence illustration',
     benefits: [
       'OCR and text extraction from images/PDFs',
       'Intelligent form processing and validation',
@@ -97,6 +105,9 @@ const features = [
     title: 'Conversational AI & Chatbots',
     description: 'Deploy intelligent virtual assistants that understand context, handle complex queries, and provide personalized responses.',
     icon: '🤖',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Conversational AI illustration',
     benefits: [
       'Natural language understanding and processing',
       'Multi-channel deployment (web, mobile, social)',
@@ -109,6 +120,9 @@ const features = [
     title: 'Predictive Analytics & Forecasting',
     description: 'Leverage machine learning to predict trends, identify opportunities, and make data-driven decisions automatically.',
     icon: '📈',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'Predictive Analytics illustration',
     benefits: [
       'Sales forecasting and demand prediction',
       'Customer behavior analysis and segmentation',
@@ -121,6 +135,9 @@ const features = [
     title: 'Computer Vision Solutions',
     description: 'Implement AI-powered image and video analysis to automate visual inspection, monitoring, and quality control processes.',
     icon: '👁️',
+    iconComponent: TargetIcon,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'Computer Vision illustration',
     benefits: [
       'Quality control and defect detection',
       'Facial recognition and biometric systems',
@@ -133,6 +150,9 @@ const features = [
     title: 'Natural Language Processing',
     description: 'Extract insights from text data, automate content generation, and enable intelligent text-based workflows.',
     icon: '💬',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'NLP illustration',
     benefits: [
       'Sentiment analysis and opinion mining',
       'Automated content generation and summarization',
@@ -145,6 +165,9 @@ const features = [
     title: 'AI Model Training & Deployment',
     description: 'Custom AI model development, training, and deployment tailored to your specific business needs and data.',
     icon: '🧠',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'AI Model training illustration',
     benefits: [
       'Custom model development and training',
       'Data preparation and feature engineering',
@@ -271,14 +294,15 @@ const relatedServices = [
       features={heroFeatures}
       ctaText="Get AI Assessment"
       ctaHref="/contact/"
+      image="/blog-placeholder-2.jpg"
+      imageAlt="AI workflow integration illustration"
     />
 
     <ServiceFeatures
       title="Comprehensive AI Integration Services"
       subtitle="AI Technologies We Implement"
       features={features}
-      layout="grid"
-      columns={3}
+      layout="list"
     />
 
     <section class="use-cases">

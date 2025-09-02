@@ -8,6 +8,11 @@ import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
 import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import IntegrationLink from '@components/logos/IntegrationLink.astro';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
 
 // Service-specific data
 const serviceData: ServiceData = {
@@ -84,6 +89,9 @@ const features = [
     title: 'SaaS Platform Solutions',
     description: 'Complete software-as-a-service platforms ready for your branding, with user management, billing, and analytics built-in.',
     icon: '',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'SaaS platform illustration',
     benefits: [
       'Multi-tenant architecture',
       'Integrated payment processing',
@@ -96,6 +104,9 @@ const features = [
     title: 'Mobile App Development',
     description: 'Native and cross-platform mobile applications that you can brand and customize for your specific market needs.',
     icon: '',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Mobile app development illustration',
     benefits: [
       'iOS and Android compatibility',
       'Push notification system',
@@ -108,6 +119,9 @@ const features = [
     title: 'Automation & Workflow Tools',
     description: 'Pre-built automation platforms and workflow management tools that you can offer to your clients under your brand.',
     icon: '',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'Automation tools illustration',
     benefits: [
       'Drag-and-drop workflow builder',
       'Integration marketplace',
@@ -120,6 +134,9 @@ const features = [
     title: 'E-commerce Platforms',
     description: 'Complete e-commerce solutions with inventory management, payment processing, and customer management systems.',
     icon: '',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'E-commerce platform illustration',
     benefits: [
       'Multi-vendor marketplace support',
       'Inventory and order management',
@@ -132,6 +149,9 @@ const features = [
     title: 'Custom Branding & Design',
     description: 'Full customization services to match your brand identity, including UI/UX design, logos, and marketing materials.',
     icon: '',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Branding and design illustration',
     benefits: [
       'Complete brand customization',
       'UI/UX design services',
@@ -144,6 +164,9 @@ const features = [
     title: 'Training & Support',
     description: 'Comprehensive training programs and ongoing support to help you successfully launch and scale your whitelabel products.',
     icon: '',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Training and support illustration',
     benefits: [
       'Product training sessions',
       'Sales and marketing guidance',
@@ -242,14 +265,15 @@ const relatedServices = [
       features={heroFeatures}
       ctaText="Explore Solutions"
       ctaHref="/contact/"
+      image="/blog-placeholder-4.jpg"
+      imageAlt="Whitelabel solutions illustration"
     />
 
     <ServiceFeatures
       title="Complete Whitelabel Product Suite"
       subtitle="What You Get"
       features={features}
-      layout="grid"
-      columns={3}
+      layout="list"
     />
 
     <section class="pricing-overview">

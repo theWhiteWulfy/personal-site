@@ -8,6 +8,12 @@ import RelatedServices from '@components/RelatedServices.astro';
 import type { ServiceData } from '@lib/schema-generators';
 import type { Testimonial } from '@components/ServiceTestimonials.astro';
 import site from '@config/site';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import IntegrationLink from '@components/logos/IntegrationLink.astro';
+import TargetIcon from '@components/logos/Target.astro';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
 
 // Service-specific data
 const serviceData: ServiceData = {
@@ -78,6 +84,9 @@ const features = [
     title: 'Workflow Automation',
     description: 'Design and implement automated workflows that handle repetitive tasks, approvals, and data routing without manual intervention.',
     icon: '⚡',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Workflow automation illustration',
     benefits: [
       'Automated task routing and assignments',
       'Conditional logic and decision trees',
@@ -89,6 +98,9 @@ const features = [
     title: 'Data Processing & Analytics',
     description: 'Automate data collection, cleaning, processing, and reporting to get real-time insights without manual effort.',
     icon: '📊',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Data processing illustration',
     benefits: [
       'Automated data collection from multiple sources',
       'Real-time data processing and validation',
@@ -100,6 +112,9 @@ const features = [
     title: 'System Integration',
     description: 'Connect disparate systems and applications to create seamless data flow and eliminate manual data entry.',
     icon: '🔗',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'System integration illustration',
     benefits: [
       'API integrations and data synchronization',
       'Legacy system modernization',
@@ -111,11 +126,40 @@ const features = [
     title: 'Process Optimization',
     description: 'Analyze existing processes and redesign them for maximum efficiency using automation best practices.',
     icon: '🎯',
+    iconComponent: TargetIcon,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'Process optimization illustration',
     benefits: [
       'Process mapping and analysis',
       'Bottleneck identification and resolution',
       'Performance monitoring and optimization',
       'Continuous improvement implementation'
+    ]
+  },
+  {
+    title: 'Document Automation',
+    description: 'Automate document intake, generation and approvals across your business with robust templates and rules.',
+    icon: '📄',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Document automation illustration',
+    benefits: [
+      'Smart templates and merging',
+      'Auto-filing and naming conventions',
+      'E-sign workflows and audit trails'
+    ]
+  },
+  {
+    title: 'Operational Chatbots',
+    description: 'Deploy internal assistants that trigger workflows, fetch data and update systems from chat.',
+    icon: '🤖',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Operational chatbot illustration',
+    benefits: [
+      'Slack/Teams integrations',
+      'Role-based access and approvals',
+      'Conversation logs and analytics'
     ]
   }
 ];
@@ -208,14 +252,15 @@ const relatedServices = [
       features={heroFeatures}
       ctaText="Get Free Automation Audit"
       ctaHref="/contact/"
+      image="/blog-placeholder-3.jpg"
+      imageAlt="Custom automation illustration"
     />
 
     <ServiceFeatures
       title="Comprehensive Automation Services"
       subtitle="What We Automate"
       features={features}
-      layout="grid"
-      columns={2}
+      layout="list"
     />
 
     <ServiceTestimonials
