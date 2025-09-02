@@ -1,0 +1,524 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { generatePageSchema } from '@/lib/schema-generators';
+
+// Get campaign information from query parameters
+const url = new URL(Astro.request.url);
+const campaignSlug = url.searchParams.get('campaign');
+const campaignTitle = url.searchParams.get('title');
+
+// Generate SEO meta data with campaign context
+const pageTitle = campaignTitle 
+  ? `${campaignTitle} - Campaign Expired | Meteoric Teachings`
+  : 'Campaign Expired | Meteoric Teachings';
+const pageDescription = campaignTitle
+  ? `The "${campaignTitle}" campaign has expired, but we have other great offers available. Explore our current services and get in touch for personalized solutions.`
+  : 'This campaign has expired, but we have other great offers available. Explore our current services and get in touch for personalized solutions.';
+const canonicalUrl = '/offers/expired/';
+
+const schemas = generatePageSchema({
+  pageType: 'default',
+  title: pageTitle,
+  description: pageDescription,
+  path: canonicalUrl,
+  datePublished: new Date().toISOString(),
+  dateModified: new Date().toISOString(),
+  includeBreadcrumbs: true,
+  includeLocalBusiness: true
+});
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  path={canonicalUrl}
+
+>
+  <main class="expired-campaign-page">
+    <section class="expired-hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>Campaign Has Expired</h1>
+          {campaignTitle && (
+            <p class="expired-campaign-title">
+              "{campaignTitle}"
+            </p>
+          )}
+          <p class="hero-subtitle">
+            Unfortunately, this special offer has ended. But don't worry – we have other great opportunities available!
+          </p>
+          
+          <div class="cta-buttons">
+            <a href="/services/" class="btn btn-primary">
+              View Current Services
+            </a>
+            <a href="/contact/" class="btn btn-secondary">
+              Get Custom Quote
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="current-offers">
+      <div class="offers-container">
+        <h2>Current Opportunities</h2>
+        <div class="offers-grid">
+          <div class="offer-card">
+            <h3>Free Consultation</h3>
+            <p>
+              Get a complimentary 30-minute consultation to discuss your business automation needs 
+              and discover opportunities for improvement.
+            </p>
+            <a href="/contact/" class="card-cta">Schedule Now</a>
+          </div>
+          
+          <div class="offer-card">
+            <h3>Custom Automation Solutions</h3>
+            <p>
+              Tailored automation solutions designed specifically for your business processes 
+              and requirements. Get a personalized quote today.
+            </p>
+            <a href="/services/custom-automation/" class="card-cta">Learn More</a>
+          </div>
+          
+          <div class="offer-card">
+            <h3>AI Workflow Integration</h3>
+            <p>
+              Transform your business with AI-powered workflows that increase productivity 
+              and reduce manual work by up to 80%.
+            </p>
+            <a href="/services/ai-workflow-integration/" class="card-cta">Explore AI Solutions</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter-signup">
+      <div class="newsletter-container">
+        <div class="newsletter-content">
+          <h2>Stay Updated on Future Offers</h2>
+          <p>
+            Be the first to know about new campaigns, special offers, and exclusive content. 
+            Join our newsletter and never miss out again.
+          </p>
+          
+          <form class="newsletter-form" action="/api/newsletter" method="POST">
+            <div class="form-group">
+              <label for="email" class="visually-hidden">Email Address</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Enter your email address" 
+                required
+                class="email-input"
+              >
+              <button type="submit" class="submit-btn">
+                Subscribe
+              </button>
+            </div>
+            <p class="form-note">
+              We respect your privacy. Unsubscribe at any time.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="contact-container">
+        <div class="contact-content">
+          <h2>Need Immediate Help?</h2>
+          <p>
+            Don't let an expired campaign stop you from getting the solutions you need. 
+            Get in touch directly and we'll create a custom solution for your business.
+          </p>
+          
+          <div class="contact-methods">
+            <div class="contact-method">
+              <h3>Email</h3>
+              <a href="mailto:hello@alokprateek.in">hello@alokprateek.in</a>
+            </div>
+            
+            <div class="contact-method">
+              <h3>WhatsApp</h3>
+              <a href="https://wa.me/919999999999" target="_blank" rel="noopener">
+                Chat on WhatsApp
+              </a>
+            </div>
+            
+            <div class="contact-method">
+              <h3>Schedule a Call</h3>
+              <a href="/contact/">Book a Meeting</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Analytics tracking for expired campaign visits -->
+  <script define:vars={{ campaignSlug, campaignTitle }}>
+    // Track expired campaign access
+    function trackExpiredCampaignVisit() {
+      if (!campaignSlug) return;
+
+      // Enhanced GA4 tracking for expired campaign visits
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'expired_campaign_visit', {
+          campaign_slug: campaignSlug,
+          campaign_title: campaignTitle || 'Unknown Campaign',
+          page_location: window.location.href,
+          referrer: document.referrer,
+          timestamp: new Date().toISOString()
+        });
+
+        // Track as a bounce prevention event
+        gtag('event', 'expired_campaign_bounce_prevention', {
+          campaign_slug: campaignSlug,
+          fallback_page: 'expired_offers',
+          user_retained: true
+        });
+      }
+
+      // Send expired campaign visit data to API for database tracking
+      const visitData = new FormData();
+      visitData.append('campaign_slug', campaignSlug);
+      visitData.append('conversion_type', 'expired_visit');
+      visitData.append('conversion_value', '0');
+      visitData.append('page_url', window.location.href);
+      visitData.append('referrer', document.referrer);
+
+      // Send to campaign visit API (non-blocking)
+      fetch('/api/campaign-visit', {
+        method: 'POST',
+        body: visitData
+      }).catch(error => {
+        console.warn('Expired campaign visit tracking failed:', error);
+      });
+    }
+
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', trackExpiredCampaignVisit);
+    document.addEventListener('astro:after-swap', trackExpiredCampaignVisit);
+  </script>
+</Layout>
+
+<style>
+  .expired-campaign-page {
+    min-height: 100vh;
+  }
+
+  .expired-hero {
+    padding: 4rem 0;
+    background-color: var(--background-color);
+    text-align: center;
+  }
+
+  .hero-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .expired-campaign-title {
+    font-size: var(--text-xl);
+    color: var(--button-background-color);
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-lg);
+    color: var(--muted-text-color);
+    margin: 0 0 2rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--global-transition);
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: var(--border-color);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--input-background-color);
+    border-color: var(--button-background-color);
+  }
+
+  .current-offers {
+    padding: 4rem 0;
+    background-color: var(--input-background-color);
+  }
+
+  .offers-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .offers-container h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 3rem 0;
+    font-family: var(--serif-font);
+    text-align: center;
+  }
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .offer-card {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 2);
+    padding: 2rem;
+    text-align: center;
+    align-content: flex-end;
+  }
+
+  .offer-card h3 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .offer-card p {
+    color: var(--muted-text-color);
+    line-height: var(--line-height);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .card-cta {
+    display: inline-block;
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--global-transition);
+  }
+
+  .card-cta:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+
+  .newsletter-signup {
+    padding: 4rem 0;
+    background-color: var(--background-color);
+  }
+
+  .newsletter-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .newsletter-content h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .newsletter-content > p {
+    color: var(--muted-text-color);
+    line-height: var(--line-height);
+    margin: 0 0 2rem 0;
+  }
+
+  .newsletter-form {
+    margin-bottom: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .email-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+  }
+
+  .submit-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--global-transition);
+  }
+
+  .submit-btn:hover {
+    background-color: var(--secondary-color);
+  }
+
+  .form-note {
+    font-size: var(--text-sm);
+    color: var(--muted-text-color);
+    margin: 0;
+  }
+
+  .contact-section {
+    padding: 4rem 0;
+    background-color: var(--input-background-color);
+  }
+
+  .contact-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .contact-content h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .contact-content > p {
+    color: var(--muted-text-color);
+    line-height: var(--line-height);
+    margin: 0 0 3rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3rem;
+  }
+
+  .contact-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .contact-method {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+  }
+
+  .contact-method h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .contact-method a {
+    color: var(--button-background-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .contact-method a:hover {
+    text-decoration: underline;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Responsive design */
+  @media (max-width: 767px) {
+    .hero-content h1 {
+      font-size: var(--text-3xl);
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .offers-grid,
+    .contact-methods {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group {
+      flex-direction: column;
+    }
+
+    .expired-hero,
+    .current-offers,
+    .newsletter-signup,
+    .contact-section {
+      padding: 2rem 0;
+    }
+  }
+</style>
