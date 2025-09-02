@@ -8,7 +8,7 @@ import Alert from "../components/custom/alert.astro";
 import style from "../styles/grid.module.css";
 
 
-import type { ServiceData, FAQData, PersonData } from '@lib/schema-generators';
+import type { ServiceData, FAQData, CampaignData } from '@lib/schema-generators';
 
 type Props = {
   title?: string;
@@ -23,9 +23,10 @@ type Props = {
   article?: boolean,
   authorname?: string,
   authorurl?: string,
-  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default';
   serviceData?: ServiceData;
   faqs?: FAQData[];
+  campaignData?: CampaignData;
   includeBreadcrumbs?: boolean;
   includeLocalBusiness?: boolean;
   keywords?: string[];
@@ -45,6 +46,7 @@ const {
   pageType,
   serviceData,
   faqs,
+  campaignData,
   includeBreadcrumbs,
   includeLocalBusiness,
   keywords,
@@ -77,6 +79,7 @@ const {
       pageType = {pageType},
       serviceData = {serviceData},
       faqs = {faqs},
+      campaignData = {campaignData},
       includeBreadcrumbs = {includeBreadcrumbs},
       includeLocalBusiness = {includeLocalBusiness},
       keywords = {keywords}
