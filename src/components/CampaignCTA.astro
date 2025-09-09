@@ -1,0 +1,803 @@
+---
+interface Props {
+  campaignSlug: string;
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  offer: {
+    originalValue: string;
+    discountedValue: string;
+    savings: string;
+    urgency: string;
+    validUntil: string;
+  };
+  formType: "campaign-signup" | "consultation-request" | "download-request";
+  variant?: "primary" | "secondary" | "minimal";
+  showOffer?: boolean;
+  trackingId?: string;
+}
+
+const {
+  campaignSlug,
+  title,
+  subtitle,
+  ctaText,
+  offer,
+  formType,
+  variant = "primary",
+  showOffer = true,
+  trackingId = `cta-${campaignSlug}-${Math.random().toString(36).substring(2, 11)}`,
+} = Astro.props;
+
+// Generate unique form ID for tracking
+const formId = `campaign-form-${campaignSlug}`;
+---
+
+<section class={`campaign-cta campaign-cta-${variant}`}>
+  <div class="cta-container">
+    <div class="cta-content">
+      <!-- Header Section -->
+      <div class="cta-header">
+        <h2 class="cta-title">{title}</h2>
+        <p class="cta-subtitle">{subtitle}</p>
+
+        {
+          showOffer && (
+            <div class="cta-offer">
+              <div class="offer-details">
+                <span class="original-value">Worth {offer.originalValue}</span>
+                <span class="current-value">{offer.discountedValue}</span>
+                <span class="savings-badge">{offer.savings}</span>
+              </div>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Form Section -->
+      <div class="cta-form-section">
+        <form
+          class="campaign-form"
+          id={formId}
+          data-campaign={campaignSlug}
+          data-tracking-id={trackingId}
+          data-form-type={formType}
+        >
+          <div class="form-fields">
+            <div class="field-group">
+              <label for={`name-${trackingId}`} class="field-label"
+                >Full Name *</label
+              >
+              <input
+                type="text"
+                id={`name-${trackingId}`}
+                name="name"
+                required
+                class="form-input"
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            <div class="field-group">
+              <label for={`email-${trackingId}`} class="field-label"
+                >Email Address *</label
+              >
+              <input
+                type="email"
+                id={`email-${trackingId}`}
+                name="email"
+                required
+                class="form-input"
+                placeholder="Enter your email address"
+              />
+            </div>
+
+            <div class="field-group">
+              <label for={`company-${trackingId}`} class="field-label"
+                >Company/Organization</label
+              >
+              <input
+                type="text"
+                id={`company-${trackingId}`}
+                name="company"
+                class="form-input"
+                placeholder="Your company name"
+              />
+            </div>
+
+            {
+              formType === "consultation-request" && (
+                <div class="field-group">
+                  <label for={`phone-${trackingId}`} class="field-label">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id={`phone-${trackingId}`}
+                    name="phone"
+                    class="form-input"
+                    placeholder="+91 XXXXX XXXXX"
+                  />
+                </div>
+              )
+            }
+
+            {
+              formType !== "download-request" && (
+                <div class="field-group">
+                  <label for={`message-${trackingId}`} class="field-label">
+                    {formType === "consultation-request"
+                      ? "Tell us about your needs"
+                      : "Additional Information"}
+                  </label>
+                  <textarea
+                    id={`message-${trackingId}`}
+                    name="message"
+                    rows="3"
+                    class="form-textarea"
+                    placeholder={
+                      formType === "consultation-request"
+                        ? "Briefly describe your automation challenges or goals..."
+                        : "Any specific questions or requirements?"
+                    }
+                  />
+                </div>
+              )
+            }
+
+            <!-- Hidden fields for tracking -->
+            <input type="hidden" name="campaign_slug" value={campaignSlug} />
+            <input type="hidden" name="form_type" value={formType} />
+            <input type="hidden" name="tracking_id" value={trackingId} />
+            <input
+              type="hidden"
+              name="utm_params"
+              id={`utm-params-${trackingId}`}
+            />
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="cta-button"
+              data-original-text={ctaText}
+            >
+              <span class="button-text">{ctaText}</span>
+              <span class="button-loader" style="display: none;">
+                <svg class="spinner" viewBox="0 0 24 24">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    fill="none"
+                    stroke-dasharray="32"
+                    stroke-dashoffset="32"
+                  >
+                    <animate
+                      attributeName="stroke-dasharray"
+                      dur="2s"
+                      values="0 32;16 16;0 32;0 32"
+                      repeatCount="indefinite"></animate>
+                    <animate
+                      attributeName="stroke-dashoffset"
+                      dur="2s"
+                      values="0;-16;-32;-32"
+                      repeatCount="indefinite"></animate>
+                  </circle>
+                </svg>
+                Processing...
+              </span>
+            </button>
+          </div>
+
+          <div class="form-footer">
+            <p class="privacy-note">
+              <span class="privacy-icon">🔒</span>
+              Your information is secure and will never be shared.
+              <a href="/terms/" target="_blank">Privacy Policy</a>
+            </p>
+
+            {
+              formType === "consultation-request" && (
+                <p class="response-time">
+                  We'll respond within 24 hours with next steps.
+                </p>
+              )
+            }
+          </div>
+
+          <!-- Success/Error Messages -->
+          <div class="form-messages">
+            <div class="success-message" style="display: none;">
+              <div class="message-icon">✅</div>
+              <div class="message-content">
+                <h3>Success!</h3>
+                <p id="success-text">
+                  Thank you for your interest. We'll be in touch soon!
+                </p>
+              </div>
+            </div>
+
+            <div class="error-message" style="display: none;">
+              <div class="message-icon">❌</div>
+              <div class="message-content">
+                <h3>Oops!</h3>
+                <p id="error-text">
+                  Something went wrong. Please try again or contact us directly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="trust-indicators">
+        <div class="trust-item">
+          <span class="trust-icon">⚡</span>
+          <span class="trust-text">Instant Response</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🛡️</span>
+          <span class="trust-text">100% Secure</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">💯</span>
+          <span class="trust-text">No Spam Ever</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Campaign CTA JavaScript -->
+<script>
+  function initCampaignCTA() {
+    // Helper function to safely call gtag
+    const trackEvent = (eventName: string, parameters: any) => {
+      if (typeof (window as any).gtag === "function") {
+        (window as any).gtag("event", eventName, parameters);
+      }
+    };
+    // Get all campaign forms
+    const forms = document.querySelectorAll<HTMLFormElement>(".campaign-form");
+
+    forms.forEach((form) => {
+      const campaignSlug = form.dataset.campaign;
+      const trackingId = form.dataset.trackingId;
+      const formType = form.dataset.formType;
+
+      // Populate UTM parameters
+      const utmParamsField = form.querySelector<HTMLInputElement>(
+        `#utm-params-${trackingId}`,
+      );
+      if (utmParamsField) {
+        const storedParams = sessionStorage.getItem("campaign_utm_params");
+        if (storedParams) {
+          utmParamsField.value = storedParams;
+        }
+      }
+
+      // Handle form submission
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const submitButton =
+          form.querySelector<HTMLButtonElement>(".cta-button");
+        const buttonText =
+          submitButton?.querySelector<HTMLElement>(".button-text");
+        const buttonLoader =
+          submitButton?.querySelector<HTMLElement>(".button-loader");
+        const successMessage =
+          form.querySelector<HTMLElement>(".success-message");
+        const errorMessage = form.querySelector<HTMLElement>(".error-message");
+
+        if (
+          !submitButton ||
+          !buttonText ||
+          !buttonLoader ||
+          !successMessage ||
+          !errorMessage
+        ) {
+          console.error("Required form elements not found");
+          return;
+        }
+
+        // Show loading state
+        submitButton.disabled = true;
+        buttonText.style.display = "none";
+        buttonLoader.style.display = "flex";
+
+        // Hide previous messages
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
+
+        try {
+          // Collect form data
+          const formData = new FormData(form);
+
+          // Add timestamp and session info
+          formData.append("submission_timestamp", new Date().toISOString());
+          formData.append("user_agent", navigator.userAgent);
+          formData.append("page_url", window.location.href);
+
+          // Submit to API
+          const response = await fetch("/api/campaign-signup", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            // Show success message
+            successMessage.style.display = "flex";
+            form.reset();
+
+            // Track conversion event with enhanced analytics
+            const utmParamsValue = utmParamsField?.value || "{}";
+            const utmParams = JSON.parse(utmParamsValue);
+            const sessionData = {
+              session_id: sessionStorage.getItem("session_id") || "",
+              page_views: parseInt(sessionStorage.getItem("page_views") || "1"),
+              time_on_site:
+                Date.now() -
+                parseInt(
+                  sessionStorage.getItem("session_start") ||
+                    Date.now().toString(),
+                ),
+            };
+
+            // Track enhanced form submission conversion
+            trackEvent("campaign_form_submit", {
+              campaign_slug: campaignSlug,
+              form_type: formType,
+              tracking_id: trackingId,
+              conversion_type: "form_submit",
+              utm_source: utmParams.utm_source,
+              utm_medium: utmParams.utm_medium,
+              utm_campaign: utmParams.utm_campaign,
+              utm_term: utmParams.utm_term,
+              utm_content: utmParams.utm_content,
+              session_id: sessionData.session_id,
+              page_views: sessionData.page_views,
+              time_on_site: Math.round(sessionData.time_on_site / 1000), // in seconds
+              user_email: formData.get("email"),
+              user_name: formData.get("name"),
+            });
+
+            // Track conversion goal achievement
+            trackEvent("campaign_conversion_goal", {
+              campaign_slug: campaignSlug,
+              conversion_type: "signup",
+              conversion_value: formType === "consultation-request" ? 100 : 50,
+              form_type: formType,
+              utm_source: utmParams.utm_source,
+              utm_medium: utmParams.utm_medium,
+              utm_campaign: utmParams.utm_campaign,
+              session_id: sessionData.session_id,
+            });
+
+            // Track funnel progression
+            trackEvent("campaign_funnel_progress", {
+              campaign_slug: campaignSlug,
+              funnel_step: "form_completed",
+              form_type: formType,
+              utm_source: utmParams.utm_source,
+              utm_medium: utmParams.utm_medium,
+              utm_campaign: utmParams.utm_campaign,
+            });
+
+            // Legacy GA4 tracking for compatibility
+            trackEvent("campaign_conversion", {
+              campaign_slug: campaignSlug,
+              form_type: formType,
+              tracking_id: trackingId,
+              conversion_type: "form_submit",
+              value: formType === "consultation-request" ? 100 : 50,
+              currency: "INR",
+            });
+
+            // Scroll to success message
+            if (successMessage) {
+              successMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+          } else {
+            throw new Error(result.message || "Submission failed");
+          }
+        } catch (error) {
+          console.error("Form submission error:", error);
+
+          // Show error message
+          const errorText = form.querySelector<HTMLElement>("#error-text");
+          const errorMessage =
+            error instanceof Error
+              ? error.message
+              : "Something went wrong. Please try again.";
+
+          if (errorText) {
+            errorText.textContent = errorMessage;
+          }
+
+          const errorMessageEl =
+            form.querySelector<HTMLElement>(".error-message");
+          if (errorMessageEl) {
+            errorMessageEl.style.display = "flex";
+          }
+
+          // Track error event with enhanced analytics
+          const utmParamsValue = utmParamsField?.value || "{}";
+          const utmParams = JSON.parse(utmParamsValue);
+
+          // Track error event with enhanced analytics
+          trackEvent("campaign_form_error", {
+            campaign_slug: campaignSlug,
+            form_type: formType,
+            error_message: errorMessage,
+            utm_source: utmParams.utm_source,
+            utm_medium: utmParams.utm_medium,
+            utm_campaign: utmParams.utm_campaign,
+          });
+        } finally {
+          // Reset button state
+          if (submitButton) {
+            submitButton.disabled = false;
+          }
+          if (buttonText) {
+            buttonText.style.display = "inline";
+          }
+          if (buttonLoader) {
+            buttonLoader.style.display = "none";
+          }
+        }
+      });
+
+      // Track form interactions with enhanced analytics
+      const inputs = form.querySelectorAll<
+        HTMLInputElement | HTMLTextAreaElement
+      >("input, textarea");
+      inputs.forEach((input) => {
+        input.addEventListener("focus", () => {
+          const utmParamsValue = utmParamsField?.value || "{}";
+          const utmParams = JSON.parse(utmParamsValue);
+
+          // Enhanced form interaction tracking with GA4
+          trackEvent("campaign_form_start", {
+            campaign_slug: campaignSlug,
+            field_name: input.name,
+            interaction_type: "focus",
+            form_type: formType,
+            utm_source: utmParams.utm_source,
+            utm_medium: utmParams.utm_medium,
+            utm_campaign: utmParams.utm_campaign,
+          });
+
+          // Legacy GA4 tracking for compatibility
+          trackEvent("campaign_form_interaction", {
+            campaign_slug: campaignSlug,
+            field_name: input.name,
+            interaction_type: "focus",
+            utm_source: utmParams.utm_source,
+            utm_medium: utmParams.utm_medium,
+            utm_campaign: utmParams.utm_campaign,
+          });
+        });
+      });
+    });
+  }
+
+  // Initialize on page load and after page transitions
+  document.addEventListener("DOMContentLoaded", initCampaignCTA);
+  document.addEventListener("astro:after-swap", initCampaignCTA);
+</script>
+
+<style>
+  .campaign-cta {
+    padding: 4rem 0;
+  }
+
+  .campaign-cta-primary {
+    background: linear-gradient(
+      135deg,
+      var(--button-background-color) 0%,
+      var(--button-background-hover-color) 100%
+    );
+    color: var(--button-text-color);
+  }
+
+  .campaign-cta-secondary {
+    background-color: var(--input-background-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .campaign-cta-minimal {
+    background-color: var(--background-color);
+  }
+
+  .cta-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .cta-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .cta-title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .campaign-cta-primary .cta-title {
+    color: var(--button-text-color);
+  }
+
+  .campaign-cta-secondary .cta-title,
+  .campaign-cta-minimal .cta-title {
+    color: var(--text-color);
+  }
+
+  .cta-subtitle {
+    font-size: var(--text-lg);
+    margin: 0 0 1.5rem 0;
+    opacity: 0.9;
+  }
+
+  .cta-offer {
+    margin-bottom: 1rem;
+  }
+
+  .offer-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .original-value {
+    font-size: var(--text-base);
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  .current-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+  }
+
+  .savings-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .campaign-cta-secondary .savings-badge,
+  .campaign-cta-minimal .savings-badge {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+  }
+
+  .form-fields {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field-label {
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .campaign-cta-primary .field-label {
+    color: var(--button-text-color);
+  }
+
+  .campaign-cta-secondary .field-label,
+  .campaign-cta-minimal .field-label {
+    color: var(--text-color);
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 0.75rem;
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--text-color);
+    font-size: var(--text-base);
+    transition: var(--global-transition);
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--button-background-color);
+    background-color: white;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-actions {
+    margin-bottom: 1rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: calc(var(--border-radius) * 2);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    cursor: pointer;
+    transition: var(--global-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .campaign-cta-primary .cta-button {
+    background-color: var(--button-text-color);
+    color: var(--button-background-color);
+  }
+
+  .campaign-cta-secondary .cta-button,
+  .campaign-cta-minimal .cta-button {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+  }
+
+  .cta-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .button-loader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+
+  .form-footer {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .privacy-note {
+    font-size: var(--text-sm);
+    margin: 0 0 0.5rem 0;
+    opacity: 0.8;
+  }
+
+  .privacy-note a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .response-time {
+    font-size: var(--text-sm);
+    margin: 0;
+    opacity: 0.8;
+    font-weight: 500;
+  }
+
+  .form-messages {
+    margin-top: 1rem;
+  }
+
+  .success-message,
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+  }
+
+  .success-message {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+  }
+
+  .error-message {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+  }
+
+  .message-icon {
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+  }
+
+  .message-content h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .message-content p {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .trust-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    opacity: 0.8;
+  }
+
+  .trust-icon {
+    font-size: var(--text-base);
+  }
+
+  /* Responsive design */
+  @media (max-width: 767px) {
+    .campaign-cta {
+      padding: 2rem 0;
+    }
+
+    .cta-container {
+      padding: 0 1rem;
+    }
+
+    .cta-title {
+      font-size: var(--text-2xl);
+    }
+
+    .offer-details {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .trust-indicators {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+</style>
