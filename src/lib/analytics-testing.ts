@@ -282,7 +282,7 @@ export class AnalyticsDebugger {
     // Override fetch to monitor requests
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
-      const [resource, config] = args;
+      const [resource, _config] = args;
       let url: string;
 
       if (typeof resource === 'string') {

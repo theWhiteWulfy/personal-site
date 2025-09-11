@@ -49,6 +49,25 @@ export interface ServiceData {
   };
 }
 
+export interface CampaignData {
+  name: string;
+  description: string;
+  url: string;
+  startDate: string;
+  endDate: string;
+  offers: Array<{
+    '@type': string;
+    name: string;
+    description: string;
+    price: string;
+    priceCurrency: string;
+    validThrough: string;
+    availability: string;
+  }>;
+  keywords: string[];
+  targetAudience: string[];
+}
+
 export interface FAQData {
   question: string;
   answer: string;
@@ -71,6 +90,29 @@ export interface PersonData {
   sameAs?: string[];
   knowsAbout?: string[];
   description?: string;
+}
+
+export interface ResourceData {
+  name: string;
+  description: string;
+  url: string;
+  fileFormat?: string;
+  contentSize?: string;
+  encodingFormat?: string;
+  datePublished?: string;
+  dateModified?: string;
+  author?: {
+    name: string;
+    url: string;
+  };
+  publisher?: {
+    name: string;
+    url: string;
+  };
+  keywords?: string[];
+  inLanguage?: string;
+  isAccessibleForFree?: boolean;
+  license?: string;
 }
 
 // Schema generation functions
@@ -282,7 +324,7 @@ export function safeSchemaGeneration<T>(
 
 // Combined schema generator for different page types
 export interface PageSchemaOptions {
-  pageType: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+  pageType: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'resource' | 'campaign' | 'default';
   title: string;
   description: string;
   path: string;
@@ -291,8 +333,101 @@ export interface PageSchemaOptions {
   author?: Partial<PersonData>;
   serviceData?: ServiceData;
   faqs?: FAQData[];
+  resourceData?: ResourceData;
+  campaignData?: CampaignData;
   includeBreadcrumbs?: boolean;
   includeLocalBusiness?: boolean;
+}
+
+export function generateResourceSchema(resourceData: ResourceData) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: resourceData.name,
+    description: resourceData.description,
+    url: resourceData.url,
+    fileFormat: resourceData.fileFormat || 'application/pdf',
+    contentSize: resourceData.contentSize,
+    encodingFormat: resourceData.encodingFormat || 'application/pdf',
+    datePublished: resourceData.datePublished,
+    dateModified: resourceData.dateModified,
+    author: resourceData.author || {
+      '@type': 'Person',
+      name: site.author.name,
+      url: site.author.url
+    },
+    publisher: resourceData.publisher || {
+      '@type': 'Organization',
+      name: site.titleAlt,
+      url: site.url,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${site.url}${site.image.src}`
+      }
+    },
+    keywords: resourceData.keywords,
+    inLanguage: resourceData.inLanguage || site.siteLanguage,
+    isAccessibleForFree: resourceData.isAccessibleForFree !== false,
+    license: resourceData.license,
+    mainEntity: {
+      '@type': 'CreativeWork',
+      name: resourceData.name,
+      description: resourceData.description,
+      creator: resourceData.author || {
+        '@type': 'Person',
+        name: site.author.name
+      }
+    }
+  };
+}
+
+export function generateCampaignSchema(campaignData: CampaignData) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: campaignData.name,
+    description: campaignData.description,
+    url: campaignData.url,
+    startDate: campaignData.startDate,
+    endDate: campaignData.endDate,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: {
+      '@type': 'VirtualLocation',
+      url: campaignData.url
+    },
+    organizer: {
+      '@type': 'Organization',
+      name: site.titleAlt,
+      url: site.url,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${site.url}${site.image.src}`
+      }
+    },
+    offers: campaignData.offers.map(offer => ({
+      '@type': 'Offer',
+      name: offer.name,
+      description: offer.description,
+      price: offer.price,
+      priceCurrency: offer.priceCurrency,
+      validThrough: offer.validThrough,
+      availability: offer.availability,
+      url: campaignData.url,
+      seller: {
+        '@type': 'Organization',
+        name: site.titleAlt,
+        url: site.url
+      }
+    })),
+    keywords: campaignData.keywords.join(', '),
+    audience: {
+      '@type': 'Audience',
+      audienceType: campaignData.targetAudience.join(', ')
+    },
+    inLanguage: site.siteLanguage,
+    isAccessibleForFree: false
+  };
 }
 
 export function generatePageSchema(options: PageSchemaOptions) {
@@ -322,6 +457,16 @@ export function generatePageSchema(options: PageSchemaOptions) {
   // Include FAQ schema for FAQ pages
   if (options.pageType === 'faq' && options.faqs) {
     schemas.push(safeSchemaGeneration(() => generateFAQPageSchema(options.faqs!)));
+  }
+
+  // Include Resource schema for resource pages
+  if (options.pageType === 'resource' && options.resourceData) {
+    schemas.push(safeSchemaGeneration(() => generateResourceSchema(options.resourceData!)));
+  }
+
+  // Include Campaign schema for campaign pages
+  if (options.pageType === 'campaign' && options.campaignData) {
+    schemas.push(safeSchemaGeneration(() => generateCampaignSchema(options.campaignData!)));
   }
 
   // Base page/article schema

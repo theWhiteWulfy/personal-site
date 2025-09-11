@@ -309,7 +309,7 @@ export class GA4Analytics implements AnalyticsProvider {
         send_to: this.config.measurementId,
         value: conversionEvent.event_parameters.conversion_value || 1,
         currency: conversionEvent.event_parameters.currency || 'USD',
-        transaction_id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        transaction_id: `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
         event_category: 'engagement',
         event_label: conversionEvent.event_parameters.conversion_type,
       });
@@ -791,7 +791,7 @@ export const NewsletterTracker = {
     }
   },
 
-  trackEmailValidation: (isValid: boolean, email: string) => {
+  trackEmailValidation: (isValid: boolean, _email: string) => {
     if (!isValid) {
       FormTracker.trackValidationError('newsletter', 'email', 'invalid_format');
     }
