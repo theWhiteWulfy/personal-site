@@ -2,7 +2,13 @@
 interface Feature {
   title: string;
   description: string;
+  // Backward-compatible emoji/text icon
   icon?: string;
+  // Preferable SVG component icon
+  iconComponent?: any;
+  // Optional illustrative image (use public/ paths for placeholders)
+  image?: string;
+  imageAlt?: string;
   benefits?: string[];
 }
 
@@ -11,7 +17,7 @@ interface Props {
   subtitle?: string;
   features: Feature[];
   layout?: 'grid' | 'list';
-  columns?: 2 | 3 | 4;
+  columns?: 2 | 3 | 4 | 6;
 }
 
 const {
@@ -23,6 +29,7 @@ const {
 } = Astro.props;
 
 const gridClass = `service-features__grid--${columns}-col`;
+const isList = layout === 'list';
 ---
 
 <section class="service-features">
@@ -37,28 +44,53 @@ const gridClass = `service-features__grid--${columns}-col`;
     )}
     
     <div class={`service-features__${layout} ${layout === 'grid' ? gridClass : ''}`}>
-      {features.map((feature) => (
-        <div class="service-features__item">
-          {feature.icon && (
-            <div class="service-features__icon">
-              <span class="service-features__icon-text">{feature.icon}</span>
-            </div>
-          )}
-          
-          <div class="service-features__content">
-            <h3 class="service-features__item-title">{feature.title}</h3>
-            <p class="service-features__item-description">{feature.description}</p>
-            
-            {feature.benefits && feature.benefits.length > 0 && (
-              <ul class="service-features__benefits">
-                {feature.benefits.map((benefit) => (
-                  <li class="service-features__benefit">{benefit}</li>
-                ))}
-              </ul>
+      {features.map((feature, idx) => {
+        const Icon = feature.iconComponent;
+        const reverse = isList && idx % 2 === 1;
+        return (
+          <div class={`service-features__item ${reverse ? 'service-features__item--reverse' : ''}`}>
+            {feature.image && (
+              <div class="service-features__image-wrapper">
+                <img class="service-features__image" src={feature.image} alt={feature.imageAlt || feature.title} loading="lazy" />
+              </div>
             )}
+            
+            <div class="service-features__content">
+              {isList ? (
+                Icon ? (
+                  <div class="service-features__icon service-features__icon--inline">
+                    <Icon class="service-features__icon-svg" />
+                  </div>
+                ) : feature.icon ? (
+                  <div class="service-features__icon service-features__icon--inline">
+                    <span class="service-features__icon-text">{feature.icon}</span>
+                  </div>
+                ) : null
+              ) : (
+                Icon ? (
+                  <div class="service-features__icon">
+                    <Icon class="service-features__icon-svg" />
+                  </div>
+                ) : feature.icon ? (
+                  <div class="service-features__icon">
+                    <span class="service-features__icon-text">{feature.icon}</span>
+                  </div>
+                ) : null
+              )}
+              <h3 class="service-features__item-title">{feature.title}</h3>
+              <p class="service-features__item-description">{feature.description}</p>
+              
+              {feature.benefits && feature.benefits.length > 0 && (
+                <ul class="service-features__benefits">
+                  {feature.benefits.map((benefit) => (
+                    <li class="service-features__benefit">{benefit}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </section>
@@ -144,6 +176,28 @@ const gridClass = `service-features__grid--${columns}-col`;
   }
 }
 
+.service-features__grid--6-col {
+  grid-template-columns: 1fr;
+}
+
+@media (--small-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--large-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (--xlarge-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
 .service-features__list {
   display: flex;
   flex-direction: column;
@@ -171,6 +225,10 @@ const gridClass = `service-features__grid--${columns}-col`;
   align-items: flex-start;
 }
 
+.service-features__item--reverse {
+  flex-direction: row-reverse;
+}
+
 .service-features__grid .service-features__item {
   flex-direction: column;
   text-align: center;
@@ -180,6 +238,9 @@ const gridClass = `service-features__grid--${columns}-col`;
   .service-features__item {
     flex-direction: column;
     text-align: center;
+  }
+  .service-features__item--reverse {
+    flex-direction: column;
   }
 }
 
@@ -202,6 +263,11 @@ const gridClass = `service-features__grid--${columns}-col`;
 .service-features__icon-text {
   font-size: var(--text-lg);
   font-weight: 600;
+}
+
+.service-features__icon-svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .service-features__content {
@@ -247,5 +313,48 @@ const gridClass = `service-features__grid--${columns}-col`;
 
 .service-features__benefit:last-child {
   margin-bottom: 0;
+}
+
+/* Image presentation */
+.service-features__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: calc(var(--border-radius) - 2px);
+  background: var(--background-secondary-color);
+}
+
+.service-features__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layout-specific tweaks */
+.service-features__grid .service-features__image-wrapper {
+  margin-bottom: 1rem;
+}
+
+.service-features__list .service-features__image-wrapper {
+  flex: 0 0 40%;
+  max-width: 520px;
+  margin: 0; /* side-by-side, no bottom margin */
+}
+
+.service-features__list .service-features__content {
+  text-align: left;
+}
+
+@media (--small-down) {
+  .service-features__list .service-features__image-wrapper {
+    flex-basis: auto;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+  .service-features__list .service-features__content {
+    text-align: left;
+  }
 }
 </style>
