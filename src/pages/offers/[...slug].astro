@@ -1,0 +1,763 @@
+---
+import Layout from '@layouts/Layout.astro';
+import CampaignHero from '@components/CampaignHero.astro';
+import CampaignCTA from '@components/CampaignCTA.astro';
+import { generatePageSchema } from '@/lib/schema-generators';
+import type { CampaignData } from '@/lib/schema-generators';
+import { validateCampaignStatus, getCampaignUrgency } from '@/lib/campaign-utils';
+
+// This page will be statically generated at build time
+
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  // Define available campaigns
+  // In production, this would come from the database
+  const campaigns = [
+    {
+      slug: 'monsoon-automation-audit',
+      title: 'Monsoon Special: Free Business Automation Audit',
+      description: 'Limited-time offer: Get a comprehensive business automation audit worth ₹25,000 absolutely free. Discover automation opportunities that could save you 20+ hours per week.',
+      offer: {
+        originalValue: '₹25,000',
+        discountedValue: 'FREE',
+        savings: '100% OFF',
+        urgency: 'Limited Time Offer',
+        validUntil: '2025-09-30T23:59:59Z'
+      },
+      benefits: [
+        'Complete workflow analysis and optimization recommendations',
+        'Custom automation roadmap tailored to your business',
+        'ROI projections for recommended automation solutions',
+        'Priority implementation support for 30 days',
+        'Free follow-up consultation after 60 days'
+      ],
+      results: {
+        timeframe: '7-14 business days',
+        deliverables: [
+          'Detailed audit report (15-20 pages)',
+          'Process optimization recommendations',
+          'Tool and technology suggestions',
+          'Implementation timeline and budget estimates'
+        ]
+      },
+      testimonials: [
+        {
+          name: 'Priya Sharma',
+          company: 'TechStart Solutions',
+          quote: 'The automation audit revealed inefficiencies we never noticed. We\'ve already saved 15 hours per week!',
+          result: '15 hours/week saved'
+        },
+        {
+          name: 'Rajesh Kumar',
+          company: 'Digital Marketing Pro',
+          quote: 'Alok\'s recommendations helped us automate our entire client onboarding process. Game changer!',
+          result: '80% faster onboarding'
+        }
+      ],
+      status: 'active',
+      startDate: '2025-06-01T00:00:00Z',
+      endDate: '2025-09-30T23:59:59Z',
+      campaignType: 'seasonal',
+      targetAudience: ['small-business-owners', 'entrepreneurs', 'startup-founders'],
+      keywords: ['business automation audit', 'free consultation', 'process optimization', 'workflow analysis']
+    },
+    {
+      slug: 'ai-integration-workshop',
+      title: 'AI Integration Workshop: Transform Your Business in 90 Days',
+      description: 'Join our exclusive 90-day AI integration program and learn how to implement AI tools that can increase your productivity by 300% or more.',
+      offer: {
+        originalValue: '₹50,000',
+        discountedValue: '₹29,999',
+        savings: '40% OFF',
+        urgency: 'Early Bird Pricing',
+        validUntil: '2025-09-15T23:59:59Z'
+      },
+      benefits: [
+        'Comprehensive AI tools assessment and selection',
+        'Step-by-step implementation guidance',
+        'Weekly group coaching sessions',
+        'Private community access',
+        'Custom AI workflow templates',
+        '90-day money-back guarantee'
+      ],
+      results: {
+        timeframe: '90 days',
+        deliverables: [
+          'Personalized AI integration roadmap',
+          'Custom workflow automation templates',
+          'Weekly progress reviews and adjustments',
+          'Access to exclusive AI tools and resources'
+        ]
+      },
+      testimonials: [
+        {
+          name: 'Anita Desai',
+          company: 'Creative Agency Plus',
+          quote: 'The AI tools we implemented have tripled our content production speed while maintaining quality.',
+          result: '300% productivity increase'
+        }
+      ],
+      status: 'active',
+      startDate: '2025-07-01T00:00:00Z',
+      endDate: '2025-09-15T23:59:59Z',
+      campaignType: 'workshop',
+      targetAudience: ['business-owners', 'marketing-professionals', 'consultants'],
+      keywords: ['AI integration', 'artificial intelligence workshop', 'business transformation', 'productivity']
+    }
+  ];
+
+  return campaigns.map(campaign => ({
+    params: { slug: campaign.slug },
+    props: { campaign }
+  }));
+}
+
+interface Props {
+  campaign: {
+    slug: string;
+    title: string;
+    description: string;
+    offer: {
+      originalValue: string;
+      discountedValue: string;
+      savings: string;
+      urgency: string;
+      validUntil: string;
+    };
+    benefits: string[];
+    results: {
+      timeframe: string;
+      deliverables: string[];
+    };
+    testimonials: Array<{
+      name: string;
+      company: string;
+      quote: string;
+      result: string;
+    }>;
+    status: string;
+    startDate: string;
+    endDate: string;
+    campaignType: string;
+    targetAudience: string[];
+    keywords: string[];
+  };
+}
+
+// Get slug and campaign from Astro
+const { slug } = Astro.params;
+let { campaign } = Astro.props;
+
+// Check if campaign exists and is valid
+if (!campaign) {
+  console.error(`Campaign not found for slug: ${slug}`);
+  return Astro.redirect('/404', 404);
+}
+
+// Simple date validation
+const now = new Date();
+const endDate = new Date(campaign.endDate);
+
+if (isNaN(endDate.getTime())) {
+  console.error(`Invalid end date for campaign ${slug}: ${campaign.endDate}`);
+  return Astro.redirect('/500', 500);
+}
+
+// For development, skip expiration check
+if (import.meta.env.DEV) {
+  console.log(`[DEV] Loading campaign: ${slug}`);
+} else {
+  // In production, check if campaign is active
+  const isExpired = now > endDate;
+  if (isExpired || campaign.status !== 'active') {
+    console.log(`Expired/inactive campaign accessed: ${slug} at ${now.toISOString()}`);
+    return Astro.redirect(`/offers/expired?campaign=${encodeURIComponent(slug)}&title=${encodeURIComponent(campaign.title)}`, 301);
+  }
+}
+
+// Calculate time remaining for urgency (these will be used in the template)
+const timeRemaining = Math.max(0, endDate.getTime() - now.getTime());
+const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24));
+const urgencyLevel = getCampaignUrgency(daysRemaining);
+
+// Generate SEO meta data
+const pageTitle = `${campaign.title} | Limited Time Offer`;
+const pageDescription = `${campaign.description} ${campaign.offer.urgency} - ${campaign.offer.savings}`;
+const canonicalUrl = `/offers/${slug}/`;
+const ogImage = `/images/campaigns/${slug}-preview.jpg`; // You would add these images
+
+// Generate structured data for the campaign
+const campaignSchemaData: CampaignData = {
+  name: campaign.title,
+  description: campaign.description,
+  url: `${Astro.site}${canonicalUrl}`,
+  startDate: campaign.startDate,
+  endDate: campaign.endDate,
+  offers: [{
+    '@type': 'Offer',
+    name: campaign.title,
+    description: campaign.description,
+    price: campaign.offer.discountedValue,
+    priceCurrency: 'INR',
+    validThrough: campaign.endDate,
+    availability: 'https://schema.org/InStock'
+  }],
+  keywords: campaign.keywords,
+  targetAudience: campaign.targetAudience
+};
+
+// Generate schemas for the campaign page
+const _campaignSchemas = generatePageSchema({
+  pageType: 'campaign',
+  title: pageTitle,
+  description: pageDescription,
+  path: canonicalUrl,
+  datePublished: campaign.startDate,
+  dateModified: new Date().toISOString(),
+  campaignData: campaignSchemaData,
+  includeBreadcrumbs: true,
+  includeLocalBusiness: true
+});
+
+// These variables are now calculated above
+// and passed to the template via define:vars
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  image={ogImage}
+  path={canonicalUrl}
+  pageType="campaign"
+  datePublished={campaign.startDate}
+  dateModified={new Date().toISOString()}
+  campaignData={campaignSchemaData}
+  includeBreadcrumbs={true}
+  includeLocalBusiness={true}
+>
+  <main class="campaign-page">
+    <CampaignHero 
+      title={campaign.title}
+      description={campaign.description}
+      offer={campaign.offer}
+      benefits={campaign.benefits}
+      urgency={campaign.offer.urgency}
+      daysRemaining={daysRemaining}
+      ctaText="Claim Your Offer Now"
+      ctaHref="#campaign-form"
+    />
+
+    <section class="campaign-results" id="what-you-get">
+      <div class="results-container">
+        <div class="results-content">
+          <h2>What You'll Get</h2>
+          <div class="results-grid">
+            <div class="results-info">
+              <h3>Delivery Timeline</h3>
+              <p class="timeline">{campaign.results.timeframe}</p>
+              
+              <h3>What's Included</h3>
+              <ul class="deliverables-list">
+                {campaign.results.deliverables.map(deliverable => (
+                  <li>{deliverable}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div class="value-proposition">
+              <h3>Why This Offer?</h3>
+              <p>
+                This exclusive campaign is designed to help businesses like yours discover 
+                untapped automation opportunities and implement solutions that deliver 
+                measurable results quickly.
+              </p>
+              
+              <div class="guarantee">
+                <h4>Our Guarantee</h4>
+                <p>
+                  If you don't find at least 3 actionable automation opportunities 
+                  that could save you 10+ hours per week, we'll provide a full refund.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="campaign-testimonials">
+      <div class="testimonials-container">
+        <h2>Success Stories</h2>
+        <div class="testimonials-grid">
+          {campaign.testimonials.map(testimonial => (
+            <div class="testimonial-card">
+              <blockquote>
+                <p>"{testimonial.quote}"</p>
+              </blockquote>
+              <div class="testimonial-author">
+                <div class="author-info">
+                  <cite class="author-name">{testimonial.name}</cite>
+                  <span class="author-company">{testimonial.company}</span>
+                </div>
+                <div class="result-badge">
+                  {testimonial.result}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="campaign-cta-section" id="campaign-form">
+      <div class="cta-container">
+        <CampaignCTA 
+          campaignSlug={campaign.slug}
+          title="Ready to Transform Your Business?"
+          subtitle={`${campaign.offer.urgency} - Only ${daysRemaining} days left!`}
+          ctaText="Get Started Now"
+          offer={campaign.offer}
+          formType="campaign-signup"
+        />
+      </div>
+    </section>
+
+    <section class="campaign-faq">
+      <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h3>How long does the process take?</h3>
+            <p>The complete analysis and report delivery takes {campaign.results.timeframe}. You'll receive regular updates throughout the process.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>What if I'm not satisfied with the results?</h3>
+            <p>We offer a 100% satisfaction guarantee. If you're not completely satisfied with the insights and recommendations, we'll provide a full refund.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Do you work with businesses of all sizes?</h3>
+            <p>Yes, we work with businesses from startups to enterprises. Our recommendations are tailored to your specific business size, industry, and budget.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Will you help with implementation?</h3>
+            <p>Absolutely! The audit includes implementation guidance, and we offer priority support for putting the recommendations into action.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Enhanced Campaign Analytics Script -->
+  <script define:vars={{ campaignSlug: campaign.slug, campaignTitle: campaign.title, campaignType: campaign.campaignType, campaignStatus: campaign.status, daysRemaining, offerValue: campaign.offer.discountedValue, offerSavings: campaign.offer.savings, urgencyLevel }}>
+    // Initialize campaign analytics
+    function initCampaignAnalytics() {
+      // Capture UTM parameters and store them for the session
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmParams = {
+        utm_source: urlParams.get('utm_source'),
+        utm_medium: urlParams.get('utm_medium'),
+        utm_campaign: urlParams.get('utm_campaign'),
+        utm_term: urlParams.get('utm_term'),
+        utm_content: urlParams.get('utm_content'),
+        referrer: document.referrer,
+        landing_page: window.location.href,
+        timestamp: new Date().toISOString()
+      };
+
+      // Store UTM parameters in sessionStorage for persistence
+      if (Object.values(utmParams).some(value => value !== null)) {
+        sessionStorage.setItem('campaign_utm_params', JSON.stringify(utmParams));
+      }
+
+      // Initialize session tracking
+      if (!sessionStorage.getItem('session_start')) {
+        sessionStorage.setItem('session_start', Date.now().toString());
+        sessionStorage.setItem('page_views', '1');
+      } else {
+        const currentViews = parseInt(sessionStorage.getItem('page_views') || '1');
+        sessionStorage.setItem('page_views', (currentViews + 1).toString());
+      }
+
+      // Generate session ID if not exists
+      if (!sessionStorage.getItem('session_id')) {
+        const sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+        sessionStorage.setItem('session_id', sessionId);
+      }
+
+      // Enhanced GA4 tracking with campaign-specific parameters
+      if (typeof gtag !== 'undefined') {
+        // Track campaign page view with detailed parameters
+        gtag('event', 'campaign_page_view', {
+          campaign_slug: campaignSlug,
+          campaign_title: campaignTitle,
+          campaign_type: campaignType,
+          campaign_status: campaignStatus,
+          days_remaining: daysRemaining,
+          offer_value: offerValue,
+          offer_savings: offerSavings,
+          urgency_level: urgencyLevel,
+          utm_source: utmParams.utm_source,
+          utm_medium: utmParams.utm_medium,
+          utm_campaign: utmParams.utm_campaign,
+          utm_term: utmParams.utm_term,
+          utm_content: utmParams.utm_content,
+          page_location: window.location.href,
+          referrer: document.referrer,
+          session_id: sessionStorage.getItem('session_id'),
+          page_views: parseInt(sessionStorage.getItem('page_views') || '1')
+        });
+
+        // Track campaign exposure event for attribution analysis
+        gtag('event', 'campaign_exposure', {
+          campaign_slug: campaignSlug,
+          campaign_title: campaignTitle,
+          offer_value: offerValue,
+          offer_savings: offerSavings,
+          urgency_level: urgencyLevel,
+          days_remaining: daysRemaining,
+          utm_source: utmParams.utm_source,
+          utm_medium: utmParams.utm_medium,
+          utm_campaign: utmParams.utm_campaign
+        });
+
+        // Track campaign funnel entry
+        gtag('event', 'campaign_funnel_entry', {
+          campaign_slug: campaignSlug,
+          funnel_step: 'landing_page',
+          utm_source: utmParams.utm_source,
+          utm_medium: utmParams.utm_medium,
+          utm_campaign: utmParams.utm_campaign
+        });
+      }
+
+      // Send campaign visit data to API for database tracking
+      const visitData = new FormData();
+      visitData.append('campaign_slug', campaignSlug);
+      visitData.append('utm_source', utmParams.utm_source || '');
+      visitData.append('utm_medium', utmParams.utm_medium || '');
+      visitData.append('utm_campaign', utmParams.utm_campaign || '');
+      visitData.append('utm_term', utmParams.utm_term || '');
+      visitData.append('utm_content', utmParams.utm_content || '');
+      visitData.append('referrer', utmParams.referrer || '');
+      visitData.append('session_id', sessionStorage.getItem('session_id') || '');
+      visitData.append('conversion_type', 'page_view');
+      visitData.append('conversion_value', '0');
+      visitData.append('page_url', window.location.href);
+
+      // Send to campaign visit API (non-blocking)
+      fetch('/api/campaign-visit', {
+        method: 'POST',
+        body: visitData
+      }).catch(error => {
+        console.warn('Campaign visit tracking failed:', error);
+      });
+
+      // Set up scroll tracking for engagement
+      let maxScroll = 0;
+      let scrollMilestones = [25, 50, 75, 90];
+      let trackedMilestones = [];
+
+      function trackScrollDepth() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        maxScroll = Math.max(maxScroll, scrollPercent);
+
+        scrollMilestones.forEach(milestone => {
+          if (scrollPercent >= milestone && !trackedMilestones.includes(milestone)) {
+            trackedMilestones.push(milestone);
+            
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'campaign_scroll_depth', {
+                campaign_slug: campaignSlug,
+                scroll_depth: milestone,
+                utm_source: utmParams.utm_source,
+                utm_medium: utmParams.utm_medium,
+                utm_campaign: utmParams.utm_campaign
+              });
+            }
+          }
+        });
+      }
+
+      // Throttled scroll tracking
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(trackScrollDepth, 100);
+      });
+
+      // Track time on page when user leaves
+      window.addEventListener('beforeunload', () => {
+        const timeOnPage = Date.now() - parseInt(sessionStorage.getItem('session_start') || Date.now().toString());
+        
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'campaign_time_on_page', {
+            campaign_slug: campaignSlug,
+            time_on_page: Math.round(timeOnPage / 1000), // in seconds
+            max_scroll_depth: maxScroll,
+            utm_source: utmParams.utm_source,
+            utm_medium: utmParams.utm_medium,
+            utm_campaign: utmParams.utm_campaign
+          });
+        }
+      });
+    }
+
+    // Run on page load and after page transitions
+    document.addEventListener('DOMContentLoaded', initCampaignAnalytics);
+    document.addEventListener('astro:after-swap', initCampaignAnalytics);
+  </script>
+</Layout>
+
+<style>
+  .campaign-page {
+    min-height: 100vh;
+  }
+
+  .campaign-results {
+    padding: 4rem 0;
+    background-color: var(--background-color);
+  }
+
+  .results-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .results-content h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 3rem 0;
+    font-family: var(--serif-font);
+    text-align: center;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .results-info h3,
+  .value-proposition h3 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .timeline {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--button-background-color);
+    margin-bottom: 2rem;
+  }
+
+  .deliverables-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .deliverables-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .deliverables-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--button-background-color);
+    font-weight: bold;
+  }
+
+  .guarantee {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+  }
+
+  .guarantee h4 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .guarantee p {
+    margin: 0;
+    color: var(--muted-text-color);
+  }
+
+  .campaign-testimonials {
+    padding: 4rem 0;
+    background-color: var(--input-background-color);
+  }
+
+  .testimonials-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .testimonials-container h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 3rem 0;
+    font-family: var(--serif-font);
+    text-align: center;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 2);
+    padding: 2rem;
+  }
+
+  .testimonial-card blockquote {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .testimonial-card blockquote p {
+    font-size: var(--text-base);
+    line-height: var(--line-height);
+    color: var(--text-color);
+    font-style: italic;
+    margin: 0;
+  }
+
+  .testimonial-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-name {
+    font-weight: 600;
+    color: var(--text-color);
+    font-style: normal;
+  }
+
+  .author-company {
+    color: var(--muted-text-color);
+    font-size: var(--text-sm);
+  }
+
+  .result-badge {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .campaign-cta-section {
+    padding: 4rem 0;
+    background-color: var(--background-color);
+  }
+
+  .cta-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .campaign-faq {
+    padding: 4rem 0;
+    background-color: var(--input-background-color);
+  }
+
+  .faq-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .faq-container h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 3rem 0;
+    font-family: var(--serif-font);
+    text-align: center;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .faq-item {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+  }
+
+  .faq-item h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .faq-item p {
+    margin: 0;
+    color: var(--muted-text-color);
+    line-height: var(--line-height);
+  }
+
+  /* Responsive design */
+  @media (max-width: 767px) {
+    .results-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .testimonials-grid,
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial-author {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .result-badge {
+      align-self: flex-start;
+    }
+
+    .campaign-results,
+    .campaign-testimonials,
+    .campaign-cta-section,
+    .campaign-faq {
+      padding: 2rem 0;
+    }
+  }
+</style>

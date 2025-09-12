@@ -1,0 +1,289 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ServiceHero from '@components/ServiceHero.astro';
+import ServiceFeatures from '@components/ServiceFeatures.astro';
+import ServiceCTA from '@components/ServiceCTA.astro';
+import ServiceTestimonials from '@components/ServiceTestimonials.astro';
+import RelatedServices from '@components/RelatedServices.astro';
+import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
+import site from '@config/site';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import IntegrationLink from '@components/logos/IntegrationLink.astro';
+import TargetIcon from '@components/logos/Target.astro';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
+
+// Service-specific data
+const serviceData: ServiceData = {
+  name: 'Custom Automation Solutions',
+  description: 'Streamline your business processes with tailored automation solutions that reduce manual work, eliminate errors, and boost productivity.',
+  serviceType: 'Business Process Automation',
+  provider: {
+    name: site.titleAlt,
+    url: site.url
+  },
+  areaServed: ['India', 'Global'],
+  hasOfferCatalog: {
+    name: 'Automation Services',
+    itemListElement: [
+      {
+        name: 'Workflow Automation',
+        description: 'Automate repetitive business processes and workflows',
+        price: 'Starting at $500',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Data Processing Automation',
+        description: 'Automated data collection, processing, and reporting',
+        price: 'Starting at $750',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Integration Solutions',
+        description: 'Connect and automate data flow between different systems',
+        price: 'Starting at $1000',
+        priceCurrency: 'USD'
+      }
+    ]
+  },
+  aggregateRating: {
+    ratingValue: 4.9,
+    reviewCount: 23
+  }
+};
+
+// Page metadata
+const title = 'Custom Automation Solutions - Streamline Your Business Processes';
+const description = 'Transform your business with custom automation solutions. Reduce manual work, eliminate errors, and boost productivity with tailored workflow automation, data processing, and system integrations.';
+const keywords = [
+  'business automation',
+  'workflow automation',
+  'process automation',
+  'custom automation solutions',
+  'business process optimization',
+  'automation consulting',
+  'workflow optimization',
+  'business efficiency',
+  'automated workflows',
+  'system integration'
+];
+
+// Hero section data
+const heroFeatures = [
+  'Reduce manual work by up to 80%',
+  'Eliminate human errors in repetitive tasks',
+  'Save 10-20 hours per week per employee',
+  'Seamless integration with existing systems'
+];
+
+// Features data
+const features = [
+  {
+    title: 'Workflow Automation',
+    description: 'Design and implement automated workflows that handle repetitive tasks, approvals, and data routing without manual intervention.',
+    icon: '⚡',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Workflow automation illustration',
+    benefits: [
+      'Automated task routing and assignments',
+      'Conditional logic and decision trees',
+      'Email and notification automation',
+      'Document generation and processing'
+    ]
+  },
+  {
+    title: 'Data Processing & Analytics',
+    description: 'Automate data collection, cleaning, processing, and reporting to get real-time insights without manual effort.',
+    icon: '📊',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Data processing illustration',
+    benefits: [
+      'Automated data collection from multiple sources',
+      'Real-time data processing and validation',
+      'Automated report generation and distribution',
+      'Custom dashboard creation'
+    ]
+  },
+  {
+    title: 'System Integration',
+    description: 'Connect disparate systems and applications to create seamless data flow and eliminate manual data entry.',
+    icon: '🔗',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'System integration illustration',
+    benefits: [
+      'API integrations and data synchronization',
+      'Legacy system modernization',
+      'Cloud migration and automation',
+      'Third-party service integrations'
+    ]
+  },
+  {
+    title: 'Process Optimization',
+    description: 'Analyze existing processes and redesign them for maximum efficiency using automation best practices.',
+    icon: '🎯',
+    iconComponent: TargetIcon,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'Process optimization illustration',
+    benefits: [
+      'Process mapping and analysis',
+      'Bottleneck identification and resolution',
+      'Performance monitoring and optimization',
+      'Continuous improvement implementation'
+    ]
+  },
+  {
+    title: 'Document Automation',
+    description: 'Automate document intake, generation and approvals across your business with robust templates and rules.',
+    icon: '📄',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Document automation illustration',
+    benefits: [
+      'Smart templates and merging',
+      'Auto-filing and naming conventions',
+      'E-sign workflows and audit trails'
+    ]
+  },
+  {
+    title: 'Operational Chatbots',
+    description: 'Deploy internal assistants that trigger workflows, fetch data and update systems from chat.',
+    icon: '🤖',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Operational chatbot illustration',
+    benefits: [
+      'Slack/Teams integrations',
+      'Role-based access and approvals',
+      'Conversation logs and analytics'
+    ]
+  }
+];
+
+// Testimonials data
+const testimonials: Testimonial[] = [
+  {
+    quote: 'The automation solution Alok built for us saved our team 15 hours per week. Our invoice processing that used to take days now happens automatically overnight.',
+    author: {
+      name: 'Sarah Chen',
+      title: 'Operations Manager',
+      company: 'TechFlow Solutions',
+      handle: '@sarahchen'
+    },
+    rating: 5,
+    project: 'Invoice Processing Automation',
+    platform: 'linkedin'
+  },
+  {
+    quote: 'Incredible ROI! The custom workflow automation paid for itself in just 2 months. Our approval processes are now lightning fast and error-free.',
+    author: {
+      name: 'Michael Rodriguez',
+      title: 'CEO',
+      company: 'GrowthCorp',
+      handle: '@mrodriguez'
+    },
+    rating: 5,
+    project: 'Approval Workflow System',
+    platform: 'x'
+  },
+  {
+    quote: 'Alok transformed our manual data entry nightmare into a smooth, automated process. We can now focus on strategy instead of repetitive tasks.',
+    author: {
+      name: 'Jennifer Park',
+      title: 'Data Manager',
+      company: 'Analytics Plus',
+      handle: '@jennpark'
+    },
+    rating: 5,
+    project: 'Data Processing Pipeline',
+    platform: 'linkedin'
+  }
+];
+
+// CTA buttons
+const ctaButtons = [
+  {
+    text: 'Get Free Automation Audit',
+    href: '/contact/',
+    style: 'primary' as const
+  },
+  {
+    text: 'View Case Studies',
+    href: '/works/',
+    style: 'outline' as const
+  }
+];
+
+// Related services
+const relatedServices = [
+  {
+    title: 'Whitelabel Solutions',
+    description: 'Ready-to-brand digital products and SaaS platforms for rapid market entry.',
+    href: '/services/whitelabel-solutions/',
+    icon: '🚀'
+  },
+  {
+    title: 'AI Workflow Integration',
+    description: 'Intelligent automation with AI-powered document processing and decision-making.',
+    href: '/services/ai-workflow-integration/',
+    icon: '🤖'
+  }
+];
+
+---
+
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  pageType="service"
+  serviceData={serviceData}
+  includeLocalBusiness={true}
+  path="/services/custom-automation/"
+>
+    <ServiceHero
+      title="Custom Automation Solutions"
+      subtitle="Business Process Automation"
+      description="Transform your business operations with intelligent automation. Reduce manual work, eliminate errors, and boost productivity with custom-built solutions tailored to your specific needs."
+      features={heroFeatures}
+      ctaText="Get Free Automation Audit"
+      ctaHref="/contact/"
+      image="/blog-placeholder-3.jpg"
+      imageAlt="Custom automation illustration"
+    />
+
+    <ServiceFeatures
+      title="Comprehensive Automation Services"
+      subtitle="What We Automate"
+      features={features}
+      layout="list"
+    />
+
+    <ServiceTestimonials
+      title="Partner Success Stories"
+      subtitle="Client Results"
+      testimonials={testimonials}
+      layout="social"
+    />
+
+    <RelatedServices
+      title="Explore Other Services"
+      services={relatedServices}
+      currentService="/services/custom-automation/"
+    />
+
+    <ServiceCTA
+      title="Ready to Automate Your Business?"
+      description="Get a free automation audit and discover how much time and money you can save with custom automation solutions."
+      buttons={ctaButtons}
+      background="gradient"
+      urgency={{
+        text: "Limited Time: ",
+        highlight: "Free automation audit worth $500"
+      }}
+    />
+  </Layout>

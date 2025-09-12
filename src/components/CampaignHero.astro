@@ -1,0 +1,529 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  offer: {
+    originalValue: string;
+    discountedValue: string;
+    savings: string;
+    urgency: string;
+    validUntil: string;
+  };
+  benefits: string[];
+  urgency: string;
+  daysRemaining: number;
+  ctaText: string;
+  ctaHref: string;
+}
+
+const { 
+  title, 
+  description, 
+  offer, 
+  benefits, 
+  urgency, 
+  daysRemaining, 
+  ctaText, 
+  ctaHref 
+} = Astro.props;
+
+// Calculate urgency level for styling
+const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'high' : 'medium';
+---
+
+<section class="campaign-hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <!-- Urgency Banner -->
+      <div class={`urgency-banner urgency-${urgencyLevel}`}>
+        <span class="urgency-text">{urgency}</span>
+        <span class="countdown-text">
+          {daysRemaining > 0 ? `Only ${daysRemaining} day${daysRemaining === 1 ? '' : 's'} left!` : 'Expires Today!'}
+        </span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero-title">{title}</h1>
+      
+      <!-- Description -->
+      <p class="hero-description">{description}</p>
+
+      <!-- Offer Display -->
+      <div class="offer-display">
+        <div class="price-container">
+          <span class="original-price">
+            Regular Price: <span class="price-value">{offer.originalValue}</span>
+          </span>
+          <span class="discounted-price">
+            <span class="price-label">Your Price:</span>
+            <span class="price-value">{offer.discountedValue}</span>
+          </span>
+        </div>
+        <div class="savings-badge">
+          {offer.savings}
+        </div>
+      </div>
+
+      <!-- Benefits List -->
+      <div class="benefits-section">
+        <h2 class="benefits-title">What You'll Get:</h2>
+        <ul class="benefits-list">
+          {benefits.map(benefit => (
+            <li class="benefit-item">
+              <span class="benefit-icon">✓</span>
+              <span class="benefit-text">{benefit}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="cta-section">
+        <a href={ctaHref} class="cta-button">
+          {ctaText}
+        </a>
+        <p class="cta-note">
+          No credit card required • Instant access • 100% satisfaction guarantee
+        </p>
+      </div>
+
+      <!-- Countdown Timer -->
+      <div class="countdown-timer" id="countdown-timer">
+        <div class="timer-label">Offer expires in:</div>
+        <div class="timer-display">
+          <div class="timer-unit">
+            <span class="timer-number" id="days">00</span>
+            <span class="timer-label-small">Days</span>
+          </div>
+          <div class="timer-separator">:</div>
+          <div class="timer-unit">
+            <span class="timer-number" id="hours">00</span>
+            <span class="timer-label-small">Hours</span>
+          </div>
+          <div class="timer-separator">:</div>
+          <div class="timer-unit">
+            <span class="timer-number" id="minutes">00</span>
+            <span class="timer-label-small">Minutes</span>
+          </div>
+          <div class="timer-separator">:</div>
+          <div class="timer-unit">
+            <span class="timer-number" id="seconds">00</span>
+            <span class="timer-label-small">Seconds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual (Optional) -->
+    <div class="hero-visual">
+      <div class="visual-placeholder">
+        <!-- This could be replaced with an actual image or illustration -->
+        <div class="visual-content">
+          <div class="visual-icon">🚀</div>
+          <div class="visual-text">Transform Your Business</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Countdown Timer Script -->
+<script define:vars={{ validUntil: offer.validUntil }}>
+  function initCountdownTimer() {
+    const endDate = new Date(validUntil).getTime();
+    
+    function updateTimer() {
+      const now = new Date().getTime();
+      const timeLeft = endDate - now;
+      
+      if (timeLeft > 0) {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      } else {
+        // Timer expired
+        document.getElementById('countdown-timer').innerHTML = '<div class="timer-expired">Offer Expired</div>';
+      }
+    }
+    
+    // Update immediately and then every second
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  }
+  
+  // Initialize on page load and after page transitions
+  document.addEventListener('DOMContentLoaded', initCountdownTimer);
+  document.addEventListener('astro:after-swap', initCountdownTimer);
+</script>
+
+<style>
+  .campaign-hero {
+    padding: 3rem 0 4rem 0;
+    background: linear-gradient(135deg, var(--background-color) 0%, var(--input-background-color) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .campaign-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .urgency-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: calc(var(--border-radius) * 2);
+    margin-bottom: 2rem;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .urgency-critical {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 2px solid #fca5a5;
+    animation: pulse 2s infinite;
+  }
+
+  .urgency-high {
+    background-color: #fef3c7;
+    color: #d97706;
+    border: 2px solid #fcd34d;
+  }
+
+  .urgency-medium {
+    background-color: #dbeafe;
+    color: #2563eb;
+    border: 2px solid #93c5fd;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  .hero-title {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1.5rem 0;
+    font-family: var(--serif-font);
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: var(--text-lg);
+    color: var(--muted-text-color);
+    line-height: var(--line-height);
+    margin: 0 0 2rem 0;
+  }
+
+  .offer-display {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 2);
+  }
+
+  .price-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .original-price {
+    font-size: var(--text-base);
+    color: var(--muted-text-color);
+    text-decoration: line-through;
+  }
+
+  .discounted-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .price-label {
+    font-size: var(--text-base);
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  .price-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--button-background-color);
+  }
+
+  .discounted-price .price-value {
+    font-size: var(--text-3xl);
+  }
+
+  .savings-badge {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    white-space: nowrap;
+  }
+
+  .benefits-section {
+    margin-bottom: 2rem;
+  }
+
+  .benefits-title {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 1rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .benefit-icon {
+    color: var(--button-background-color);
+    font-weight: bold;
+    font-size: var(--text-lg);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .benefit-text {
+    color: var(--text-color);
+    line-height: var(--line-height);
+  }
+
+  .cta-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    padding: 1rem 2rem;
+    border-radius: calc(var(--border-radius) * 2);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--text-lg);
+    transition: var(--global-transition);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .cta-button:hover {
+    background-color: var(--button-background-hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-note {
+    margin: 1rem 0 0 0;
+    font-size: var(--text-sm);
+    color: var(--muted-text-color);
+  }
+
+  .countdown-timer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 2);
+  }
+
+  .timer-label {
+    font-size: var(--text-base);
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .timer-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .timer-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+  }
+
+  .timer-number {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--button-background-color);
+    font-family: 'Courier New', monospace;
+  }
+
+  .timer-label-small {
+    font-size: var(--text-xs);
+    color: var(--muted-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+  }
+
+  .timer-separator {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0.25rem;
+  }
+
+  .timer-expired {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: #dc2626;
+    padding: 1rem;
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .visual-placeholder {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--button-background-color), var(--button-background-hover-color));
+    border-radius: calc(var(--border-radius) * 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .visual-content {
+    text-align: center;
+    color: var(--button-text-color);
+  }
+
+  .visual-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .visual-text {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .hero-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .hero-visual {
+      order: -1;
+    }
+
+    .visual-placeholder {
+      max-width: 250px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .campaign-hero {
+      padding: 2rem 0 3rem 0;
+    }
+
+    .hero-container {
+      padding: 0 1rem;
+    }
+
+    .hero-title {
+      font-size: var(--text-3xl);
+    }
+
+    .urgency-banner {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .offer-display {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .timer-display {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .timer-unit {
+      min-width: 50px;
+    }
+
+    .timer-number {
+      font-size: var(--text-xl);
+    }
+
+    .visual-placeholder {
+      max-width: 200px;
+    }
+
+    .visual-icon {
+      font-size: 3rem;
+    }
+  }
+</style>

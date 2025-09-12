@@ -3,11 +3,12 @@ import '../styles/layout.module.css';
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-//import PageFind from "@components/PageFind.astro";
 import site from "../config/site"
 import Alert from "../components/custom/alert.astro";
 import style from "../styles/grid.module.css";
 
+
+import type { ServiceData, FAQData, CampaignData } from '@lib/schema-generators';
 
 type Props = {
   title?: string;
@@ -22,6 +23,13 @@ type Props = {
   article?: boolean,
   authorname?: string,
   authorurl?: string,
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default';
+  serviceData?: ServiceData;
+  faqs?: FAQData[];
+  campaignData?: CampaignData;
+  includeBreadcrumbs?: boolean;
+  includeLocalBusiness?: boolean;
+  keywords?: string[];
 };
 
 const { 
@@ -35,6 +43,13 @@ const {
   article,
   authorname,
   authorurl,
+  pageType,
+  serviceData,
+  faqs,
+  campaignData,
+  includeBreadcrumbs,
+  includeLocalBusiness,
+  keywords,
   } = Astro.props;
   
 ---
@@ -60,7 +75,14 @@ const {
       author = {{
         name: authorname,
         url: authorurl,
-      }}
+      }},
+      pageType = {pageType},
+      serviceData = {serviceData},
+      faqs = {faqs},
+      campaignData = {campaignData},
+      includeBreadcrumbs = {includeBreadcrumbs},
+      includeLocalBusiness = {includeLocalBusiness},
+      keywords = {keywords}
     />
       <!-- Service worker registration. -->
 
@@ -93,8 +115,7 @@ const {
           instagram={site.instagramUrl}
           linkedin={site.linkedinUrl}
           feed={site.feedUrl}
-        /> 
-        <!-- <PageFind /> -->
+        />
 
       </div>
     </div>

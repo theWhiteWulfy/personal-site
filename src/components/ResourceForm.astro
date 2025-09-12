@@ -1,0 +1,347 @@
+---
+export interface Props {
+  resourceName: string;
+  formTitle?: string;
+  formSubtitle?: string;
+  submitText?: string;
+}
+
+const { 
+  resourceName, 
+  formTitle = "Get Your Free Resource",
+  formSubtitle = "Fill out the form below to download this resource instantly.",
+  submitText = "Download Now"
+} = Astro.props;
+---
+
+<div class="resource-form-container">
+  <div class="resource-form-header">
+    <h3 class="form-title">{formTitle}</h3>
+    {formSubtitle && <p class="form-subtitle">{formSubtitle}</p>}
+  </div>
+
+  <form class="resource-form" id="resourceForm" data-resource={resourceName}>
+    <!-- Honeypot fields for bot detection (hidden from users) -->
+    <div class="honeypot-fields" aria-hidden="true">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      <input type="url" name="url" tabindex="-1" autocomplete="off" />
+      <input type="tel" name="phone_number" tabindex="-1" autocomplete="off" />
+      <input type="url" name="company_url" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="form-label">
+        Email Address <span class="required">*</span>
+      </label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        class="form-input" 
+        required 
+        autocomplete="email"
+        placeholder="your.email@company.com"
+        aria-describedby="email-error"
+      />
+      <div class="error-message" id="email-error" role="alert"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="name" class="form-label">
+        Full Name <span class="required">*</span>
+      </label>
+      <input 
+        type="text" 
+        id="name" 
+        name="name" 
+        class="form-input" 
+        required 
+        autocomplete="name"
+        placeholder="John Doe"
+        aria-describedby="name-error"
+      />
+      <div class="error-message" id="name-error" role="alert"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="workplace" class="form-label">
+        Company/Organization <span class="required">*</span>
+      </label>
+      <input 
+        type="text" 
+        id="workplace" 
+        name="workplace" 
+        class="form-input" 
+        required 
+        autocomplete="organization"
+        placeholder="Acme Corporation"
+        aria-describedby="workplace-error"
+      />
+      <div class="error-message" id="workplace-error" role="alert"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="role" class="form-label">
+        Job Title/Role <span class="required">*</span>
+      </label>
+      <input 
+        type="text" 
+        id="role" 
+        name="role" 
+        class="form-input" 
+        required 
+        autocomplete="organization-title"
+        placeholder="Marketing Manager"
+        aria-describedby="role-error"
+      />
+      <div class="error-message" id="role-error" role="alert"></div>
+    </div>
+
+    <!-- Hidden field for resource name -->
+    <input type="hidden" name="resourceName" value={resourceName} />
+
+    <div class="form-actions">
+      <button type="submit" class="btn submit" id="submitBtn">
+        <span class="btn-text">{submitText}</span>
+        <span class="btn-loading" style="display: none;">
+          <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+              <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+              <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+          Processing...
+        </span>
+      </button>
+    </div>
+
+    <div class="form-messages">
+      <div class="success-message" id="successMessage" style="display: none;" role="alert">
+        <svg class="success-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="message-text"></span>
+      </div>
+      
+      <div class="error-message-global" id="globalError" style="display: none;" role="alert">
+        <svg class="error-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="message-text"></span>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p class="privacy-note">
+        We respect your privacy. Your information will only be used to send you the requested resource and occasional updates about similar content. You can unsubscribe at any time.
+      </p>
+    </div>
+  </form>
+</div>
+
+<style>
+  .resource-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 2);
+    box-shadow: 0 4px 6px var(--shadow-color);
+  }
+
+  .resource-form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .form-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 0.5rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .form-subtitle {
+    font-size: var(--text-base);
+    color: var(--muted-text-color);
+    margin: 0;
+    line-height: var(--line-height);
+  }
+
+  .resource-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Hide honeypot fields */
+  .honeypot-fields {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-color);
+    font-family: var(--sans-serif-font);
+  }
+
+  .required {
+    color: var(--danger-color);
+  }
+
+  .form-input {
+    padding: 0.75rem 1rem;
+    font-size: var(--text-base);
+    font-family: var(--sans-serif-font);
+    color: var(--text-color);
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--global-transition);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px color-mod(var(--secondary-color) alpha(0.1));
+  }
+
+  .form-input:invalid:not(:focus):not(:placeholder-shown),
+  .form-input.error {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px color-mod(var(--danger-color) alpha(0.1));
+  }
+
+  .form-input.error:focus {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px color-mod(var(--danger-color) alpha(0.2));
+  }
+
+  .form-actions {
+    margin-top: 1rem;
+  }
+
+  .btn.submit {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: var(--text-base);
+    padding: 1rem 1.5rem;
+    transition: var(--global-transition);
+  }
+
+  .btn.submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .form-messages {
+    margin-top: 1rem;
+  }
+
+  .success-message,
+  .error-message-global {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .success-message {
+    color: var(--success-color);
+    background-color: var(--background-success-color);
+    border: 1px solid color-mod(var(--success-color) alpha(0.3));
+  }
+
+  .error-message-global {
+    color: var(--danger-color);
+    background-color: var(--background-danger-color);
+    border: 1px solid color-mod(var(--danger-color) alpha(0.3));
+  }
+
+  .error-message {
+    font-size: var(--text-xs);
+    color: var(--danger-color);
+    margin-top: 0.25rem;
+    min-height: 1.2em;
+    display: block;
+  }
+
+  .error-message:empty {
+    display: none;
+  }
+
+  .form-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .privacy-note {
+    font-size: var(--text-xs);
+    color: var(--muted-text-color);
+    line-height: 1.4;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* Responsive design */
+  @media (--small-up) {
+    .resource-form-container {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .resource-form-container {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .form-title {
+      font-size: var(--text-xl);
+    }
+  }
+</style>
+
+<script>
+  // Import and initialize form validation
+  import '@/lib/resource-form.js';
+</script>

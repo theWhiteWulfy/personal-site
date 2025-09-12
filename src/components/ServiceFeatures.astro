@@ -1,0 +1,360 @@
+---
+interface Feature {
+  title: string;
+  description: string;
+  // Backward-compatible emoji/text icon
+  icon?: string;
+  // Preferable SVG component icon
+  iconComponent?: any;
+  // Optional illustrative image (use public/ paths for placeholders)
+  image?: string;
+  imageAlt?: string;
+  benefits?: string[];
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  features: Feature[];
+  layout?: 'grid' | 'list';
+  columns?: 2 | 3 | 4 | 6;
+}
+
+const {
+  title = "Key Features",
+  subtitle,
+  features,
+  layout = 'grid',
+  columns = 3
+} = Astro.props;
+
+const gridClass = `service-features__grid--${columns}-col`;
+const isList = layout === 'list';
+---
+
+<section class="service-features">
+  <div class="service-features__container">
+    {(title || subtitle) && (
+      <div class="service-features__header">
+        {subtitle && (
+          <p class="service-features__subtitle">{subtitle}</p>
+        )}
+        <h2 class="service-features__title">{title}</h2>
+      </div>
+    )}
+    
+    <div class={`service-features__${layout} ${layout === 'grid' ? gridClass : ''}`}>
+      {features.map((feature, idx) => {
+        const Icon = feature.iconComponent;
+        const reverse = isList && idx % 2 === 1;
+        return (
+          <div class={`service-features__item ${reverse ? 'service-features__item--reverse' : ''}`}>
+            {feature.image && (
+              <div class="service-features__image-wrapper">
+                <img class="service-features__image" src={feature.image} alt={feature.imageAlt || feature.title} loading="lazy" />
+              </div>
+            )}
+            
+            <div class="service-features__content">
+              {isList ? (
+                Icon ? (
+                  <div class="service-features__icon service-features__icon--inline">
+                    <Icon class="service-features__icon-svg" />
+                  </div>
+                ) : feature.icon ? (
+                  <div class="service-features__icon service-features__icon--inline">
+                    <span class="service-features__icon-text">{feature.icon}</span>
+                  </div>
+                ) : null
+              ) : (
+                Icon ? (
+                  <div class="service-features__icon">
+                    <Icon class="service-features__icon-svg" />
+                  </div>
+                ) : feature.icon ? (
+                  <div class="service-features__icon">
+                    <span class="service-features__icon-text">{feature.icon}</span>
+                  </div>
+                ) : null
+              )}
+              <h3 class="service-features__item-title">{feature.title}</h3>
+              <p class="service-features__item-description">{feature.description}</p>
+              
+              {feature.benefits && feature.benefits.length > 0 && (
+                <ul class="service-features__benefits">
+                  {feature.benefits.map((benefit) => (
+                    <li class="service-features__benefit">{benefit}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+.service-features {
+  padding: 4rem 0;
+  background: var(--background-color);
+}
+
+.service-features__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.service-features__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.service-features__subtitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+}
+
+.service-features__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.service-features__grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.service-features__grid--2-col {
+  grid-template-columns: 1fr;
+}
+
+@media (--medium-up) {
+  .service-features__grid--2-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.service-features__grid--3-col {
+  grid-template-columns: 1fr;
+}
+
+@media (--small-up) {
+  .service-features__grid--3-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--large-up) {
+  .service-features__grid--3-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.service-features__grid--4-col {
+  grid-template-columns: 1fr;
+}
+
+@media (--small-up) {
+  .service-features__grid--4-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--large-up) {
+  .service-features__grid--4-col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-features__grid--6-col {
+  grid-template-columns: 1fr;
+}
+
+@media (--small-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--large-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (--xlarge-up) {
+  .service-features__grid--6-col {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.service-features__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.service-features__item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: var(--global-transition);
+}
+
+.service-features__item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  border-color: var(--secondary-color);
+}
+
+.service-features__list .service-features__item {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.service-features__item--reverse {
+  flex-direction: row-reverse;
+}
+
+.service-features__grid .service-features__item {
+  flex-direction: column;
+  text-align: center;
+}
+
+@media (--small-down) {
+  .service-features__item {
+    flex-direction: column;
+    text-align: center;
+  }
+  .service-features__item--reverse {
+    flex-direction: column;
+  }
+}
+
+.service-features__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.service-features__grid .service-features__icon {
+  margin: 0 auto 1rem auto;
+}
+
+.service-features__icon-text {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.service-features__icon-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.service-features__content {
+  flex: 1;
+}
+
+.service-features__item-title {
+  font-family: var(--serif-font);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.75rem 0;
+}
+
+.service-features__item-description {
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+  color: var(--muted-text-color);
+  margin: 0 0 1rem 0;
+}
+
+.service-features__benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-features__benefit {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-size: var(--text-sm);
+  color: var(--text-color);
+}
+
+.service-features__benefit::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.service-features__benefit:last-child {
+  margin-bottom: 0;
+}
+
+/* Image presentation */
+.service-features__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: calc(var(--border-radius) - 2px);
+  background: var(--background-secondary-color);
+}
+
+.service-features__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layout-specific tweaks */
+.service-features__grid .service-features__image-wrapper {
+  margin-bottom: 1rem;
+}
+
+.service-features__list .service-features__image-wrapper {
+  flex: 0 0 40%;
+  max-width: 520px;
+  margin: 0; /* side-by-side, no bottom margin */
+}
+
+.service-features__list .service-features__content {
+  text-align: left;
+}
+
+@media (--small-down) {
+  .service-features__list .service-features__image-wrapper {
+    flex-basis: auto;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+  .service-features__list .service-features__content {
+    text-align: left;
+  }
+}
+</style>

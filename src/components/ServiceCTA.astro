@@ -1,0 +1,262 @@
+---
+interface CTAButton {
+  text: string;
+  href: string;
+  style?: 'primary' | 'secondary' | 'outline';
+  external?: boolean;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  subtitle?: string;
+  buttons: CTAButton[];
+  background?: 'default' | 'secondary' | 'gradient';
+  centered?: boolean;
+  urgency?: {
+    text: string;
+    highlight?: string;
+  };
+}
+
+const {
+  title,
+  description,
+  subtitle,
+  buttons,
+  background = 'secondary',
+  centered = true,
+  urgency
+} = Astro.props;
+
+const sectionClass = `service-cta service-cta--${background} ${centered ? 'service-cta--centered' : ''}`;
+---
+
+<section class={sectionClass}>
+  <div class="service-cta__container">
+    <div class="service-cta__content">
+      {subtitle && (
+        <p class="service-cta__subtitle">{subtitle}</p>
+      )}
+      
+      <h2 class="service-cta__title">{title}</h2>
+      
+      {description && (
+        <p class="service-cta__description">{description}</p>
+      )}
+      
+      {urgency && (
+        <div class="service-cta__urgency">
+          <span class="service-cta__urgency-text">
+            {urgency.text}
+            {urgency.highlight && (
+              <strong class="service-cta__urgency-highlight">{urgency.highlight}</strong>
+            )}
+          </span>
+        </div>
+      )}
+      
+      <div class="service-cta__buttons">
+        {buttons.map((button) => (
+          <a 
+            href={button.href}
+            class={`service-cta__button service-cta__button--${button.style || 'primary'}`}
+            {...(button.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {button.text}
+            {button.external && (
+              <span class="service-cta__external-icon">↗</span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.service-cta {
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-cta--default {
+  background: var(--background-color);
+}
+
+.service-cta--secondary {
+  background: var(--background-secondary-color);
+}
+
+.service-cta--gradient {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  color: white;
+}
+
+.service-cta--gradient .service-cta__title,
+.service-cta--gradient .service-cta__description,
+.service-cta--gradient .service-cta__subtitle {
+  color: white;
+}
+
+.service-cta__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.service-cta--centered .service-cta__content {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.service-cta__subtitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+}
+
+.service-cta--gradient .service-cta__subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.service-cta__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+@media (--medium-up) {
+  .service-cta__title {
+    font-size: var(--text-4xl);
+  }
+}
+
+.service-cta__description {
+  font-size: var(--text-lg);
+  line-height: var(--line-height);
+  color: var(--muted-text-color);
+  margin: 0 0 2rem 0;
+}
+
+.service-cta__urgency {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--alert-color);
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.service-cta--gradient .service-cta__urgency {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.service-cta__urgency-highlight {
+  color: var(--danger-color);
+}
+
+.service-cta--gradient .service-cta__urgency-highlight {
+  color: #ffeb3b;
+}
+
+.service-cta__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.service-cta--centered .service-cta__buttons {
+  justify-content: center;
+}
+
+.service-cta__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: var(--global-transition);
+  border: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.service-cta__button--primary {
+  background: var(--button-background-color);
+  color: var(--button-text-color);
+}
+
+.service-cta__button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.service-cta__button--secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.service-cta__button--secondary:hover {
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.service-cta__button--outline {
+  background: transparent;
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.service-cta__button--outline:hover {
+  background: var(--text-color);
+  color: var(--background-color);
+  border-color: var(--text-color);
+}
+
+.service-cta--gradient .service-cta__button--primary {
+  background: white;
+  color: var(--primary-color);
+}
+
+.service-cta--gradient .service-cta__button--outline {
+  color: white;
+  border-color: white;
+}
+
+.service-cta--gradient .service-cta__button--outline:hover {
+  background: white;
+  color: var(--primary-color);
+}
+
+.service-cta__external-icon {
+  font-size: var(--text-sm);
+  opacity: 0.7;
+}
+
+@media (--small-down) {
+  .service-cta__buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .service-cta__button {
+    justify-content: center;
+  }
+}
+</style>

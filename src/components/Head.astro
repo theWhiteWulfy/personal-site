@@ -5,6 +5,19 @@ import { ViewTransitions } from "astro:transitions";
 import '@fontsource/prompt';
 import '@fontsource/zilla-slab';
 import site from '@config/site';
+import { 
+  generatePageSchema, 
+  safeSchemaGeneration,
+  type PageSchemaOptions,
+  type ServiceData,
+  type FAQData,
+  type CampaignData
+} from '@lib/schema-generators';
+import { 
+  initializeAnalyticsConfig,
+  type AnalyticsConfig 
+} from '@lib/analytics';
+
 interface Props {
   title: string;
   description: string;
@@ -20,7 +33,15 @@ interface Props {
   article?: boolean,
   author?: {
     name: string,
+    url?: string,
   },
+  pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default';
+  serviceData?: ServiceData;
+  faqs?: FAQData[];
+  campaignData?: CampaignData;
+  includeBreadcrumbs?: boolean;
+  includeLocalBusiness?: boolean;
+  keywords?: string[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -41,91 +62,171 @@ const {
     name: site.author.name,
     url: site.author.url,
   },
-
+  pageType = article ? 'article' : 'default',
+  serviceData,
+  faqs,
+  campaignData,
+  includeBreadcrumbs = true,
+  includeLocalBusiness = false,
+  keywords,
   } = Astro.props;
 
-  // schema.org in JSONLD format
-  // https://developers.google.com/search/docs/guides/intro-structured-data
-
-  let schemaArticle = null
-
-  const schemaOrgWebPage = {
-    '@context': 'http://schema.org',
-    '@type': 'WebPage',
-    url: path,
-    inLanguage: site.siteLanguage,
-    mainEntityOfPage: path,
-    description: description,
-    name: title,
-    author: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    copyrightHolder: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    creator: {
-      '@type': 'Person',
-      name: author.name,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: site.titleAlt,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${site.url}${metaImage.src}`,
-      },
-    },
+  // Generate enhanced schema using new utility functions with error handling
+  const schemaOptions: PageSchemaOptions = {
+    pageType,
+    title,
+    description,
+    path,
     datePublished,
     dateModified,
-    image: {
-      '@type': 'ImageObject',
-      url: metaImage.src,
-    },
-  }
+    author: author ? {
+      name: author.name,
+      url: author.url
+    } : undefined,
+    serviceData,
+    faqs,
+    campaignData,
+    includeBreadcrumbs,
+    includeLocalBusiness
+  };
 
-  if (article) {
-    schemaArticle = {
-      '@context': 'http://schema.org',
-      '@type': 'Article',
-      author: {
-        '@type': 'Person',
-        name: author.name,
-      },
-      creator: {
-        '@type': 'Person',
-        name: author.name,
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: site.titleAlt,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${site.url}${metaImage.src}`,
-        },
-      },
-      headline: title,
-      datePublished,
-      dateModified,
-      description: description,
-      inLanguage: site.siteLanguage,
-      url: path,
-      name: title,
-      image: {
-        '@type': 'ImageObject',
-        url: metaImage.src,
-      },
-      mainEntityOfPage: path,
+  // Enhanced error handling for schema generation with detailed logging
+  let pageSchemas: any[] = [];
+  try {
+    pageSchemas = generatePageSchema(schemaOptions);
+    
+    // Validate that we have valid schemas
+    if (!Array.isArray(pageSchemas)) {
+      throw new Error('Schema generation returned invalid format');
     }
+    
+    // Filter out any null or invalid schemas
+    pageSchemas = pageSchemas.filter(schema => {
+      if (!schema || typeof schema !== 'object') {
+        console.warn('Invalid schema object filtered out:', schema);
+        return false;
+      }
+      if (!schema['@context'] || !schema['@type']) {
+        console.warn('Schema missing required @context or @type:', schema);
+        return false;
+      }
+      return true;
+    });
+    
+  } catch (error) {
+    console.error('Schema generation failed:', error);
+    console.error('Schema options that caused failure:', schemaOptions);
+    
+    // Fallback to basic schema with additional error handling
+    const fallbackSchema = safeSchemaGeneration(() => {
+      const baseSchema: any = {
+        '@context': 'https://schema.org',
+        '@type': article ? 'Article' : 'WebPage',
+        url: `${site.url}${path}`,
+        name: title,
+        description: description,
+        inLanguage: site.siteLanguage,
+        dateModified: dateModified
+      };
+      
+      // Safely add author information
+      if (author?.name || site.author?.name) {
+        baseSchema.author = {
+          '@type': 'Person',
+          name: author?.name || site.author.name,
+          ...(author?.url || site.author.url ? { url: author?.url || site.author.url } : {})
+        };
+      }
+      
+      // Add publisher for articles
+      if (article) {
+        baseSchema.publisher = {
+          '@type': 'Organization',
+          name: site.titleAlt,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${site.url}${site.image.src}`
+          }
+        };
+        
+        if (datePublished) {
+          baseSchema.datePublished = datePublished;
+        }
+      }
+      
+      return [baseSchema];
+    }, []);
+    
+    pageSchemas = fallbackSchema || [];
+  }
+  
+  // Final validation to ensure we have at least one valid schema
+  if (pageSchemas.length === 0) {
+    console.warn('No valid schemas generated, creating minimal fallback');
+    pageSchemas = [{
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: `${site.url}${path}`,
+      name: title,
+      description: description,
+      inLanguage: site.siteLanguage
+    }];
   }
 
-  let pageSchema = article ? schemaArticle : schemaOrgWebPage;
+  // Initialize analytics configuration
+  const analyticsConfig: AnalyticsConfig = initializeAnalyticsConfig(site);
+  
+  // Initialize analytics debugger in development
+  const isDevelopment = import.meta.env.DEV;
 
 ---
 
 <!-- Global Metadata -->
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Resource Hints for Performance - Only for services actually used -->
+<!-- Webmention and IndieWeb services (actually used) -->
+<link rel="dns-prefetch" href="//webmention.io" />
+<link rel="preconnect" href="https://webmention.io" />
+
+<!-- Analytics hints - Google Analytics and Microsoft Clarity (under implementation) -->
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+<link rel="dns-prefetch" href="//clarity.microsoft.com" />
+<link rel="preconnect" href="https://www.google-analytics.com" />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+
+<!-- Conditional preconnect for Clarity on key pages -->
+{(pageType === 'service' || pageType === 'contact' || pageType === 'home') && (
+  <link rel="preconnect" href="https://clarity.microsoft.com" />
+)}
+
+<!-- Note: Fonts are self-hosted via Fontsource, no external font hints needed -->
+<!-- Note: Removed unused hints for fonts.googleapis.com, fonts.gstatic.com, giscus -->
+
+<!-- Note: Font preloading for fontsource fonts is handled automatically by Astro -->
+<!-- Fontsource fonts are bundled and optimized during build with proper font-display: swap -->
+<!-- Manual preloading of hashed font files would require dynamic resolution -->
+
+<!-- Preload critical images -->
+<link rel="preload" href={metaImage.src} as="image" />
+<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+
+<!-- Conditional preload for service-specific assets -->
+{pageType === 'service' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" />
+)}
+
+<!-- Conditional preload for home page hero image -->
+{pageType === 'home' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
+)}
+
+<!-- Conditional preload for campaign page assets -->
+{pageType === 'campaign' && (
+  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
+)}
+
 <link
     rel="alternate"
     type="application/rss+xml"
@@ -145,6 +246,9 @@ const {
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 <meta name="image" content={metaImage.src} />
+{keywords && keywords.length > 0 && (
+  <meta name="keywords" content={keywords.join(', ')} />
+)}
 
 <!-- Indie Web -->
 <link rel="pingback" href={site.pingbackUrl} />
@@ -197,21 +301,304 @@ const {
 
 <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#202020">
 
-<!-- PageFind -->
-<!-- <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-<script is:inline src="/pagefind/pagefind-ui.js"></script> -->
-
 <ViewTransitions />
 
-<script
-  type="application/ld+json"
-  id="pageSchema"
-  data-page-schema={JSON.stringify(pageSchema)}
-  is:inline
->
+<!-- Enhanced Schema.org JSON-LD with multiple schema types and error handling -->
+{pageSchemas && pageSchemas.length > 0 && pageSchemas.map((schema, index) => {
+  try {
+    // Additional validation before JSON stringification
+    if (!schema || typeof schema !== 'object') {
+      console.warn(`Skipping invalid schema at index ${index}:`, schema);
+      return null;
+    }
+    
+    // Attempt to stringify with error handling for circular references
+    let jsonString;
+    try {
+      jsonString = JSON.stringify(schema, null, 0);
+    } catch (stringifyError) {
+      console.error(`JSON stringify error for schema ${index}:`, stringifyError);
+      console.error('Problematic schema object:', schema);
+      return null;
+    }
+    
+    // Validate that we have a valid JSON string
+    if (!jsonString || jsonString === '{}' || jsonString === 'null') {
+      console.warn(`Empty or invalid JSON for schema ${index}`);
+      return null;
+    }
+    
+    return (
+      <script
+        is:inline
+        type="application/ld+json"
+        id={`pageSchema-${index}`}
+        set:html={jsonString}
+      />
+    );
+  } catch (error) {
+    console.error(`Schema rendering error for schema ${index}:`, error);
+    console.error('Schema that caused error:', schema);
+    return null;
+  }
+}).filter(Boolean)}
+
+<!-- Google Analytics 4 -->
+{analyticsConfig.ga4.enabled && analyticsConfig.ga4.measurementId && (
+  <>
+    <!-- GA4 Global Site Tag (gtag.js) - defer for better performance -->
+    <script is:inline defer src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.ga4.measurementId}`}></script>
+    <script is:inline define:vars={{ 
+      measurementId: analyticsConfig.ga4.measurementId,
+      anonymizeIp: analyticsConfig.ga4.anonymizeIp,
+      cookieConsent: analyticsConfig.ga4.cookieConsent,
+      trackingOptOut: analyticsConfig.ga4.trackingOptOut,
+      customDimensions: analyticsConfig.ga4.customDimensions
+    }}>
+      // Initialize Google Analytics 4
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Configure GA4 with privacy settings
+      const ga4Config = {
+        anonymize_ip: anonymizeIp,
+        allow_google_signals: !trackingOptOut,
+        allow_ad_personalization_signals: !trackingOptOut,
+        cookie_flags: 'SameSite=Strict;Secure'
+      };
+
+      // Add custom dimensions if provided
+      if (customDimensions && Object.keys(customDimensions).length > 0) {
+        Object.assign(ga4Config, customDimensions);
+      }
+
+      // Set consent mode if required
+      if (cookieConsent) {
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied',
+          'functionality_storage': 'denied',
+          'personalization_storage': 'denied',
+          'security_storage': 'granted'
+        });
+      }
+
+      gtag('config', measurementId, ga4Config);
+
+      // Enhanced measurement events for engagement tracking
+      gtag('config', measurementId, {
+        ...ga4Config,
+        enhanced_measurement: {
+          scrolls: true,
+          outbound_clicks: true,
+          site_search: true,
+          video_engagement: true,
+          file_downloads: true
+        }
+      });
+
+      console.log('Analytics: GA4 initialized with measurement ID:', measurementId);
+    </script>
+  </>
+)}
+
+<!-- Microsoft Clarity -->
+{analyticsConfig.clarity.enabled && analyticsConfig.clarity.projectId && (
+  <script is:inline define:vars={{ 
+    projectId: analyticsConfig.clarity.projectId,
+    cookieConsent: analyticsConfig.clarity.cookieConsent
+  }}>
+    // Initialize Microsoft Clarity with privacy considerations
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", projectId);
+
+    console.log('Analytics: Microsoft Clarity initialized with project ID:', projectId);
+  </script>
+)}
+
+<!-- Analytics Consent Management -->
+<script is:inline define:vars={{ 
+  requireConsent: analyticsConfig.consentRequired,
+  optOutCookieName: analyticsConfig.optOutCookieName,
+  ga4MeasurementId: analyticsConfig.ga4.measurementId,
+  clarityProjectId: analyticsConfig.clarity.projectId
+}}>
+  // Analytics consent and opt-out management
+  function checkAnalyticsConsent() {
+    if (!requireConsent) return true;
+    
+    try {
+      const consentCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('analytics_consent='));
+      return consentCookie?.split('=')[1] === 'true';
+    } catch (error) {
+      console.warn('Analytics: Error checking consent:', error);
+      return false;
+    }
+  }
+
+  function hasOptedOut() {
+    try {
+      const optOutCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(optOutCookieName + '='));
+      return optOutCookie?.split('=')[1] === 'true';
+    } catch (error) {
+      console.warn('Analytics: Error checking opt-out status:', error);
+      return true;
+    }
+  }
+
+  function setAnalyticsConsent(consent) {
+    try {
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = `analytics_consent=${consent}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+      
+      if (consent && !hasOptedOut() && window.gtag) {
+        // Update consent for GA4
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'granted',
+          'ad_storage': 'denied', // Keep ad storage denied for privacy
+          'functionality_storage': 'granted'
+        });
+      }
+    } catch (error) {
+      console.warn('Analytics: Error setting consent:', error);
+    }
+  }
+
+  function setOptOutPreference(optOut) {
+    try {
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = `${optOutCookieName}=${optOut}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+      
+      if (optOut && window.gtag) {
+        window.gtag('consent', 'update', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied'
+        });
+      }
+    } catch (error) {
+      console.warn('Analytics: Error setting opt-out preference:', error);
+    }
+  }
+
+  // Enhanced event tracking for engagement
+  function trackEngagementEvent(eventName, parameters) {
+    if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
+      return;
+    }
+
+    try {
+      // Track with GA4
+      if (window.gtag) {
+        window.gtag('event', eventName, {
+          ...parameters,
+          event_category: 'engagement',
+          send_to: ga4MeasurementId
+        });
+      }
+
+      // Track with Clarity
+      if (window.clarity) {
+        window.clarity('event', eventName, parameters);
+      }
+    } catch (error) {
+      console.warn('Analytics: Error tracking engagement event:', error);
+    }
+  }
+
+  function trackConversionEvent(eventName, parameters) {
+    if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
+      return;
+    }
+
+    try {
+      // Track with GA4
+      if (window.gtag) {
+        window.gtag('event', eventName, {
+          ...parameters,
+          event_category: 'conversion',
+          send_to: ga4MeasurementId
+        });
+      }
+
+      // Track with Clarity
+      if (window.clarity) {
+        window.clarity('event', eventName, parameters);
+      }
+    } catch (error) {
+      console.warn('Analytics: Error tracking conversion event:', error);
+    }
+  }
+
+  // Make functions globally available for engagement components
+  window.trackEngagementEvent = trackEngagementEvent;
+  window.trackConversionEvent = trackConversionEvent;
+  window.setAnalyticsConsent = setAnalyticsConsent;
+  window.setOptOutPreference = setOptOutPreference;
+  window.checkAnalyticsConsent = checkAnalyticsConsent;
+  window.hasOptedOut = hasOptedOut;
+
+  // Auto-track phone and email clicks
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track phone number clicks
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('phone_click', {
+          conversion_type: 'phone_contact',
+          phone_number: this.href.replace('tel:', ''),
+          value: 10
+        });
+      });
+    });
+
+    // Track email clicks
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('email_click', {
+          conversion_type: 'email_contact',
+          email_address: this.href.replace('mailto:', ''),
+          value: 8
+        });
+      });
+    });
+  });
+
+  // Re-initialize tracking after page transitions
+  document.addEventListener('astro:after-swap', function() {
+    // Re-attach event listeners for phone and email tracking
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('phone_click', {
+          conversion_type: 'phone_contact',
+          phone_number: this.href.replace('tel:', ''),
+          value: 10
+        });
+      });
+    });
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        trackConversionEvent('email_click', {
+          conversion_type: 'email_contact',
+          email_address: this.href.replace('mailto:', ''),
+          value: 8
+        });
+      });
+    });
+  });
 </script>
 
-<script is:inline>
+<!-- Copy code button functionality - deferred for performance -->
+<script is:inline defer>
   function addCopyCodeButtons() {
     let copyButtonLabel = "✂️ copy";
     let codeBlocks = Array.from(document.querySelectorAll("pre"));
@@ -251,14 +638,184 @@ const {
 
 document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
 document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
-  // Client-side JavaScript to access and parse the pageSchema
-  document.addEventListener('DOMContentLoaded', () => {
-    const schemaElement = document.getElementById('pageSchema');
-    if (schemaElement) {
-      const pageSchema = JSON.parse(
-        schemaElement.getAttribute('data-page-schema')
-      );
-      schemaElement.innerHTML = JSON.stringify(pageSchema, null, 2); 
-    }
-  });
 </script>
+
+<!-- Analytics Testing and Debugging (Development Only) -->
+{isDevelopment && (
+  <script is:inline define:vars={{ 
+    enableDebug: isDevelopment,
+    testingGuide: {
+      ga4: 'Check Network tab for google-analytics.com requests and use GA4 DebugView',
+      clarity: 'Check Network tab for clarity.ms requests',
+      privacy: 'Check Application tab for consent cookies and localStorage',
+      console: 'Use analyticsDebugger.runFullTestSuite() in console'
+    }
+  }}>
+    // Analytics Testing Utilities (Development Only)
+    class AnalyticsDebugger {
+      constructor() {
+        this.setupDebugConsole();
+      }
+
+      runFullTestSuite() {
+        console.log('🚀 Running Analytics Test Suite');
+        console.log('================================');
+        
+        this.testGA4Integration();
+        this.testClarityIntegration();
+        this.testPhoneClickTracking();
+        this.testEmailClickTracking();
+        this.testFormTracking();
+        this.testPrivacyCompliance();
+        
+        console.log('✅ Analytics test suite completed');
+        console.log('📊 Testing Guide:', testingGuide);
+      }
+
+      testGA4Integration() {
+        console.group('🔍 Testing GA4 Integration');
+        
+        if (typeof window.gtag === 'function') {
+          console.log('✅ GA4 gtag function is available');
+          
+          if (window.dataLayer && Array.isArray(window.dataLayer)) {
+            console.log('✅ dataLayer is initialized:', window.dataLayer.length, 'items');
+          } else {
+            console.warn('⚠️ dataLayer not found');
+          }
+
+          // Test event firing
+          window.gtag('event', 'debug_test', {
+            event_category: 'debug',
+            event_label: 'integration_test',
+            value: 1
+          });
+          console.log('📤 Test event sent to GA4');
+          
+        } else {
+          console.error('❌ GA4 gtag function not found');
+        }
+        
+        console.groupEnd();
+      }
+
+      testClarityIntegration() {
+        console.group('🔍 Testing Microsoft Clarity Integration');
+        
+        if (typeof window.clarity === 'function') {
+          console.log('✅ Microsoft Clarity function is available');
+          
+          window.clarity('event', 'debug_test', {
+            test_type: 'integration_check',
+            timestamp: new Date().toISOString()
+          });
+          console.log('📤 Test event sent to Clarity');
+        } else {
+          console.error('❌ Microsoft Clarity function not found');
+        }
+        
+        console.groupEnd();
+      }
+
+      testPhoneClickTracking() {
+        console.group('🔍 Testing Phone Click Tracking');
+        
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        console.log(`📞 Found ${phoneLinks.length} phone links`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('phone_click', {
+            conversion_type: 'phone_contact',
+            phone_number: 'test_number',
+            value: 10
+          });
+          console.log('📤 Test phone click event sent');
+        } else {
+          console.warn('⚠️ trackConversionEvent function not available');
+        }
+        
+        console.groupEnd();
+      }
+
+      testEmailClickTracking() {
+        console.group('🔍 Testing Email Click Tracking');
+        
+        const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        console.log(`📧 Found ${emailLinks.length} email links`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('email_click', {
+            conversion_type: 'email_contact',
+            email_address: 'test@example.com',
+            value: 8
+          });
+          console.log('📤 Test email click event sent');
+        }
+        
+        console.groupEnd();
+      }
+
+      testFormTracking() {
+        console.group('🔍 Testing Form Tracking');
+        
+        const forms = document.querySelectorAll('form');
+        console.log(`📝 Found ${forms.length} forms`);
+        
+        if (typeof window.trackConversionEvent === 'function') {
+          window.trackConversionEvent('form_submit', {
+            form_type: 'test_form',
+            form_location: 'debug_test',
+            success: true
+          });
+          console.log('📤 Test form submission event sent');
+        }
+        
+        console.groupEnd();
+      }
+
+      testPrivacyCompliance() {
+        console.group('🔍 Testing Privacy Compliance');
+        
+        if (typeof window.privacyManager === 'object') {
+          const privacyManager = window.privacyManager;
+          console.log('✅ Privacy manager is available');
+          console.log('🔒 Has consent:', privacyManager.hasConsent());
+          console.log('🔒 Has opted out:', privacyManager.hasOptedOut());
+        } else {
+          console.warn('⚠️ Privacy manager not available');
+        }
+        
+        console.log('🔒 Do Not Track:', navigator.doNotTrack);
+        
+        const cookies = document.cookie.split(';');
+        const consentCookies = cookies.filter(cookie => 
+          cookie.includes('consent') || cookie.includes('analytics')
+        );
+        console.log('🍪 Consent cookies:', consentCookies);
+        
+        console.groupEnd();
+      }
+
+      setupDebugConsole() {
+        window.analyticsDebugger = this;
+        
+        console.log('🔧 Analytics Debugger loaded. Available commands:');
+        console.log('  - analyticsDebugger.runFullTestSuite()');
+        console.log('  - analyticsDebugger.testGA4Integration()');
+        console.log('  - analyticsDebugger.testClarityIntegration()');
+        console.log('  - analyticsDebugger.testPhoneClickTracking()');
+        console.log('  - analyticsDebugger.testEmailClickTracking()');
+        console.log('  - analyticsDebugger.testFormTracking()');
+        console.log('  - analyticsDebugger.testPrivacyCompliance()');
+      }
+    }
+
+    // Initialize analytics debugger
+    const analyticsDebugger = new AnalyticsDebugger();
+    
+    // Auto-run tests after page load
+    setTimeout(() => {
+      analyticsDebugger.runFullTestSuite();
+    }, 2000);
+  </script>
+)}

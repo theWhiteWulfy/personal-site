@@ -10,7 +10,11 @@
         "build": "astro check && astro build",
         "preview": "astro preview",
         "astro": "astro",
-        "cfpreview": "wrangler pages dev ./dist"
+        "cfpreview": "wrangler pages dev ./dist",
+        "db:migrate": "node scripts/migrate-database.js",
+        "db:migrate:local": "node scripts/migrate-database.js --local",
+        "db:verify": "node scripts/verify-database.js",
+        "db:verify:local": "node scripts/verify-database.js --local"
     },
     "dependencies": {
         "@astrojs/cloudflare": "^11.0.1",
@@ -25,11 +29,9 @@
         "@cloudflare/workers-types": "^4.20240729.0",
         "@playform/compress": "^0.0.13",
         "astro": "^4.15.12",
-        "astro-pagefind": "^1.5.0",
         "cssnano": "^7.0.2",
         "dayjs": "^1.11.11",
         "mdast-util-to-string": "^4.0.0",
-        "pagefind": "^1.1.0",
         "postcss-custom-media": "^8.0.2",
         "postcss-import": "^16.1.0",
         "postcss-loader": "^8.1.1",
@@ -43,6 +45,6 @@
         "reading-time": "^1.5.0",
         "typescript": "^5.4.5",
         "vite-plugin-pwa": "^0.16.4",
-        "wrangler": "^3.68.0"
+        "wrangler": "^4.28.1"
     }
 }

@@ -1,0 +1,595 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ServiceHero from '@components/ServiceHero.astro';
+import ServiceFeatures from '@components/ServiceFeatures.astro';
+import ServiceCTA from '@components/ServiceCTA.astro';
+import ServiceTestimonials from '@components/ServiceTestimonials.astro';
+import RelatedServices from '@components/RelatedServices.astro';
+import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
+import site from '@config/site';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import TargetIcon from '@components/logos/Target.astro';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
+
+// Service-specific data
+const serviceData: ServiceData = {
+  name: 'AI Workflow Integration Services',
+  description: 'Transform your business processes with intelligent AI-powered workflows. Integrate cutting-edge AI technologies to automate decision-making, enhance productivity, and unlock new capabilities.',
+  serviceType: 'AI Integration and Automation',
+  provider: {
+    name: site.titleAlt,
+    url: site.url
+  },
+  areaServed: ['India', 'Global'],
+  hasOfferCatalog: {
+    name: 'AI Integration Services',
+    itemListElement: [
+      {
+        name: 'AI-Powered Document Processing',
+        description: 'Intelligent document analysis, extraction, and processing using AI',
+        price: 'Starting at $1200',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Conversational AI Integration',
+        description: 'Chatbots and virtual assistants for customer service and support',
+        price: 'Starting at $800',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Predictive Analytics Workflows',
+        description: 'AI-driven forecasting and predictive modeling integration',
+        price: 'Starting at $1500',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Computer Vision Solutions',
+        description: 'Image and video analysis integration for business processes',
+        price: 'Starting at $2000',
+        priceCurrency: 'USD'
+      }
+    ]
+  },
+  aggregateRating: {
+    ratingValue: 4.9,
+    reviewCount: 15
+  }
+};
+
+// Page metadata
+const title = 'AI Workflow Integration - Intelligent Business Process Automation';
+const description = 'Revolutionize your business with AI-powered workflow integration. Implement intelligent document processing, conversational AI, predictive analytics, and computer vision solutions.';
+const keywords = [
+  'AI workflow integration',
+  'artificial intelligence automation',
+  'AI business processes',
+  'machine learning integration',
+  'intelligent automation',
+  'AI-powered workflows',
+  'conversational AI',
+  'document AI',
+  'predictive analytics',
+  'computer vision integration',
+  'AI consulting services'
+];
+
+// Hero section data
+const heroFeatures = [
+  'Reduce processing time by 70-90%',
+  'Intelligent decision-making automation',
+  'Seamless integration with existing systems',
+  'Scalable AI solutions that grow with you'
+];
+
+// Features data
+const features = [
+  {
+    title: 'Document Intelligence',
+    description: 'Transform document-heavy processes with AI that can read, understand, and extract information from any document type.',
+    icon: '📄',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Document Intelligence illustration',
+    benefits: [
+      'OCR and text extraction from images/PDFs',
+      'Intelligent form processing and validation',
+      'Contract analysis and key term extraction',
+      'Invoice processing and data extraction',
+      'Compliance document review automation'
+    ]
+  },
+  {
+    title: 'Conversational AI & Chatbots',
+    description: 'Deploy intelligent virtual assistants that understand context, handle complex queries, and provide personalized responses.',
+    icon: '🤖',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Conversational AI illustration',
+    benefits: [
+      'Natural language understanding and processing',
+      'Multi-channel deployment (web, mobile, social)',
+      'Integration with CRM and knowledge bases',
+      'Sentiment analysis and emotion detection',
+      'Multilingual support and translation'
+    ]
+  },
+  {
+    title: 'Predictive Analytics & Forecasting',
+    description: 'Leverage machine learning to predict trends, identify opportunities, and make data-driven decisions automatically.',
+    icon: '📈',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'Predictive Analytics illustration',
+    benefits: [
+      'Sales forecasting and demand prediction',
+      'Customer behavior analysis and segmentation',
+      'Risk assessment and fraud detection',
+      'Inventory optimization and planning',
+      'Performance monitoring and anomaly detection'
+    ]
+  },
+  {
+    title: 'Computer Vision Solutions',
+    description: 'Implement AI-powered image and video analysis to automate visual inspection, monitoring, and quality control processes.',
+    icon: '👁️',
+    iconComponent: TargetIcon,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'Computer Vision illustration',
+    benefits: [
+      'Quality control and defect detection',
+      'Facial recognition and biometric systems',
+      'Object detection and classification',
+      'Medical image analysis and diagnostics',
+      'Security and surveillance automation'
+    ]
+  },
+  {
+    title: 'Natural Language Processing',
+    description: 'Extract insights from text data, automate content generation, and enable intelligent text-based workflows.',
+    icon: '💬',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'NLP illustration',
+    benefits: [
+      'Sentiment analysis and opinion mining',
+      'Automated content generation and summarization',
+      'Language translation and localization',
+      'Text classification and categorization',
+      'Entity extraction and relationship mapping'
+    ]
+  },
+  {
+    title: 'AI Model Training & Deployment',
+    description: 'Custom AI model development, training, and deployment tailored to your specific business needs and data.',
+    icon: '🧠',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'AI Model training illustration',
+    benefits: [
+      'Custom model development and training',
+      'Data preparation and feature engineering',
+      'Model optimization and performance tuning',
+      'Cloud deployment and scaling',
+      'Continuous learning and model updates'
+    ]
+  }
+];
+
+// Use cases section
+const useCases = [
+  {
+    industry: 'Healthcare',
+    title: 'Medical Record Processing',
+    description: 'AI-powered extraction and analysis of patient data from medical records, lab results, and imaging studies.',
+    results: '85% reduction in processing time, 99% accuracy in data extraction'
+  },
+  {
+    industry: 'Finance',
+    title: 'Fraud Detection System',
+    description: 'Real-time transaction monitoring with machine learning algorithms to detect and prevent fraudulent activities.',
+    results: '40% improvement in fraud detection, 60% reduction in false positives'
+  },
+  {
+    industry: 'Manufacturing',
+    title: 'Quality Control Automation',
+    description: 'Computer vision-based quality inspection system for automated defect detection in production lines.',
+    results: '95% defect detection accuracy, 50% reduction in quality control costs'
+  },
+  {
+    industry: 'E-commerce',
+    title: 'Personalized Recommendations',
+    description: 'AI-driven product recommendation engine that analyzes customer behavior and preferences.',
+    results: '35% increase in conversion rates, 25% boost in average order value'
+  }
+];
+
+// Testimonials data
+const testimonials: Testimonial[] = [
+  {
+    quote: 'The AI document processing solution has revolutionized our legal practice. We can now process contracts 10x faster with higher accuracy than manual review.',
+    author: {
+      name: 'Amanda Foster',
+      title: 'Managing Partner',
+      company: 'Foster & Associates Law',
+      handle: '@amanda_foster'
+    },
+    rating: 5,
+    project: 'Legal Document AI System',
+    platform: 'linkedin'
+  },
+  {
+    quote: 'Our customer service chatbot handles 80% of inquiries automatically now. Customer satisfaction has increased while our support costs have decreased significantly.',
+    author: {
+      name: 'James Liu',
+      title: 'Head of Customer Success',
+      company: 'TechSupport Pro',
+      handle: '@james_liu'
+    },
+    rating: 5,
+    project: 'Conversational AI Platform',
+    platform: 'x'
+  },
+  {
+    quote: 'The predictive analytics model Alok built helps us forecast demand with 95% accuracy. Our inventory costs have dropped by 30% while avoiding stockouts.',
+    author: {
+      name: 'Maria Gonzalez',
+      title: 'Supply Chain Director',
+      company: 'RetailFlow Inc',
+      handle: '@maria_g'
+    },
+    rating: 5,
+    project: 'Demand Forecasting AI',
+    platform: 'linkedin'
+  }
+];
+
+// CTA buttons
+const ctaButtons = [
+  {
+    text: 'Get AI Readiness Assessment',
+    href: '/contact/',
+    style: 'primary' as const
+  },
+  {
+    text: 'View AI Case Studies',
+    href: '/works/',
+    style: 'outline' as const
+  }
+];
+
+// Related services
+const relatedServices = [
+  {
+    title: 'Custom Automation',
+    description: 'Streamline business processes with tailored automation solutions.',
+    href: '/services/custom-automation/',
+    icon: '⚡'
+  },
+  {
+    title: 'Whitelabel Solutions',
+    description: 'Ready-to-brand digital products and SaaS platforms for rapid market entry.',
+    href: '/services/whitelabel-solutions/',
+    icon: '🚀'
+  }
+];
+
+---
+
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  pageType="service"
+  serviceData={serviceData}
+  includeLocalBusiness={true}
+  path="/services/ai-workflow-integration/"
+>
+    <ServiceHero
+      title="AI Workflow Integration"
+      subtitle="Intelligent Business Automation"
+      description="Harness the power of artificial intelligence to transform your business processes. From document processing to predictive analytics, we integrate cutting-edge AI technologies that work seamlessly with your existing systems."
+      features={heroFeatures}
+      ctaText="Get AI Assessment"
+      ctaHref="/contact/"
+      image="/blog-placeholder-2.jpg"
+      imageAlt="AI workflow integration illustration"
+    />
+
+    <ServiceFeatures
+      title="Comprehensive AI Integration Services"
+      subtitle="AI Technologies We Implement"
+      features={features}
+      layout="list"
+    />
+
+    <section class="use-cases">
+      <div class="use-cases__container">
+        <div class="use-cases__header">
+          <p class="use-cases__subtitle">Real-World Applications</p>
+          <h2 class="use-cases__title">AI Success Stories Across Industries</h2>
+        </div>
+        
+        <div class="use-cases__grid">
+          {useCases.map((useCase) => (
+            <div class="use-case-card">
+              <div class="use-case-card__industry">{useCase.industry}</div>
+              <h3 class="use-case-card__title">{useCase.title}</h3>
+              <p class="use-case-card__description">{useCase.description}</p>
+              <div class="use-case-card__results">
+                <strong>Results:</strong> {useCase.results}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-process">
+      <div class="ai-process__container">
+        <div class="ai-process__header">
+          <h2 class="ai-process__title">Our AI Integration Process</h2>
+          <p class="ai-process__description">
+            A proven methodology to ensure successful AI implementation and maximum ROI.
+          </p>
+        </div>
+        
+        <div class="ai-process__steps">
+          <div class="process-step">
+            <div class="process-step__number">1</div>
+            <div class="process-step__content">
+              <h3 class="process-step__title">AI Readiness Assessment</h3>
+              <p class="process-step__description">
+                Evaluate your current processes, data quality, and infrastructure to identify the best AI opportunities.
+              </p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-step__number">2</div>
+            <div class="process-step__content">
+              <h3 class="process-step__title">Solution Design & Planning</h3>
+              <p class="process-step__description">
+                Design custom AI solutions tailored to your specific needs, with clear ROI projections and implementation timelines.
+              </p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-step__number">3</div>
+            <div class="process-step__content">
+              <h3 class="process-step__title">Development & Training</h3>
+              <p class="process-step__description">
+                Build and train AI models using your data, ensuring optimal performance and accuracy for your use cases.
+              </p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-step__number">4</div>
+            <div class="process-step__content">
+              <h3 class="process-step__title">Integration & Deployment</h3>
+              <p class="process-step__description">
+                Seamlessly integrate AI solutions with your existing systems and deploy them with minimal disruption.
+              </p>
+            </div>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-step__number">5</div>
+            <div class="process-step__content">
+              <h3 class="process-step__title">Monitoring & Optimization</h3>
+              <p class="process-step__description">
+                Continuously monitor performance, gather feedback, and optimize AI models for improved results.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ServiceTestimonials
+      title="AI Transformation Success Stories"
+      subtitle="Client Results"
+      testimonials={testimonials}
+      layout="social"
+    />
+
+    <RelatedServices
+      title="Explore Other Services"
+      services={relatedServices}
+      currentService="/services/ai-workflow-integration/"
+    />
+
+    <ServiceCTA
+      title="Ready to Transform Your Business with AI?"
+      description="Get a comprehensive AI readiness assessment and discover how artificial intelligence can revolutionize your business processes."
+      buttons={ctaButtons}
+      background="gradient"
+      urgency={{
+        text: "Limited Time: ",
+        highlight: "Free AI readiness assessment worth $750"
+      }}
+    />
+  </Layout>
+
+<style>
+.use-cases {
+  padding: 4rem 0;
+  background: var(--background-color);
+}
+
+.use-cases__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.use-cases__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.use-cases__subtitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+}
+
+.use-cases__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.use-cases__grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (--medium-up) {
+  .use-cases__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.use-case-card {
+  padding: 2rem;
+  background: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: var(--global-transition);
+}
+
+.use-case-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  border-color: var(--secondary-color);
+}
+
+.use-case-card__industry {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.use-case-card__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+.use-case-card__description {
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+  color: var(--muted-text-color);
+  margin: 0 0 1rem 0;
+}
+
+.use-case-card__results {
+  font-size: var(--text-sm);
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+.ai-process {
+  padding: 4rem 0;
+  background: var(--background-secondary-color);
+}
+
+.ai-process__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.ai-process__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.ai-process__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+.ai-process__description {
+  font-size: var(--text-lg);
+  color: var(--muted-text-color);
+  margin: 0;
+}
+
+.ai-process__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (--large-up) {
+  .ai-process__steps {
+    gap: 1rem;
+  }
+}
+
+.process-step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+@media (--large-up) {
+  .process-step {
+    align-items: center;
+  }
+}
+
+.process-step__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.process-step__content {
+  flex: 1;
+}
+
+.process-step__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.process-step__description {
+  font-size: var(--text-base);
+  line-height: var(--line-height);
+  color: var(--muted-text-color);
+  margin: 0;
+}
+</style>

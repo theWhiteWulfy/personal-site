@@ -5,7 +5,7 @@ import Entry from "@components/Entry.astro";
 import { getCollection } from "astro:content";
 import style from "../styles/archive.module.css";
 import { Image } from "astro:assets";
-import coverimage from "../images/avatar4.png";
+import coverimage from "../images/avatar5.png";
 import { readingTime } from "@lib/utils";
 
 const data1 = (await getCollection("notes"))
@@ -35,24 +35,29 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
   .slice(0, 6);
 ---
 
-<Layout description={site.description}>
+<Layout 
+  description={site.description}
+  pageType="home"
+  includeLocalBusiness={true}
+  path="/"
+>
   <main id="main" class={style.main}>
     <div class={style.title}>
       <h1 class={style.heading}>
         <span>
-          Meteoric Teachings is the personal site of <a href="/about/"
-            >Alok&nbsp;Prateek</a
-          >.
+          <strong>Automate Your Operations.</strong><br />
+          <strong>Own Your Tools.</strong><br />
+          I help creative agencies and teams integrate AI workflows & open-source solutions to reclaim thousands of productive hours.
         </span>
       </h1>
-      <div class={style.intro}>
+      <!-- <div class={style.intro}>
         <p>
           I'm a multi-talented human with over 11+ years of experience in a wide
           range of design disciplines. I have designed, built and tinkered with
           digital products for a considerable time. I'm currently self-employed
           and am working with a selected freelance client base.
         </p>
-      </div>
+      </div> -->
       <Image
         src={coverimage}
         alt="Cover showing aside profile of Alok Prateek"
@@ -142,6 +147,14 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
       </h2>
       <div>
         <ul class={`${style.gridListExpanded} ${style.navList}`}>
+          <li id="services">
+            <Entry
+              key="services-home-link"
+              title="Services"
+              path="/services/"
+              excerpt="Services I offer to help you with your business. Explore how I can help you."
+            />
+          </li>
           <li id="articles">
             <Entry
               key="articles-home-link"
@@ -166,14 +179,14 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
               excerpt="Hand-picked selection of things I've designed, illustrated, and developed."
             />
           </li>
-          <li id="bibliophile-diaries">
+          <!-- <li id="bibliophile-diaries">
             <Entry
               key="bibliophile-diaries-home-link"
               title="Bibliophile Diaries"
               path="/bibliophilediaries/"
               excerpt="Lessons and interesting quotes from books I've read."
             />
-          </li>
+          </li> -->
           <li id="contact">
             <Entry
               key="contact-home-link"

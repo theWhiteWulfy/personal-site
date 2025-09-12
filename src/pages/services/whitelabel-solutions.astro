@@ -1,0 +1,486 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ServiceHero from '@components/ServiceHero.astro';
+import ServiceFeatures from '@components/ServiceFeatures.astro';
+import ServiceCTA from '@components/ServiceCTA.astro';
+import ServiceTestimonials from '@components/ServiceTestimonials.astro';
+import RelatedServices from '@components/RelatedServices.astro';
+import type { ServiceData } from '@lib/schema-generators';
+import type { Testimonial } from '@components/ServiceTestimonials.astro';
+import site from '@config/site';
+import AnalyticsChart from '@components/logos/AnalyticsChart.astro';
+import IntegrationLink from '@components/logos/IntegrationLink.astro';
+import AutomationBolt from '@components/logos/AutomationBolt.astro';
+import DocumentIcon from '@components/logos/Document.astro';
+import BotIcon from '@components/logos/Bot.astro';
+
+// Service-specific data
+const serviceData: ServiceData = {
+  name: 'Whitelabel Solutions & Products',
+  description: 'Launch your own branded digital products and services with our comprehensive whitelabel solutions. From web applications to automation tools, we help you scale your business offerings.',
+  serviceType: 'Whitelabel Software Solutions',
+  provider: {
+    name: site.titleAlt,
+    url: site.url
+  },
+  areaServed: ['India', 'Global'],
+  hasOfferCatalog: {
+    name: 'Whitelabel Services',
+    itemListElement: [
+      {
+        name: 'SaaS Platform Development',
+        description: 'Complete whitelabel SaaS platforms ready for your branding',
+        price: 'Starting at $2500',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Mobile App Solutions',
+        description: 'Whitelabel mobile applications for iOS and Android',
+        price: 'Starting at $3000',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'Automation Tools',
+        description: 'Ready-to-brand automation and workflow tools',
+        price: 'Starting at $1500',
+        priceCurrency: 'USD'
+      },
+      {
+        name: 'E-commerce Platforms',
+        description: 'Complete whitelabel e-commerce solutions',
+        price: 'Starting at $2000',
+        priceCurrency: 'USD'
+      }
+    ]
+  },
+  aggregateRating: {
+    ratingValue: 4.8,
+    reviewCount: 18
+  }
+};
+
+// Page metadata
+const title = 'Whitelabel Solutions - Launch Your Branded Digital Products';
+const description = 'Scale your business with ready-to-brand whitelabel solutions. Get complete SaaS platforms, mobile apps, automation tools, and e-commerce solutions under your brand name.';
+const keywords = [
+  'whitelabel solutions',
+  'whitelabel software',
+  'branded digital products',
+  'whitelabel SaaS',
+  'private label software',
+  'whitelabel development',
+  'custom branding solutions',
+  'reseller software',
+  'whitelabel platforms',
+  'business scaling solutions'
+];
+
+// Hero section data
+const heroFeatures = [
+  'Launch in 30-60 days instead of 12+ months',
+  'Complete source code and documentation',
+  'Full customization and branding rights',
+  'Ongoing support and maintenance options'
+];
+
+// Features data
+const features = [
+  {
+    title: 'SaaS Platform Solutions',
+    description: 'Complete software-as-a-service platforms ready for your branding, with user management, billing, and analytics built-in.',
+    icon: '',
+    iconComponent: AnalyticsChart,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'SaaS platform illustration',
+    benefits: [
+      'Multi-tenant architecture',
+      'Integrated payment processing',
+      'User dashboard and admin panel',
+      'API documentation and SDKs',
+      'Mobile-responsive design'
+    ]
+  },
+  {
+    title: 'Mobile App Development',
+    description: 'Native and cross-platform mobile applications that you can brand and customize for your specific market needs.',
+    icon: '',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Mobile app development illustration',
+    benefits: [
+      'iOS and Android compatibility',
+      'Push notification system',
+      'In-app purchase integration',
+      'Offline functionality',
+      'App store optimization'
+    ]
+  },
+  {
+    title: 'Automation & Workflow Tools',
+    description: 'Pre-built automation platforms and workflow management tools that you can offer to your clients under your brand.',
+    icon: '',
+    iconComponent: AutomationBolt,
+    image: '/blog-placeholder-4.jpg',
+    imageAlt: 'Automation tools illustration',
+    benefits: [
+      'Drag-and-drop workflow builder',
+      'Integration marketplace',
+      'Custom trigger and action system',
+      'Analytics and reporting dashboard',
+      'White-label client portal'
+    ]
+  },
+  {
+    title: 'E-commerce Platforms',
+    description: 'Complete e-commerce solutions with inventory management, payment processing, and customer management systems.',
+    icon: '',
+    iconComponent: IntegrationLink,
+    image: '/blog-placeholder-5.jpg',
+    imageAlt: 'E-commerce platform illustration',
+    benefits: [
+      'Multi-vendor marketplace support',
+      'Inventory and order management',
+      'Payment gateway integrations',
+      'SEO-optimized product pages',
+      'Customer loyalty programs'
+    ]
+  },
+  {
+    title: 'Custom Branding & Design',
+    description: 'Full customization services to match your brand identity, including UI/UX design, logos, and marketing materials.',
+    icon: '',
+    iconComponent: DocumentIcon,
+    image: '/blog-placeholder-3.jpg',
+    imageAlt: 'Branding and design illustration',
+    benefits: [
+      'Complete brand customization',
+      'UI/UX design services',
+      'Marketing material creation',
+      'Brand guideline development',
+      'Logo and identity design'
+    ]
+  },
+  {
+    title: 'Training & Support',
+    description: 'Comprehensive training programs and ongoing support to help you successfully launch and scale your whitelabel products.',
+    icon: '',
+    iconComponent: BotIcon,
+    image: '/blog-placeholder-2.jpg',
+    imageAlt: 'Training and support illustration',
+    benefits: [
+      'Product training sessions',
+      'Sales and marketing guidance',
+      'Technical documentation',
+      '24/7 support options',
+      'Partner success program'
+    ]
+  }
+];
+
+// Testimonials data
+const testimonials: Testimonial[] = [
+  {
+    quote: 'The whitelabel SaaS platform allowed us to enter a new market segment in just 6 weeks. Our clients love the professional interface and robust features.',
+    author: {
+      name: 'David Thompson',
+      title: 'Founder',
+      company: 'TechSolutions Pro',
+      handle: '@davidthompson'
+    },
+    rating: 5,
+    project: 'Project Management SaaS',
+    platform: 'linkedin'
+  },
+  {
+    quote: 'Incredible value! We got a complete e-commerce platform that would have cost us $100K+ to develop in-house. The ROI has been phenomenal.',
+    author: {
+      name: 'Lisa Wang',
+      title: 'CEO',
+      company: 'Digital Commerce Hub',
+      handle: '@lisawang'
+    },
+    rating: 5,
+    project: 'Multi-vendor Marketplace',
+    platform: 'x'
+  },
+  {
+    quote: 'The automation tool we licensed has become our flagship product. Alok\'s team provided excellent customization and ongoing support.',
+    author: {
+      name: 'Robert Martinez',
+      title: 'CTO',
+      company: 'Workflow Experts',
+      handle: '@robmartinez'
+    },
+    rating: 5,
+    project: 'Workflow Automation Platform',
+    platform: 'linkedin'
+  }
+];
+
+// CTA buttons
+const ctaButtons = [
+  {
+    text: 'Explore Whitelabel Catalog',
+    href: '/contact/',
+    style: 'primary' as const
+  },
+  {
+    text: 'Schedule Demo',
+    href: '/contact/',
+    style: 'outline' as const
+  }
+];
+
+// Related services
+const relatedServices = [
+  {
+    title: 'Custom Automation',
+    description: 'Streamline business processes with tailored automation solutions.',
+    href: '/services/custom-automation/',
+    icon: ''
+  },
+  {
+    title: 'AI Workflow Integration',
+    description: 'Intelligent automation with AI-powered document processing and decision-making.',
+    href: '/services/ai-workflow-integration/',
+    icon: ''
+  }
+];
+
+---
+
+<Layout
+  title={title}
+  description={description}
+  keywords={keywords}
+  pageType="service"
+  serviceData={serviceData}
+  includeLocalBusiness={true}
+  path="/services/whitelabel-solutions/"
+>
+    <ServiceHero
+      title="Whitelabel Solutions & Products"
+      subtitle="Ready-to-Brand Digital Products"
+      description="Scale your business rapidly with our comprehensive whitelabel solutions. Launch professional SaaS platforms, mobile apps, and automation tools under your brand in weeks, not months."
+      features={heroFeatures}
+      ctaText="Explore Solutions"
+      ctaHref="/contact/"
+      image="/blog-placeholder-4.jpg"
+      imageAlt="Whitelabel solutions illustration"
+    />
+
+    <ServiceFeatures
+      title="Complete Whitelabel Product Suite"
+      subtitle="What You Get"
+      features={features}
+      layout="list"
+    />
+
+    <section class="pricing-overview">
+      <div class="pricing-overview__container">
+        <div class="pricing-overview__header">
+          <h2 class="pricing-overview__title">Flexible Licensing Models</h2>
+          <p class="pricing-overview__description">
+            Choose the licensing model that best fits your business needs and growth plans.
+          </p>
+        </div>
+        
+        <div class="pricing-overview__grid">
+          <div class="pricing-card">
+            <h3 class="pricing-card__title">One-Time License</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">$2,500+</span>
+              <span class="pricing-card__period">one-time</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>Complete source code</li>
+              <li>Full branding rights</li>
+              <li>6 months support</li>
+              <li>Documentation included</li>
+            </ul>
+          </div>
+          
+          <div class="pricing-card pricing-card--featured">
+            <h3 class="pricing-card__title">Revenue Share</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">15-25%</span>
+              <span class="pricing-card__period">revenue share</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>No upfront costs</li>
+              <li>Ongoing development</li>
+              <li>Continuous support</li>
+              <li>Marketing assistance</li>
+            </ul>
+          </div>
+          
+          <div class="pricing-card">
+            <h3 class="pricing-card__title">Hybrid Model</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">Custom</span>
+              <span class="pricing-card__period">pricing</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>Reduced upfront cost</li>
+              <li>Lower revenue share</li>
+              <li>Flexible terms</li>
+              <li>Partnership benefits</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ServiceTestimonials
+      title="Partner Success Stories"
+      subtitle="Client Results"
+      testimonials={testimonials}
+      layout="social"
+    />
+
+    <RelatedServices
+      title="Explore Other Services"
+      services={relatedServices}
+      currentService="/services/whitelabel-solutions/"
+    />
+
+    <ServiceCTA
+      title="Ready to Launch Your Branded Products?"
+      description="Explore our whitelabel catalog and discover how you can enter new markets quickly with professional, ready-to-brand solutions."
+      buttons={ctaButtons}
+      background="gradient"
+      urgency={{
+        text: "Limited Time: ",
+        highlight: "50% off setup fees for new partners"
+      }}
+    />
+  </Layout>
+
+<style>
+.pricing-overview {
+  padding: 4rem 0;
+  background: var(--background-secondary-color);
+}
+
+.pricing-overview__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.pricing-overview__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pricing-overview__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+.pricing-overview__description {
+  font-size: var(--text-lg);
+  color: var(--muted-text-color);
+  margin: 0;
+}
+
+.pricing-overview__grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (--medium-up) {
+  .pricing-overview__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pricing-card {
+  padding: 2rem;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: var(--global-transition);
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.pricing-card--featured {
+  border-color: var(--secondary-color);
+  border-width: 2px;
+  position: relative;
+}
+
+.pricing-card--featured::before {
+  content: 'Most Popular';
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pricing-card__title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 1rem 0;
+}
+
+.pricing-card__price {
+  margin-bottom: 2rem;
+}
+
+.pricing-card__amount {
+  display: block;
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.pricing-card__period {
+  font-size: var(--text-sm);
+  color: var(--muted-text-color);
+  text-transform: uppercase;
+}
+
+.pricing-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.pricing-card__features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.pricing-card__features li:last-child {
+  border-bottom: none;
+}
+
+.pricing-card__features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success-color);
+  font-weight: 700;
+}
+</style>

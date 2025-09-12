@@ -1,0 +1,18 @@
+---
+const { classNamed } = Astro.props;
+
+import style from '../../styles/icon.module.css'
+---
+
+<svg
+  aria-hidden="true"
+  viewBox="0 0 16 16"
+  height="16"
+  width="16"
+  xmlns="http://www.w3.org/2000/svg"
+  class={`${classNamed} ${style.icon}`}
+  role="img"
+>
+  <path d="M3 3 L13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+  <path d="M13 3 L3 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+</svg>

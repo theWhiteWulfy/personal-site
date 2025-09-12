@@ -13,12 +13,12 @@
 - id: Gatsby
   excerpt: An archive of posts related to Gatsby, a framework based on React that helps developers build blazing fast websites and apps.
   html: |
-    <p>An archive of posts related to <a href="https://www.gatsbyjs.org"><strong>Gatsby</strong></a>, a framework based on React that helps developers build blazing fast websites and apps.</p>
+    <p>An archive of posts related to <strong>Gatsby</strong>, a framework based on React that helps developers build blazing fast websites and apps.</p>
 
 - id: Jekyll
   excerpt: An archive of posts related to Jekyll, a Ruby Gem that transforms plain text into static websites and blogs.
   html: |
-    <p>An archive of posts related to <a href="https://jekyllrb.com"><strong>Jekyll</strong></a>, a Ruby Gem that transforms plain text into static websites and blogs.</p>
+    <p>An archive of posts related to <strong>Jekyll</strong>, a Ruby Gem that transforms plain text into static websites and blogs.</p>
 
 - id: bibliophile-diaries
   name: Bibliophile Diaries

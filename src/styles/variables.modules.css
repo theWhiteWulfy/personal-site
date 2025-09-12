@@ -5,7 +5,7 @@
   --background-danger-color: color-mod(var(--danger-color) tint(95%));
   --background-success-color: color-mod(var(--success-color) tint(95%));
   --primary-color: #393e46;
-  --secondary-color: #00638a;
+  --secondary-color: #711452;
   --alert-color: var(--muted-text-color);
   --danger-color: #b11313;
   --success-color: #1a882e;

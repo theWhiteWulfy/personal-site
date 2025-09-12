@@ -1,0 +1,312 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ResourceHero from '@components/ResourceHero.astro';
+import ResourceForm from '@components/ResourceForm.astro';
+import { generatePageSchema } from '@/lib/schema-generators';
+import type { ResourceData } from '@/lib/schema-generators';
+
+export async function getStaticPaths() {
+  // Define available resources
+  // In a real implementation, this could come from a CMS, database, or content collection
+  const resources = [
+    {
+      slug: 'automation-guide',
+      title: 'Complete Business Automation Guide',
+      description: 'A comprehensive 50-page guide covering everything you need to know about automating your business processes, from workflow design to implementation strategies.',
+      benefits: [
+        'Step-by-step automation framework',
+        'Real-world case studies and examples',
+        'Tool recommendations and comparisons',
+        'ROI calculation templates',
+        'Implementation checklists and timelines'
+      ],
+      resourceMetadata: {
+        fileSize: '2.3 MB',
+        pageCount: 50,
+        format: 'PDF',
+        category: 'Business Guide'
+      },
+      keywords: ['business automation', 'workflow optimization', 'process improvement', 'productivity'],
+      datePublished: '2024-01-15',
+      dateModified: '2024-02-01'
+    },
+    {
+      slug: 'whitelabel-checklist',
+      title: 'Whitelabel Solutions Implementation Checklist',
+      description: 'Essential checklist for successfully implementing whitelabel solutions in your business, covering technical requirements, branding guidelines, and launch strategies.',
+      benefits: [
+        'Pre-launch technical checklist',
+        'Branding and customization guidelines',
+        'Quality assurance templates',
+        'Client onboarding workflows',
+        'Support documentation templates'
+      ],
+      resourceMetadata: {
+        fileSize: '1.8 MB',
+        pageCount: 25,
+        format: 'PDF',
+        category: 'Implementation Guide'
+      },
+      keywords: ['whitelabel solutions', 'implementation', 'branding', 'business strategy'],
+      datePublished: '2024-01-20',
+      dateModified: '2024-02-05'
+    },
+    {
+      slug: 'ai-integration-playbook',
+      title: 'AI Workflow Integration Playbook',
+      description: 'Strategic playbook for integrating AI tools into your existing workflows, featuring practical implementation strategies and best practices for maximum ROI.',
+      benefits: [
+        'AI tool evaluation framework',
+        'Integration strategy templates',
+        'Change management guidelines',
+        'Performance measurement metrics',
+        'Risk assessment checklists'
+      ],
+      resourceMetadata: {
+        fileSize: '3.1 MB',
+        pageCount: 40,
+        format: 'PDF',
+        category: 'Strategy Guide'
+      },
+      keywords: ['AI integration', 'workflow automation', 'artificial intelligence', 'digital transformation'],
+      datePublished: '2024-02-01',
+      dateModified: '2024-02-10'
+    }
+  ];
+
+  return resources.map(resource => ({
+    params: { slug: resource.slug },
+    props: { resource }
+  }));
+}
+
+interface Props {
+  resource: {
+    slug: string;
+    title: string;
+    description: string;
+    benefits: string[];
+    resourceMetadata: {
+      fileSize?: string;
+      pageCount?: number;
+      format?: string;
+      category?: string;
+    };
+    keywords: string[];
+    datePublished: string;
+    dateModified: string;
+  };
+}
+
+const { resource } = Astro.props;
+const { slug, title, description, benefits, resourceMetadata, keywords, datePublished, dateModified } = resource;
+
+// Generate SEO meta data
+const pageTitle = `${title} - Free Download`;
+const pageDescription = `${description} Download this free resource to improve your business processes.`;
+const canonicalUrl = `/resources/${slug}/`;
+const ogImage = `/images/resources/${slug}-preview.jpg`; // You would add these images
+
+// Generate structured data
+const resourceSchemaData: ResourceData = {
+  name: title,
+  description: description,
+  url: `${Astro.site}${canonicalUrl}`,
+  fileFormat: 'application/pdf',
+  contentSize: resourceMetadata.fileSize,
+  encodingFormat: 'application/pdf',
+  datePublished,
+  dateModified,
+  keywords,
+  isAccessibleForFree: true,
+  license: 'https://creativecommons.org/licenses/by-nc/4.0/'
+};
+
+const schemas = generatePageSchema({
+  pageType: 'resource',
+  title: pageTitle,
+  description: pageDescription,
+  path: canonicalUrl,
+  datePublished,
+  dateModified,
+  resourceData: resourceSchemaData,
+  includeBreadcrumbs: true,
+  includeLocalBusiness: false
+});
+---
+
+<Layout 
+  title={pageTitle}
+  description={pageDescription}
+  image={ogImage}
+  path={canonicalUrl}
+  pageType="default"
+>
+  <main class="resource-page">
+    <ResourceHero 
+      title={title}
+      description={description}
+      benefits={benefits}
+      resourceMetadata={resourceMetadata}
+      ctaText="Get Your Free Copy"
+    />
+
+    <section class="resource-form-section" id="resource-form">
+      <div class="form-container">
+        <ResourceForm 
+          resourceName={slug}
+          formTitle="Download Your Free Resource"
+          formSubtitle="Get instant access to this valuable resource. Just fill out the form below and your download will begin immediately."
+          submitText="Download Now"
+        />
+      </div>
+    </section>
+
+    <section class="resource-details">
+      <div class="details-container">
+        <div class="details-content">
+          <h2>About This Resource</h2>
+          <p>
+            This comprehensive resource has been carefully crafted to provide you with actionable insights 
+            and practical strategies that you can implement immediately in your business.
+          </p>
+          
+          <div class="resource-features">
+            <div class="feature-grid">
+              <div class="feature-item">
+                <h3>Practical Content</h3>
+                <p>Real-world strategies and frameworks you can implement today.</p>
+              </div>
+              <div class="feature-item">
+                <h3>Expert Insights</h3>
+                <p>Based on years of experience helping businesses optimize their processes.</p>
+              </div>
+              <div class="feature-item">
+                <h3>Actionable Steps</h3>
+                <p>Clear, step-by-step instructions with checklists and templates.</p>
+              </div>
+              <div class="feature-item">
+                <h3>Proven Results</h3>
+                <p>Strategies that have been tested and proven to deliver measurable outcomes.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .resource-page {
+    min-height: 100vh;
+  }
+
+  .resource-form-section {
+    padding: 4rem 0;
+    background-color: var(--input-background-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .form-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .resource-details {
+    padding: 4rem 0;
+    background-color: var(--background-color);
+  }
+
+  .details-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .details-content {
+    max-width: var(--text-width);
+    margin: 0 auto;
+  }
+
+  .details-content h2 {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 1.5rem 0;
+    font-family: var(--serif-font);
+    text-align: center;
+  }
+
+  .details-content > p {
+    font-size: var(--text-lg);
+    line-height: var(--line-height);
+    color: var(--muted-text-color);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .resource-features {
+    margin: 3rem 0;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .feature-item {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+  }
+
+  .feature-item h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 0.75rem 0;
+    font-family: var(--serif-font);
+  }
+
+  .feature-item p {
+    font-size: var(--text-base);
+    line-height: var(--line-height);
+    color: var(--muted-text-color);
+    margin: 0;
+  }
+
+  /* Responsive design */
+  @media (max-width: 767px) {
+    .resource-form-section,
+    .resource-details {
+      padding: 2rem 0;
+    }
+
+    .form-container,
+    .details-container {
+      padding: 0 1rem;
+    }
+
+    .details-content h2 {
+      font-size: var(--text-2xl);
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      padding: 1rem;
+    }
+
+  }
+</style>

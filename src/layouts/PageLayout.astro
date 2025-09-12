@@ -15,6 +15,8 @@ let lastModified = frontmatter.lastModified
     ? dayjs(frontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
     : null;
 
+import type { ServiceData, FAQData, PersonData } from '@lib/schema-generators';
+
 type pageFrontmatter = {
     id?: number;
     title: string;
@@ -30,6 +32,11 @@ type pageFrontmatter = {
         url: string;
     };
     redirect?: string;
+    pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'default';
+    serviceData?: ServiceData;
+    faqs?: FAQData[];
+    includeBreadcrumbs?: boolean;
+    includeLocalBusiness?: boolean;
 };
 ---
 <Layout 
@@ -40,6 +47,12 @@ type pageFrontmatter = {
     dateModified={frontmatter.lastModified}
     metaImageSrc={frontmatter.image}
     article={false}
+    pageType={frontmatter.pageType}
+    serviceData={frontmatter.serviceData}
+    faqs={frontmatter.faqs}
+    includeBreadcrumbs={frontmatter.includeBreadcrumbs}
+    includeLocalBusiness={frontmatter.includeLocalBusiness}
+    path={frontmatter.path}
 >
 <head>
     {frontmatter.redirect && (

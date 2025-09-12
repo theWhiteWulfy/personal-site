@@ -1,0 +1,154 @@
+---
+interface RelatedService {
+  title: string;
+  description: string;
+  href: string;
+  icon?: string;
+}
+
+interface Props {
+  title?: string;
+  services: RelatedService[];
+  currentService?: string;
+}
+
+const {
+  title = "Related Services",
+  services,
+  currentService
+} = Astro.props;
+
+// Filter out current service if specified
+const filteredServices = currentService 
+  ? services.filter(service => service.href !== currentService)
+  : services;
+---
+
+{filteredServices.length > 0 && (
+  <section class="related-services">
+    <div class="related-services__container">
+      <h2 class="related-services__title">{title}</h2>
+      
+      <div class="related-services__grid">
+        {filteredServices.map((service) => (
+          <a href={service.href} class="related-services__card">
+            {service.icon && (
+              <div class="related-services__icon">
+                {service.icon}
+              </div>
+            )}
+            
+            <div class="related-services__content">
+              <h3 class="related-services__card-title">{service.title}</h3>
+              <p class="related-services__card-description">{service.description}</p>
+              
+              <span class="related-services__link-text">
+                Learn More →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+.related-services {
+  padding: 4rem 0;
+  background: var(--background-secondary-color);
+}
+
+.related-services__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.related-services__title {
+  font-family: var(--serif-font);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0 0 2rem 0;
+}
+
+.related-services__grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (--medium-up) {
+  .related-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--large-up) {
+  .related-services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.related-services__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--global-transition);
+}
+
+.related-services__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  border-color: var(--secondary-color);
+}
+
+.related-services__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+  flex-shrink: 0;
+}
+
+.related-services__content {
+  flex: 1;
+}
+
+.related-services__card-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.related-services__card-description {
+  font-size: var(--text-sm);
+  line-height: var(--line-height);
+  color: var(--muted-text-color);
+  margin: 0 0 1rem 0;
+}
+
+.related-services__link-text {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.related-services__card:hover .related-services__link-text {
+  color: var(--primary-color);
+}
+</style>

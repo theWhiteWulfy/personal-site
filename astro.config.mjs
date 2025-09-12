@@ -2,7 +2,6 @@ import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { VitePWA } from "vite-plugin-pwa";
-//import pagefind from "astro-pagefind";
 import { manifest } from "./src/config/manifest";
 import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
 import { remarkModifiedTime } from './src/lib/remark-modified-time.mjs';
@@ -13,13 +12,23 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   site: "https://alokprateek.in/",
-  integrations: [sitemap(), mdx(), playformCompress()],
-  //pagefind(), 
+  integrations: [sitemap(), mdx(), playformCompress()], 
   markdown: {
     syntaxHighlight: 'prism',
     remarkPlugins: [remarkReadingTime, remarkModifiedTime]
   },
   vite: {
+    logLevel: 'warn',
+    build: {
+      rollupOptions: {
+        // Exclude specific files from the build
+        external: [
+          // Use exact paths or patterns as needed
+          'dist/workbox-*.js',
+          'public/web/experiment/js/*.js'
+        ]
+      }
+    },
     plugins: [VitePWA({
       registerType: "autoUpdate",
       manifest,

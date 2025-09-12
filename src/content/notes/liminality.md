@@ -6,7 +6,6 @@ path: /notes/liminality/
 categories: [notes]
 tags: [philosophy, life, TIL]
 comments: true
-featured: true
 support: true
 last_modified_at: 2020-09-13T16:21:31-05:00
 ---
