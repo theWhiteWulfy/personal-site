@@ -13,7 +13,7 @@ interface MenuItem {
   title: string;
 }
 ---
-
+<div class={style.footerbg} >
 <footer id="footer" class={`${style.footer} animate`}>
   <ul class={style.menu}>
     {footerMenu.map((menuItem: MenuItem, index: number) => (
@@ -61,3 +61,4 @@ interface MenuItem {
     </div>
   
 </footer>
+</div>

@@ -10,6 +10,7 @@
   --danger-color: #b11313;
   --success-color: #1a882e;
   --text-color: #111;
+  --footer-bg: #dddddd;
   --muted-text-color: color-mod(var(--text-color) tint(40%));
   --link-color: #00638a;
   --shadow-color: rgb(57,62,70, 0.1);
@@ -90,6 +91,7 @@
   --code-background-color: #1a1a1d;
   --button-text-color: #111;
   --button-background-color: #fff;
+  --footer-bg: #333333;
 }
 
 /* Media queries */
