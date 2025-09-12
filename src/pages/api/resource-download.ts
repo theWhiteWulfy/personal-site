@@ -1,9 +1,9 @@
 export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
-import { validateResourceForm, formatValidationErrors } from '@/lib/validation';
-import { performSecurityChecks } from '@/lib/security';
-import { insertResourceDownload, getDownloadStats, validateDatabaseConnection } from '@/lib/database';
+import { validateResourceForm, formatValidationErrors } from '@/lib/api/validation';
+import { performSecurityChecks } from '@/lib/api/security';
+import { insertResourceDownload, getDownloadStats, validateDatabaseConnection } from '@/lib/api/database';
 
 // TypeScript interfaces for request and response data
 interface ResourceDownloadRequest {
