@@ -4,8 +4,9 @@ import site from "../config/site";
 import Entry from "@components/Entry.astro";
 import { getCollection } from "astro:content";
 import style from "../styles/archive.module.css";
+import landingStyle from "../styles/landing.module.css";
 import { Image } from "astro:assets";
-import coverimage from "../images/avatar5.png";
+import coverimage from "../images/avatar5-nobg.png";
 import { readingTime } from "@lib/utils";
 
 const data1 = (await getCollection("notes"))
@@ -35,19 +36,20 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
   .slice(0, 6);
 ---
 
-<Layout 
+<Layout
   description={site.description}
   pageType="home"
   includeLocalBusiness={true}
   path="/"
 >
   <main id="main" class={style.main}>
-    <div class={style.title}>
+    <div class={landingStyle.title}>
       <h1 class={style.heading}>
         <span>
           <strong>Automate Your Operations.</strong><br />
           <strong>Own Your Tools.</strong><br />
-          I help creative agencies and teams integrate AI workflows & open-source solutions to reclaim thousands of productive hours.
+          I help creative agencies and teams integrate AI workflows & open-source
+          solutions to reclaim thousands of productive hours.
         </span>
       </h1>
       <!-- <div class={style.intro}>
@@ -62,8 +64,8 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
         src={coverimage}
         alt="Cover showing aside profile of Alok Prateek"
         loading="eager"
-        class={style.cover}
-        style="background-color: var(--input-background-color)"
+        class={landingStyle.cover}
+        style="background-color: transparent"
       />
     </div>
     <div class={style.content}>
@@ -223,4 +225,6 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
       </div>
     </div>
   </main>
+
+
 </Layout>

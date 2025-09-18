@@ -1,0 +1,49 @@
+.title {
+    @media (--medium-down) {
+        width: calc(100% - 2rem);
+        max-width: var(--container-width);
+        margin-left: auto;
+        margin-right: auto;
+
+        .cover {
+            display: none;
+        }
+    }
+
+    @media (--large-up) {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+        box-sizing: border-box;
+        background-color: #6b46c1;
+        /* Fallback purple */
+        background-image: url("../images/avatar5-bg.png");
+        background-repeat: repeat;
+        background-size: cover;
+        background-position: left;
+
+        @supports (display: grid) {
+            display: grid;
+            grid-template-columns: 0.5fr minmax(auto, var(--container-width)) auto;
+            grid-template-areas: ". content image";
+            gap: 1rem;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        &>*:first-child {
+            grid-area: content;
+        }
+
+        img {
+            grid-area: image;
+            max-height: 58vh;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            justify-self: end;
+        }
+    }
+}
