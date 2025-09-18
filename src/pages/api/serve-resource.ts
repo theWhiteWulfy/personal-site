@@ -1,7 +1,7 @@
 export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
-import { validateDatabaseConnection, getDownloadById } from '@/lib/database';
+import { validateDatabaseConnection, getDownloadById } from '@/lib/api/database';
 
 // Token configuration
 const TOKEN_EXPIRY_MINUTES = 30; // Tokens expire after 30 minutes
