@@ -32,7 +32,7 @@
   }
 
   &:hover {
-    background-color: color-mod(var(--button-background-color) tint(25%));
+    background-color: var(--button-background-color);
     color: var(--button-text-color);
     text-decoration: none;
   }
@@ -323,7 +323,7 @@ p > .gatsby-resp-image-wrapper {
     margin: 0;
     padding: calc(0.5 * 30px) 0;
     background: var(--border-color);
-    color: color-mod(var(--text-color) tint(25%));
+    color: var(--text-color);
     font-family: var(--monospace-font);
     font-size: 30px;
     line-height: 0;
