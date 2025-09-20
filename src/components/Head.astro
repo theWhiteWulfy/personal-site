@@ -208,24 +208,6 @@ const {
 <!-- Fontsource fonts are bundled and optimized during build with proper font-display: swap -->
 <!-- Manual preloading of hashed font files would require dynamic resolution -->
 
-<!-- Preload critical images -->
-<link rel="preload" href={metaImage.src} as="image" />
-<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
-
-<!-- Conditional preload for service-specific assets -->
-{pageType === 'service' && (
-  <link rel="preload" href="/images/theme/alok-logo.png" as="image" />
-)}
-
-<!-- Conditional preload for home page hero image -->
-{pageType === 'home' && (
-  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
-)}
-
-<!-- Conditional preload for campaign page assets -->
-{pageType === 'campaign' && (
-  <link rel="preload" href="/images/theme/alok-logo.png" as="image" fetchpriority="high" />
-)}
 
 <link
     rel="alternate"
