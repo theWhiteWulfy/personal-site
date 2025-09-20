@@ -18,6 +18,30 @@ import {
   type AnalyticsConfig 
 } from '@lib/analytics';
 
+/**
+ * Props for the Head component.
+ * @property {string} title - The title of the page.
+ * @property {string} description - The description of the page.
+ * @property {string} [image] - The image for the page.
+ * @property {string} [datePublished] - The date the page was published.
+ * @property {string} dateModified - The date the page was last modified.
+ * @property {object} [metaImage] - The meta image for the page.
+ * @property {string} metaImage.src - The source of the meta image.
+ * @property {string} metaImage.height - The height of the meta image.
+ * @property {string} metaImage.width - The width of the meta image.
+ * @property {string} [path] - The path of the page.
+ * @property {boolean} [article] - Whether the page is an article.
+ * @property {object} [author] - The author of the page.
+ * @property {string} author.name - The name of the author.
+ * @property {string} [author.url] - The URL of the author's profile.
+ * @property {'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default'} [pageType] - The type of the page.
+ * @property {ServiceData} [serviceData] - Data for a service page.
+ * @property {FAQData[]} [faqs] - Data for an FAQ page.
+ * @property {CampaignData} [campaignData] - Data for a campaign page.
+ * @property {boolean} [includeBreadcrumbs] - Whether to include breadcrumbs.
+ * @property {boolean} [includeLocalBusiness] - Whether to include local business schema.
+ * @property {string[]} [keywords] - Keywords for the page.
+ */
 interface Props {
   title: string;
   description: string;
@@ -427,7 +451,10 @@ const {
   ga4MeasurementId: analyticsConfig.ga4.measurementId,
   clarityProjectId: analyticsConfig.clarity.projectId
 }}>
-  // Analytics consent and opt-out management
+  /**
+   * Checks if the user has given consent for analytics tracking.
+   * @returns {boolean} True if consent is given or not required, false otherwise.
+   */
   function checkAnalyticsConsent() {
     if (!requireConsent) return true;
     
@@ -442,6 +469,10 @@ const {
     }
   }
 
+  /**
+   * Checks if the user has opted out of analytics tracking.
+   * @returns {boolean} True if the user has opted out, false otherwise.
+   */
   function hasOptedOut() {
     try {
       const optOutCookie = document.cookie
@@ -454,6 +485,10 @@ const {
     }
   }
 
+  /**
+   * Sets the user's consent for analytics tracking.
+   * @param {boolean} consent - True to give consent, false to withdraw it.
+   */
   function setAnalyticsConsent(consent) {
     try {
       const expires = new Date();
@@ -473,6 +508,10 @@ const {
     }
   }
 
+  /**
+   * Sets the user's preference for opting out of analytics tracking.
+   * @param {boolean} optOut - True to opt out, false to opt in.
+   */
   function setOptOutPreference(optOut) {
     try {
       const expires = new Date();
@@ -490,7 +529,11 @@ const {
     }
   }
 
-  // Enhanced event tracking for engagement
+  /**
+   * Tracks an engagement event with Google Analytics and Microsoft Clarity.
+   * @param {string} eventName - The name of the event to track.
+   * @param {object} parameters - The parameters to send with the event.
+   */
   function trackEngagementEvent(eventName, parameters) {
     if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
       return;
@@ -515,6 +558,11 @@ const {
     }
   }
 
+  /**
+   * Tracks a conversion event with Google Analytics and Microsoft Clarity.
+   * @param {string} eventName - The name of the event to track.
+   * @param {object} parameters - The parameters to send with the event.
+   */
   function trackConversionEvent(eventName, parameters) {
     if (hasOptedOut() || (requireConsent && !checkAnalyticsConsent())) {
       return;
@@ -599,10 +647,18 @@ const {
 
 <!-- Copy code button functionality - deferred for performance -->
 <script is:inline defer>
+  /**
+   * Adds a "copy" button to all code blocks on the page.
+   */
   function addCopyCodeButtons() {
     let copyButtonLabel = "✂️ copy";
     let codeBlocks = Array.from(document.querySelectorAll("pre"));
 
+    /**
+     * Copies the code from a code block to the clipboard.
+     * @param {HTMLElement} codeBlock - The code block to copy from.
+     * @param {HTMLElement} copyButton - The button that was clicked.
+     */
     async function copyCode(codeBlock, copyButton) {
         const codeText = codeBlock.innerText;
         const buttonText = copyButton.innerText;
@@ -651,12 +707,20 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
       console: 'Use analyticsDebugger.runFullTestSuite() in console'
     }
   }}>
-    // Analytics Testing Utilities (Development Only)
+    /**
+     * A class for debugging analytics integration in development mode.
+     */
     class AnalyticsDebugger {
+      /**
+       * Creates an instance of AnalyticsDebugger.
+       */
       constructor() {
         this.setupDebugConsole();
       }
 
+      /**
+       * Runs a full suite of analytics tests.
+       */
       runFullTestSuite() {
         console.log('🚀 Running Analytics Test Suite');
         console.log('================================');
@@ -672,6 +736,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.log('📊 Testing Guide:', testingGuide);
       }
 
+      /**
+       * Tests the Google Analytics 4 integration.
+       */
       testGA4Integration() {
         console.group('🔍 Testing GA4 Integration');
         
@@ -699,6 +766,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Tests the Microsoft Clarity integration.
+       */
       testClarityIntegration() {
         console.group('🔍 Testing Microsoft Clarity Integration');
         
@@ -717,6 +787,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Tests the phone click tracking functionality.
+       */
       testPhoneClickTracking() {
         console.group('🔍 Testing Phone Click Tracking');
         
@@ -737,6 +810,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Tests the email click tracking functionality.
+       */
       testEmailClickTracking() {
         console.group('🔍 Testing Email Click Tracking');
         
@@ -755,6 +831,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Tests the form tracking functionality.
+       */
       testFormTracking() {
         console.group('🔍 Testing Form Tracking');
         
@@ -773,6 +852,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Tests the privacy compliance functionality.
+       */
       testPrivacyCompliance() {
         console.group('🔍 Testing Privacy Compliance');
         
@@ -796,6 +878,9 @@ document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
         console.groupEnd();
       }
 
+      /**
+       * Sets up the analytics debugger in the console.
+       */
       setupDebugConsole() {
         window.analyticsDebugger = this;
         

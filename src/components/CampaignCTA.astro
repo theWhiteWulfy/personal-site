@@ -1,4 +1,21 @@
 ---
+/**
+ * Props for the CampaignCTA component.
+ * @property {string} campaignSlug - The slug of the campaign.
+ * @property {string} title - The title for the CTA section.
+ * @property {string} subtitle - The subtitle for the CTA section.
+ * @property {string} ctaText - The text for the call-to-action button.
+ * @property {object} offer - An object containing details about the offer.
+ * @property {string} offer.originalValue - The original price of the offer.
+ * @property {string} offer.discountedValue - The discounted price of the offer.
+ * @property {string} offer.savings - The savings amount or percentage.
+ * @property {string} offer.urgency - A short text creating urgency (e.g., "Limited Time Offer").
+ * @property {string} offer.validUntil - The expiration date of the offer in ISO format.
+ * @property {"campaign-signup" | "consultation-request" | "download-request"} formType - The type of form to display.
+ * @property {"primary" | "secondary" | "minimal"} [variant="primary"] - The visual variant of the CTA.
+ * @property {boolean} [showOffer=true] - Whether to show the offer details.
+ * @property {string} [trackingId] - A unique ID for tracking the form.
+ */
 interface Props {
   campaignSlug: string;
   title: string;
@@ -254,8 +271,17 @@ const formId = `campaign-form-${campaignSlug}`;
 
 <!-- Campaign CTA JavaScript -->
 <script>
+  /**
+   * Initializes the Campaign CTA component.
+   * This function handles form submission, including sending data to an API,
+   * displaying success/error messages, and tracking analytics events.
+   */
   function initCampaignCTA() {
-    // Helper function to safely call gtag
+    /**
+     * Helper function to safely call the gtag function for analytics tracking.
+     * @param {string} eventName - The name of the event to track.
+     * @param {object} parameters - The parameters to send with the event.
+     */
     const trackEvent = (eventName: string, parameters: any) => {
       if (typeof (window as any).gtag === "function") {
         (window as any).gtag("event", eventName, parameters);

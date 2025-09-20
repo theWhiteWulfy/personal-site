@@ -1,7 +1,14 @@
 // Analytics Configuration and Types
 // Provides TypeScript interfaces for GA4 and Microsoft Clarity integration
 
-// Google Analytics 4 Configuration
+/**
+ * Interface for Google Analytics 4 configuration.
+ * @property {string} measurementId - The GA4 measurement ID.
+ * @property {boolean} enhancedMeasurement - Whether to enable enhanced measurement.
+ * @property {string[]} conversionEvents - A list of conversion events.
+ * @property {Record<string, string>} [customDimensions] - Custom dimensions for GA4.
+ * @property {Record<string, string>} [customMetrics] - Custom metrics for GA4.
+ */
 export interface GA4Config {
   measurementId: string;
   enhancedMeasurement: boolean;
@@ -10,7 +17,14 @@ export interface GA4Config {
   customMetrics?: Record<string, string>;
 }
 
-// Microsoft Clarity Configuration
+/**
+ * Interface for Microsoft Clarity configuration.
+ * @property {string} projectId - The Clarity project ID.
+ * @property {boolean} enableHeatmaps - Whether to enable heatmaps.
+ * @property {boolean} enableRecordings - Whether to enable recordings.
+ * @property {'strict' | 'balanced' | 'relaxed'} privacyMode - The privacy mode for Clarity.
+ * @property {boolean} cookieConsent - Whether to require cookie consent for Clarity.
+ */
 export interface ClarityConfig {
   projectId: string;
   enableHeatmaps: boolean;
@@ -19,7 +33,15 @@ export interface ClarityConfig {
   cookieConsent: boolean;
 }
 
-// Privacy Configuration
+/**
+ * Interface for privacy configuration.
+ * @property {boolean} enableOptOut - Whether to enable the opt-out feature.
+ * @property {boolean} cookieConsentRequired - Whether cookie consent is required.
+ * @property {number} dataRetentionDays - The number of days to retain data.
+ * @property {boolean} anonymizeIp - Whether to anonymize IP addresses.
+ * @property {boolean} respectDoNotTrack - Whether to respect the Do Not Track header.
+ * @property {string} consentStorageKey - The key for storing consent in local storage.
+ */
 export interface PrivacyConfig {
   enableOptOut: boolean;
   cookieConsentRequired: boolean;
@@ -29,7 +51,14 @@ export interface PrivacyConfig {
   consentStorageKey: string;
 }
 
-// Analytics Event Base Interface
+/**
+ * Base interface for an analytics event.
+ * @property {string} event_name - The name of the event.
+ * @property {Record<string, any>} event_parameters - The parameters for the event.
+ * @property {Date} [timestamp] - The timestamp of the event.
+ * @property {string} [user_id] - The user ID.
+ * @property {string} [session_id] - The session ID.
+ */
 export interface AnalyticsEvent {
   event_name: string;
   event_parameters: Record<string, any>;
@@ -38,7 +67,15 @@ export interface AnalyticsEvent {
   session_id?: string;
 }
 
-// Phone Click Event Interface
+/**
+ * Interface for a phone click event.
+ * @property {'phone_click'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {string} event_parameters.phone_number - The phone number that was clicked.
+ * @property {string} event_parameters.click_location - The location of the click (e.g., header, footer).
+ * @property {string} event_parameters.page_url - The URL of the page where the click occurred.
+ * @property {string} event_parameters.page_title - The title of the page where the click occurred.
+ */
 export interface PhoneClickEvent extends AnalyticsEvent {
   event_name: 'phone_click';
   event_parameters: {
@@ -49,7 +86,17 @@ export interface PhoneClickEvent extends AnalyticsEvent {
   };
 }
 
-// Form Submission Event Interface
+/**
+ * Interface for a form submission event.
+ * @property {'form_submit'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {'contact' | 'newsletter' | 'resource_download'} event_parameters.form_type - The type of the form.
+ * @property {string} event_parameters.form_location - The location of the form on the page.
+ * @property {string} event_parameters.page_url - The URL of the page where the form was submitted.
+ * @property {string} event_parameters.page_title - The title of the page where the form was submitted.
+ * @property {boolean} event_parameters.success - Whether the form submission was successful.
+ * @property {string} [event_parameters.error_message] - The error message if the submission failed.
+ */
 export interface FormSubmissionEvent extends AnalyticsEvent {
   event_name: 'form_submit';
   event_parameters: {
@@ -62,7 +109,17 @@ export interface FormSubmissionEvent extends AnalyticsEvent {
   };
 }
 
-// Resource Download Event Interface
+/**
+ * Interface for a resource download event.
+ * @property {'resource_download'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {string} event_parameters.resource_name - The name of the resource.
+ * @property {'pdf' | 'guide' | 'template' | 'checklist'} event_parameters.resource_type - The type of the resource.
+ * @property {'form_gate' | 'direct_link'} event_parameters.download_method - The method used to download the resource.
+ * @property {string} event_parameters.page_url - The URL of the page where the download occurred.
+ * @property {string} event_parameters.page_title - The title of the page where the download occurred.
+ * @property {string} [event_parameters.user_email] - The user's email address if provided through a form.
+ */
 export interface ResourceDownloadEvent extends AnalyticsEvent {
   event_name: 'resource_download';
   event_parameters: {
@@ -75,7 +132,16 @@ export interface ResourceDownloadEvent extends AnalyticsEvent {
   };
 }
 
-// Conversion Event Interface
+/**
+ * Interface for a conversion event.
+ * @property {'conversion'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {'phone_click' | 'form_submit' | 'resource_download' | 'email_click'} event_parameters.conversion_type - The type of the conversion.
+ * @property {number} [event_parameters.conversion_value] - The value of the conversion.
+ * @property {string} [event_parameters.currency] - The currency of the conversion value.
+ * @property {string} event_parameters.page_url - The URL of the page where the conversion occurred.
+ * @property {string} event_parameters.page_title - The title of the page where the conversion occurred.
+ */
 export interface ConversionEvent extends AnalyticsEvent {
   event_name: 'conversion';
   event_parameters: {
@@ -87,7 +153,16 @@ export interface ConversionEvent extends AnalyticsEvent {
   };
 }
 
-// Page View Event Interface
+/**
+ * Interface for a page view event.
+ * @property {'page_view'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {string} event_parameters.page_title - The title of the page.
+ * @property {string} event_parameters.page_location - The URL of the page.
+ * @property {string} [event_parameters.content_group1] - The primary content group of the page.
+ * @property {string} [event_parameters.content_group2] - The secondary content group of the page.
+ * @property {string} [event_parameters.custom_parameter] - A custom parameter for the event.
+ */
 export interface PageViewEvent extends AnalyticsEvent {
   event_name: 'page_view';
   event_parameters: {
@@ -99,7 +174,15 @@ export interface PageViewEvent extends AnalyticsEvent {
   };
 }
 
-// Email Click Event Interface
+/**
+ * Interface for an email click event.
+ * @property {'email_click'} event_name - The name of the event.
+ * @property {object} event_parameters - The parameters for the event.
+ * @property {string} event_parameters.email_address - The email address that was clicked.
+ * @property {string} event_parameters.click_location - The location of the click (e.g., header, footer).
+ * @property {string} event_parameters.page_url - The URL of the page where the click occurred.
+ * @property {string} event_parameters.page_title - The title of the page where the click occurred.
+ */
 export interface EmailClickEvent extends AnalyticsEvent {
   event_name: 'email_click';
   event_parameters: {
@@ -110,7 +193,9 @@ export interface EmailClickEvent extends AnalyticsEvent {
   };
 }
 
-// Union type for all event types
+/**
+ * A union type for all possible tracking events.
+ */
 export type TrackingEvent =
   | PhoneClickEvent
   | FormSubmissionEvent
@@ -119,18 +204,56 @@ export type TrackingEvent =
   | PageViewEvent
   | EmailClickEvent;
 
-// Analytics Provider Interface
+/**
+ * Interface for an analytics provider.
+ * This interface defines the methods that an analytics provider must implement.
+ */
 export interface AnalyticsProvider {
+  /**
+   * Initializes the analytics provider.
+   * @returns {Promise<void>} A promise that resolves when the provider is initialized.
+   */
   initialize(): Promise<void>;
+  /**
+   * Tracks an event.
+   * @param {TrackingEvent} event - The event to track.
+   * @returns {Promise<void>} A promise that resolves when the event is tracked.
+   */
   trackEvent(event: TrackingEvent): Promise<void>;
+  /**
+   * Tracks a page view.
+   * @param {PageViewEvent} event - The page view event to track.
+   * @returns {Promise<void>} A promise that resolves when the page view is tracked.
+   */
   trackPageView(event: PageViewEvent): Promise<void>;
+  /**
+   * Sets the user ID for the analytics provider.
+   * @param {string} userId - The user ID.
+   */
   setUserId(userId: string): void;
+  /**
+   * Opts the user out of tracking.
+   */
   optOut(): void;
+  /**
+   * Opts the user in to tracking.
+   */
   optIn(): void;
+  /**
+   * Checks if the user has opted out of tracking.
+   * @returns {boolean} True if the user has opted out, false otherwise.
+   */
   isOptedOut(): boolean;
 }
 
-// Combined Analytics Configuration
+/**
+ * Interface for the combined analytics configuration.
+ * @property {GA4Config} ga4 - The Google Analytics 4 configuration.
+ * @property {ClarityConfig} clarity - The Microsoft Clarity configuration.
+ * @property {PrivacyConfig} privacy - The privacy configuration.
+ * @property {boolean} enabled - Whether analytics is enabled.
+ * @property {boolean} debug - Whether to enable debug mode for analytics.
+ */
 export interface AnalyticsConfiguration {
   ga4: GA4Config;
   clarity: ClarityConfig;
@@ -139,7 +262,14 @@ export interface AnalyticsConfiguration {
   debug: boolean;
 }
 
-// Consent Status Interface
+/**
+ * Interface for the consent status.
+ * @property {boolean} analytics - Whether analytics tracking is enabled.
+ * @property {boolean} marketing - Whether marketing tracking is enabled.
+ * @property {boolean} functional - Whether functional tracking is enabled.
+ * @property {Date} timestamp - The timestamp of when the consent was given.
+ * @property {string} version - The version of the consent.
+ */
 export interface ConsentStatus {
   analytics: boolean;
   marketing: boolean;
@@ -148,7 +278,13 @@ export interface ConsentStatus {
   version: string;
 }
 
-// Analytics Error Interface
+/**
+ * Interface for an analytics error.
+ * @property {'ga4' | 'clarity' | 'general'} provider - The analytics provider that produced the error.
+ * @property {Error} error - The error object.
+ * @property {TrackingEvent} [event] - The event that caused the error.
+ * @property {Date} timestamp - The timestamp of the error.
+ */
 export interface AnalyticsError {
   provider: 'ga4' | 'clarity' | 'general';
   error: Error;
@@ -156,7 +292,12 @@ export interface AnalyticsError {
   timestamp: Date;
 }
 
-// Event Queue Interface for offline support
+/**
+ * Interface for an event queue for offline support.
+ * @property {TrackingEvent[]} events - The events in the queue.
+ * @property {number} maxSize - The maximum size of the queue.
+ * @property {number} flushInterval - The interval in milliseconds at which to flush the queue.
+ */
 export interface EventQueue {
   events: TrackingEvent[];
   maxSize: number;
@@ -170,16 +311,29 @@ declare global {
   }
 }
 
+/**
+ * A class for interacting with Google Analytics 4.
+ * @implements {AnalyticsProvider}
+ */
 export class GA4Analytics implements AnalyticsProvider {
   private config: GA4Config;
   private privacyConfig: PrivacyConfig;
   private initialized = false;
 
+  /**
+   * Creates an instance of GA4Analytics.
+   * @param {GA4Config} config - The GA4 configuration.
+   * @param {PrivacyConfig} privacyConfig - The privacy configuration.
+   */
   constructor(config: GA4Config, privacyConfig: PrivacyConfig) {
     this.config = config;
     this.privacyConfig = privacyConfig;
   }
 
+  /**
+   * Initializes the GA4 analytics provider.
+   * @returns {Promise<void>} A promise that resolves when the provider is initialized.
+   */
   async initialize(): Promise<void> {
     if (this.initialized || this.isOptedOut()) {
       return;
@@ -222,6 +376,11 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Tracks an event with GA4.
+   * @param {TrackingEvent} event - The event to track.
+   * @returns {Promise<void>} A promise that resolves when the event is tracked.
+   */
   async trackEvent(event: TrackingEvent): Promise<void> {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -234,6 +393,11 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Tracks a page view with GA4.
+   * @param {PageViewEvent} event - The page view event to track.
+   * @returns {Promise<void>} A promise that resolves when the page view is tracked.
+   */
   async trackPageView(event: PageViewEvent): Promise<void> {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -251,6 +415,10 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Sets the user ID for GA4.
+   * @param {string} userId - The user ID.
+   */
   setUserId(userId: string): void {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -265,6 +433,9 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Opts the user out of GA4 tracking.
+   */
   optOut(): void {
     localStorage.setItem(this.privacyConfig.consentStorageKey, 'false');
     if (typeof window !== 'undefined' && window.gtag) {
@@ -275,6 +446,9 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Opts the user in to GA4 tracking.
+   */
   optIn(): void {
     localStorage.setItem(this.privacyConfig.consentStorageKey, 'true');
     if (typeof window !== 'undefined' && window.gtag) {
@@ -285,6 +459,10 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Checks if the user has opted out of GA4 tracking.
+   * @returns {boolean} True if the user has opted out, false otherwise.
+   */
   isOptedOut(): boolean {
     if (typeof window === 'undefined') return true;
 
@@ -298,7 +476,10 @@ export class GA4Analytics implements AnalyticsProvider {
     return consent === 'false';
   }
 
-  // Conversion tracking functions
+  /**
+   * Tracks a conversion event with GA4.
+   * @param {ConversionEvent} conversionEvent - The conversion event to track.
+   */
   trackConversion(conversionEvent: ConversionEvent): void {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -318,7 +499,11 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
-  // Phone click tracking
+  /**
+   * Tracks a phone click event with GA4.
+   * @param {string} phoneNumber - The phone number that was clicked.
+   * @param {string} location - The location of the click (e.g., header, footer).
+   */
   trackPhoneClick(phoneNumber: string, location: string): void {
     const event: PhoneClickEvent = {
       event_name: 'phone_click',
@@ -344,7 +529,13 @@ export class GA4Analytics implements AnalyticsProvider {
     });
   }
 
-  // Form submission tracking
+  /**
+   * Tracks a form submission event with GA4.
+   * @param {string} formType - The type of the form.
+   * @param {string} formLocation - The location of the form on the page.
+   * @param {boolean} success - Whether the form submission was successful.
+   * @param {string} [errorMessage] - The error message if the submission failed.
+   */
   trackFormSubmission(formType: string, formLocation: string, success: boolean, errorMessage?: string): void {
     const event: FormSubmissionEvent = {
       event_name: 'form_submit',
@@ -374,7 +565,13 @@ export class GA4Analytics implements AnalyticsProvider {
     }
   }
 
-  // Resource download tracking
+  /**
+   * Tracks a resource download event with GA4.
+   * @param {string} resourceName - The name of the resource.
+   * @param {string} resourceType - The type of the resource.
+   * @param {string} downloadMethod - The method used to download the resource.
+   * @param {string} [userEmail] - The user's email address if provided through a form.
+   */
   trackResourceDownload(resourceName: string, resourceType: string, downloadMethod: string, userEmail?: string): void {
     const event: ResourceDownloadEvent = {
       event_name: 'resource_download',
@@ -402,7 +599,11 @@ export class GA4Analytics implements AnalyticsProvider {
     });
   }
 
-  // Email click tracking
+  /**
+   * Tracks an email click event with GA4.
+   * @param {string} emailAddress - The email address that was clicked.
+   * @param {string} location - The location of the click (e.g., header, footer).
+   */
   trackEmailClick(emailAddress: string, location: string): void {
     const event: EmailClickEvent = {
       event_name: 'email_click',
@@ -428,17 +629,29 @@ export class GA4Analytics implements AnalyticsProvider {
     });
   }
 }
-// Microsoft Clarity Analytics Implementation
+/**
+ * A class for interacting with Microsoft Clarity.
+ * @implements {AnalyticsProvider}
+ */
 export class ClarityAnalytics implements AnalyticsProvider {
   private config: ClarityConfig;
   private privacyConfig: PrivacyConfig;
   private initialized = false;
 
+  /**
+   * Creates an instance of ClarityAnalytics.
+   * @param {ClarityConfig} config - The Clarity configuration.
+   * @param {PrivacyConfig} privacyConfig - The privacy configuration.
+   */
   constructor(config: ClarityConfig, privacyConfig: PrivacyConfig) {
     this.config = config;
     this.privacyConfig = privacyConfig;
   }
 
+  /**
+   * Initializes the Clarity analytics provider.
+   * @returns {Promise<void>} A promise that resolves when the provider is initialized.
+   */
   async initialize(): Promise<void> {
     if (this.initialized || this.isOptedOut()) {
       return;
@@ -464,6 +677,11 @@ export class ClarityAnalytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Tracks an event with Clarity.
+   * @param {TrackingEvent} event - The event to track.
+   * @returns {Promise<void>} A promise that resolves when the event is tracked.
+   */
   async trackEvent(event: TrackingEvent): Promise<void> {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -478,6 +696,11 @@ export class ClarityAnalytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Tracks a page view with Clarity.
+   * @param {PageViewEvent} event - The page view event to track.
+   * @returns {Promise<void>} A promise that resolves when the page view is tracked.
+   */
   async trackPageView(event: PageViewEvent): Promise<void> {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -493,6 +716,10 @@ export class ClarityAnalytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Sets the user ID for Clarity.
+   * @param {string} userId - The user ID.
+   */
   setUserId(userId: string): void {
     if (!this.initialized || this.isOptedOut()) {
       return;
@@ -507,14 +734,24 @@ export class ClarityAnalytics implements AnalyticsProvider {
     }
   }
 
+  /**
+   * Opts the user out of Clarity tracking.
+   */
   optOut(): void {
     localStorage.setItem(this.privacyConfig.consentStorageKey, 'false');
   }
 
+  /**
+   * Opts the user in to Clarity tracking.
+   */
   optIn(): void {
     localStorage.setItem(this.privacyConfig.consentStorageKey, 'true');
   }
 
+  /**
+   * Checks if the user has opted out of Clarity tracking.
+   * @returns {boolean} True if the user has opted out, false otherwise.
+   */
   isOptedOut(): boolean {
     if (typeof window === 'undefined') return true;
 
@@ -529,12 +766,18 @@ export class ClarityAnalytics implements AnalyticsProvider {
   }
 }
 
-// Combined Analytics Manager
+/**
+ * A class for managing multiple analytics providers.
+ */
 export class AnalyticsManager {
   private ga4: GA4Analytics | null = null;
   private clarity: ClarityAnalytics | null = null;
   private config: AnalyticsConfiguration;
 
+  /**
+   * Creates an instance of AnalyticsManager.
+   * @param {AnalyticsConfiguration} config - The combined analytics configuration.
+   */
   constructor(config: AnalyticsConfiguration) {
     this.config = config;
 
@@ -547,6 +790,10 @@ export class AnalyticsManager {
     }
   }
 
+  /**
+   * Initializes all analytics providers.
+   * @returns {Promise<void>} A promise that resolves when all providers are initialized.
+   */
   async initialize(): Promise<void> {
     if (!this.config.enabled) {
       return;
@@ -565,6 +812,11 @@ export class AnalyticsManager {
     }
   }
 
+  /**
+   * Tracks an event with all analytics providers.
+   * @param {TrackingEvent} event - The event to track.
+   * @returns {Promise<void>} A promise that resolves when the event is tracked.
+   */
   async trackEvent(event: TrackingEvent): Promise<void> {
     if (!this.config.enabled) {
       return;
@@ -583,30 +835,57 @@ export class AnalyticsManager {
     }
   }
 
+  /**
+   * Tracks a phone click event with all analytics providers.
+   * @param {string} phoneNumber - The phone number that was clicked.
+   * @param {string} location - The location of the click (e.g., header, footer).
+   */
   trackPhoneClick(phoneNumber: string, location: string): void {
     if (this.ga4) {
       this.ga4.trackPhoneClick(phoneNumber, location);
     }
   }
 
+  /**
+   * Tracks a form submission event with all analytics providers.
+   * @param {string} formType - The type of the form.
+   * @param {string} formLocation - The location of the form on the page.
+   * @param {boolean} success - Whether the form submission was successful.
+   * @param {string} [errorMessage] - The error message if the submission failed.
+   */
   trackFormSubmission(formType: string, formLocation: string, success: boolean, errorMessage?: string): void {
     if (this.ga4) {
       this.ga4.trackFormSubmission(formType, formLocation, success, errorMessage);
     }
   }
 
+  /**
+   * Tracks a resource download event with all analytics providers.
+   * @param {string} resourceName - The name of the resource.
+   * @param {string} resourceType - The type of the resource.
+   * @param {string} downloadMethod - The method used to download the resource.
+   * @param {string} [userEmail] - The user's email address if provided through a form.
+   */
   trackResourceDownload(resourceName: string, resourceType: string, downloadMethod: string, userEmail?: string): void {
     if (this.ga4) {
       this.ga4.trackResourceDownload(resourceName, resourceType, downloadMethod, userEmail);
     }
   }
 
+  /**
+   * Tracks an email click event with all analytics providers.
+   * @param {string} emailAddress - The email address that was clicked.
+   * @param {string} location - The location of the click (e.g., header, footer).
+   */
   trackEmailClick(emailAddress: string, location: string): void {
     if (this.ga4) {
       this.ga4.trackEmailClick(emailAddress, location);
     }
   }
 
+  /**
+   * Opts the user out of all analytics tracking.
+   */
   optOut(): void {
     if (this.ga4) {
       this.ga4.optOut();
@@ -616,6 +895,9 @@ export class AnalyticsManager {
     }
   }
 
+  /**
+   * Opts the user in to all analytics tracking.
+   */
   optIn(): void {
     if (this.ga4) {
       this.ga4.optIn();
@@ -626,7 +908,18 @@ export class AnalyticsManager {
   }
 }
 
-// Configuration helper functions
+/**
+ * Interface for the analytics configuration used by the `initializeAnalyticsConfig` function.
+ * @property {object} ga4 - The Google Analytics 4 configuration.
+ * @property {boolean} ga4.enabled - Whether GA4 is enabled.
+ * @property {boolean} ga4.anonymizeIp - Whether to anonymize IP addresses.
+ * @property {boolean} ga4.cookieConsent - Whether to require cookie consent.
+ * @property {boolean} ga4.trackingOptOut - Whether to enable the opt-out feature.
+ * @property {object} clarity - The Microsoft Clarity configuration.
+ * @property {boolean} clarity.enabled - Whether Clarity is enabled.
+ * @property {boolean} consentRequired - Whether consent is required for analytics.
+ * @property {string} optOutCookieName - The name of the opt-out cookie.
+ */
 export interface AnalyticsConfig {
   ga4: GA4Config & {
     enabled: boolean;
@@ -641,6 +934,11 @@ export interface AnalyticsConfig {
   optOutCookieName: string;
 }
 
+/**
+ * Initializes the analytics configuration from the site configuration.
+ * @param {any} siteConfig - The site configuration object.
+ * @returns {AnalyticsConfig} The analytics configuration.
+ */
 export function initializeAnalyticsConfig(siteConfig: any): AnalyticsConfig {
   const analytics = siteConfig.analytics || {};
 
@@ -677,16 +975,37 @@ export function initializeAnalyticsConfig(siteConfig: any): AnalyticsConfig {
 // Global analytics instance
 let globalAnalytics: AnalyticsManager | null = null;
 
+/**
+ * Gets the global analytics manager instance.
+ * @returns {AnalyticsManager | null} The global analytics manager instance.
+ */
 export function getAnalyticsInstance(): AnalyticsManager | null {
   return globalAnalytics;
 }
 
+/**
+ * Initializes the global analytics manager instance.
+ * @param {AnalyticsConfiguration} config - The combined analytics configuration.
+ * @returns {AnalyticsManager} The global analytics manager instance.
+ */
 export function initializeGlobalAnalytics(config: AnalyticsConfiguration): AnalyticsManager {
   globalAnalytics = new AnalyticsManager(config);
   return globalAnalytics;
-}// Form tracking utilities for client-side use
+}/**
+ * An object that provides form tracking utilities for client-side use.
+ * @property {function} trackSubmission - Tracks a form submission.
+ * @property {function} trackFieldInteraction - Tracks a form field interaction.
+ * @property {function} trackValidationError - Tracks a form validation error.
+ * @property {function} trackAbandonment - Tracks form abandonment.
+ */
 export const FormTracker = {
-  // Track form submission with detailed parameters
+  /**
+   * Tracks a form submission.
+   * @param {string} formType - The type of the form.
+   * @param {string} formLocation - The location of the form on the page.
+   * @param {boolean} success - Whether the form submission was successful.
+   * @param {string} [errorMessage] - The error message if the submission failed.
+   */
   trackSubmission: (formType: string, formLocation: string, success: boolean, errorMessage?: string) => {
     if (typeof window === 'undefined') return;
 
@@ -718,7 +1037,12 @@ export const FormTracker = {
     }
   },
 
-  // Track form field interactions
+  /**
+   * Tracks a form field interaction.
+   * @param {string} formType - The type of the form.
+   * @param {string} fieldName - The name of the field.
+   * @param {string} action - The action that was performed (e.g., focus, blur, change).
+   */
   trackFieldInteraction: (formType: string, fieldName: string, action: string) => {
     if (typeof window === 'undefined') return;
 
@@ -736,7 +1060,12 @@ export const FormTracker = {
     }
   },
 
-  // Track form validation errors
+  /**
+   * Tracks a form validation error.
+   * @param {string} formType - The type of the form.
+   * @param {string} fieldName - The name of the field.
+   * @param {string} errorType - The type of the validation error.
+   */
   trackValidationError: (formType: string, fieldName: string, errorType: string) => {
     if (typeof window === 'undefined') return;
 
@@ -754,7 +1083,12 @@ export const FormTracker = {
     }
   },
 
-  // Track form abandonment
+  /**
+   * Tracks form abandonment.
+   * @param {string} formType - The type of the form.
+   * @param {number} fieldsCompleted - The number of fields that were completed.
+   * @param {number} totalFields - The total number of fields in the form.
+   */
   trackAbandonment: (formType: string, fieldsCompleted: number, totalFields: number) => {
     if (typeof window === 'undefined') return;
 
@@ -774,8 +1108,18 @@ export const FormTracker = {
   }
 };
 
-// Newsletter form specific tracking
+/**
+ * An object that provides newsletter form tracking utilities.
+ * @property {function} trackSubscription - Tracks a newsletter subscription.
+ * @property {function} trackEmailValidation - Tracks an email validation error.
+ */
 export const NewsletterTracker = {
+  /**
+   * Tracks a newsletter subscription.
+   * @param {boolean} success - Whether the subscription was successful.
+   * @param {string} [email] - The user's email address.
+   * @param {string} [errorMessage] - The error message if the subscription failed.
+   */
   trackSubscription: (success: boolean, email?: string, errorMessage?: string) => {
     FormTracker.trackSubmission('newsletter', 'footer', success, errorMessage);
 
@@ -791,6 +1135,11 @@ export const NewsletterTracker = {
     }
   },
 
+  /**
+   * Tracks an email validation error.
+   * @param {boolean} isValid - Whether the email address is valid.
+   * @param {string} _email - The email address that was validated.
+   */
   trackEmailValidation: (isValid: boolean, _email: string) => {
     if (!isValid) {
       FormTracker.trackValidationError('newsletter', 'email', 'invalid_format');
@@ -798,8 +1147,18 @@ export const NewsletterTracker = {
   }
 };
 
-// Contact form specific tracking
+/**
+ * An object that provides contact form tracking utilities.
+ * @property {function} trackSubmission - Tracks a contact form submission.
+ * @property {function} trackFieldCompletion - Tracks a contact form field completion.
+ */
 export const ContactTracker = {
+  /**
+   * Tracks a contact form submission.
+   * @param {boolean} success - Whether the submission was successful.
+   * @param {any} [formData] - The form data.
+   * @param {string} [errorMessage] - The error message if the submission failed.
+   */
   trackSubmission: (success: boolean, formData?: any, errorMessage?: string) => {
     FormTracker.trackSubmission('contact', 'contact_page', success, errorMessage);
 
@@ -817,13 +1176,28 @@ export const ContactTracker = {
     }
   },
 
+  /**
+   * Tracks a contact form field completion.
+   * @param {string} fieldName - The name of the field that was completed.
+   */
   trackFieldCompletion: (fieldName: string) => {
     FormTracker.trackFieldInteraction('contact', fieldName, 'completed');
   }
 };
 
-// Resource download form tracking
+/**
+ * An object that provides resource download form tracking utilities.
+ * @property {function} trackDownloadRequest - Tracks a resource download request.
+ * @property {function} trackResourceAccess - Tracks a resource access.
+ */
 export const ResourceTracker = {
+  /**
+   * Tracks a resource download request.
+   * @param {string} resourceName - The name of the resource.
+   * @param {boolean} success - Whether the download request was successful.
+   * @param {any} [formData] - The form data.
+   * @param {string} [errorMessage] - The error message if the request failed.
+   */
   trackDownloadRequest: (resourceName: string, success: boolean, formData?: any, errorMessage?: string) => {
     FormTracker.trackSubmission('resource_download', 'resource_page', success, errorMessage);
 
@@ -841,6 +1215,11 @@ export const ResourceTracker = {
     }
   },
 
+  /**
+   * Tracks a resource access.
+   * @param {string} resourceName - The name of the resource.
+   * @param {string} resourceType - The type of the resource.
+   */
   trackResourceAccess: (resourceName: string, resourceType: string) => {
     if (typeof window !== 'undefined' && (window as any).trackEngagementEvent) {
       (window as any).trackEngagementEvent('resource_access', {
@@ -851,18 +1230,28 @@ export const ResourceTracker = {
     }
   }
 };
-// Privacy-compliant analytics initialization and consent management
+/**
+ * A class for managing user privacy and consent.
+ */
 export class PrivacyManager {
   private consentStorageKey: string;
   private optOutStorageKey: string;
   private consentVersion: string = '1.0';
 
+  /**
+   * Creates an instance of PrivacyManager.
+   * @param {string} [consentKey='meteoric_analytics_consent'] - The key for storing consent in local storage.
+   * @param {string} [optOutKey='meteoric_analytics_optout'] - The key for storing the opt-out preference in local storage.
+   */
   constructor(consentKey: string = 'meteoric_analytics_consent', optOutKey: string = 'meteoric_analytics_optout') {
     this.consentStorageKey = consentKey;
     this.optOutStorageKey = optOutKey;
   }
 
-  // Check if user has given consent
+  /**
+   * Checks if the user has given consent for analytics tracking.
+   * @returns {boolean} True if consent is given, false otherwise.
+   */
   hasConsent(): boolean {
     if (typeof window === 'undefined') return false;
 
@@ -881,7 +1270,10 @@ export class PrivacyManager {
     }
   }
 
-  // Check if user has opted out
+  /**
+   * Checks if the user has opted out of analytics tracking.
+   * @returns {boolean} True if the user has opted out, false otherwise.
+   */
   hasOptedOut(): boolean {
     if (typeof window === 'undefined') return true;
 
@@ -900,7 +1292,12 @@ export class PrivacyManager {
     }
   }
 
-  // Set user consent
+  /**
+   * Sets the user's consent for analytics tracking.
+   * @param {boolean} analytics - Whether to enable analytics tracking.
+   * @param {boolean} [marketing=false] - Whether to enable marketing tracking.
+   * @param {boolean} [functional=true] - Whether to enable functional tracking.
+   */
   setConsent(analytics: boolean, marketing: boolean = false, functional: boolean = true): void {
     if (typeof window === 'undefined') return;
 
@@ -933,7 +1330,10 @@ export class PrivacyManager {
     }
   }
 
-  // Set opt-out preference
+  /**
+   * Sets the user's preference for opting out of analytics tracking.
+   * @param {boolean} optOut - True to opt out, false to opt in.
+   */
   setOptOut(optOut: boolean): void {
     if (typeof window === 'undefined') return;
 
@@ -962,7 +1362,10 @@ export class PrivacyManager {
     }
   }
 
-  // Get current consent status
+  /**
+   * Gets the current consent status.
+   * @returns {ConsentStatus | null} The current consent status, or null if not set.
+   */
   getConsentStatus(): ConsentStatus | null {
     if (typeof window === 'undefined') return null;
 
@@ -975,12 +1378,17 @@ export class PrivacyManager {
     }
   }
 
-  // Check if analytics should be loaded
+  /**
+   * Checks if analytics should be loaded.
+   * @returns {boolean} True if analytics should be loaded, false otherwise.
+   */
   shouldLoadAnalytics(): boolean {
     return !this.hasOptedOut() && this.hasConsent();
   }
 
-  // Initialize consent mode for GA4
+  /**
+   * Initializes the consent mode for GA4.
+   */
   initializeConsentMode(): void {
     if (typeof window === 'undefined') return;
 
@@ -1012,7 +1420,11 @@ export class PrivacyManager {
     }
   }
 
-  // Trigger custom events for consent changes
+  /**
+   * Triggers a custom event to indicate that the consent has changed.
+   * @private
+   * @param {ConsentStatus} consentData - The new consent data.
+   */
   private triggerConsentChangeEvent(consentData: ConsentStatus): void {
     if (typeof window === 'undefined') return;
 
@@ -1026,6 +1438,11 @@ export class PrivacyManager {
     }
   }
 
+  /**
+   * Triggers a custom event to indicate that the opt-out preference has changed.
+   * @private
+   * @param {boolean} optedOut - The new opt-out preference.
+   */
   private triggerOptOutChangeEvent(optedOut: boolean): void {
     if (typeof window === 'undefined') return;
 
@@ -1039,7 +1456,9 @@ export class PrivacyManager {
     }
   }
 
-  // Clear all stored preferences (for testing or reset)
+  /**
+   * Clears all stored privacy preferences.
+   */
   clearAllPreferences(): void {
     if (typeof window === 'undefined') return;
 
@@ -1052,22 +1471,33 @@ export class PrivacyManager {
   }
 }
 
-// Cookie consent banner utilities
+/**
+ * A class for managing the cookie consent banner.
+ */
 export class ConsentBanner {
   private privacyManager: PrivacyManager;
   private bannerElement: HTMLElement | null = null;
   private isVisible: boolean = false;
 
+  /**
+   * Creates an instance of ConsentBanner.
+   * @param {PrivacyManager} privacyManager - The privacy manager instance.
+   */
   constructor(privacyManager: PrivacyManager) {
     this.privacyManager = privacyManager;
   }
 
-  // Check if banner should be shown
+  /**
+   * Checks if the consent banner should be shown.
+   * @returns {boolean} True if the banner should be shown, false otherwise.
+   */
   shouldShow(): boolean {
     return !this.privacyManager.hasConsent() && !this.privacyManager.hasOptedOut();
   }
 
-  // Create and show consent banner
+  /**
+   * Creates and shows the consent banner.
+   */
   show(): void {
     if (typeof window === 'undefined' || this.isVisible || !this.shouldShow()) {
       return;
@@ -1082,7 +1512,9 @@ export class ConsentBanner {
     }
   }
 
-  // Hide consent banner
+  /**
+   * Hides the consent banner.
+   */
   hide(): void {
     if (this.bannerElement) {
       this.bannerElement.remove();
@@ -1091,6 +1523,10 @@ export class ConsentBanner {
     }
   }
 
+  /**
+   * Creates the consent banner element.
+   * @private
+   */
   private createBannerElement(): void {
     const banner = document.createElement('div');
     banner.id = 'analytics-consent-banner';
@@ -1125,6 +1561,10 @@ export class ConsentBanner {
     this.bannerElement = banner;
   }
 
+  /**
+   * Attaches event listeners to the consent banner buttons.
+   * @private
+   */
   private attachEventListeners(): void {
     if (!this.bannerElement) return;
 
@@ -1148,12 +1588,20 @@ export class ConsentBanner {
     });
   }
 
+  /**
+   * Shows the customize consent modal.
+   * @private
+   */
   private showCustomizeModal(): void {
     // Implementation for detailed consent customization
     // This would show a modal with granular consent options
     console.log('Customize consent modal would be shown here');
   }
 
+  /**
+   * Reloads the analytics scripts after consent is given.
+   * @private
+   */
   private reloadAnalytics(): void {
     // Reload analytics after consent is given
     if (typeof window !== 'undefined' && (window as any).initializeAnalytics) {
@@ -1166,6 +1614,10 @@ export class ConsentBanner {
 let globalPrivacyManager: PrivacyManager | null = null;
 let globalConsentBanner: ConsentBanner | null = null;
 
+/**
+ * Gets the global privacy manager instance.
+ * @returns {PrivacyManager} The global privacy manager instance.
+ */
 export function getPrivacyManager(): PrivacyManager {
   if (!globalPrivacyManager) {
     globalPrivacyManager = new PrivacyManager();
@@ -1173,6 +1625,10 @@ export function getPrivacyManager(): PrivacyManager {
   return globalPrivacyManager;
 }
 
+/**
+ * Gets the global consent banner instance.
+ * @returns {ConsentBanner} The global consent banner instance.
+ */
 export function getConsentBanner(): ConsentBanner {
   if (!globalConsentBanner) {
     globalConsentBanner = new ConsentBanner(getPrivacyManager());
@@ -1180,7 +1636,10 @@ export function getConsentBanner(): ConsentBanner {
   return globalConsentBanner;
 }
 
-// Initialize privacy-compliant analytics
+/**
+ * Initializes privacy-compliant analytics.
+ * @param {any} siteConfig - The site configuration object.
+ */
 export function initializePrivacyCompliantAnalytics(siteConfig: any): void {
   if (typeof window === 'undefined') return;
 

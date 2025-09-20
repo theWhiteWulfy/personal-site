@@ -1,4 +1,20 @@
 ---
+/**
+ * Props for the CampaignHero component.
+ * @property {string} title - The main title of the campaign.
+ * @property {string} description - A short description of the campaign.
+ * @property {object} offer - An object containing details about the offer.
+ * @property {string} offer.originalValue - The original price of the offer.
+ * @property {string} offer.discountedValue - The discounted price of the offer.
+ * @property {string} offer.savings - The savings amount or percentage.
+ * @property {string} offer.urgency - A short text creating urgency (e.g., "Limited Time Offer").
+ * @property {string} offer.validUntil - The expiration date of the offer in ISO format.
+ * @property {string[]} benefits - A list of benefits for the campaign.
+ * @property {string} urgency - A short text describing the urgency of the offer.
+ * @property {number} daysRemaining - The number of days remaining for the offer.
+ * @property {string} ctaText - The text for the call-to-action button.
+ * @property {string} ctaHref - The href for the call-to-action button.
+ */
 interface Props {
   title: string;
   description: string;
@@ -129,9 +145,18 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
 
 <!-- Countdown Timer Script -->
 <script define:vars={{ validUntil: offer.validUntil }}>
+  /**
+   * Initializes the countdown timer.
+   * This function sets up an interval to update the timer every second.
+   */
   function initCountdownTimer() {
     const endDate = new Date(validUntil).getTime();
     
+    /**
+     * Updates the countdown timer display.
+     * This function calculates the time remaining and updates the DOM with the new values.
+     * If the timer has expired, it displays an "Offer Expired" message.
+     */
     function updateTimer() {
       const now = new Date().getTime();
       const timeLeft = endDate - now;

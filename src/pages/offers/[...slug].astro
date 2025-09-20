@@ -8,6 +8,13 @@ import { validateCampaignStatus, getCampaignUrgency } from '@/lib/campaign-utils
 
 // This page will be statically generated at build time
 
+/**
+ * Generates static paths for all active campaigns at build time.
+ * This function is required by Astro for static site generation (SSG).
+ * @param {object} context - The context object provided by Astro.
+ * @param {any} context.paginate - The pagination function provided by Astro (unused in this case).
+ * @returns {Promise<Array<object>>} A promise that resolves to an array of objects, each containing `params` and `props` for a campaign page.
+ */
 export async function getStaticPaths({ paginate }: { paginate: any }) {
   // Define available campaigns
   // In production, this would come from the database
@@ -351,7 +358,12 @@ const _campaignSchemas = generatePageSchema({
 
   <!-- Enhanced Campaign Analytics Script -->
   <script define:vars={{ campaignSlug: campaign.slug, campaignTitle: campaign.title, campaignType: campaign.campaignType, campaignStatus: campaign.status, daysRemaining, offerValue: campaign.offer.discountedValue, offerSavings: campaign.offer.savings, urgencyLevel }}>
-    // Initialize campaign analytics
+    /**
+     * Initializes the analytics for the campaign page.
+     * This function captures UTM parameters, sets up session tracking,
+     * and sends page view and engagement events to Google Analytics.
+     * It also sends tracking data to a custom API endpoint.
+     */
     function initCampaignAnalytics() {
       // Capture UTM parameters and store them for the session
       const urlParams = new URLSearchParams(window.location.search);
@@ -459,6 +471,11 @@ const _campaignSchemas = generatePageSchema({
       let scrollMilestones = [25, 50, 75, 90];
       let trackedMilestones = [];
 
+      /**
+       * Tracks the user's scroll depth on the page and sends an event to Google Analytics
+       * when specific milestones (25%, 50%, 75%, 90%) are reached.
+       * This function is throttled to avoid performance issues.
+       */
       function trackScrollDepth() {
         const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
         maxScroll = Math.max(maxScroll, scrollPercent);

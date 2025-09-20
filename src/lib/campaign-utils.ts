@@ -3,6 +3,18 @@
  * Helper functions for campaign management and expiration handling
  */
 
+/**
+ * Interface for a campaign object.
+ * @property {number} id - The unique identifier for the campaign.
+ * @property {string} slug - The URL-friendly slug for the campaign.
+ * @property {string} title - The title of the campaign.
+ * @property {string} [description] - A description of the campaign.
+ * @property {string} start_date - The start date of the campaign in ISO format.
+ * @property {string} [end_date] - The end date of the campaign in ISO format.
+ * @property {'active' | 'paused' | 'expired'} status - The status of the campaign.
+ * @property {string} created_at - The creation date of the campaign in ISO format.
+ * @property {string} updated_at - The last update date of the campaign in ISO format.
+ */
 export interface Campaign {
   id: number;
   slug: string;
@@ -15,6 +27,15 @@ export interface Campaign {
   updated_at: string;
 }
 
+/**
+ * Interface for the result of a campaign validation check.
+ * @property {boolean} isValid - Whether the campaign is valid.
+ * @property {boolean} isExpired - Whether the campaign is expired.
+ * @property {boolean} isActive - Whether the campaign is currently active.
+ * @property {number} daysRemaining - The number of days remaining for the campaign.
+ * @property {Campaign} [campaign] - The campaign object if it is valid.
+ * @property {string} [redirectUrl] - The URL to redirect to if the campaign is not valid.
+ */
 export interface CampaignValidationResult {
   isValid: boolean;
   isExpired: boolean;
@@ -25,7 +46,10 @@ export interface CampaignValidationResult {
 }
 
 /**
- * Check if a campaign is expired and update its status if needed
+ * Checks if a campaign is expired and updates its status in the database if necessary.
+ * @param {any} DB - The database connection object.
+ * @param {string} campaignSlug - The slug of the campaign to validate.
+ * @returns {Promise<CampaignValidationResult>} A promise that resolves to an object containing the validation result.
  */
 export async function validateCampaignStatus(
   DB: any, 
@@ -115,7 +139,9 @@ export async function validateCampaignStatus(
 }
 
 /**
- * Get all campaigns that need status updates
+ * Retrieves all active campaigns that have expired but have not yet been updated in the database.
+ * @param {any} DB - The database connection object.
+ * @returns {Promise<Campaign[]>} A promise that resolves to an array of expired campaign objects.
  */
 export async function getExpiredCampaigns(DB: any): Promise<Campaign[]> {
   try {
@@ -138,7 +164,9 @@ export async function getExpiredCampaigns(DB: any): Promise<Campaign[]> {
 }
 
 /**
- * Bulk update expired campaigns
+ * Bulk updates the status of all expired campaigns to "expired".
+ * @param {any} DB - The database connection object.
+ * @returns {Promise<number>} A promise that resolves to the number of campaigns that were updated.
  */
 export async function updateExpiredCampaigns(DB: any): Promise<number> {
   try {
@@ -167,7 +195,10 @@ export async function updateExpiredCampaigns(DB: any): Promise<number> {
 }
 
 /**
- * Get campaign analytics summary
+ * Retrieves a summary of analytics for a given campaign.
+ * @param {any} DB - The database connection object.
+ * @param {string} campaignSlug - The slug of the campaign to get a summary for.
+ * @returns {Promise<any>} A promise that resolves to an object containing the campaign summary, or null if the campaign is not found.
  */
 export async function getCampaignSummary(DB: any, campaignSlug: string): Promise<any> {
   try {
@@ -232,7 +263,9 @@ export async function getCampaignSummary(DB: any, campaignSlug: string): Promise
 }
 
 /**
- * Generate campaign redirect rules for expired campaigns
+ * Generates an array of redirect rules for all expired campaigns.
+ * @param {any} DB - The database connection object.
+ * @returns {Promise<string[]>} A promise that resolves to an array of redirect rules.
  */
 export async function generateCampaignRedirects(DB: any): Promise<string[]> {
   try {
@@ -257,7 +290,9 @@ export async function generateCampaignRedirects(DB: any): Promise<string[]> {
 }
 
 /**
- * Validate campaign data for creation/updates
+ * Validates campaign data for creation or updates.
+ * @param {Partial<Campaign>} data - The campaign data to validate.
+ * @returns {{isValid: boolean; errors: string[]}} An object containing a boolean indicating if the data is valid and an array of error messages.
  */
 export function validateCampaignData(data: Partial<Campaign>): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
@@ -311,7 +346,9 @@ export function validateCampaignData(data: Partial<Campaign>): { isValid: boolea
 }
 
 /**
- * Format campaign for API response
+ * Formats a campaign object for an API response.
+ * @param {any} campaign - The campaign object to format.
+ * @returns {Campaign} The formatted campaign object.
  */
 export function formatCampaignResponse(campaign: any): Campaign {
   return {
@@ -328,7 +365,9 @@ export function formatCampaignResponse(campaign: any): Campaign {
 }
 
 /**
- * Get campaign urgency level based on days remaining
+ * Determines the urgency level of a campaign based on the number of days remaining.
+ * @param {number} daysRemaining - The number of days remaining for the campaign.
+ * @returns {'critical' | 'high' | 'medium' | 'low'} The urgency level.
  */
 export function getCampaignUrgency(daysRemaining: number): 'critical' | 'high' | 'medium' | 'low' {
   if (daysRemaining <= 1) return 'critical';
@@ -338,7 +377,10 @@ export function getCampaignUrgency(daysRemaining: number): 'critical' | 'high' |
 }
 
 /**
- * Generate campaign tracking parameters
+ * Generates a record of UTM tracking parameters for a campaign.
+ * @param {string} campaignSlug - The slug of the campaign.
+ * @param {string} [source] - The source of the campaign traffic.
+ * @returns {Record<string, string>} A record of UTM tracking parameters.
  */
 export function generateTrackingParams(campaignSlug: string, source?: string): Record<string, string> {
   return {
