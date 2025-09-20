@@ -1,5 +1,19 @@
 @import './icon.module.css';
 
+.btnGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btnGroup a {
+  flex: 1;
+  text-align: center;
+  min-width: 200px;
+}
+
+
 .title {
   @media (--medium-down) {
     width: calc(100% - 2rem);

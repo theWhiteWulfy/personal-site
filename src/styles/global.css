@@ -280,6 +280,7 @@ p > .gatsby-resp-image-wrapper {
     background: var(--input-background-color);
     border: 1px solid var(--input-background-color);
     border-radius: 0.25em;
+    appearance: none;
     -webkit-appearance: none;
 
     &:focus:required {
