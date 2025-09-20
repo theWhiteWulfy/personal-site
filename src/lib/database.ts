@@ -1,13 +1,6 @@
 /**
- * Database operations for resource tracking with performance monitoring
+ * Database operations for resource tracking
  */
-
-import { 
-  executeOptimizedQuery, 
-  executeOptimizedQueryAll, 
-  executeOptimizedWrite,
-  dbConnectionManager 
-} from './database-performance';
 
 export interface ResourceDownloadRecord {
   id?: number;
@@ -59,7 +52,6 @@ export async function insertResourceDownload(
 ): Promise<{ success: boolean; id?: number; isDuplicate?: boolean }> {
   try {
     validateDatabaseConnection(DB);
-    const connection = dbConnectionManager.getConnection(DB);
     
     // Check for existing download within the last 24 hours to prevent duplicates
     const duplicateCheckQuery = `
@@ -69,15 +61,11 @@ export async function insertResourceDownload(
       LIMIT 1
     `;
     
-    const existingRecord = await executeOptimizedQuery<{id: number}>(
-      connection,
-      'duplicate_check_resource_download',
-      duplicateCheckQuery,
-      [record.email, record.resource_name]
-    );
+    const existingRecord = await DB.prepare(duplicateCheckQuery)
+      .bind(record.email, record.resource_name)
+      .first() as {id: number} | null;
     
     if (existingRecord) {
-      dbConnectionManager.trackQuery('default', true);
       return {
         success: true,
         isDuplicate: true,
@@ -92,11 +80,8 @@ export async function insertResourceDownload(
       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
     `;
     
-    const result = await executeOptimizedWrite(
-      connection,
-      'insert_resource_download',
-      insertQuery,
-      [
+    const result = await DB.prepare(insertQuery)
+      .bind(
         record.email,
         record.name,
         record.workplace,
@@ -104,15 +89,13 @@ export async function insertResourceDownload(
         record.resource_name,
         record.ip_address || null,
         record.user_agent || null
-      ]
-    );
+      )
+      .run();
     
     if (!result.success) {
-      dbConnectionManager.trackQuery('default', false);
       throw new Error('Failed to insert resource download record');
     }
     
-    dbConnectionManager.trackQuery('default', true);
     return {
       success: true,
       id: result.meta.last_row_id,
@@ -120,7 +103,6 @@ export async function insertResourceDownload(
     };
     
   } catch (error) {
-    dbConnectionManager.trackQuery('default', false);
     const dbError = error as DatabaseError;
     dbError.query = 'insertResourceDownload';
     console.error('Database insert error:', dbError);
@@ -141,40 +123,29 @@ export async function getDownloadStats(
 ): Promise<DownloadStats> {
   try {
     validateDatabaseConnection(DB);
-    const connection = dbConnectionManager.getConnection(DB);
     
     const { limit = 10, resourceFilter, dateRange } = options;
     
     // Build date filter condition
     let dateCondition = '';
-    let dateParams: string[] = [];
+    let dateParams: (string | number)[] = [];
     
     if (dateRange) {
-      dateCondition = 'AND download_timestamp BETWEEN ?1 AND ?2';
+      dateCondition = 'AND download_timestamp BETWEEN ? AND ?';
       dateParams = [dateRange.start, dateRange.end];
     }
     
-    // Get total downloads count with optimized query
+    // Get total downloads count
     const totalQuery = `SELECT COUNT(*) as total FROM resource_downloads WHERE 1=1 ${dateCondition}`;
-    const totalResult = await executeOptimizedQuery<{total: number}>(
-      connection,
-      'get_total_downloads',
-      totalQuery,
-      dateParams
-    );
+    const totalResult = await DB.prepare(totalQuery).bind(...dateParams).first() as {total: number} | null;
     const totalDownloads = totalResult?.total || 0;
     
-    // Get unique users count with optimized query
+    // Get unique users count
     const uniqueUsersQuery = `SELECT COUNT(DISTINCT email) as unique_users FROM resource_downloads WHERE 1=1 ${dateCondition}`;
-    const uniqueUsersResult = await executeOptimizedQuery<{unique_users: number}>(
-      connection,
-      'get_unique_users',
-      uniqueUsersQuery,
-      dateParams
-    );
+    const uniqueUsersResult = await DB.prepare(uniqueUsersQuery).bind(...dateParams).first() as {unique_users: number} | null;
     const uniqueUsers = uniqueUsersResult?.unique_users || 0;
     
-    // Get resource breakdown with optimized query
+    // Get resource breakdown
     const resourceBreakdownQuery = `
       SELECT resource_name, COUNT(*) as download_count 
       FROM resource_downloads 
@@ -182,14 +153,10 @@ export async function getDownloadStats(
       GROUP BY resource_name 
       ORDER BY download_count DESC
     `;
-    const resourceBreakdown = await executeOptimizedQueryAll<{resource_name: string; download_count: number}>(
-      connection,
-      'get_resource_breakdown',
-      resourceBreakdownQuery,
-      dateParams
-    );
+    const resourceBreakdownResult = await DB.prepare(resourceBreakdownQuery).bind(...dateParams).all();
+    const resourceBreakdown = resourceBreakdownResult.results || [];
     
-    // Get recent downloads with optimized query
+    // Get recent downloads
     let recentDownloadsQuery = `
       SELECT email, name, resource_name, download_timestamp 
       FROM resource_downloads 
@@ -199,31 +166,24 @@ export async function getDownloadStats(
     let recentParams = [...dateParams];
     
     if (resourceFilter) {
-      recentDownloadsQuery += ` AND resource_name = ?${dateParams.length + 1}`;
+      recentDownloadsQuery += ` AND resource_name = ?`;
       recentParams.push(resourceFilter);
     }
     
-    recentDownloadsQuery += ` ORDER BY download_timestamp DESC LIMIT ?${recentParams.length + 1}`;
-    recentParams.push(limit.toString());
+    recentDownloadsQuery += ` ORDER BY download_timestamp DESC LIMIT ?`;
+    recentParams.push(limit);
     
-    const recentDownloads = await executeOptimizedQueryAll<{email: string; name: string; resource_name: string; download_timestamp: string}>(
-      connection,
-      'get_recent_downloads',
-      recentDownloadsQuery,
-      recentParams
-    );
-    
-    dbConnectionManager.trackQuery('default', true);
+    const recentDownloadsResult = await DB.prepare(recentDownloadsQuery).bind(...recentParams).all();
+    const recentDownloads = recentDownloadsResult.results || [];
     
     return {
       totalDownloads,
       uniqueUsers,
-      resourceBreakdown: resourceBreakdown.results || [],
-      recentDownloads: recentDownloads.results || []
+      resourceBreakdown,
+      recentDownloads
     };
     
   } catch (error) {
-    dbConnectionManager.trackQuery('default', false);
     const dbError = error as DatabaseError;
     dbError.query = 'getDownloadStats';
     console.error('Database stats error:', dbError);

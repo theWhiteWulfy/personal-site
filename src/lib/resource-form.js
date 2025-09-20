@@ -249,6 +249,7 @@ class ResourceFormValidator {
     try {
       // Prepare form data
       const formData = new FormData(this.form);
+      const formDataObject = Object.fromEntries(formData.entries());
       
       // Submit to API
       const response = await fetch('/api/resource-download', {
@@ -270,7 +271,7 @@ class ResourceFormValidator {
         
         // Handle download URL if provided
         if (result.downloadUrl) {
-          this.handleDownloadUrl(result.downloadUrl);
+          this.handleDownloadUrl(result.downloadUrl, formDataObject);
         }
         
         // Reset form after successful submission
@@ -299,7 +300,7 @@ class ResourceFormValidator {
     }
   }
 
-  handleDownloadUrl(downloadUrl) {
+  handleDownloadUrl(downloadUrl, formData) {
     // Create download link and trigger download
     setTimeout(() => {
       const link = document.createElement('a');
@@ -316,7 +317,7 @@ class ResourceFormValidator {
         resourceCategory: this.resourceCategory,
         sessionId: this.sessionId,
         resourceValue: this.getResourceValue()
-      });
+      }, formData);
       
       this.showGlobalMessage('Your download has started! The file should appear in your downloads folder.');
     }, 1000);
