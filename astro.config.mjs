@@ -19,6 +19,10 @@ export default defineConfig({
   },
   vite: {
     logLevel: 'warn',
+    ssr: {
+      external: ['fs', 'path'],
+      noExternal: ['sharp']
+    },
     build: {
       rollupOptions: {
         // Exclude specific files from the build

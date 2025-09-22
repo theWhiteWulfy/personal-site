@@ -21,6 +21,7 @@ type Props = {
   metaImageWidth?: string,
   path?: string,
   article?: boolean,
+  coverImage?: string,
   authorname?: string,
   authorurl?: string,
   pageType?: 'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default';
@@ -50,8 +51,20 @@ const {
   includeBreadcrumbs,
   includeLocalBusiness,
   keywords,
+  coverImage
   } = Astro.props;
-  
+
+import generateOgImage from '../utils/generateOgImage.js';
+import { slugify } from '../lib/slugify.mjs';
+
+if (import.meta.env.PROD && !coverImage && title) {
+  const slug = slugify(title);
+  await generateOgImage({
+    title,
+    slug,
+    relativeUrl: Astro.url.pathname,
+  });
+}
 ---
 
 <!doctype html>
