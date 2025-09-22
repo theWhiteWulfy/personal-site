@@ -13,16 +13,6 @@ export interface ResourceTrackingConfig {
   sessionId?: string;
 }
 
-// Database logging interface
-export interface AnalyticsLogEntry {
-  event_type: string;
-  event_data: Record<string, any>;
-  timestamp: string;
-  user_id?: string;
-  session_id?: string;
-  ip_address?: string;
-  user_agent?: string;
-}
 
 /**
  * Track resource form submission event
@@ -139,51 +129,6 @@ export function trackResourcePageView(resourceName: string, resourceCategory: st
   }
 }
 
-/**
- * Log analytics event to database for reporting
- */
-export async function logAnalyticsEvent(
-  eventType: string,
-  eventData: Record<string, any>,
-  options: {
-    userId?: string;
-    sessionId?: string;
-    ipAddress?: string;
-    userAgent?: string;
-  } = {}
-): Promise<boolean> {
-  try {
-    const logEntry: AnalyticsLogEntry = {
-      event_type: eventType,
-      event_data: eventData,
-      timestamp: new Date().toISOString(),
-      user_id: options.userId,
-      session_id: options.sessionId,
-      ip_address: options.ipAddress,
-      user_agent: options.userAgent
-    };
-
-    // In a real implementation, you would send this to your analytics API
-    // For now, we'll just log it to console and localStorage for debugging
-    console.log('Analytics event logged:', logEntry);
-    
-    // Store in localStorage for debugging (remove in production)
-    const existingLogs = JSON.parse(localStorage.getItem('analytics_logs') || '[]');
-    existingLogs.push(logEntry);
-    
-    // Keep only last 100 entries
-    if (existingLogs.length > 100) {
-      existingLogs.splice(0, existingLogs.length - 100);
-    }
-    
-    localStorage.setItem('analytics_logs', JSON.stringify(existingLogs));
-    
-    return true;
-  } catch (error) {
-    console.error('Failed to log analytics event:', error);
-    return false;
-  }
-}
 
 /**
  * Generate session ID for tracking
@@ -233,17 +178,9 @@ export function getSessionId(): string {
  */
 export function trackResourceFunnel(
   step: 'page_view' | 'form_start' | 'form_submit' | 'download_complete',
-  config: ResourceTrackingConfig
+  config: ResourceTrackingConfig,
+  formData?: Record<string, any>
 ): void {
-  const sessionId = getSessionId();
-  const funnelData = {
-    ...config,
-    sessionId,
-    step,
-    timestamp: new Date().toISOString(),
-    page_url: typeof window !== 'undefined' ? window.location.href : ''
-  };
-
   // Track in GA4
   switch (step) {
     case 'page_view':
@@ -264,12 +201,18 @@ export function trackResourceFunnel(
     case 'download_complete':
       trackResourceDownload(config);
       trackLeadConversion(config);
+
+      // Send detailed lead data to Google Analytics
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'resource_lead', {
+          ...formData,
+          resource_name: config.resourceName,
+          resource_category: config.resourceCategory,
+          resource_value: config.resourceValue,
+          event_category: 'resource_engagement',
+          event_label: `Lead: ${config.resourceName}`
+        });
+      }
       break;
   }
-
-  // Log to database
-  logAnalyticsEvent(`resource_funnel_${step}`, funnelData, {
-    sessionId,
-    userId: config.userId
-  });
 }

@@ -2,6 +2,7 @@
 import Layout from '@layouts/Layout.astro';
 import ResourceHero from '@components/ResourceHero.astro';
 import ResourceForm from '@components/ResourceForm.astro';
+import styles from '@styles/resources-page.module.css';
 import { generatePageSchema } from '@/lib/schema-generators';
 import type { ResourceData } from '@/lib/schema-generators';
 
@@ -142,7 +143,7 @@ const schemas = generatePageSchema({
   path={canonicalUrl}
   pageType="default"
 >
-  <main class="resource-page">
+  <main class={styles['resource-page']}>
     <ResourceHero 
       title={title}
       description={description}
@@ -151,8 +152,8 @@ const schemas = generatePageSchema({
       ctaText="Get Your Free Copy"
     />
 
-    <section class="resource-form-section" id="resource-form">
-      <div class="form-container">
+    <section class={styles['resource-form-section']} id="resource-form">
+      <div class={styles['form-container']}>
         <ResourceForm 
           resourceName={slug}
           formTitle="Download Your Free Resource"
@@ -162,30 +163,30 @@ const schemas = generatePageSchema({
       </div>
     </section>
 
-    <section class="resource-details">
-      <div class="details-container">
-        <div class="details-content">
+    <section class={styles['resource-details']}>
+      <div class={styles['details-container']}>
+        <div class={styles['details-content']}>
           <h2>About This Resource</h2>
           <p>
             This comprehensive resource has been carefully crafted to provide you with actionable insights 
             and practical strategies that you can implement immediately in your business.
           </p>
           
-          <div class="resource-features">
-            <div class="feature-grid">
-              <div class="feature-item">
+          <div class={styles['resource-features']}>
+            <div class={styles['feature-grid']}>
+              <div class={styles['feature-item']}>
                 <h3>Practical Content</h3>
                 <p>Real-world strategies and frameworks you can implement today.</p>
               </div>
-              <div class="feature-item">
+              <div class={styles['feature-item']}>
                 <h3>Expert Insights</h3>
                 <p>Based on years of experience helping businesses optimize their processes.</p>
               </div>
-              <div class="feature-item">
+              <div class={styles['feature-item']}>
                 <h3>Actionable Steps</h3>
                 <p>Clear, step-by-step instructions with checklists and templates.</p>
               </div>
-              <div class="feature-item">
+              <div class={styles['feature-item']}>
                 <h3>Proven Results</h3>
                 <p>Strategies that have been tested and proven to deliver measurable outcomes.</p>
               </div>
@@ -197,116 +198,3 @@ const schemas = generatePageSchema({
     </section>
   </main>
 </Layout>
-
-<style>
-  .resource-page {
-    min-height: 100vh;
-  }
-
-  .resource-form-section {
-    padding: 4rem 0;
-    background-color: var(--input-background-color);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .form-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .resource-details {
-    padding: 4rem 0;
-    background-color: var(--background-color);
-  }
-
-  .details-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  .details-content {
-    max-width: var(--text-width);
-    margin: 0 auto;
-  }
-
-  .details-content h2 {
-    font-size: var(--text-3xl);
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 1.5rem 0;
-    font-family: var(--serif-font);
-    text-align: center;
-  }
-
-  .details-content > p {
-    font-size: var(--text-lg);
-    line-height: var(--line-height);
-    color: var(--muted-text-color);
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .resource-features {
-    margin: 3rem 0;
-  }
-
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .feature-item {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: var(--input-background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-  }
-
-  .feature-item h3 {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0 0 0.75rem 0;
-    font-family: var(--serif-font);
-  }
-
-  .feature-item p {
-    font-size: var(--text-base);
-    line-height: var(--line-height);
-    color: var(--muted-text-color);
-    margin: 0;
-  }
-
-  /* Responsive design */
-  @media (max-width: 767px) {
-    .resource-form-section,
-    .resource-details {
-      padding: 2rem 0;
-    }
-
-    .form-container,
-    .details-container {
-      padding: 0 1rem;
-    }
-
-    .details-content h2 {
-      font-size: var(--text-2xl);
-    }
-
-    .feature-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .feature-item {
-      padding: 1rem;
-    }
-
-  }
-</style>
