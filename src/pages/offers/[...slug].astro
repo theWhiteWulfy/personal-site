@@ -147,13 +147,13 @@ interface Props {
 const { slug } = Astro.params;
 let { campaign } = Astro.props;
 
-// Check if campaign exists and is valid
+// Check if campaign exists
 if (!campaign) {
   console.error(`Campaign not found for slug: ${slug}`);
   return Astro.redirect('/404', 404);
 }
 
-// Simple date validation
+// Simple date validation and campaign status check
 const now = new Date();
 const endDate = new Date(campaign.endDate);
 
@@ -162,16 +162,16 @@ if (isNaN(endDate.getTime())) {
   return Astro.redirect('/500', 500);
 }
 
-// For development, skip expiration check
-if (import.meta.env.DEV) {
-  console.log(`[DEV] Loading campaign: ${slug}`);
-} else {
-  // In production, check if campaign is active
-  const isExpired = now > endDate;
-  if (isExpired || campaign.status !== 'active') {
-    console.log(`Expired/inactive campaign accessed: ${slug} at ${now.toISOString()}`);
-    return Astro.redirect(`/offers/expired?campaign=${encodeURIComponent(slug)}&title=${encodeURIComponent(campaign.title)}`, 301);
-  }
+// Check campaign validity but don't redirect - just disable CTA
+const isExpired = now > endDate;
+const isActive = campaign.status === "active";
+const isValidCampaign = isActive && !isExpired;
+
+// Log campaign status for monitoring
+if (!isValidCampaign) {
+  console.log(
+    `Invalid campaign accessed: ${slug} - expired: ${isExpired}, status: ${campaign.status} at ${now.toISOString()}`,
+  );
 }
 
 // Calculate time remaining for urgency (these will be used in the template)
@@ -192,17 +192,19 @@ const campaignSchemaData: CampaignData = {
   url: `${Astro.site}${canonicalUrl}`,
   startDate: campaign.startDate,
   endDate: campaign.endDate,
-  offers: [{
-    '@type': 'Offer',
-    name: campaign.title,
-    description: campaign.description,
-    price: campaign.offer.discountedValue,
-    priceCurrency: 'INR',
-    validThrough: campaign.endDate,
-    availability: 'https://schema.org/InStock'
-  }],
+  offers: [
+    {
+      "@type": "Offer",
+      name: campaign.title,
+      description: campaign.description,
+      price: campaign.offer.discountedValue,
+      priceCurrency: "INR",
+      validThrough: campaign.endDate,
+      availability: "https://schema.org/InStock",
+    },
+  ],
   keywords: campaign.keywords,
-  targetAudience: campaign.targetAudience
+  targetAudience: campaign.targetAudience,
 };
 
 // Generate schemas for the campaign page
@@ -215,7 +217,7 @@ const _campaignSchemas = generatePageSchema({
   dateModified: new Date().toISOString(),
   campaignData: campaignSchemaData,
   includeBreadcrumbs: true,
-  includeLocalBusiness: true
+  includeLocalBusiness: true,
 });
 
 // These variables are now calculated above
@@ -242,8 +244,9 @@ const _campaignSchemas = generatePageSchema({
       benefits={campaign.benefits}
       urgency={campaign.offer.urgency}
       daysRemaining={daysRemaining}
-      ctaText="Claim Your Offer Now"
-      ctaHref="#campaign-form"
+      ctaText={isValidCampaign ? "Claim Your Offer Now" : "Offer Expired"}
+      ctaHref={isValidCampaign ? "#campaign-form" : "#"}
+      disabled={!isValidCampaign}
     />
 
     <section class="campaign-results" id="what-you-get">
@@ -254,15 +257,17 @@ const _campaignSchemas = generatePageSchema({
             <div class="results-info">
               <h3>Delivery Timeline</h3>
               <p class="timeline">{campaign.results.timeframe}</p>
-              
+
               <h3>What's Included</h3>
               <ul class="deliverables-list">
-                {campaign.results.deliverables.map(deliverable => (
-                  <li>{deliverable}</li>
-                ))}
+                {
+                  campaign.results.deliverables.map((deliverable) => (
+                    <li>{deliverable}</li>
+                  ))
+                }
               </ul>
             </div>
-            
+
             <div class="value-proposition">
               <h3>Why This Offer?</h3>
               <p>
@@ -288,35 +293,45 @@ const _campaignSchemas = generatePageSchema({
       <div class="testimonials-container">
         <h2>Success Stories</h2>
         <div class="testimonials-grid">
-          {campaign.testimonials.map(testimonial => (
-            <div class="testimonial-card">
-              <blockquote>
-                <p>"{testimonial.quote}"</p>
-              </blockquote>
-              <div class="testimonial-author">
-                <div class="author-info">
-                  <cite class="author-name">{testimonial.name}</cite>
-                  <span class="author-company">{testimonial.company}</span>
-                </div>
-                <div class="result-badge">
-                  {testimonial.result}
+          {
+            campaign.testimonials.map((testimonial) => (
+              <div class="testimonial-card">
+                <blockquote>
+                  <p>"{testimonial.quote}"</p>
+                </blockquote>
+                <div class="testimonial-author">
+                  <div class="author-info">
+                    <cite class="author-name">{testimonial.name}</cite>
+                    <span class="author-company">{testimonial.company}</span>
+                  </div>
+                  <div class="result-badge">{testimonial.result}</div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </section>
 
     <section class="campaign-cta-section" id="campaign-form">
       <div class="cta-container">
-        <CampaignCTA 
+        <CampaignCTA
           campaignSlug={campaign.slug}
-          title="Ready to Transform Your Business?"
-          subtitle={`${campaign.offer.urgency} - Only ${daysRemaining} days left!`}
-          ctaText="Get Started Now"
+          title={isValidCampaign
+            ? "Ready to Transform Your Business?"
+            : "This Offer Has Ended"}
+          subtitle={isValidCampaign
+            ? `${campaign.offer.urgency} - Only ${daysRemaining} days left!`
+            : "Thank you for your interest in this campaign"}
+          ctaText={isValidCampaign ? "Get Started Now" : "Offer Expired"}
           offer={campaign.offer}
           formType="campaign-signup"
+          disabled={!isValidCampaign}
+          expiredMessage={!isValidCampaign
+            ? isExpired
+              ? "This offer has expired"
+              : "This campaign is currently unavailable"
+            : undefined}
         />
       </div>
     </section>
@@ -327,22 +342,38 @@ const _campaignSchemas = generatePageSchema({
         <div class="faq-grid">
           <div class="faq-item">
             <h3>How long does the process take?</h3>
-            <p>The complete analysis and report delivery takes {campaign.results.timeframe}. You'll receive regular updates throughout the process.</p>
+            <p>
+              The complete analysis and report delivery takes {
+                campaign.results.timeframe
+              }. You'll receive regular updates throughout the process.
+            </p>
           </div>
-          
+
           <div class="faq-item">
             <h3>What if I'm not satisfied with the results?</h3>
-            <p>We offer a 100% satisfaction guarantee. If you're not completely satisfied with the insights and recommendations, we'll provide a full refund.</p>
+            <p>
+              We offer a 100% satisfaction guarantee. If you're not completely
+              satisfied with the insights and recommendations, we'll provide a
+              full refund.
+            </p>
           </div>
-          
+
           <div class="faq-item">
             <h3>Do you work with businesses of all sizes?</h3>
-            <p>Yes, we work with businesses from startups to enterprises. Our recommendations are tailored to your specific business size, industry, and budget.</p>
+            <p>
+              Yes, we work with businesses from startups to enterprises. Our
+              recommendations are tailored to your specific business size,
+              industry, and budget.
+            </p>
           </div>
-          
+
           <div class="faq-item">
             <h3>Will you help with implementation?</h3>
-            <p>Absolutely! The audit includes implementation guidance, and we offer priority support for putting the recommendations into action.</p>
+            <p>
+              Absolutely! The audit includes implementation guidance, and we
+              offer priority support for putting the recommendations into
+              action.
+            </p>
           </div>
         </div>
       </div>
@@ -350,7 +381,20 @@ const _campaignSchemas = generatePageSchema({
   </main>
 
   <!-- Enhanced Campaign Analytics Script -->
-  <script define:vars={{ campaignSlug: campaign.slug, campaignTitle: campaign.title, campaignType: campaign.campaignType, campaignStatus: campaign.status, daysRemaining, offerValue: campaign.offer.discountedValue, offerSavings: campaign.offer.savings, urgencyLevel }}>
+  <script
+    define:vars={{
+      campaignSlug: campaign.slug,
+      campaignTitle: campaign.title,
+      campaignType: campaign.campaignType,
+      campaignStatus: campaign.status,
+      daysRemaining,
+      offerValue: campaign.offer.discountedValue,
+      offerSavings: campaign.offer.savings,
+      urgencyLevel,
+      isValidCampaign,
+      isExpired,
+    }}
+  >
     // Initialize campaign analytics
     function initCampaignAnalytics() {
       // Capture UTM parameters and store them for the session
@@ -367,8 +411,11 @@ const _campaignSchemas = generatePageSchema({
       };
 
       // Store UTM parameters in sessionStorage for persistence
-      if (Object.values(utmParams).some(value => value !== null)) {
-        sessionStorage.setItem('campaign_utm_params', JSON.stringify(utmParams));
+      if (Object.values(utmParams).some((value) => value !== null)) {
+        sessionStorage.setItem(
+          "campaign_utm_params",
+          JSON.stringify(utmParams),
+        );
       }
 
       // Initialize session tracking
@@ -398,6 +445,8 @@ const _campaignSchemas = generatePageSchema({
           offer_value: offerValue,
           offer_savings: offerSavings,
           urgency_level: urgencyLevel,
+          is_valid_campaign: isValidCampaign,
+          is_expired: isExpired,
           utm_source: utmParams.utm_source,
           utm_medium: utmParams.utm_medium,
           utm_campaign: utmParams.utm_campaign,
@@ -419,7 +468,7 @@ const _campaignSchemas = generatePageSchema({
           days_remaining: daysRemaining,
           utm_source: utmParams.utm_source,
           utm_medium: utmParams.utm_medium,
-          utm_campaign: utmParams.utm_campaign
+          utm_campaign: utmParams.utm_campaign,
         });
 
         // Track campaign funnel entry
@@ -428,7 +477,7 @@ const _campaignSchemas = generatePageSchema({
           funnel_step: 'landing_page',
           utm_source: utmParams.utm_source,
           utm_medium: utmParams.utm_medium,
-          utm_campaign: utmParams.utm_campaign
+          utm_campaign: utmParams.utm_campaign,
         });
       }
 
@@ -447,11 +496,6 @@ const _campaignSchemas = generatePageSchema({
       visitData.append('page_url', window.location.href);
 
       // Send to campaign visit API (non-blocking)
-      fetch('/api/campaign-visit', {
-        method: 'POST',
-        body: visitData
-      }).catch(error => {
-        console.warn('Campaign visit tracking failed:', error);
       });
 
       // Set up scroll tracking for engagement
@@ -460,11 +504,17 @@ const _campaignSchemas = generatePageSchema({
       let trackedMilestones = [];
 
       function trackScrollDepth() {
-        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        const scrollPercent = Math.round(
+          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+            100,
+        );
         maxScroll = Math.max(maxScroll, scrollPercent);
 
-        scrollMilestones.forEach(milestone => {
-          if (scrollPercent >= milestone && !trackedMilestones.includes(milestone)) {
+        scrollMilestones.forEach((milestone) => {
+          if (
+            scrollPercent >= milestone &&
+            !trackedMilestones.includes(milestone)
+          ) {
             trackedMilestones.push(milestone);
             
             if (typeof gtag !== 'undefined') {
@@ -473,7 +523,7 @@ const _campaignSchemas = generatePageSchema({
                 scroll_depth: milestone,
                 utm_source: utmParams.utm_source,
                 utm_medium: utmParams.utm_medium,
-                utm_campaign: utmParams.utm_campaign
+                utm_campaign: utmParams.utm_campaign,
               });
             }
           }
@@ -488,17 +538,21 @@ const _campaignSchemas = generatePageSchema({
       });
 
       // Track time on page when user leaves
-      window.addEventListener('beforeunload', () => {
-        const timeOnPage = Date.now() - parseInt(sessionStorage.getItem('session_start') || Date.now().toString());
-        
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'campaign_time_on_page', {
+      window.addEventListener("beforeunload", () => {
+        const timeOnPage =
+          Date.now() -
+          parseInt(
+            sessionStorage.getItem("session_start") || Date.now().toString(),
+          );
+
+        if (typeof gtag !== "undefined") {
+          gtag("event", "campaign_time_on_page", {
             campaign_slug: campaignSlug,
             time_on_page: Math.round(timeOnPage / 1000), // in seconds
             max_scroll_depth: maxScroll,
             utm_source: utmParams.utm_source,
             utm_medium: utmParams.utm_medium,
-            utm_campaign: utmParams.utm_campaign
+            utm_campaign: utmParams.utm_campaign,
           });
         }
       });

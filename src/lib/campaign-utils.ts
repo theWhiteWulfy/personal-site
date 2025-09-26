@@ -21,11 +21,10 @@ export interface CampaignValidationResult {
   isActive: boolean;
   daysRemaining: number;
   campaign?: Campaign;
-  redirectUrl?: string;
 }
 
 /**
- * Check if a campaign is expired and update its status if needed
+ * Simple campaign status check - no redirects, just status info
  */
 export async function validateCampaignStatus(
   DB: any, 
@@ -42,8 +41,7 @@ export async function validateCampaignStatus(
         isValid: false,
         isExpired: false,
         isActive: false,
-        daysRemaining: 0,
-        redirectUrl: '/404'
+        daysRemaining: 0
       };
     }
 
@@ -65,32 +63,13 @@ export async function validateCampaignStatus(
     // Determine if campaign is currently active
     const isCurrentlyActive = hasStarted && !isExpired && campaign.status === 'active';
 
-    // Auto-update expired campaigns
+    // Auto-update expired campaigns (background task, no blocking)
     if (isExpired && campaign.status === 'active') {
-      try {
-        await DB.prepare('UPDATE campaigns SET status = "expired", updated_at = CURRENT_TIMESTAMP WHERE id = ?1')
-          .bind(campaign.id)
-          .run();
-        
-        campaign.status = 'expired';
-        campaign.updated_at = now.toISOString();
-        
-        console.log(`Campaign ${campaignSlug} automatically updated to expired status`);
-      } catch (error) {
-        console.error('Error updating expired campaign status:', error);
-      }
-    }
-
-    // Determine redirect URL for invalid campaigns
-    let redirectUrl: string | undefined;
-    if (!isCurrentlyActive) {
-      if (isExpired || campaign.status === 'expired') {
-        redirectUrl = `/offers/expired?campaign=${encodeURIComponent(campaignSlug)}&title=${encodeURIComponent(campaign.title)}`;
-      } else if (campaign.status === 'paused') {
-        redirectUrl = `/offers/expired?campaign=${encodeURIComponent(campaignSlug)}&title=${encodeURIComponent(campaign.title)}&reason=paused`;
-      } else if (!hasStarted) {
-        redirectUrl = `/offers/expired?campaign=${encodeURIComponent(campaignSlug)}&title=${encodeURIComponent(campaign.title)}&reason=not_started`;
-      }
+      // Fire and forget - don't block the response
+      DB.prepare('UPDATE campaigns SET status = "expired", updated_at = CURRENT_TIMESTAMP WHERE id = ?1')
+        .bind(campaign.id)
+        .run()
+        .catch((error: any) => console.error('Error updating expired campaign status:', error));
     }
 
     return {
@@ -98,8 +77,7 @@ export async function validateCampaignStatus(
       isExpired,
       isActive: isCurrentlyActive,
       daysRemaining: typeof daysRemaining === 'number' ? daysRemaining : 0,
-      campaign,
-      redirectUrl
+      campaign
     };
 
   } catch (error) {
@@ -108,8 +86,7 @@ export async function validateCampaignStatus(
       isValid: false,
       isExpired: false,
       isActive: false,
-      daysRemaining: 0,
-      redirectUrl: '/404'
+      daysRemaining: 0
     };
   }
 }
@@ -232,28 +209,57 @@ export async function getCampaignSummary(DB: any, campaignSlug: string): Promise
 }
 
 /**
- * Generate campaign redirect rules for expired campaigns
+ * Get simple campaign status for display purposes
  */
-export async function generateCampaignRedirects(DB: any): Promise<string[]> {
-  try {
-    const expiredCampaigns = await DB.prepare(`
-      SELECT slug, title FROM campaigns 
-      WHERE status = 'expired'
-      ORDER BY updated_at DESC
-    `).all();
-
-    const redirectRules: string[] = [];
-    
-    (expiredCampaigns.results || []).forEach((campaign: any) => {
-      const rule = `/offers/${campaign.slug} /offers/expired?campaign=${encodeURIComponent(campaign.slug)}&title=${encodeURIComponent(campaign.title)} 301`;
-      redirectRules.push(rule);
-    });
-
-    return redirectRules;
-  } catch (error) {
-    console.error('Error generating campaign redirects:', error);
-    return [];
+export function getCampaignDisplayStatus(campaign: Campaign): {
+  status: 'active' | 'expired' | 'paused' | 'upcoming';
+  message: string;
+  canConvert: boolean;
+} {
+  const now = new Date();
+  const startDate = new Date(campaign.start_date);
+  const endDate = campaign.end_date ? new Date(campaign.end_date) : null;
+  
+  const hasStarted = now >= startDate;
+  const isExpired = endDate ? now > endDate : false;
+  
+  if (!hasStarted) {
+    return {
+      status: 'upcoming',
+      message: 'This campaign has not started yet',
+      canConvert: false
+    };
   }
+  
+  if (isExpired) {
+    return {
+      status: 'expired',
+      message: 'This offer has expired',
+      canConvert: false
+    };
+  }
+  
+  if (campaign.status === 'paused') {
+    return {
+      status: 'paused',
+      message: 'This campaign is currently paused',
+      canConvert: false
+    };
+  }
+  
+  if (campaign.status === 'active') {
+    return {
+      status: 'active',
+      message: 'Campaign is active',
+      canConvert: true
+    };
+  }
+  
+  return {
+    status: 'paused',
+    message: 'This campaign is currently unavailable',
+    canConvert: false
+  };
 }
 
 /**

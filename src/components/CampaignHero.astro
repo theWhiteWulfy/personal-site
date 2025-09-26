@@ -14,6 +14,7 @@ interface Props {
   daysRemaining: number;
   ctaText: string;
   ctaHref: string;
+  disabled?: boolean;
 }
 
 const { 
@@ -24,7 +25,8 @@ const {
   urgency, 
   daysRemaining, 
   ctaText, 
-  ctaHref 
+  ctaHref,
+  disabled = false
 } = Astro.props;
 
 // Calculate urgency level for styling
@@ -79,11 +81,21 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
 
       <!-- CTA Button -->
       <div class="cta-section">
-        <a href={ctaHref} class="cta-button">
-          {ctaText}
-        </a>
+        {disabled ? (
+          <button class="cta-button cta-button-disabled" disabled>
+            {ctaText}
+          </button>
+        ) : (
+          <a href={ctaHref} class="cta-button">
+            {ctaText}
+          </a>
+        )}
         <p class="cta-note">
-          No credit card required • Instant access • 100% satisfaction guarantee
+          {disabled ? (
+            "This offer is no longer available"
+          ) : (
+            "No credit card required • Instant access • 100% satisfaction guarantee"
+          )}
         </p>
       </div>
 
@@ -128,8 +140,17 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
 </section>
 
 <!-- Countdown Timer Script -->
-<script define:vars={{ validUntil: offer.validUntil }}>
+<script define:vars={{ validUntil: offer.validUntil, disabled }}>
   function initCountdownTimer() {
+    const countdownElement = document.getElementById('countdown-timer');
+    if (!countdownElement) return;
+    
+    // If campaign is disabled, show expired message
+    if (disabled) {
+      countdownElement.innerHTML = '<div class="timer-expired">Offer Expired</div>';
+      return;
+    }
+    
     const endDate = new Date(validUntil).getTime();
     
     function updateTimer() {
@@ -142,19 +163,29 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
         const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
         
-        document.getElementById('days').textContent = days.toString().padStart(2, '0');
-        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        
+        if (daysEl) daysEl.textContent = days.toString().padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
       } else {
         // Timer expired
-        document.getElementById('countdown-timer').innerHTML = '<div class="timer-expired">Offer Expired</div>';
+        countdownElement.innerHTML = '<div class="timer-expired">Offer Expired</div>';
       }
     }
     
     // Update immediately and then every second
     updateTimer();
-    setInterval(updateTimer, 1000);
+    const interval = setInterval(updateTimer, 1000);
+    
+    // Clean up interval when page changes
+    document.addEventListener('astro:before-swap', () => {
+      clearInterval(interval);
+    });
   }
   
   // Initialize on page load and after page transitions
@@ -363,6 +394,18 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
     background-color: var(--button-background-hover-color);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-button-disabled {
+    background-color: var(--muted-text-color) !important;
+    color: var(--background-color) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+  }
+
+  .cta-button-disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   .cta-note {
