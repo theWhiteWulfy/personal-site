@@ -1,49 +1,53 @@
 ---
 import Layout from '@layouts/Layout.astro';
-import { generatePageSchema } from '@/lib/schema-generators';
 
-// Get campaign information from query parameters
+// Get query parameters
 const url = new URL(Astro.request.url);
-const campaignSlug = url.searchParams.get('campaign');
-const campaignTitle = url.searchParams.get('title');
-
 // Generate SEO meta data with campaign context
+
+const canonicalUrl = '/offers/expired/';
+const campaignSlug = url.searchParams.get('campaign') || 'unknown';
+const campaignTitle = url.searchParams.get('title') || 'Campaign';
+const reason = url.searchParams.get('reason') || 'expired';
+
+// Generate appropriate message based on reason
+let message = 'This campaign has ended.';
+let suggestion = 'Check out our current offers or contact us for similar opportunities.';
+
+switch (reason) {
+  case 'paused':
+    message = 'This campaign is temporarily paused.';
+    suggestion = 'We may resume this offer in the future. Contact us to stay updated.';
+    break;
+  case 'not_started':
+    message = 'This campaign has not started yet.';
+    suggestion = 'Please check back later or contact us for more information.';
+    break;
+  default:
+    message = 'This campaign has ended.';
+    suggestion = 'Check out our current offers or contact us for similar opportunities.';
+}
+
 const pageTitle = campaignTitle 
-  ? `${campaignTitle} - Campaign Expired | Meteoric Teachings`
+  ? `${campaignTitle} - Campaign Expired`
   : 'Campaign Expired | Meteoric Teachings';
 const pageDescription = campaignTitle
-  ? `The "${campaignTitle}" campaign has expired, but we have other great offers available. Explore our current services and get in touch for personalized solutions.`
+  ? `The "${campaignTitle}" campaign has expired, but we have other great offers available. "${message}" "${suggestion}". Explore our current services and get in touch for personalized solutions.`
   : 'This campaign has expired, but we have other great offers available. Explore our current services and get in touch for personalized solutions.';
-const canonicalUrl = '/offers/expired/';
-
-const schemas = generatePageSchema({
-  pageType: 'default',
-  title: pageTitle,
-  description: pageDescription,
-  path: canonicalUrl,
-  datePublished: new Date().toISOString(),
-  dateModified: new Date().toISOString(),
-  includeBreadcrumbs: true,
-  includeLocalBusiness: true
-});
 ---
 
 <Layout 
   title={pageTitle}
   description={pageDescription}
-  path={canonicalUrl}
-
+  path="/offers/expired/"
+  noindex={true}
 >
   <main class="expired-campaign-page">
     <section class="expired-hero">
       <div class="hero-container">
         <div class="hero-content">
           <h1>Campaign Has Expired</h1>
-          {campaignTitle && (
-            <p class="expired-campaign-title">
-              "{campaignTitle}"
-            </p>
-          )}
+          
           <p class="hero-subtitle">
             Unfortunately, this special offer has ended. But don't worry – we have other great opportunities available!
           </p>
@@ -178,11 +182,12 @@ const schemas = generatePageSchema({
         gtag('event', 'expired_campaign_bounce_prevention', {
           campaign_slug: campaignSlug,
           fallback_page: 'expired_offers',
-          user_retained: true
+          user_retained: true,
+          referrer: document.referrer
         });
       }
 
-      // Send expired campaign visit data to API for database tracking
+      // Send to API for database tracking
       const visitData = new FormData();
       visitData.append('campaign_slug', campaignSlug);
       visitData.append('conversion_type', 'expired_visit');
