@@ -75,6 +75,14 @@ const images = await getAlbumImages(album.id);
   const lightbox = document.querySelector(".app-lightbox");
   const portal = lightbox.querySelector(".portal");
 
+  const updateImageSize = () => {
+      const img = portal.querySelector("img");
+      if (img && img.naturalHeight) {
+          const ratio = img.naturalWidth / img.naturalHeight;
+          img.sizes = `${window.innerHeight * ratio}px`;
+      }
+  };
+
   // eslint-disable-next-line no-restricted-syntax
   for (const trig of lbTriggers) {
       trig.addEventListener("click", () => {
@@ -82,17 +90,7 @@ const images = await getAlbumImages(album.id);
 
           setTimeout(() => {
               // Adapt size attribute dynamically
-              const img = portal.querySelectorAll("img")[0];
-              const ratio = img.naturalWidth / img.naturalHeight;
-              // console.log({
-              //   s: {
-              //     ratio,
-              //     j: window.innerHeight,
-              //     w: img.naturalWidth,
-              //     h: img.naturalHeight,
-              //   },
-              // });
-              img.sizes = `${window.innerHeight * ratio}px`;
+              updateImageSize();
           }, 352);
 
           lightbox.classList.add("is-active");
@@ -112,12 +110,11 @@ const images = await getAlbumImages(album.id);
       }
   });
 
-  // TODO: taken window resize into account
-  // window.addEventListener('resize', (e) => {
-
-  // });
-
-  // console.log({ lbTriggers });
+  window.addEventListener("resize", () => {
+      if (lightbox.classList.contains("is-active")) {
+          updateImageSize();
+      }
+  });
 </script>
 
 <style>
