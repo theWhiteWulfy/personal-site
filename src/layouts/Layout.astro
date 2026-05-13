@@ -10,6 +10,28 @@ import style from "../styles/grid.module.css";
 
 import type { ServiceData, FAQData, CampaignData } from '@lib/schema-generators';
 
+/**
+ * Props for the Layout component.
+ * @property {string} [title] - The title of the page.
+ * @property {string} description - The description of the page.
+ * @property {string} [image] - The image for the page.
+ * @property {string} [datePublished] - The date the page was published.
+ * @property {string | null} [dateModified] - The date the page was last modified.
+ * @property {string} [metaImageSrc] - The source for the meta image.
+ * @property {string} [metaImageHeight] - The height of the meta image.
+ * @property {string} [metaImageWidth] - The width of the meta image.
+ * @property {string} [path] - The path of the page.
+ * @property {boolean} [article] - Whether the page is an article.
+ * @property {string} [authorname] - The name of the author.
+ * @property {string} [authorurl] - The URL of the author's profile.
+ * @property {'article' | 'service' | 'faq' | 'home' | 'about' | 'contact' | 'campaign' | 'default'} [pageType] - The type of the page.
+ * @property {ServiceData} [serviceData] - Data for a service page.
+ * @property {FAQData[]} [faqs] - Data for an FAQ page.
+ * @property {CampaignData} [campaignData] - Data for a campaign page.
+ * @property {boolean} [includeBreadcrumbs] - Whether to include breadcrumbs.
+ * @property {boolean} [includeLocalBusiness] - Whether to include local business schema.
+ * @property {string[]} [keywords] - Keywords for the page.
+ */
 type Props = {
   title?: string;
   description: string;

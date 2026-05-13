@@ -1,7 +1,21 @@
 ---
+/**
+ * This component represents the main navigation menu for the site.
+ * It includes the primary navigation links and a theme toggle button.
+ */
 import style from "../styles/menu.module.css";
+/**
+ * Props for the Menu component.
+ * @property {Array<object>} mainMenu - An array of objects representing the main menu items.
+ * @property {string} defaultTheme - The default theme of the site.
+ */
 let { mainMenu, defaultTheme } = Astro.props;
 
+/**
+ * Interface for a menu item.
+ * @property {string} path - The path for the menu item.
+ * @property {string} title - The title of the menu item.
+ */
 interface MenuItem {
   path: string;
   title: string;
@@ -66,6 +80,9 @@ interface MenuItem {
 
   let userTheme = userThemeSetting;
 
+    /**
+     * Toggles the theme between light and dark.
+     */
     const onChangeTheme = () => {
       const alternateTheme = (userTheme) === "light" ? "dark" : "light";
       userTheme = alternateTheme;
@@ -81,7 +98,9 @@ interface MenuItem {
     }
   });
 
-  // Add active class to the current menu item
+  /**
+   * Updates the styles of the menu items to indicate the active page.
+   */
   function updateMenuStyles() {
   const currentPath = window.location.pathname;
   document.querySelectorAll('li[data-path]').forEach(li => {

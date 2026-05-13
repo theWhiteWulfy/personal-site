@@ -8,6 +8,11 @@ import style from '../styles/footer.module.css'
 
 
 const { footerMenu, twitter, github, instagram, linkedin, feed } = Astro.props
+/**
+ * Interface for a menu item.
+ * @property {string} path - The path for the menu item.
+ * @property {string} title - The title of the menu item.
+ */
 interface MenuItem {
   path: string;
   title: string;

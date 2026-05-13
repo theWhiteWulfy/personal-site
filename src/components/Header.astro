@@ -3,6 +3,12 @@ import MeteoricIcon from './icons/meteoric-icon.astro'
 import Menu from './menu.astro'
 import style from '../styles/header.module.css'
 
+/**
+ * Props for the Header component.
+ * @property {string} siteTitle - The title of the site.
+ * @property {Array<object>} mainMenu - An array of objects representing the main menu items.
+ * @property {string} defaultTheme - The default theme of the site.
+ */
 let { siteTitle, mainMenu, defaultTheme } = Astro.props
 
 ---
