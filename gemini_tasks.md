@@ -4,10 +4,10 @@ Gemini 3 Pro is the Marathoner. This file owns long-session reviews, broad audit
 
 ## Active: Baseline Review Preparation
 
-- [ ] Review `ARCHITECTURE.md` after the first bootstrap branch is ready.
-- [ ] Prepare a long-form Astro 4.15 to 6.2 risk inventory.
-- [ ] Review content collection usage across list pages, detail pages, RSS, tags, and galleries.
-- [ ] Review SEO and analytics preservation risks across metadata, schema, sitemap, and RSS.
+- [x] Review `ARCHITECTURE.md` after the first bootstrap branch is ready.
+- [x] Prepare a long-form Astro 4.15 to 6.2 risk inventory.
+- [x] Review content collection usage across list pages, detail pages, RSS, tags, and galleries.
+- [x] Review SEO and analytics preservation risks across metadata, schema, sitemap, and RSS.
 
 ## Upcoming: Upgrade Review
 
