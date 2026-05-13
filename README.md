@@ -150,3 +150,53 @@ Style links to look like a button.
   <a href="#" class="btn">Link label</a>
 </p>
 ```
+
+## Project Astro-Ascension
+
+Project Astro-Ascension is the branch-isolated, multi-agent workflow for moving this Astro 4.15 site toward Astro 6.2 compatibility while preserving SEO, content, Cloudflare D1 behavior, and core HTML structure.
+
+### Agent Roles
+
+- Codex / GPT-5.5 is the Mechanic: heavy logic, wiring, Astro component changes, and structural updates.
+- Claude Opus / Anti-Gravity is the Architect: architecture documentation, structural analysis, and repo evaluation.
+- Gemini 3 Pro is the Marathoner: long-session reviews, broad audits, and sustained iterative improvements.
+- Jules is the Observer & Maintainer: background maintenance, builds, tests, and site integrity verification.
+
+During the first bootstrap run, all agents follow the Architect baseline: documentation, repository evaluation, and structural analysis only. No migrations, dependency upgrades, UI changes, or runtime logic changes happen until the baseline is reviewed.
+
+### Branch Workflow
+
+- Never commit directly to `main`.
+- Use only these branch prefixes: `feature/`, `docs/`, `maintenance/`, and `Content/`.
+- Work on a dedicated branch per task.
+- Alok reviews and merges branches into `main`.
+- Preserve SEO metadata, Cloudflare D1 bindings, and basic HTML structure unless a reviewed task explicitly changes them.
+- Treat React components as read-only unless Alok explicitly assigns React work.
+
+### Task Tracking
+
+The repository uses five root task files:
+
+- `central_milestones.md` tracks major milestones, why they matter, and how they split across agents.
+- `claude_tasks.md` tracks Architect tasks.
+- `codex_tasks.md` tracks Mechanic tasks.
+- `gemini_tasks.md` tracks Marathoner tasks.
+- `jules_tasks.md` tracks Observer & Maintainer tasks.
+
+Granular execution tasks belong in agent-specific files, not in `central_milestones.md`.
+
+### Skills Directory
+
+The root `skills/` directory codifies standard operating procedures for recurring work:
+
+- `documentation.md`
+- `content_edition.md`
+- `frontend_changes.md`
+- `backend_changes.md`
+- `database_management.md`
+- `deployment.md`
+- `test_and_build_verification.md`
+
+### Astro 6.2 Planning Guardrail
+
+The current project uses Astro `^4.15.12` and legacy-style content collections in `src/content/config.ts`. Astro 6.2 compatibility work must be phased. Do not proactively migrate existing collections to the Astro 5+ loader pattern during baseline setup. First audit breaking changes, document the compatibility path, and preserve current collection behavior until a reviewed migration branch exists.
