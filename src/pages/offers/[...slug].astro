@@ -623,6 +623,7 @@ const _campaignSchemas = generatePageSchema({
     border-bottom: 1px solid var(--border-color);
     position: relative;
     padding-left: 1.5rem;
+    color: var(--text-color);
   }
 
   .deliverables-list li:before {
@@ -651,7 +652,7 @@ const _campaignSchemas = generatePageSchema({
 
   .guarantee p {
     margin: 0;
-    color: var(--muted-text-color);
+    color: var(--text-color);
   }
 
   .campaign-testimonials {
@@ -713,7 +714,8 @@ const _campaignSchemas = generatePageSchema({
   }
 
   .author-company {
-    color: var(--muted-text-color);
+    color: var(--text-color);
+    opacity: 0.8;
     font-size: var(--text-sm);
   }
 
@@ -781,8 +783,37 @@ const _campaignSchemas = generatePageSchema({
 
   .faq-item p {
     margin: 0;
-    color: var(--muted-text-color);
+    color: var(--text-color);
+    opacity: 0.9;
     line-height: var(--line-height);
+  }
+
+  /* Enhanced contrast for better accessibility */
+  .value-proposition p {
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+
+  /* Ensure all text elements have sufficient contrast */
+  p, li, span, div {
+    color: var(--text-color);
+  }
+
+  /* Override muted text where needed for better readability */
+  .muted-text {
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+
+  /* Form elements contrast improvements */
+  ::placeholder {
+    color: var(--text-color);
+    opacity: 0.6;
+  }
+
+  input, textarea, select {
+    color: var(--text-color) !important;
+    background-color: var(--background-color) !important;
   }
 
   /* Responsive design */
