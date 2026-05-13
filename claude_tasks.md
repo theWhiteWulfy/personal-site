@@ -4,11 +4,11 @@ Claude Opus / Anti-Gravity is the Architect. This file owns deep architecture do
 
 ## Active: First-Run Baseline
 
-- [ ] Review the full Astro project structure and document the architectural map in `ARCHITECTURE.md`.
-- [ ] Document the content collection model, including `src/content/config.ts`, collection folders, and gallery data.
-- [ ] Document SEO, schema, RSS, sitemap, analytics, and metadata flow.
-- [ ] Document Cloudflare deployment shape, D1 binding `DB`, and API route database access patterns.
-- [ ] Record first-run findings without changing runtime code, UI, migrations, or dependencies.
+- [x] Review the full Astro project structure and document the architectural map in `ARCHITECTURE.md`.
+- [x] Document the content collection model, including `src/content/config.ts`, collection folders, and gallery data.
+- [x] Document SEO, schema, RSS, sitemap, analytics, and metadata flow.
+- [x] Document Cloudflare deployment shape, D1 binding `DB`, and API route database access patterns.
+- [x] Record first-run findings without changing runtime code, UI, migrations, or dependencies.
 
 ## Upcoming: Astro 6.2 Architecture Review
 
