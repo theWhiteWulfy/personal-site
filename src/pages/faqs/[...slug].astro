@@ -10,6 +10,7 @@ import AstroImage from "@components/AstroImage.astro";
 import type { FAQData } from "@lib/schema-generators";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { getAdjacentPosts } from "@lib/utils";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
@@ -25,28 +26,7 @@ type Props = CollectionEntry<"faqs">;
 
 const posts = await getCollection("faqs");
 
-function getNextPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex + 1];
-    }
-  }
-}
-
-function getPrevPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex - 1];
-    }
-  }
-}
-
-const nextPost = getNextPost();
-const prevPost = getPrevPost();
+const { nextPost, prevPost } = getAdjacentPosts(posts, Astro.params.slug);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await post.render();
