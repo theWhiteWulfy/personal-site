@@ -4,6 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import PostNavigation from "@components/PostNavigation.astro";
 import style from "@styles/document.module.css";
 import { slugify } from '@lib/slugify.mjs';
+import { getAdjacentPosts } from '@lib/utils';
 import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
@@ -24,28 +25,7 @@ type Props = CollectionEntry<"works">;
 
 const posts = await getCollection("works");
 
-function getNextPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex + 1];
-    }
-  }
-}
-
-function getPrevPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex - 1];
-    }
-  }
-}
-
-const nextPost = getNextPost();
-const prevPost = getPrevPost();
+const { nextPost, prevPost } = getAdjacentPosts(Astro.params.slug, posts);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await post.render();
