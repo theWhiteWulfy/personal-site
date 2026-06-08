@@ -14,3 +14,13 @@ export function readingTime(html: string) {
   const readingTimeMinutes = (wordCount / 180 + 1).toFixed(); // 180 words per minute
   return `${readingTimeMinutes} min read`;
 }
+
+export function getAdjacentPosts(posts: any[], currentSlug: string | undefined) {
+  if (!currentSlug) return { nextPost: undefined, prevPost: undefined };
+  const postIndex = posts.findIndex((post) => post.slug === currentSlug);
+  if (postIndex === -1) return { nextPost: undefined, prevPost: undefined };
+  return {
+    nextPost: posts[postIndex + 1],
+    prevPost: posts[postIndex - 1],
+  };
+}
