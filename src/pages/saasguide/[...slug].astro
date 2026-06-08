@@ -1,4 +1,5 @@
 ---
+import { getAdjacentPosts } from '@lib/utils';
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import PostNavigation from "@components/PostNavigation.astro";
@@ -25,38 +26,15 @@ type Props = CollectionEntry<"saasguide">;
 
 const posts = await getCollection("saasguide");
 
-function getNextPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex + 1];
-    }
-  }
-}
-
-function getPrevPost() {
-  let postIndex;
-  for (const post of posts) {
-    if (post.slug === Astro.params.slug) {
-      postIndex = posts.indexOf(post);
-      return posts[postIndex - 1];
-    }
-  }
-}
-
-const nextPost = getNextPost();
-const prevPost = getPrevPost();
+const { nextPost, prevPost } = getAdjacentPosts(posts, Astro.params.slug);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await post.render();
-
 
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
     : null;
 ---
-
 
 <Layout 
     title={post.data.title} 
