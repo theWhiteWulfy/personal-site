@@ -18,6 +18,11 @@ const SPAM_PATTERNS = [
   /free\s+trial|limited\s+time/i
 ];
 
+const COMBINED_SPAM_PATTERN = new RegExp(
+  SPAM_PATTERNS.map(pattern => pattern.source).join('|'),
+  'i'
+);
+
 // Common spam domains
 const SPAM_DOMAINS = [
   'tempmail.org',
@@ -111,13 +116,11 @@ export function detectSpamContent(formData: {
   const textToCheck = `${formData.name} ${formData.workplace} ${formData.role}`.toLowerCase();
   
   // Check for spam patterns
-  for (const pattern of SPAM_PATTERNS) {
-    if (pattern.test(textToCheck)) {
-      return {
-        allowed: false,
-        reason: 'Content flagged as potential spam'
-      };
-    }
+  if (COMBINED_SPAM_PATTERN.test(textToCheck)) {
+    return {
+      allowed: false,
+      reason: 'Content flagged as potential spam'
+    };
   }
   
   // Check for spam email domains
