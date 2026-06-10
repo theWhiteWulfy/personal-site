@@ -112,12 +112,13 @@ const images = await getAlbumImages(album.id);
       }
   });
 
-  // TODO: taken window resize into account
-  // window.addEventListener('resize', (e) => {
-
-  // });
-
-  // console.log({ lbTriggers });
+  window.addEventListener('resize', () => {
+      const img = portal.querySelector("img");
+      if (img) {
+          const ratio = img.naturalWidth / img.naturalHeight;
+          img.sizes = `${window.innerHeight * ratio}px`;
+      }
+  });
 </script>
 
 <style>
