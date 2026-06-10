@@ -1,6 +1,7 @@
 /**
  * Form validation and sanitization utilities
  */
+import sanitizeHtml from 'sanitize-html';
 
 // Email validation regex pattern
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -36,18 +37,10 @@ export function sanitizeInput(input: string): string {
     return '';
   }
   
-  return input
-    .trim()
-    // Remove HTML tags
-    .replace(/<[^>]*>/g, '')
-    // Remove script content
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    // Remove javascript: protocol
-    .replace(/javascript:/gi, '')
-    // Remove on* event handlers
-    .replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '')
-    // Limit length to prevent abuse
-    .substring(0, 500);
+  return sanitizeHtml(input.trim(), {
+    allowedTags: [],
+    allowedAttributes: {}
+  }).substring(0, 500);
 }
 
 /**
