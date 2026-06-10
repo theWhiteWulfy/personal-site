@@ -310,12 +310,12 @@ const {
 <ViewTransitions />
 
 <!-- Enhanced Schema.org JSON-LD with multiple schema types and error handling -->
-{pageSchemas && pageSchemas.length > 0 && pageSchemas.map((schema, index) => {
+{pageSchemas && pageSchemas.length > 0 && pageSchemas.reduce((acc, schema, index) => {
   try {
     // Additional validation before JSON stringification
     if (!schema || typeof schema !== 'object') {
       console.warn(`Skipping invalid schema at index ${index}:`, schema);
-      return null;
+      return acc;
     }
     
     // Attempt to stringify with error handling for circular references
@@ -325,16 +325,16 @@ const {
     } catch (stringifyError) {
       console.error(`JSON stringify error for schema ${index}:`, stringifyError);
       console.error('Problematic schema object:', schema);
-      return null;
+      return acc;
     }
     
     // Validate that we have a valid JSON string
     if (!jsonString || jsonString === '{}' || jsonString === 'null') {
       console.warn(`Empty or invalid JSON for schema ${index}`);
-      return null;
+      return acc;
     }
     
-    return (
+    acc.push(
       <script
         is:inline
         type="application/ld+json"
@@ -342,12 +342,13 @@ const {
         set:html={jsonString}
       />
     );
+    return acc;
   } catch (error) {
     console.error(`Schema rendering error for schema ${index}:`, error);
     console.error('Schema that caused error:', schema);
-    return null;
+    return acc;
   }
-}).filter(Boolean)}
+}, [])}
 
 <!-- Google Analytics 4 -->
 {analyticsConfig.ga4.enabled && analyticsConfig.ga4.measurementId && (
