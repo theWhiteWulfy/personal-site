@@ -7,9 +7,9 @@ import { slugify } from '@lib/slugify.mjs';
 import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
-import { getAdjacentPosts } from "@lib/post-utils";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { getAdjacentPosts } from "@lib/utils";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
