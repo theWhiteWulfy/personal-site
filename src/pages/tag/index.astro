@@ -48,11 +48,10 @@ const tagCounts = combinedTags.reduce((acc, tag) => {
 // Convert counts object to an array and sort it
 // Sorting by count (descending), then alphabetically
 const sortedTags = Object.entries(tagCounts)
-    .map(([tag, count]) => ({ tag, count }))
     .sort(
-        (a, b) =>
-            (b as { count: number }).count - (a as { count: number }).count ||
-            a.tag.localeCompare(b.tag),
+        ([tagA, countA], [tagB, countB]) =>
+            (countB as number) - (countA as number) ||
+            tagA.localeCompare(tagB),
     );
 ---
 
@@ -75,11 +74,11 @@ const sortedTags = Object.entries(tagCounts)
                 <ul>
 
                     {
-                        sortedTags.map(({ tag, count }) => (
-                            <li id={tag}>
-                                <Link to={`/tag/${slugify(tag)}/`}>
-                                    <strong>{tag}</strong>{" "}
-                                    <span class={style.count}>{count}</span>
+                        sortedTags.map(([tag, count]) => (
+                            <li id={tag as string}>
+                                <Link to={`/tag/${slugify(tag as string)}/`}>
+                                    <strong>{tag as string}</strong>{" "}
+                                    <span class={style.count}>{count as number}</span>
                                 </Link>
                             </li>
                         ))
