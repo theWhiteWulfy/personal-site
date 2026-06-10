@@ -1,5 +1,4 @@
 ---
-import { getAdjacentPosts } from '@lib/utils';
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import { slugify } from '@lib/slugify.mjs';
@@ -11,6 +10,7 @@ import AstroImage from "@components/AstroImage.astro";
 import type { FAQData } from "@lib/schema-generators";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { getAdjacentPosts } from "@lib/utils";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {

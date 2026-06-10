@@ -1,5 +1,4 @@
 ---
-import { getAdjacentPosts } from '@lib/utils';
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import PostNavigation from "@components/PostNavigation.astro";
@@ -10,6 +9,7 @@ import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { getAdjacentPosts } from "@lib/utils";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
