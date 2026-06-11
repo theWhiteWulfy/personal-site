@@ -1,0 +1,78 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "url": "https://alokprateek.in/articles/migrating-to-astro/",
+    "name": "Why I Ditched Gatsby: A Migration Story to Astro for Simplicity and Speed - Meteoric Teachings",
+    "description": "Why I Ditched Gatsby: A Migration Story to Astro for Simplicity and Speed",
+    "inLanguage": "en",
+    "datePublished": "Sun Jul 13 2025",
+    "dateModified": "DYNAMIC_DATE_MODIFIED",
+    "author": {
+      "@type": "Person",
+      "name": "Alok Prateek",
+      "url": "https://alokprateek.in"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Meteoric Teachings",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://alokprateek.in/images/theme/alok-logo.png"
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alokprateek.in"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Articles",
+        "item": "https://alokprateek.in/articles"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Migrating to astro",
+        "item": "https://alokprateek.in/articles/migrating-to-astro"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://alokprateek.in/images/theme/alok-logo.png"
+    },
+    "jobTitle": "Designer & Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Meteoric Teachings",
+      "url": "https://alokprateek.in"
+    },
+    "sameAs": [
+      "https://twitter.com/thewhitewulfy",
+      "https://www.linkedin.com/in/alokprateek/",
+      "https://github.com/thewhitewulfy",
+      "https://www.instagram.com/thewhitewulfy/"
+    ],
+    "knowsAbout": [
+      "Web Design",
+      "User Experience Design",
+      "Frontend Development",
+      "Automation",
+      "AI Integration",
+      "Whitelabel Solutions"
+    ],
+    "description": "Alok Prateek is a multi-talented human with over 11+ years of experience in a wide range of design disciplines."
+  }
+]
