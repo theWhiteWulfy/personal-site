@@ -6,7 +6,7 @@
 import { test, expect } from '@playwright/test';
 
 // Helper to extract and parse all JSON-LD schemas on a page, scrubbing dynamic dates
-async function getSchemas(page): Promise<any[]> {
+async function getSchemas(page: any): Promise<any[]> {
   const scripts = await page.locator('script[type="application/ld+json"]').all();
   const schemas: any[] = [];
   for (const script of scripts) {

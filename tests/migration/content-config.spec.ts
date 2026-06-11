@@ -67,10 +67,10 @@ describe('Astro Content Collections Schema', () => {
       });
 
       it('fails validation when required fields are missing', () => {
-        const result = collection.schema.safeParse({});
+        const result = (collection.schema as any).safeParse({});
         expect(result.success).toBe(false);
         if (!result.success) {
-          const missingFields = result.error.issues.map((i) => i.path[0]);
+          const missingFields = result.error.issues.map((i: any) => i.path[0]);
           expect(missingFields).toContain('title');
           expect(missingFields).toContain('path');
           expect(missingFields).toContain('date');
@@ -88,7 +88,7 @@ describe('Astro Content Collections Schema', () => {
         date: '2024-01-01',
         last_modified_at: '2024-01-01',
       };
-      expect(collections.articles.schema.safeParse(articlesData).success).toBe(false);
+      expect((collections.articles.schema as any).safeParse(articlesData).success).toBe(false);
 
       const faqsData = {
         title: 'FAQ Title',
@@ -97,7 +97,7 @@ describe('Astro Content Collections Schema', () => {
         date: '2024-01-01',
         last_modified_at: '2024-01-01',
       };
-      expect(collections.faqs.schema.safeParse(faqsData).success).toBe(true);
+      expect((collections.faqs.schema as any).safeParse(faqsData).success).toBe(true);
     });
 
     it('requires order number for faqs', () => {
@@ -107,10 +107,10 @@ describe('Astro Content Collections Schema', () => {
         date: '2024-01-01',
         last_modified_at: '2024-01-01',
       };
-      const result = collections.faqs.schema.safeParse(faqsData);
+      const result = (collections.faqs.schema as any).safeParse(faqsData);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues.map(i => i.path[0])).toContain('order');
+        expect(result.error.issues.map((i: any) => i.path[0])).toContain('order');
       }
     });
 
@@ -123,7 +123,7 @@ describe('Astro Content Collections Schema', () => {
         excerpt: 'Test excerpt',
         output: true,
       };
-      const result = collections.works.schema.safeParse(worksData);
+      const result = (collections.works.schema as any).safeParse(worksData);
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.output).toBe(true);
@@ -139,7 +139,7 @@ describe('Astro Content Collections Schema', () => {
     it('validates album schema with cover image helper', () => {
       // Call the schema function using a stubbed image() function returning a ZodString
       const mockImage = () => z.string();
-      const albumSchema = collections.albums.schema({ image: mockImage });
+      const albumSchema = (collections.albums.schema as any)({ image: mockImage });
 
       const validAlbum = {
         title: 'Photo Album',
