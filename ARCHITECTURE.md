@@ -456,10 +456,23 @@ These are documentation-only findings recorded during the baseline. They are not
 
 ## Upgrade Risks
 
-- Astro 6 legacy collection compatibility requires deliberate handling before any migration to loaders.
-- `entry.render()` and `entry.slug` usage must be audited before removing legacy compatibility.
-- `<ViewTransitions />` must be replaced in a focused compatibility branch.
-- Cloudflare adapter and runtime typing should be checked against the target Astro and adapter versions before dependency upgrades.
-- SEO metadata, schema output, RSS, sitemap, and analytics scripts have high regression impact and need build plus rendered-output verification.
-- D1 API routes depend on `locals.runtime.env.DB`; local and Cloudflare preview behavior should be verified after runtime changes.
-- The PostCSS plugin chain (`postcss-custom-media`, `postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`) needs compatibility verification against any Vite version changes that come with an Astro upgrade.
+The authoritative phased plan is [`docs/astro_6_2_upgrade_plan.md`](./docs/astro_6_2_upgrade_plan.md). It enumerates every Astro 5/6 breaking-change delta relevant to this repo, the per-collection Content Layer loader recipe, the five-phase migration slice plan, the decisions requiring Alok's approval, and the trailing-slash and `Astro.url` behavior to preserve.
+
+Companion documents:
+
+- [`docs/astro_6_2_risk_inventory.md`](./docs/astro_6_2_risk_inventory.md) — initial risk register.
+- [`docs/content_collection_review.md`](./docs/content_collection_review.md) — touchpoints depending on the legacy collection API.
+- [`docs/seo_analytics_preservation_review.md`](./docs/seo_analytics_preservation_review.md) — SEO and analytics regression risks.
+
+Headline risks (full detail in the plan):
+
+- Astro 6 removes legacy collection backward compatibility. The plan uses `legacy.collectionsBackwardsCompat` as a temporary bridge, then migrates `src/content/config.ts` to the Content Layer API.
+- `entry.render()` and `entry.slug` must be replaced with `render(entry)` and `entry.id` across all `[...slug].astro` files, the RSS feed, and the tag pages.
+- `<ViewTransitions />` is removed in Astro 6 and must be replaced with `<ClientRouter />` in `src/components/Head.astro`. The `astro:after-swap` re-attachment contract must be preserved across seven files (Head, Campaign components, resource form, UTM tracker, offers pages).
+- `@astrojs/cloudflare` jumps from v11 to v13. The `locals.runtime.env.DB` access pattern must be re-verified on local D1 preview and on Cloudflare Pages preview.
+- `output: "hybrid"` is removed in Astro 5; default `static` mode now supports per-route `prerender = false`. The repo already declares this on every API route.
+- Vite jumps to 6.x (Astro 5) then 7.x (Astro 6). PostCSS chain (`postcss-custom-media`, `postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`) and `vite-plugin-pwa` need compatibility verification or replacement with `@vite-pwa/astro`.
+- Node 22.12.0 minimum in Astro 6. Add `.nvmrc` and verify Cloudflare Pages build env.
+- Zod 3 → Zod 4. Schemas in `src/content/config.ts` are simple and unaffected, but `import { z }` must move from `astro:content` to `astro/zod`.
+- File-extension endpoint URLs (`/rss.xml`, `/sitemap-index.xml`) cannot be accessed with a trailing slash in Astro 6. Audit `feedUrl`, internal links, and `public/_redirects` for any `/rss.xml/` patterns.
+- SEO metadata, schema output, RSS, sitemap, and analytics scripts have high regression impact. Diff-driven verification (rendered HTML, `dist/rss.xml`, `dist/sitemap-*.xml`) is owned by Jules and detailed in the SEO preservation review.
