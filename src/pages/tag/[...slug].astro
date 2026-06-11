@@ -34,35 +34,28 @@ const saasguide = (await getCollection("saasguide"))
 // Combine all entries into one array
 const allEntries = [...articles, ...works, ...notes, ...bibilio, ...saasguide];
 
-let allUnsafeTags = new Set();
+const tagToEntries = new Map<string, any[]>();
 
-// Get all uniquie tags from all entries and add them to allUnsafeTags
+// Group entries by tag in a single pass
 allEntries.forEach((entry) => {
     if (entry.data.tags) {
-        entry.data.tags.forEach((tag) => {
-            allUnsafeTags.add(tag);
+        entry.data.tags.forEach((tag: string) => {
+            if (!tagToEntries.has(tag)) {
+                tagToEntries.set(tag, []);
+            }
+            tagToEntries.get(tag)!.push(entry);
         });
     }
 });
 
-// create a array of objects with the tag and the slugified tag, and an array of entries for each tag
-
-let tagsObject = Array.from(allUnsafeTags).map((tag) => {
-    return {
-        tag: tag,
-        slug: slugify(tag),
-        entries: allEntries.filter((entry) => entry.data.tags && entry.data.tags.includes(tag as string)),
-    };
-});
-
-    // Use the tagsObject to generate paths using the slug and pass the tag and entries as props to the page
-    return tagsObject.map((tag) => ({
+    // Generate paths mapping directly from the grouped entries
+    return Array.from(tagToEntries.entries()).map(([tag, entries]) => ({
             params: {
-                slug: tag.slug,
+                slug: slugify(tag),
             },
             props: {
-                tag: tag.tag,
-                entries: tag.entries,
+                tag: tag,
+                entries: entries,
             },
         }));
 }
