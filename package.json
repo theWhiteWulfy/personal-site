@@ -11,6 +11,11 @@
         "preview": "astro preview",
         "astro": "astro",
         "cfpreview": "wrangler pages dev ./dist",
+        "test:unit": "vitest run",
+        "test:unit:watch": "vitest",
+        "test:unit:coverage": "vitest run --coverage",
+        "test:e2e": "playwright test",
+        "test:e2e:ui": "playwright test --ui",
         "db:migrate": "node scripts/migrate-database.js",
         "db:migrate:local": "node scripts/migrate-database.js --local",
         "db:verify": "node scripts/verify-database.js",
@@ -47,6 +52,11 @@
         "reading-time": "^1.5.0",
         "typescript": "^5.4.5",
         "vite-plugin-pwa": "^0.16.4",
-        "wrangler": "^4.28.1"
+        "wrangler": "^4.28.1",
+        "vitest": "^3.2.1",
+        "@vitest/coverage-v8": "^3.2.1",
+        "@playwright/test": "^1.52.0",
+        "jsdom": "^26.1.0",
+        "happy-dom": "^17.4.6"
     }
 }
