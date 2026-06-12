@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute, APIContext } from 'astro';
+import { getDatabase } from '@/lib/api/database';
 
 interface CampaignVisitData {
   campaign_id?: number;
@@ -22,18 +23,9 @@ interface CampaignVisitData {
 
 export const POST: APIRoute = async ({ request, locals, clientAddress }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const formData = await request.formData();
     
     // Extract visit data
@@ -158,18 +150,9 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }: APICont
 
 export const GET: APIRoute = async ({ url, locals }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const searchParams = new URL(url).searchParams;
     
     const campaignSlug = searchParams.get('campaign');

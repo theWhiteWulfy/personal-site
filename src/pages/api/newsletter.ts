@@ -1,19 +1,15 @@
 export const prerender = false; //This will not work without this line
 
 import type { APIRoute, APIContext } from 'astro';
+import { getDatabase } from '@/lib/api/database';
 
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
     const formData = await request.formData();
     const email = formData.get('subsemail');
 
-    if (!locals || !locals.runtime || !locals.runtime.env || !locals.runtime.env.DB) {
-        return new Response(JSON.stringify({ error: 'Database not configured' }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     
     if (typeof email !== 'string') {
         return new Response(JSON.stringify({ error: 'Missing or wrong input' }), {

@@ -1,7 +1,7 @@
 export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
-import { validateDatabaseConnection, getDownloadById } from '@/lib/api/database';
+import { validateDatabaseConnection, getDownloadById, getDatabase } from '@/lib/api/database';
 
 // Token configuration
 const TOKEN_EXPIRY_MINUTES = 30; // Tokens expire after 30 minutes
@@ -232,17 +232,9 @@ startxref
 // GET handler for secure PDF serving
 export const GET: APIRoute = async ({ url, locals }: APIContext) => {
   try {
-    // Check database configuration
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({
-        error: 'Service temporarily unavailable'
-      }), {
-        status: 503,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     
     // Validate database connection
     try {
@@ -382,18 +374,9 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 // POST handler for generating download tokens
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
   try {
-    // Check database configuration
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: 'Service temporarily unavailable'
-      }), {
-        status: 503,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const requestData = await request.json();
     
     const { downloadId, resourceName, email } = requestData;
