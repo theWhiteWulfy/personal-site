@@ -15,19 +15,19 @@ Goal: stress-test Claude's plan and Codex's implementation audit against the wid
 
 Branch: `docs/astro-6-2-broad-review`.
 
-- [ ] Cross-walk every breaking change in the Astro 5.0 and 6.0 release notes against actual repo code; produce `docs/astro_6_2_breakage_matrix.md` with columns: change, affected files, severity, owner, mitigation branch.
-- [ ] Sweep all `.astro`, `.ts`, `.js`, `.mjs` files for deprecated APIs:
+- [x] Cross-walk every breaking change in the Astro 5.0 and 6.0 release notes against actual repo code; produce `docs/astro_6_2_breakage_matrix.md` with columns: change, affected files, severity, owner, mitigation branch.
+- [x] Sweep all `.astro`, `.ts`, `.js`, `.mjs` files for deprecated APIs:
   - `Astro.glob` (replaced by Content Layer / `import.meta.glob`).
   - `getEntryBySlug` / `getEntry` legacy signatures.
   - `Astro.cookies` and `Astro.session` shape changes.
   - `astro:transitions` named exports beyond `<ViewTransitions />`.
-- [ ] Review every dependency in `package.json` for Astro 6 compatibility and pin a target version. Specifically:
+- [x] Review every dependency in `package.json` for Astro 6 compatibility and pin a target version. Specifically:
   - `astro`, `@astrojs/check`, `@astrojs/mdx`, `@astrojs/rss`, `@astrojs/sitemap`, `@astrojs/cloudflare`.
   - `vite-plugin-pwa`, `@playform/compress`, `@cloudflare/workers-types`, `wrangler`.
   - PostCSS chain: `cssnano`, `postcss-custom-media`, `postcss-import`, `postcss-loader`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`, `postcss-url`.
   - Tooling: `prettier-plugin-astro`, `prettier-plugin-organize-imports`, `typescript`.
-- [ ] Flag transitive risks (Vite major bump, Node engine bump) in the matrix.
-- [ ] Review the Astro 5+ Content Layer migration recipes Claude proposes for each of the 8 collections; challenge any that risk URL or RSS link drift.
+- [x] Flag transitive risks (Vite major bump, Node engine bump) in the matrix.
+- [x] Review the Astro 5+ Content Layer migration recipes Claude proposes for each of the 8 collections; challenge any that risk URL or RSS link drift.
 
 ## Milestone 3: Cloudflare D1 And API Surface Stabilization (Review)
 
@@ -35,14 +35,14 @@ Goal: independently audit API route behavior, data flow, and security posture so
 
 Branch: `docs/d1-api-review`.
 
-- [ ] Walk every API route end-to-end and document its data flow in `docs/api_route_review.md`:
+- [x] Walk every API route end-to-end and document its data flow in `docs/api_route_review.md`:
   - `newsletter.ts`, `leadform.ts`, `resource-download.ts`, `serve-resource.ts`, `campaigns.ts`, `campaign-visit.ts`, `campaign-signup.ts`.
   - For each: input schema, validation path (`src/lib/api/validation.ts`), security checks (`src/lib/api/security.ts`), DB queries (`src/lib/api/database.ts`), response shape, error paths.
-- [ ] Review the `locals?.runtime?.env?.DB` guard for inconsistencies; flag any route that diverges from the canonical pattern documented by Claude.
-- [ ] Review the missing-migration risk: confirm `newsletter` and lead-form table schemas by inspecting the SQL bound in route code; propose the `CREATE TABLE` statements Codex should write into `scripts/004_*.sql` and `scripts/005_*.sql`.
-- [ ] Review the missing `scripts/migrate-database.js` / `scripts/verify-database.js` interface contract from `docs/d1_api_contract.md` against industry-standard Wrangler usage; flag gaps.
-- [ ] Audit rate limiting, honeypot, IP extraction (`CF-Connecting-IP`, `X-Forwarded-For`), and duplicate-prevention logic in `resource-download.ts` for regressions during adapter upgrades.
-- [ ] Review UTM tracking flow (`src/lib/api/utm-tracking.ts` + `campaign-visit.ts` + `campaign-signup.ts`) for any reliance on `astro:after-swap` semantics that may shift under `<ClientRouter />`.
+- [x] Review the `locals?.runtime?.env?.DB` guard for inconsistencies; flag any route that diverges from the canonical pattern documented by Claude.
+- [x] Review the missing-migration risk: confirm `newsletter` and lead-form table schemas by inspecting the SQL bound in route code; propose the `CREATE TABLE` statements Codex should write into `scripts/004_*.sql` and `scripts/005_*.sql`.
+- [x] Review the missing `scripts/migrate-database.js` / `scripts/verify-database.js` interface contract from `docs/d1_api_contract.md` against industry-standard Wrangler usage; flag gaps.
+- [x] Audit rate limiting, honeypot, IP extraction (`CF-Connecting-IP`, `X-Forwarded-For`), and duplicate-prevention logic in `resource-download.ts` for regressions during adapter upgrades.
+- [x] Review UTM tracking flow (`src/lib/api/utm-tracking.ts` + `campaign-visit.ts` + `campaign-signup.ts`) for any reliance on `astro:after-swap` semantics that may shift under `<ClientRouter />`.
 
 ## Milestone 4: Content And SEO Preservation (Review)
 
