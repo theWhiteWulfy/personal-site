@@ -55,15 +55,15 @@ Goal: define the SEO/content invariants Codex must not regress and Jules must ve
 
 Branch: `docs/seo-content-invariants`.
 
-- [ ] Author `docs/seo_invariants.md` capturing required-stable outputs:
+- [x] Author `docs/seo_invariants.md` capturing required-stable outputs:
   - `<title>` template, `description`, canonical, `og:*`, `twitter:*` tag set produced by `src/components/Head.astro`.
   - JSON-LD schema array shape produced by `src/lib/schema-generators.ts` for each `pageType` (home, about, contact, service, article, FAQ, resource, campaign, default).
   - RSS link template `/${item.collection}/${item.slug}/` from `src/pages/rss.xml.js` and the included collection set (`articles`, `works`, `notes`, `bibliophilediaries`, `saasguide`).
   - Sitemap inclusion rules (static pages in, `/api/*` out).
-- [ ] Document the analytics consent + opt-out contract from `src/lib/analytics.ts` and `src/components/Head.astro`: `checkAnalyticsConsent`, `hasOptedOut`, `setAnalyticsConsent`, `setOptOutPreference`, `trackEngagementEvent`, `trackConversionEvent`. These globals must remain callable after the `<ClientRouter />` swap.
-- [ ] List the content-collection routes whose URL shape must not change: `/articles/`, `/notes/`, `/works/`, `/bibliophilediaries/`, `/saasguide/`, `/illustrations/`, `/faqs/`, `/tag/`, plus their `[...slug]` children.
-- [ ] Document the `astro:after-swap` re-attachment contract used by analytics, copy-code buttons, campaign analytics, UTM tracker, and resource forms. Enumerate the seven files holding these listeners (`Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, `offers/expired.astro`).
-- [ ] Define the diff-driven verification protocol Jules will run: capture pre-upgrade `dist/sitemap-*.xml`, `dist/rss.xml`, and the rendered HTML of one page per content collection; diff after upgrade.
+- [x] Document the analytics consent + opt-out contract from `src/lib/analytics.ts` and `src/components/Head.astro`: `checkAnalyticsConsent`, `hasOptedOut`, `setAnalyticsConsent`, `setOptOutPreference`, `trackEngagementEvent`, `trackConversionEvent`. These globals must remain callable after the `<ClientRouter />` swap.
+- [x] List the content-collection routes whose URL shape must not change: `/articles/`, `/notes/`, `/works/`, `/bibliophilediaries/`, `/saasguide/`, `/illustrations/`, `/faqs/`, `/tag/`, plus their `[...slug]` children.
+- [x] Document the `astro:after-swap` re-attachment contract used by analytics, copy-code buttons, campaign analytics, UTM tracker, and resource forms. Enumerate the seven files holding these listeners (`Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, `offers/expired.astro`).
+- [x] Define the diff-driven verification protocol Jules will run: capture pre-upgrade `dist/sitemap-*.xml`, `dist/rss.xml`, and the rendered HTML of one page per content collection; diff after upgrade.
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution (Architecture)
 
@@ -71,10 +71,10 @@ Goal: keep the architecture record current as Codex executes the phased plan; do
 
 Branch: `docs/astro-6-2-execution-log`.
 
-- [ ] After each Codex implementation slice merges, update `ARCHITECTURE.md` to reflect the new state (versions, removed APIs, new APIs in use).
-- [ ] Maintain a running ADR-style log in `docs/astro_6_2_decisions.md` capturing every reviewed decision Codex acted on, with branch name, date, and outcome.
-- [ ] Re-evaluate "First-Run Findings" in `ARCHITECTURE.md` after each slice; close items as resolved or restate them with new context.
-- [ ] At end-of-upgrade, refresh `central_milestones.md` only at milestone-completion granularity (no per-task entries).
+- [x] After each Codex implementation slice merges, update `ARCHITECTURE.md` to reflect the new state (versions, removed APIs, new APIs in use).
+- [x] Maintain a running ADR-style log in `docs/astro_6_2_decisions.md` capturing every reviewed decision Codex acted on, with branch name, date, and outcome.
+- [x] Re-evaluate "First-Run Findings" in `ARCHITECTURE.md` after each slice; close items as resolved or restate them with new context.
+- [x] At end-of-upgrade, refresh `central_milestones.md` only at milestone-completion granularity (no per-task entries).
 
 ## Boundaries
 
