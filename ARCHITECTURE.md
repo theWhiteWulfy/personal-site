@@ -456,6 +456,32 @@ These are documentation-only findings recorded during the baseline. They are not
 
 ## Upgrade Risks
 
+- Astro 6 legacy collection compatibility requires deliberate handling before any migration to loaders.
+- `entry.render()` and `entry.slug` usage must be audited before removing legacy compatibility.
+- `<ViewTransitions />` must be replaced in a focused compatibility branch.
+- Cloudflare adapter and runtime typing should be checked against the target Astro and adapter versions before dependency upgrades.
+- SEO metadata, schema output, RSS, sitemap, and analytics scripts have high regression impact and need build plus rendered-output verification.
+- D1 API routes depend on `locals.runtime.env.DB`; local and Cloudflare preview behavior should be verified after runtime changes.
+- The PostCSS plugin chain (`postcss-custom-media`, `postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`) needs compatibility verification against any Vite version changes that come with an Astro upgrade.
+
+The detailed architecture and implementation references are:
+
+- [`docs/astro_6_2_upgrade_plan.md`](./docs/astro_6_2_upgrade_plan.md)
+- [`docs/astro_6_2_risk_inventory.md`](./docs/astro_6_2_risk_inventory.md)
+- [`docs/astro_6_2_implementation_audit.md`](./docs/astro_6_2_implementation_audit.md)
+- [`docs/content_collection_review.md`](./docs/content_collection_review.md)
+- [`docs/seo_analytics_preservation_review.md`](./docs/seo_analytics_preservation_review.md)
+
+## Implementation-Sensitive Contracts
+
+These are the file-level contracts Codex should preserve while working through the phased Astro upgrade:
+
+- `src/components/Head.astro` is still the single coordination point for `<ViewTransitions />`, analytics globals, `tel:`/`mailto:` conversion listeners, and copy-code button re-attachment.
+- `astro:after-swap` listeners currently live in seven files: `Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, and `offers/expired.astro`.
+- Legacy collection consumers are spread across home, detail, index, tag, and RSS routes. The high-risk surfaces still rely on `entry.slug`, `entry.collection`, and `entry.render()`.
+- The illustrations section is already id-based through `src/pages/illustrations/[...id].astro` and the `albums` data collection; it should not be treated as a slug-based article route.
+- Cloudflare runtime access remains anchored on `locals.runtime.env.DB`, binding `DB`, `platformProxy.enabled`, `imageService: "passthrough"`, and the `wrangler.toml` D1 invariants.
+- The current build stack couples `astro check`, `vite-plugin-pwa`, `@playform/compress`, and the ordered PostCSS chain. Treat that pipeline as a preservation surface during the version-bump phase.
 The authoritative phased plan is [`docs/astro_6_2_upgrade_plan.md`](./docs/astro_6_2_upgrade_plan.md). It enumerates every Astro 5/6 breaking-change delta relevant to this repo, the per-collection Content Layer loader recipe, the five-phase migration slice plan, the decisions requiring Alok's approval, and the trailing-slash and `Astro.url` behavior to preserve.
 
 Companion documents:

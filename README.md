@@ -173,6 +173,14 @@ During the first bootstrap run, all agents follow the Architect baseline: docume
 - Preserve SEO metadata, Cloudflare D1 bindings, and basic HTML structure unless a reviewed task explicitly changes them.
 - Treat React components as read-only unless Alok explicitly assigns React work.
 
+### Baseline Guardrails
+
+- During the first-run bootstrap and Milestone 2 audit work, keep changes limited to documentation and task-tracking surfaces such as `docs/`, `README.md`, `ARCHITECTURE.md`, and the root agent task files.
+- Do not change runtime Astro components, API handlers, migrations, dependencies, or deployment configuration until the reviewed upgrade plan says that slice is ready.
+- Preserve `src/content/config.ts` in its current legacy `defineCollection` shape until the approved Content Layer migration branch exists.
+- Preserve the `src/components/Head.astro` transition and analytics contract, especially the `astro:after-swap` listeners and the `window.checkAnalyticsConsent`, `window.trackEngagementEvent`, and `window.trackConversionEvent` globals.
+- Preserve Cloudflare D1 invariants: binding `DB`, database name `meteoric`, database id `8380ec22-098e-4814-a56f-48d907425b35`, and `nodejs_compat`.
+
 ### Task Tracking
 
 The repository uses five root task files:
@@ -196,6 +204,13 @@ The root `skills/` directory codifies standard operating procedures for recurrin
 - `database_management.md`
 - `deployment.md`
 - `test_and_build_verification.md`
+
+For implementation-sensitive Astro 6 work, start from these companion docs:
+
+- `docs/astro_6_2_upgrade_plan.md`
+- `docs/astro_6_2_risk_inventory.md`
+- `docs/astro_6_2_implementation_audit.md`
+- `docs/d1_api_contract.md`
 
 ### Astro 6.2 Planning Guardrail
 

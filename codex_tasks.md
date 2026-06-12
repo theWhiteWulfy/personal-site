@@ -4,10 +4,10 @@ Codex / GPT-5.5 is the Mechanic. This file owns heavy logic, wiring, Astro compo
 
 ## Active: First-Run Support
 
-- [ ] Bootstrap the agent task files and `skills/` SOP directory on `docs/agentic-orchestration-baseline`.
-- [ ] Add implementation-sensitive architecture notes without changing runtime behavior.
-- [ ] Augment `README.md` with the multi-agent workflow and preservation constraints.
-- [ ] Record Astro 6.2 implementation risks for future Codex work.
+- [x] Bootstrap the agent task files and `skills/` SOP directory on `docs/agentic-orchestration-baseline`.
+- [x] Add implementation-sensitive architecture notes without changing runtime behavior.
+- [x] Augment `README.md` with the multi-agent workflow and preservation constraints.
+- [x] Record Astro 6.2 implementation risks for future Codex work.
 
 ## Milestone 2: Astro 6.2 Compatibility Audit (Implementation Risks)
 
@@ -15,24 +15,24 @@ Goal: produce the implementation-side risk register that complements Claude's ar
 
 Branch: `docs/astro-6-2-implementation-audit`.
 
-- [ ] Audit `<ViewTransitions />` usage. Confirmed locations to record in `docs/astro_6_2_implementation_audit.md`:
+- [x] Audit `<ViewTransitions />` usage. Confirmed locations to record in `docs/astro_6_2_implementation_audit.md`:
   - Import + render in `src/components/Head.astro` (lines around 4 and 310).
   - All `astro:after-swap` listeners that depend on it: `src/components/Head.astro`, `src/components/CampaignCTA.astro`, `src/components/CampaignHero.astro`, `src/lib/resource-form.js`, `src/lib/api/utm-tracking.ts`, `src/pages/offers/[...slug].astro`, `src/pages/offers/expired.astro`.
   - Note the global helpers (`checkAnalyticsConsent`, `trackEngagementEvent`, `trackConversionEvent`, `addCopyCodeButtons`) re-bound after swap and the contract they must keep.
-- [ ] Audit `entry.slug` / `entry.render()` / `entry.collection` usage and inventory every site:
-  - Detail routes: `src/pages/articles/[...slug].astro`, `src/pages/notes/[...slug].astro`, `src/pages/works/[...slug].astro`, `src/pages/bibliophilediaries/[...slug].astro`, `src/pages/saasguide/[...slug].astro`, `src/pages/illustrations/[...slug].astro`, `src/pages/faqs/...`, `src/pages/tag/[...slug].astro`.
-  - Index routes: `src/pages/works/index.astro`, `src/pages/saasguide/index.astro`, plus all sibling collection index pages.
+- [x] Audit `entry.slug` / `entry.render()` / `entry.collection` usage and inventory every site:
+  - Detail routes: `src/pages/articles/[...slug].astro`, `src/pages/notes/[...slug].astro`, `src/pages/works/[...slug].astro`, `src/pages/bibliophilediaries/[...slug].astro`, `src/pages/saasguide/[...slug].astro`, `src/pages/faqs/[...slug].astro`. `src/pages/illustrations/[...id].astro` is a separate `albums`-based surface and already uses `id`.
+  - Index routes: `src/pages/index.astro`, `src/pages/articles/index.astro`, `src/pages/notes/index.astro`, `src/pages/works/index.astro`, `src/pages/bibliophilediaries/index.astro`, `src/pages/saasguide/index.astro`, `src/pages/faqs/index.astro`, plus `src/pages/tag/index.astro` and `src/pages/tag/[...slug].astro`.
   - Syndication: `src/pages/rss.xml.js` (uses `item.collection` + `item.slug`).
-  - Note `getNextPost`/`getPrevPost` patterns in `[...slug]` files comparing `post.slug === Astro.params.slug`.
-- [ ] Audit Cloudflare adapter wiring before any version bump:
+  - Note the adjacent-post dependency on `Astro.params.slug` in the `[...slug]` files and re-verify the `getAdjacentPosts` helper before runtime changes.
+- [x] Audit Cloudflare adapter wiring before any version bump:
   - `astro.config.mjs` adapter block (`platformProxy.enabled: true`, `imageService: 'passthrough'`).
   - `src/env.d.ts` `Runtime<ENV>` typing using `@cloudflare/workers-types`.
   - `wrangler.toml` `nodejs_compat`, `DB` binding, database id.
   - All seven API routes confirm `export const prerender = false` + `locals.runtime.env.DB`.
-- [ ] Audit Vite/PostCSS plugin chain in `astro.config.mjs` and `postcss.config.cjs`. List each plugin (`postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-custom-media`, `postcss-preset-env`, `postcss-url`, `cssnano`) with the version known to work against Astro 6's bundled Vite.
-- [ ] Audit `markdown.syntaxHighlight: 'prism'` and the remark plugins (`remarkReadingTime`, `remarkModifiedTime`) for Astro 6 compatibility; flag if Shiki is the new default.
-- [ ] Audit `astro check` invocation in `package.json` (`"build": "astro check && astro build"`) against the `@astrojs/check` version required by Astro 6.
-- [ ] Preserve `src/content/config.ts` and the legacy `defineCollection` shape until Claude's reviewed migration plan exists.
+- [x] Audit Vite/PostCSS plugin chain in `astro.config.mjs` and `postcss.config.cjs`. List each plugin (`postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-custom-media`, `postcss-preset-env`, `postcss-url`, `cssnano`) with the current baseline version and preserve the chain for Astro 6 validation work.
+- [x] Audit `markdown.syntaxHighlight: 'prism'` and the remark plugins (`remarkReadingTime`, `remarkModifiedTime`) for Astro 6 compatibility; flag if Shiki is the new default.
+- [x] Audit `astro check` invocation in `package.json` (`"build": "astro check && astro build"`) against the `@astrojs/check` version required by Astro 6.
+- [x] Preserve `src/content/config.ts` and the legacy `defineCollection` shape until Claude's reviewed migration plan exists.
 
 ## Milestone 3: Cloudflare D1 And API Surface Stabilization (Implementation)
 
