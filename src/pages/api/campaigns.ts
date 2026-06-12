@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute, APIContext } from 'astro';
+import { getDatabase } from '@/lib/api/database';
 
 interface CampaignData {
   id?: number;
@@ -34,18 +35,9 @@ interface CampaignAnalytics {
  */
 export const GET: APIRoute = async ({ url, locals }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const searchParams = new URL(url).searchParams;
     
     const status = searchParams.get('status');
@@ -166,18 +158,9 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
  */
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const campaignData: CampaignData = await request.json();
 
     // Validate required fields
@@ -295,18 +278,9 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
  */
 export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const campaignData: CampaignData = await request.json();
 
     // Validate required fields
@@ -481,18 +455,9 @@ export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
  */
 export const DELETE: APIRoute = async ({ request, locals }: APIContext) => {
   try {
-    // Check if database is available
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: 'Database not configured' 
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const { id } = await request.json();
 
     if (!id) {

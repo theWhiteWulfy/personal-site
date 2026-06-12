@@ -3,7 +3,7 @@ export const prerender = false; // Required for server-side rendering
 import type { APIRoute, APIContext } from 'astro';
 import { validateResourceForm, formatValidationErrors } from '@/lib/api/validation';
 import { performSecurityChecks } from '@/lib/api/security';
-import { insertResourceDownload, getDownloadStats, validateDatabaseConnection } from '@/lib/api/database';
+import { insertResourceDownload, getDownloadStats, validateDatabaseConnection, getDatabase } from '@/lib/api/database';
 
 // TypeScript interfaces for request and response data
 interface ResourceDownloadRequest {
@@ -49,18 +49,9 @@ interface DownloadStatsResponse {
 // POST handler for form submissions
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
   try {
-    // Check database configuration
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: 'Database not configured'
-      } as ResourceDownloadResponse), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
     const formData = await request.formData();
 
     // Get client IP for security checks
@@ -193,18 +184,9 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 // GET handler for retrieving download statistics (admin use)
 export const GET: APIRoute = async ({ url, locals }: APIContext) => {
   try {
-    // Check database configuration
-    if (!locals?.runtime?.env?.DB) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: 'Database not configured'
-      } as DownloadStatsResponse), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { DB } = locals.runtime.env;
+    const dbCheck = getDatabase(locals);
+    if (dbCheck.errorResponse) return dbCheck.errorResponse;
+    const DB = dbCheck.DB;
 
     // Validate database connection
     try {

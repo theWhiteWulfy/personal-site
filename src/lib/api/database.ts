@@ -1,6 +1,8 @@
 /**
  * Database operations for resource tracking
  */
+import type { APIContext } from 'astro';
+
 
 export interface ResourceDownloadRecord {
   id?: number;
@@ -323,4 +325,25 @@ export async function testDatabaseConnection(DB: any): Promise<boolean> {
     console.error('Database connection test failed:', error);
     return false;
   }
+}
+
+/**
+ * Validates the presence of the D1 database binding in the locals object.
+ * Returns the DB instance if found, otherwise returns a 500 Response.
+ */
+export function getDatabase(locals: APIContext['locals']) {
+    if (!locals || !locals.runtime || !locals.runtime.env || !locals.runtime.env.DB) {
+        return {
+            DB: null,
+            errorResponse: new Response(JSON.stringify({ success: false, error: 'Database not configured' }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' }
+            })
+        };
+    }
+    
+    return {
+        DB: locals.runtime.env.DB,
+        errorResponse: null
+    };
 }
