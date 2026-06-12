@@ -16,18 +16,18 @@ Goal: produce the authoritative phased upgrade plan that Codex, Gemini, and Jule
 
 Branch: `docs/astro-6-2-architecture-plan`.
 
-- [ ] Compare `astro@^4.15.12` against the Astro 5.0 and 6.0 official upgrade guides; record breaking-change deltas in a new `docs/astro_6_2_upgrade_plan.md`.
-- [ ] Map current legacy collection shape in `src/content/config.ts` (8 collections: `articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`, `albums`) to the Astro 5+ Content Layer loader pattern; record a per-collection migration recipe (loader, schema, slug strategy).
-- [ ] Define a phased migration strategy with reviewable slices, in this order:
+- [x] Compare `astro@^4.15.12` against the Astro 5.0 and 6.0 official upgrade guides; record breaking-change deltas in a new `docs/astro_6_2_upgrade_plan.md`.
+- [x] Map current legacy collection shape in `src/content/config.ts` (8 collections: `articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`, `albums`) to the Astro 5+ Content Layer loader pattern; record a per-collection migration recipe (loader, schema, slug strategy).
+- [x] Define a phased migration strategy with reviewable slices, in this order:
   1. Dependency dry-run on a throwaway branch (no code edits).
   2. Astro core + adapter + integration version bumps with legacy collection compat preserved.
   3. `<ViewTransitions />` → `<ClientRouter />` swap in `src/components/Head.astro`.
   4. `entry.slug` / `entry.render()` audit-and-replace pass.
   5. Optional Content Layer loader migration of `src/content/config.ts`.
-- [ ] Identify decisions that need explicit Alok approval before Codex acts (e.g., adopting `<ClientRouter />`, switching `albums` to a new loader, dropping legacy compat). List each in the upgrade plan with options + recommendation.
-- [ ] Document the trailing-slash and `Astro.url` behavior expected after upgrade, since canonical URLs and OpenGraph tags in `src/components/Head.astro` depend on it.
-- [ ] Cross-reference `docs/astro_6_2_risk_inventory.md`, `docs/content_collection_review.md`, and `docs/seo_analytics_preservation_review.md` from the new plan so Codex has one entry point.
-- [ ] Update `ARCHITECTURE.md` "Upgrade Risks" section with links to the new plan.
+- [x] Identify decisions that need explicit Alok approval before Codex acts (e.g., adopting `<ClientRouter />`, switching `albums` to a new loader, dropping legacy compat). List each in the upgrade plan with options + recommendation.
+- [x] Document the trailing-slash and `Astro.url` behavior expected after upgrade, since canonical URLs and OpenGraph tags in `src/components/Head.astro` depend on it.
+- [x] Cross-reference `docs/astro_6_2_risk_inventory.md`, `docs/content_collection_review.md`, and `docs/seo_analytics_preservation_review.md` from the new plan so Codex has one entry point.
+- [x] Update `ARCHITECTURE.md` "Upgrade Risks" section with links to the new plan.
 
 ## Milestone 3: Cloudflare D1 And API Surface Stabilization (Architecture)
 
@@ -35,7 +35,7 @@ Goal: lock the D1/API contract so framework upgrades cannot silently break it.
 
 Branch: `docs/d1-api-architecture`.
 
-- [ ] Author `docs/d1_api_contract.md` enumerating every API route and the D1 tables it touches:
+- [x] Author `docs/d1_api_contract.md` enumerating every API route and the D1 tables it touches:
   - `src/pages/api/newsletter.ts` → `newsletter`
   - `src/pages/api/leadform.ts` → lead form table
   - `src/pages/api/resource-download.ts` → `resource_downloads`, `analytics_events`
@@ -43,11 +43,11 @@ Branch: `docs/d1-api-architecture`.
   - `src/pages/api/campaigns.ts` → `campaigns`, `campaign_visits`
   - `src/pages/api/campaign-visit.ts` → `campaign_visits`
   - `src/pages/api/campaign-signup.ts` → `campaign_visits`, `analytics_events`
-- [ ] Document the canonical access pattern (`export const prerender = false`, `locals.runtime.env.DB`, `DB.prepare().bind().run/first/all`) and flag it as preservation-critical.
-- [ ] Record the missing-table gap: `newsletter` and the implied lead form table have no migration in `scripts/`. Recommend the migration ownership (Codex creates SQL, Jules verifies against local D1) without authoring SQL in this branch.
-- [ ] Record the missing-script gap: `package.json` references `scripts/migrate-database.js` and `scripts/verify-database.js` that do not exist. Document the expected interface (CLI flags `--local`, env binding name, table list) so Codex can implement to spec later.
-- [ ] Document `wrangler.toml` invariants that must be preserved through upgrades: `nodejs_compat`, binding `DB`, database name `meteoric`, database id `8380ec22-098e-4814-a56f-48d907425b35`.
-- [ ] Add a "Cloudflare Adapter Compatibility Matrix" section listing the `@astrojs/cloudflare` versions required for each Astro major and the `platformProxy` / `imageService` flags that must remain set.
+- [x] Document the canonical access pattern (`export const prerender = false`, `locals.runtime.env.DB`, `DB.prepare().bind().run/first/all`) and flag it as preservation-critical.
+- [x] Record the missing-table gap: `newsletter` and the implied lead form table have no migration in `scripts/`. Recommend the migration ownership (Codex creates SQL, Jules verifies against local D1) without authoring SQL in this branch.
+- [x] Record the missing-script gap: `package.json` references `scripts/migrate-database.js` and `scripts/verify-database.js` that do not exist. Document the expected interface (CLI flags `--local`, env binding name, table list) so Codex can implement to spec later.
+- [x] Document `wrangler.toml` invariants that must be preserved through upgrades: `nodejs_compat`, binding `DB`, database name `meteoric`, database id `8380ec22-098e-4814-a56f-48d907425b35`.
+- [x] Add a "Cloudflare Adapter Compatibility Matrix" section listing the `@astrojs/cloudflare` versions required for each Astro major and the `platformProxy` / `imageService` flags that must remain set.
 
 ## Milestone 4: Content And SEO Preservation (Architecture)
 
