@@ -4,10 +4,10 @@ Jules is the Observer & Maintainer. This file owns low-priority background maint
 
 ## Active: Baseline Verification
 
-- [ ] Run `npm run build` after documentation-only bootstrap changes.
-- [ ] Confirm generated docs changes do not alter runtime code.
-- [ ] Record build failures with exact command output and suspected ownership area.
-- [ ] Verify `git status --short --branch` before handoff.
+- [x] Run `npm run build` after documentation-only bootstrap changes.
+- [x] Confirm generated docs changes do not alter runtime code.
+- [x] Record build failures with exact command output and suspected ownership area.
+- [x] Verify `git status --short --branch` before handoff.
 
 ## Milestone 2: Astro 6.2 Compatibility Audit (Verification)
 
@@ -15,26 +15,26 @@ Goal: ensure documentation-only audit branches do not change runtime output and 
 
 Branch: `maintenance/astro-6-2-baseline-snapshot`.
 
-- [ ] On the current Astro 4.15 baseline, run `npm install` followed by `npm run build` and capture the full log to `docs/baseline/build-astro-4-15.log` (do not commit logs to `main`; keep them on the branch).
-- [ ] Capture and commit a snapshot of:
+- [x] On the current Astro 4.15 baseline, run `npm install` followed by `npm run build` and capture the full log to `docs/baseline/build-astro-4-15.log` (do not commit logs to `main`; keep them on the branch).
+- [x] Capture and commit a snapshot of:
   - `dist/rss.xml`
   - `dist/sitemap-index.xml` and any `dist/sitemap-*.xml` shards
   - One representative rendered HTML page per collection (`articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`) plus home and a tag page
   - One API route preview if `npm run cfpreview` is available locally
-- [ ] Store snapshots under `docs/baseline/` so Gemini can diff against post-upgrade outputs.
-- [ ] Run `astro check` standalone and capture warnings; record any pre-existing type errors so they are not blamed on upgrade work.
-- [ ] Verify Claude's, Codex's, and Gemini's Milestone 2 doc branches change zero files outside `docs/`, `central_milestones.md`, `claude_tasks.md`, `codex_tasks.md`, `gemini_tasks.md`, `jules_tasks.md`, `README.md`, and `ARCHITECTURE.md`.
+- [x] Store snapshots under `docs/baseline/` so Gemini can diff against post-upgrade outputs.
+- [x] Run `astro check` standalone and capture warnings; record any pre-existing type errors so they are not blamed on upgrade work.
+- [x] Verify Claude's, Codex's, and Gemini's Milestone 2 doc branches change zero files outside `docs/`, `central_milestones.md`, `claude_tasks.md`, `codex_tasks.md`, `gemini_tasks.md`, `jules_tasks.md`, `README.md`, and `ARCHITECTURE.md`.
 
 ## Milestone 3: Cloudflare D1 And API Surface Stabilization (Verification)
 
 Goal: validate D1 scripts and API behavior locally before anything touches remote D1.
 
-- [ ] After Codex's `maintenance/db-scripts-restore` branch, run:
+- [x] After Codex's `maintenance/db-scripts-restore` branch, run:
   - `npm run db:verify:local` against a fresh local D1.
   - `npm run db:migrate:local` to apply `scripts/*.sql`.
   - `npm run db:verify:local` again; confirm every expected table exists.
-- [ ] After Codex's `maintenance/db-missing-migrations` branch, run the new SQL through the local migrator and confirm the schemas match what the API code expects (introspect with `wrangler d1 execute meteoric --local --command "SELECT sql FROM sqlite_master"`).
-- [ ] Run `npm run cfpreview` and exercise each API route with a sample payload:
+- [x] After Codex's `maintenance/db-missing-migrations` branch, run the new SQL through the local migrator and confirm the schemas match what the API code expects (introspect with `wrangler d1 execute meteoric --local --command "SELECT sql FROM sqlite_master"`).
+- [x] Run `npm run cfpreview` and exercise each API route with a sample payload:
   - POST `/api/newsletter`
   - POST `/api/leadform`
   - POST `/api/resource-download`
@@ -43,8 +43,8 @@ Goal: validate D1 scripts and API behavior locally before anything touches remot
   - GET `/api/campaigns`, POST, PUT
   - POST `/api/campaign-visit`, GET
   - POST `/api/campaign-signup`
-- [ ] Capture each response status and body to `docs/baseline/api-responses.md` (sanitize emails). These become the regression baseline.
-- [ ] Do not run any migration against remote D1 (database id `8380ec22-098e-4814-a56f-48d907425b35`) without explicit Alok approval.
+- [x] Capture each response status and body to `docs/baseline/api-responses.md` (sanitize emails). These become the regression baseline.
+- [x] Do not run any migration against remote D1 (database id `8380ec22-098e-4814-a56f-48d907425b35`) without explicit Alok approval.
 
 ## Milestone 4: Content And SEO Preservation (Verification)
 

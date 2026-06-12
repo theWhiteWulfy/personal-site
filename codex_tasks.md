@@ -38,17 +38,17 @@ Branch: `docs/astro-6-2-implementation-audit`.
 
 Goal: close gaps and harden the D1 surface so future framework upgrades are safe. Each task gets its own branch.
 
-- [ ] Branch `maintenance/db-scripts-restore`: implement the missing `scripts/migrate-database.js` and `scripts/verify-database.js` to the contract Claude documents in `docs/d1_api_contract.md`.
+- [x] Branch `maintenance/db-scripts-restore`: implement the missing `scripts/migrate-database.js` and `scripts/verify-database.js` to the contract Claude documents in `docs/d1_api_contract.md`.
   - Support `--local` flag to switch between remote and local D1 via Wrangler.
   - `migrate-database.js` runs every `scripts/*.sql` file in lexical order, idempotent.
   - `verify-database.js` checks tables exist (`resource_downloads`, `analytics_events`, `campaigns`, `campaign_visits`, `newsletter`, lead form table) and prints schema.
   - Wire into `npm run db:migrate`, `db:migrate:local`, `db:verify`, `db:verify:local`.
-- [ ] Branch `maintenance/db-missing-migrations`: add SQL migrations for tables already in production but absent from `scripts/`.
+- [x] Branch `maintenance/db-missing-migrations`: add SQL migrations for tables already in production but absent from `scripts/`.
   - `004_create_newsletter.sql` for the `newsletter` table used by `src/pages/api/newsletter.ts`.
   - `005_create_leadform.sql` (or similar) for the table used by `src/pages/api/leadform.ts`.
   - Use `CREATE TABLE IF NOT EXISTS` so reapplying is safe.
   - Do not run against remote D1; Jules verifies locally first.
-- [ ] Branch `maintenance/d1-locals-guard`: standardize the `locals?.runtime?.env?.DB` guard across all seven API routes; extract into a single helper in `src/lib/api/database.ts` if duplication exists, without changing return shapes or status codes.
+- [x] Branch `maintenance/d1-locals-guard`: standardize the `locals?.runtime?.env?.DB` guard across all seven API routes; extract into a single helper in `src/lib/api/database.ts` if duplication exists, without changing return shapes or status codes.
 - [ ] Hold any change to `wrangler.toml` D1 binding, database id, or `nodejs_compat` flag until Alok approves explicitly.
 
 ## Milestone 4: Content And SEO Preservation (Implementation)

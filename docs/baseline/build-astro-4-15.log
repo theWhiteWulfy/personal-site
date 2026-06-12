@@ -1,0 +1,205 @@
+
+> personal-site-v4@4.0.1 build
+> astro check && astro build
+
+03:31:04 [types] Generated 545ms
+03:31:04 [check] Getting diagnostics for Astro files in D:\PERSONAL\p-site-astro...
+src/components/CampaignHero.astro:159:9 - warning astro(4000): This script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+159 <script define:vars={{ validUntil: offer.validUntil }}>
+            ~~~~~~~~~~~
+
+src/components/ResourceHero.astro:27:46 - warning ts(6133): 'category' is declared but its value is never read.
+
+27 const { fileSize, pageCount, format = "PDF", category } = resourceMetadata;
+                                                ~~~~~~~~
+
+src/layouts/PageLayout.astro:20:6 - warning ts(6196): 'pageFrontmatter' is declared but never used.
+
+20 type pageFrontmatter = {
+        ~~~~~~~~~~~~~~~
+src/layouts/PageLayout.astro:18:37 - warning ts(6196): 'PersonData' is declared but never used.
+
+18 import type { ServiceData, FAQData, PersonData } from '@lib/schema-generators';
+                                       ~~~~~~~~~~
+
+src/lib/campaign-utils.ts:244:17 - warning ts(8024): JSDoc '@param' tag has name 'DB', but there is no parameter with that name.
+
+244  * @param {any} DB - The database connection object.
+                    ~~
+
+src/lib/resource-form.js:84:11 - warning ts(6133): '_errorElement' is declared but its value is never read.
+
+84     const _errorElement = document.getElementById(`${fieldName}-error`);
+             ~~~~~~~~~~~~~
+
+src/lib/schema-generators.ts:614:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+614 export function generatePageSchema(options: PageSchemaOptions) {
+                    ~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:559:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+559 export function generateCampaignSchema(campaignData: CampaignData) {
+                    ~~~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:512:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+512 export function generateResourceSchema(resourceData: ResourceData) {
+                    ~~~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:411:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+411 export function generatePersonSchema(personData?: Partial<PersonData>) {
+                    ~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:368:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+368 export function generateBreadcrumbListSchema(breadcrumbs: BreadcrumbItem[]) {
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:348:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+348 export function generateFAQPageSchema(faqs: FAQData[]) {
+                    ~~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:308:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+308 export function generateServiceSchema(serviceData: ServiceData) {
+                    ~~~~~~~~~~~~~~~~~~~~~
+src/lib/schema-generators.ts:234:17 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+234 export function generateLocalBusinessSchema(data?: Partial<LocalBusinessData>) {
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/api/resource-download.ts:9:11 - warning ts(6196): 'ResourceDownloadRequest' is declared but never used.
+
+9 interface ResourceDownloadRequest {
+            ~~~~~~~~~~~~~~~~~~~~~~~
+
+src/pages/api/serve-resource.ts:130:10 - warning ts(6133): 'updateTokenAttempts' is declared but its value is never read.
+
+130 function updateTokenAttempts(token: string, _attempts: number): string {
+             ~~~~~~~~~~~~~~~~~~~
+
+src/pages/offers/[...slug].astro:392:5 - warning astro(4000): This script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+392     define:vars={{
+        ~~~~~~~~~~~
+src/pages/offers/[...slug].astro:218:7 - warning ts(6133): '_campaignSchemas' is declared but its value is never read.
+
+218 const _campaignSchemas = generatePageSchema({
+          ~~~~~~~~~~~~~~~~
+src/pages/offers/[...slug].astro:18:38 - warning ts(6133): 'paginate' is declared but its value is never read.
+
+18 export async function getStaticPaths({ paginate }: { paginate: any }) {
+                                        ~~~~~~~~~~~~
+src/pages/offers/[...slug].astro:18:23 - warning ts(80004): JSDoc types may be moved to TypeScript types.
+
+18 export async function getStaticPaths({ paginate }: { paginate: any }) {
+                         ~~~~~~~~~~~~~~
+src/pages/offers/[...slug].astro:7:10 - warning ts(6133): 'validateCampaignStatus' is declared but its value is never read.
+
+7 import { validateCampaignStatus, getCampaignUrgency } from '@/lib/campaign-utils';
+           ~~~~~~~~~~~~~~~~~~~~~~
+src/pages/offers/[...slug].astro:576:5 - error ts(1128): Declaration or statement expected.
+
+576     }
+        ~
+src/pages/offers/[...slug].astro:511:8 - error ts(1128): Declaration or statement expected.
+
+511       });
+           ~
+
+src/pages/offers/expired.astro:166:11 - warning astro(4000): This script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+166   <script define:vars={{ campaignSlug, campaignTitle }}>
+              ~~~~~~~~~~~
+src/pages/offers/expired.astro:43:3 - error ts(2322): Type '{ children: any[]; title: string; description: string; path: string; noindex: boolean; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'noindex' does not exist on type 'IntrinsicAttributes & Props'.
+
+43   noindex={true}
+     ~~~~~~~
+src/pages/offers/expired.astro:8:7 - warning ts(6133): 'canonicalUrl' is declared but its value is never read.
+
+8 const canonicalUrl = '/offers/expired/';
+        ~~~~~~~~~~~~
+
+src/pages/resources/[...slug].astro:126:7 - warning ts(6133): 'schemas' is declared but its value is never read.
+
+126 const schemas = generatePageSchema({
+          ~~~~~~~
+
+tests/unit/api/database.spec.ts:6:10 - warning ts(6133): 'vi' is declared but its value is never read.
+
+6 import { vi, describe, it, expect } from 'vitest';
+           ~~
+
+tests/unit/api/security.spec.ts:5:32 - warning ts(6133): 'vi' is declared but its value is never read.
+
+5 import { describe, it, expect, vi } from 'vitest';
+                                 ~~
+
+tests/unit/lib/schema-generators.spec.ts:621:11 - warning ts(6133): 'originalLocalBusiness' is declared but its value is never read.
+
+621     const originalLocalBusiness = generateLocalBusinessSchema;
+              ~~~~~~~~~~~~~~~~~~~~~
+tests/unit/lib/schema-generators.spec.ts:613:11 - warning ts(6133): 'options' is declared but its value is never read.
+
+613     const options = {
+              ~~~~~~~
+
+tests/unit/scripts/d1-cli.spec.ts:66:19 - error ts(2339): Property 'stdout' does not exist on type 'Error'.
+
+66             error.stdout = 'some out';
+                     ~~~~~~
+tests/unit/scripts/d1-cli.spec.ts:65:19 - error ts(2339): Property 'stderr' does not exist on type 'Error'.
+
+65             error.stderr = 'some error';
+                     ~~~~~~
+tests/unit/scripts/d1-cli.spec.ts:33:17 - error ts(2322): Type 'string' is not assignable to type 'Dirent'.
+
+33                 'not-sql.txt'
+                   ~~~~~~~~~~~~~
+tests/unit/scripts/d1-cli.spec.ts:32:17 - error ts(2322): Type 'string' is not assignable to type 'Dirent'.
+
+32                 '001_test.sql',
+                   ~~~~~~~~~~~~~~
+tests/unit/scripts/d1-cli.spec.ts:31:17 - error ts(2322): Type 'string' is not assignable to type 'Dirent'.
+
+31                 '002_test.sql',
+                   ~~~~~~~~~~~~~~
+tests/unit/scripts/d1-cli.spec.ts:5:1 - warning ts(6133): 'path' is declared but its value is never read.
+
+5 import path from 'node:path';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+tests/unit/scripts/migrate-database.spec.ts:41:60 - error ts(2345): Argument of type '(file: any) => { success: true; error?: undefined; } | { success: false; error: string; }' is not assignable to parameter of type 'NormalizedProcedure<(filePath: any, local: any) => { success: boolean; output: string; error?: undefined; } | { success: boolean; output: any; error: any; }>'.
+  Type '{ success: true; error?: undefined; } | { success: false; error: string; }' is not assignable to type '{ success: boolean; output: string; error?: undefined; } | { success: boolean; output: any; error: any; }'.
+
+41         vi.mocked(d1cli.executeSqlFile).mockImplementation((file) => {
+                                                              ~~~~~~~~~~~
+tests/unit/scripts/migrate-database.spec.ts:14:9 - error ts(2698): Spread types may only be created from object types.
+
+14         ...actual,
+           ~~~~~~~~~
+tests/unit/scripts/migrate-database.spec.ts:3:1 - warning ts(6133): 'fs' is declared but its value is never read.
+
+3 import fs from 'node:fs';
+  ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+tests/unit/scripts/verify-database.spec.ts:11:9 - error ts(2698): Spread types may only be created from object types.
+
+11         ...actual,
+           ~~~~~~~~~
+
+Result (145 files): 
+- 11 errors
+- 0 warnings
+- 30 hints
