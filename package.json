@@ -22,20 +22,20 @@
         "db:verify:local": "node scripts/verify-database.js --local"
     },
     "dependencies": {
-        "@astrojs/cloudflare": "^11.0.1",
+        "@astrojs/cloudflare": "^13.1.10",
         "@fontsource/prompt": "^5.0.14",
         "@fontsource/zilla-slab": "^5.0.13",
         "sanitize-html": "^2.17.4"
     },
     "devDependencies": {
         "@astrojs/check": "^0.7.0",
-        "@astrojs/mdx": "^3.1.0",
-        "@astrojs/rss": "^4.0.6",
+        "@astrojs/mdx": "^6.0.3",
+        "@astrojs/rss": "^4.0.18",
         "@astrojs/sitemap": "^3.1.5",
         "@cloudflare/workers-types": "^4.20240729.0",
-        "@playform/compress": "^0.0.13",
+        "@playform/compress": "^0.2.3",
         "@types/sanitize-html": "^2.16.1",
-        "astro": "^4.15.12",
+        "astro": "^6.4.6",
         "cssnano": "^7.0.2",
         "dayjs": "^1.11.11",
         "mdast-util-to-string": "^4.0.0",
