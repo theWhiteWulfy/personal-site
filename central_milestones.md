@@ -12,6 +12,8 @@ This file tracks major project milestones for Project Astro-Ascension. It explai
 
 ## Milestone 1: Agentic Baseline And Repository Evaluation
 
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
+
 Why it matters: the project needs a shared operating model before upgrade, refactor, or feature work begins.
 
 Parallel tracks:
@@ -22,6 +24,8 @@ Parallel tracks:
 - Jules validates baseline build integrity after documentation-only changes.
 
 ## Milestone 2: Astro 6.2 Compatibility Audit
+
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
 
 Why it matters: Astro 6 removes automatic compatibility for legacy content collections and replaces some APIs used by the current site.
 
@@ -36,6 +40,8 @@ Important constraint: do not proactively migrate existing collections to the Ast
 
 ## Milestone 3: Cloudflare D1 And API Surface Stabilization
 
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
+
 Why it matters: API routes rely on the `DB` D1 binding and must remain stable through framework upgrades.
 
 Parallel tracks:
@@ -47,6 +53,8 @@ Parallel tracks:
 
 ## Milestone 4: Content And SEO Preservation
 
+- [ ] **Status: Pending (Ready for Execution)**
+
 Why it matters: the site has extensive frontmatter-driven SEO, RSS, schema, analytics, and content routing that must not regress.
 
 Parallel tracks:
@@ -57,6 +65,8 @@ Parallel tracks:
 - Jules verifies generated pages, RSS, and sitemap behavior after implementation branches.
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution
+
+- [ ] **Status: Pending**
 
 Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches.
 

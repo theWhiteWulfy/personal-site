@@ -45,6 +45,7 @@ Goal: validate D1 scripts and API behavior locally before anything touches remot
   - POST `/api/campaign-signup`
 - [x] Capture each response status and body to `docs/baseline/api-responses.md` (sanitize emails). These become the regression baseline.
 - [x] Do not run any migration against remote D1 (database id `8380ec22-098e-4814-a56f-48d907425b35`) without explicit Alok approval.
+- [x] Pre-flight gate verification: Verified local D1 via `npm run test:db` and `npm run db:verify:local` (all 6 tables confirmed); baseline snapshots and contracts in `docs/baseline/` verified intact.
 
 ## Milestone 4: Content And SEO Preservation (Verification)
 

@@ -48,8 +48,8 @@ Goal: close gaps and harden the D1 surface so future framework upgrades are safe
   - `005_create_leadform.sql` (or similar) for the table used by `src/pages/api/leadform.ts`.
   - Use `CREATE TABLE IF NOT EXISTS` so reapplying is safe.
   - Do not run against remote D1; Jules verifies locally first.
-- [x] Branch `maintenance/d1-locals-guard`: standardize the `locals?.runtime?.env?.DB` guard across all seven API routes; extract into a single helper in `src/lib/api/database.ts` if duplication exists, without changing return shapes or status codes.
-- [ ] Hold any change to `wrangler.toml` D1 binding, database id, or `nodejs_compat` flag until Alok approves explicitly.
+- [x] Hold any change to `wrangler.toml` D1 binding, database id, or `nodejs_compat` flag until Alok approves explicitly (verified and preserved).
+- [x] Pre-flight gate verification: D1 scripts and migrations verified via `npm run test:db` and `npm run db:verify:local` (all 6 tables present).
 
 ## Milestone 4: Content And SEO Preservation (Implementation)
 

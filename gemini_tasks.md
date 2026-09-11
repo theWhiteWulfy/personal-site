@@ -43,6 +43,7 @@ Branch: `docs/d1-api-review`.
 - [x] Review the missing `scripts/migrate-database.js` / `scripts/verify-database.js` interface contract from `docs/d1_api_contract.md` against industry-standard Wrangler usage; flag gaps.
 - [x] Audit rate limiting, honeypot, IP extraction (`CF-Connecting-IP`, `X-Forwarded-For`), and duplicate-prevention logic in `resource-download.ts` for regressions during adapter upgrades.
 - [x] Review UTM tracking flow (`src/lib/api/utm-tracking.ts` + `campaign-visit.ts` + `campaign-signup.ts`) for any reliance on `astro:after-swap` semantics that may shift under `<ClientRouter />`.
+- [x] Pre-flight gate verification: Confirmed Milestones 1–3 audits, D1 guards, and baseline contracts intact.
 
 ## Milestone 4: Content And SEO Preservation (Review)
 

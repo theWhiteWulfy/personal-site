@@ -48,6 +48,7 @@ Branch: `docs/d1-api-architecture`.
 - [x] Record the missing-script gap: `package.json` references `scripts/migrate-database.js` and `scripts/verify-database.js` that do not exist. Document the expected interface (CLI flags `--local`, env binding name, table list) so Codex can implement to spec later.
 - [x] Document `wrangler.toml` invariants that must be preserved through upgrades: `nodejs_compat`, binding `DB`, database name `meteoric`, database id `8380ec22-098e-4814-a56f-48d907425b35`.
 - [x] Add a "Cloudflare Adapter Compatibility Matrix" section listing the `@astrojs/cloudflare` versions required for each Astro major and the `platformProxy` / `imageService` flags that must remain set.
+- [x] Pre-flight gate verification: D1 API contracts, DB guards, and baseline response contracts confirmed verified.
 
 ## Milestone 4: Content And SEO Preservation (Architecture)
 
