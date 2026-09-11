@@ -3,6 +3,7 @@ import site from '@config/site'
 import { getCollection } from "astro:content";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { entryPath } from "@lib/content-shims";
 
 dayjs.extend(utc);
 
@@ -38,7 +39,7 @@ const saasguide = (await getCollection("saasguide"))
       title: item.data.title,
       description: item.data.excerpt,
       pubDate: dayjs(item.data.date).utc().format("MMMM D, YYYY"),
-      link: `/${item.collection}/${item.slug}/`,
+      link: entryPath(item, { trailingSlash: true }),
     })),
   });
 }

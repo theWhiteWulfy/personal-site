@@ -27,7 +27,28 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ## 2. Decision Log Entries
 
-*No entries yet. Entries are added as each Codex implementation phase completes and Alok reviews.*
+### ADR-004: Content and SEO Preservation Shims
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 4 (Content and SEO Preservation Shims)  
+**Status**: ✅ Implemented  
+
+**Context**: Preparing for the Astro 6 upgrade requires isolating client-side router imports, standardizing the `astro:after-swap` re-attachment lifecycle across multiple components and scripts, and abstracting content collection entry pathing and rendering to insulate routes from breaking API transitions (`entry.slug` -> `entry.id` and `entry.render()` -> `render(entry)`).
+
+**Decision**: Implement non-breaking preservation shims:
+1. Isolate `<ViewTransitions />` inside `src/components/ClientRouterShim.astro` and render it from `src/components/Head.astro`.
+2. Extract the lifecycle re-attachment helper `onPageSwap` in `src/lib/page-events.ts` with SSR guards, error handling, and cleanup capabilities; migrate all 8 listener locations across 7 files.
+3. Introduce `src/lib/content-shims.ts` exporting `getEntrySlug`, `entryPath`, `renderEntry`, and `getAdjacentEntries`; migrate all 18 consuming routes and companion components.
+4. Maintain strict byte-compatibility and SEO invariant preservation across all HTML, RSS, sitemap, and schema outputs.
+
+**Consequences**:
+- Switching to Astro 6's `<ClientRouter />` will only require editing `ClientRouterShim.astro`.
+- Navigational lifecycle event binding is unified under `onPageSwap`, preventing listener leaks and ensuring robust error isolation.
+- Route templates no longer directly access `entry.slug` or `entry.render()`, making the future Content Layer migration a localized shim update.
+- Zero URL, metadata, or schema regressions are introduced.
+
+**Verification**: `npm run build`, `npx astro check` (0 errors), `npm run test:unit` (including `page-events.spec.ts` and `content-shims.spec.ts`), `npm run test:regression` (42/42 checks pass), and `npm run test:db`.
 
 ---
 

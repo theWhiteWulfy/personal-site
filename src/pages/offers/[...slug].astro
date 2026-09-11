@@ -508,6 +508,11 @@ const _campaignSchemas = generatePageSchema({
       visitData.append('page_url', window.location.href);
 
       // Send to campaign visit API (non-blocking)
+      fetch('/api/campaign-visit', {
+        method: 'POST',
+        body: visitData
+      }).catch(error => {
+        console.warn('Campaign visit tracking failed:', error);
       });
 
       // Set up scroll tracking for engagement
@@ -576,8 +581,7 @@ const _campaignSchemas = generatePageSchema({
     }
 
     // Run on page load and after page transitions
-    document.addEventListener('DOMContentLoaded', initCampaignAnalytics);
-    document.addEventListener('astro:after-swap', initCampaignAnalytics);
+    window.onPageSwap(initCampaignAnalytics, { runImmediately: true });
   </script>
 </Layout>
 

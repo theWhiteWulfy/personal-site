@@ -55,15 +55,15 @@ Goal: close gaps and harden the D1 surface so future framework upgrades are safe
 
 Goal: prepare components and pages so Astro upgrade slices do not regress SEO, content URLs, or analytics. Implementation-only on dedicated branches.
 
-- [ ] Branch `feature/head-clientrouter-prep`: refactor `src/components/Head.astro` so the `<ViewTransitions />` import is isolated and easy to swap.
+- [x] Branch `feature/head-clientrouter-prep`: refactor `src/components/Head.astro` so the `<ViewTransitions />` import is isolated and easy to swap (implemented via `src/components/ClientRouterShim.astro`).
   - Move the import + render to a single, top-of-component block.
   - Add a TODO comment referencing `docs/astro_6_2_upgrade_plan.md`.
   - Do not yet swap to `<ClientRouter />`.
-- [ ] Branch `feature/after-swap-helper`: extract the repeated `astro:after-swap` re-attachment pattern into a small helper module under `src/lib/` and reuse it in `Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, `offers/expired.astro`. Keep behavior identical so Jules's diff stays clean.
-- [ ] Branch `feature/collection-slug-shim`: add a thin `src/lib/collection-paths.ts` exporting `entryPath(entry)` returning `/${entry.collection}/${entry.slug}/`. Wire it into `rss.xml.js` and the index pages without changing produced URLs. This isolates the future `slug` → `id` rename behind one symbol.
-- [ ] Branch `feature/render-shim`: add `src/lib/render-entry.ts` exporting `renderEntry(entry)` that returns `{ Content, headings, remarkPluginFrontmatter }`. Use it from every `[...slug].astro` detail route. Same isolation rationale.
-- [ ] Hold all `src/content/config.ts` rewrites until Claude's loader migration plan is approved. Treat React components as read-only.
-- [ ] After each branch, instruct Jules to diff `dist/sitemap-*.xml`, `dist/rss.xml`, and one rendered page per collection against the previous build. No rendered HTML drift is acceptable beyond hashed asset filenames.
+- [x] Branch `feature/after-swap-helper`: extract the repeated `astro:after-swap` re-attachment pattern into a helper module `src/lib/page-events.ts` exporting `onPageSwap` and reuse it in `Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, `offers/expired.astro`. Keep behavior identical so Jules's diff stays clean.
+- [x] Branch `feature/collection-slug-shim`: add `src/lib/content-shims.ts` exporting `getEntrySlug` and `entryPath(entry)` returning `/${entry.collection}/${entry.slug}/`. Wire it into `rss.xml.js` and the index pages without changing produced URLs. This isolates the future `slug` → `id` rename behind one symbol.
+- [x] Branch `feature/render-shim`: add `src/lib/content-shims.ts` exporting `renderEntry(entry)` that returns `{ Content, headings, remarkPluginFrontmatter }`. Use it from every `[...slug].astro` detail route and `PostNavigation.astro`.
+- [x] Hold all `src/content/config.ts` rewrites until Claude's loader migration plan is approved. Treat React components as read-only.
+- [x] After each branch, instruct Jules to diff `dist/sitemap-*.xml`, `dist/rss.xml`, and one rendered page per collection against the previous build. No rendered HTML drift is acceptable beyond hashed asset filenames.
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution (Implementation)
 

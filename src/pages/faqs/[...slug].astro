@@ -10,7 +10,7 @@ import AstroImage from "@components/AstroImage.astro";
 import type { FAQData } from "@lib/schema-generators";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { getAdjacentPosts } from "@lib/utils";
+import { getAdjacentEntries, getEntrySlug, renderEntry, entryPath } from "@lib/content-shims";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.order.valueOf() - a.data.order.valueOf());
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: getEntrySlug(post) },
     props: post,
   }));
 }
@@ -26,10 +26,10 @@ type Props = CollectionEntry<"faqs">;
 
 const posts = await getCollection("faqs");
 
-const { nextPost, prevPost } = getAdjacentPosts(posts, Astro.params.slug);
+const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.slug || (Astro.params as any).id);
 
 const post = Astro.props;
-const { Content, headings, remarkPluginFrontmatter } = await post.render();
+const { Content, headings, remarkPluginFrontmatter } = await renderEntry(post);
 
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
@@ -53,7 +53,7 @@ const faqData: FAQData[] = [{
     article={false}
     pageType="faq"
     faqs={faqData}
-    path={`/faqs/${post.slug}/`}
+    path={entryPath('faqs', post, { trailingSlash: true })}
 >
 <main id="main">
     <article class={`${style.document} h-entry`}>

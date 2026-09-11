@@ -1,21 +1,24 @@
 ---
 import style from '../styles/pagination.module.css'
 import Link from "@components/Link.astro";
+import { getEntrySlug } from "@lib/content-shims";
 const { prevPost, nextPost } = Astro.props;
+const prevSlug = getEntrySlug(prevPost);
+const nextSlug = getEntrySlug(nextPost);
 ---
 
 <nav class={style.pagination}>
-  {prevPost?.slug ? (
-    <Link to={prevPost?.slug} rel="prev" className={style.item}>
+  {prevSlug ? (
+    <Link to={prevSlug} rel="prev" className={style.item}>
       <span class={style.iconPrev}>←</span>
       <span class={style.itemText}>{prevPost?.data.title}</span>
     </Link>
   ) : (
     <div class={style.item} />
   )}
-  {nextPost?.slug ? (
+  {nextSlug ? (
     <Link
-      to={nextPost?.slug}
+      to={nextSlug}
       rel="next"
       className={`${style.item} ${style.itemRight}`}
     >

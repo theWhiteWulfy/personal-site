@@ -31,7 +31,7 @@ describe('_d1-cli.js', () => {
                 '002_test.sql',
                 '001_test.sql',
                 'not-sql.txt'
-            ]);
+            ] as any);
             const files = d1cli.getSqlFiles();
             expect(files.length).toBe(2);
             expect(files[0]).toContain('001_test.sql');
@@ -61,7 +61,7 @@ describe('_d1-cli.js', () => {
         });
 
         it('handles errors from execSync', () => {
-            const error = new Error('cmd failed');
+            const error: any = new Error('cmd failed');
             error.stderr = 'some error';
             error.stdout = 'some out';
             vi.mocked(execSync).mockImplementation(() => { throw error; });

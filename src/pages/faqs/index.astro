@@ -4,6 +4,7 @@ import Layout from "../../layouts/Layout.astro";
 import style from "../../styles/archive.module.css";
 import Link from "@components/Link.astro";
 import type { FAQData } from "@lib/schema-generators";
+import { entryPath, renderEntry } from "@lib/content-shims";
 
 const data = (await getCollection("faqs"))
     .filter((faq) => !faq.data.draft)
@@ -12,7 +13,7 @@ const data = (await getCollection("faqs"))
 // Convert FAQ collection data to schema format
 const faqsData: FAQData[] = await Promise.all(
     data.map(async (faq) => {
-        const { Content: _Content } = await faq.render();
+        const { Content: _Content } = await renderEntry(faq);
         // Extract text content from rendered content for schema
         // use content to create a 60 character excerpt if not present 
         return {
@@ -50,7 +51,7 @@ const faqsData: FAQData[] = await Promise.all(
                 {
                     data.map((faq) => (
                         <li id={faq.id}>
-                            <Link to={`/${faq.collection}/${faq.slug}`}>
+                            <Link to={entryPath(faq)}>
                                 {faq.data.title}
                             </Link>
                         </li>

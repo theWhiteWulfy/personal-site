@@ -51,17 +51,17 @@ Goal: validate D1 scripts and API behavior locally before anything touches remot
 
 Goal: prove Codex's preservation prep branches keep build output stable.
 
-- [ ] After `feature/head-clientrouter-prep`: run `npm run build`; diff `dist/` HTML for home, one article, RSS, and sitemap against the Milestone 2 baseline. Expect zero meaningful drift.
-- [ ] After `feature/after-swap-helper`: run `npm run build` and `npm run preview`; in DevTools, manually navigate between two pages and confirm:
+- [x] After `feature/head-clientrouter-prep`: run `npm run build`; diff `dist/` HTML for home, one article, RSS, and sitemap against the Milestone 2 baseline. Expect zero meaningful drift.
+- [x] After `feature/after-swap-helper`: run `npm run build` and `npm run preview`; in DevTools, manually navigate between two pages and confirm:
   - Phone/email click tracking re-attaches.
   - Copy-code buttons re-mount on prose pages.
   - Campaign countdown timer continues on `offers/[...slug]`.
   - Campaign CTA bindings re-attach.
   - UTM tracker re-runs.
   - Resource form bindings re-attach on resource pages.
-- [ ] After `feature/collection-slug-shim` and `feature/render-shim`: build, then diff `dist/rss.xml` and one `[...slug]` page per collection against the baseline. Any URL or HTML drift blocks the merge.
-- [ ] Run `astro check` on each of these branches and report any new diagnostics.
-- [ ] Keep `git status --short --branch` clean before handing the branch back to Alok for review.
+- [x] After `feature/collection-slug-shim` and `feature/render-shim`: build, then diff `dist/rss.xml` and one `[...slug]` page per collection against the baseline. Any URL or HTML drift blocks the merge.
+- [x] Run `astro check` on each of these branches and report any new diagnostics.
+- [x] Keep `git status --short --branch` clean before handing the branch back to Alok for review.
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution (Verification)
 

@@ -4,6 +4,7 @@
 
 // Import analytics tracking
 import { trackResourceFunnel, getSessionId } from '@/lib/resource-analytics';
+import { onPageSwap } from './page-events';
 
 // Validation patterns
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -344,8 +345,7 @@ function initializeResourceForms() {
 }
 
 // Initialize on DOM content loaded and after page transitions
-document.addEventListener('DOMContentLoaded', initializeResourceForms);
-document.addEventListener('astro:after-swap', initializeResourceForms);
+onPageSwap(initializeResourceForms, { runImmediately: true });
 
 // Export for use in other modules
 window.ResourceFormValidator = ResourceFormValidator;

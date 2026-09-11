@@ -9,7 +9,7 @@ import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { getAdjacentPosts } from "@lib/utils";
+import { getAdjacentEntries, getEntrySlug, renderEntry } from "@lib/content-shims";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: getEntrySlug(post) },
     props: post,
   }));
 }
@@ -25,10 +25,10 @@ type Props = CollectionEntry<"works">;
 
 const posts = await getCollection("works");
 
-const { nextPost, prevPost } = getAdjacentPosts(posts, Astro.params.slug);
+const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.slug || (Astro.params as any).id);
 
 const post = Astro.props;
-const { Content, headings, remarkPluginFrontmatter } = await post.render();
+const { Content, headings, remarkPluginFrontmatter } = await renderEntry(post);
 
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")

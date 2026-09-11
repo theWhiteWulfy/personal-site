@@ -2,6 +2,8 @@
  * UTM Parameter Tracking Utility
  * Captures, stores, and manages UTM parameters for campaign attribution
  */
+import { onPageSwap } from '../page-events';
+
 
 export interface UTMParameters {
   utm_source?: string | null;
@@ -331,18 +333,8 @@ export class UTMTracker {
   }
 }
 
-// Auto-initialize on script load
-if (typeof window !== 'undefined') {
-  // Initialize immediately if DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => UTMTracker.initialize());
-  } else {
-    UTMTracker.initialize();
-  }
-
-  // Re-initialize on Astro page transitions
-  document.addEventListener('astro:after-swap', () => UTMTracker.initialize());
-}
+// Auto-initialize on script load and re-initialize on page transitions
+onPageSwap(() => UTMTracker.initialize(), { runImmediately: true });
 
 // Export for use in other modules
 export default UTMTracker;

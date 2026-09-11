@@ -8,6 +8,7 @@ import landingStyle from "../styles/landing.module.css";
 import { Image } from "astro:assets";
 import coverimage from "../images/avatar5-nobg.png";
 import { readingTime } from "@lib/utils";
+import { entryPath } from "@lib/content-shims";
 
 const data1 = (await getCollection("notes"))
   .filter((note) => note.data.featured && !note.data.draft)
@@ -111,7 +112,7 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
             <Entry
               title={node.data.title}
               date={node.data.date.toString()}
-              path={"/" + node.collection + "/" + node.slug}
+              path={entryPath(node)}
               timeToRead={readingTime(node.body)}
               excerpt={node.data.excerpt}
               tags={node.data.tags}
@@ -129,7 +130,7 @@ const fdata = [...fdata1, ...fdata2, ...fdata3]
             <Entry
               title={node.data.title}
               date={node.data.date.toString()}
-              path={"/" + node.collection + "/" + node.slug}
+              path={entryPath(node)}
               timeToRead={readingTime(node.body)}
               excerpt={node.data.excerpt}
               tags={node.data.tags}

@@ -51,19 +51,19 @@ Goal: long-form review of content shape, metadata, and analytics consistency bef
 
 Branch: `docs/seo-content-review`.
 
-- [ ] Verify every content collection in `src/content/config.ts` has matching frontmatter on disk; report orphan fields, missing required fields, and date inconsistencies. Cover `articles/`, `notes/`, `works/`, `illustrations/`, `bibliophilediaries/`, `saasguide/`, `faqs/`, and `albums/`.
-- [ ] Review `taxonomy.yml` for duplicates already noted (`illustrations` vs `illustration`, `tutorials` vs `Tutorials`) and any other drift; recommend a Codex `Content/taxonomy-cleanup` branch only if Alok approves.
-- [ ] Review every `pageType` branch in `src/lib/schema-generators.ts` for completeness:
+- [x] Verify every content collection in `src/content/config.ts` has matching frontmatter on disk; report orphan fields, missing required fields, and date inconsistencies. Cover `articles/`, `notes/`, `works/`, `illustrations/`, `bibliophilediaries/`, `saasguide/`, `faqs/`, and `albums/`.
+- [x] Review `taxonomy.yml` for duplicates already noted (`illustrations` vs `illustration`, `tutorials` vs `Tutorials`) and any other drift; recommend a Codex `Content/taxonomy-cleanup` branch only if Alok approves.
+- [x] Review every `pageType` branch in `src/lib/schema-generators.ts` for completeness:
   - `WebPage` / `Article` base.
   - `BreadcrumbList`, `LocalBusiness`, `Person`, `Service`, `FAQPage`, `DigitalDocument`, `Event`.
   - Confirm `SCHEMA_CONFIG` in `src/config/system.js` still matches the current business and person facts.
-- [ ] Review `src/components/Head.astro` (~889 lines) for stale resource hints, duplicate meta tags, and any DNS prefetch entries that no longer resolve.
-- [ ] Review `src/pages/rss.xml.js` link template `/${item.collection}/${item.slug}/` against `_redirects` in `public/`; confirm no redirect loops are produced after URL shape stabilization.
-- [ ] Review analytics consent surface in `src/lib/analytics.ts` (~1689 lines):
+- [x] Review `src/components/Head.astro` (~889 lines) for stale resource hints, duplicate meta tags, and any DNS prefetch entries that no longer resolve.
+- [x] Review `src/pages/rss.xml.js` link template `/${item.collection}/${item.slug}/` against `_redirects` in `public/`; confirm no redirect loops are produced after URL shape stabilization.
+- [x] Review analytics consent surface in `src/lib/analytics.ts` (~1689 lines):
   - GA4Analytics, ClarityAnalytics, AnalyticsManager class boundaries.
   - Typed event interfaces.
   - DNT + opt-out cookie handling.
-- [ ] After each Codex Milestone 4 prep branch lands, diff produced HTML and report any drift Jules's mechanical diff misses (e.g., attribute ordering, whitespace, comment removal).
+- [x] After each Codex Milestone 4 prep branch lands, diff produced HTML and report any drift Jules's mechanical diff misses (e.g., attribute ordering, whitespace, comment removal).
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution (Review)
 

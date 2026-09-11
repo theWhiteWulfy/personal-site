@@ -89,6 +89,6 @@ describe('Leadform API Route - POST', () => {
     expect(response.status).toBe(500);
 
     const body = await response.json();
-    expect(body).toEqual({ error: 'Database not configured' });
+    expect(body).toEqual({ success: false, error: 'Database not configured' });
   });
 });

@@ -16,6 +16,7 @@
         "test:unit:coverage": "vitest run --coverage",
         "test:e2e": "playwright test",
         "test:e2e:ui": "playwright test --ui",
+        "test:regression": "node scripts/verify-baseline-diff.js",
         "test:db": "node scripts/verify-database.js --local",
         "db:migrate": "node scripts/migrate-database.js",
         "db:migrate:local": "node scripts/migrate-database.js --local",
