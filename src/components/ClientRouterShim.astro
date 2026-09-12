@@ -2,17 +2,10 @@
 /**
  * ClientRouterShim.astro
  *
- * Router isolation shim for Astro 4 -> Astro 6 migration.
+ * Router isolation component for Astro 6.2 migration (Milestone 5 Slice 3).
  *
- * Current Phase (Astro 4.15 / Milestone 1):
- *   Wraps `<ViewTransitions />` from `astro:transitions`.
- *
- * Future Upgrade (Astro 6.2 / Milestone 3 / Milestone 5 Slice 3):
- *   Drop-in replacement:
- *     - Change: import { ClientRouter } from "astro:transitions";
- *     - Change: <ClientRouter {...Astro.props} />
- *
- * Keeps `Head.astro` decoupled and guarantees zero SEO / meta tag churn.
+ * Imports and renders `<ClientRouter />` from `astro:transitions`.
+ * Keeps `Head.astro` decoupled, preserving all SEO, analytics, and meta tag invariants.
  */
 import { ClientRouter } from "astro:transitions";
 

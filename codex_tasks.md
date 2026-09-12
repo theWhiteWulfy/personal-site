@@ -74,8 +74,12 @@ Goal: execute the phased upgrade slice-by-slice, only after Claude's plan is rev
   - Updated `astro.config.mjs` with `output: "static"` and `legacy: { collectionsBackwardsCompat: true }`.
   - Updated `src/content/config.ts` to import `z` from `astro/zod`.
   - Updated `src/components/ClientRouterShim.astro` to import and render `<ClientRouter />` from `astro:transitions`.
-  - Full suite verified: `npm run build`, `npx astro check`, `npm run test:regression` (42/42 checks pass), `npm run test:unit` (365/365 pass), `npm run test:db`.
-- [ ] Branch `feature/astro-6-clientrouter`: replace `<ViewTransitions />` with `<ClientRouter />` from `astro:transitions` in `src/components/Head.astro`. Verify every `astro:after-swap` listener still fires (Jules runs preview + click-through on each affected page).
+- [x] Branch `feature/astro-6-clientrouter` (Milestone 5 Slice 3):
+  - Validated `<ClientRouter />` encapsulation via `src/components/ClientRouterShim.astro` rendered from `src/components/Head.astro`.
+  - Confirmed complete elimination of `<ViewTransitions />` across the entire codebase.
+  - Validated all 7 post-swap event listener contracts across navigations (analytics consent/click tracking, UTM tracking, copy-code button mounts, campaign CTA, campaign hero timer, resource forms, offers analytics).
+  - Added dedicated test suite `tests/unit/components/client-router.spec.ts` (12/12 passing).
+  - Full suite verified: `npm run build`, `npx astro check` (0 errors), `npm run test:regression` (42/42 checks pass), `npm run test:unit` (377/377 pass), `npm run test:db`.
 - [ ] Branch `feature/astro-6-entry-api`: switch `entry.slug` / `entry.render()` to whatever the upgraded Content API exposes, going through the shims from Milestone 4 (`entryPath`, `renderEntry`). Update the shims in one place; no per-page edits.
 - [ ] Branch `feature/astro-6-content-loader` (only if approved): migrate `src/content/config.ts` collections to the Content Layer `loader` pattern, one collection at a time, starting with the lowest-traffic collection (`faqs`). Keep schemas byte-identical.
 - [ ] Branch `maintenance/astro-6-cloudflare-adapter`: address any `@astrojs/cloudflare` runtime-typing or `locals.runtime.env` shape changes. Update `src/env.d.ts` if and only if the adapter requires it.

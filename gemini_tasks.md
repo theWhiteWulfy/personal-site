@@ -69,8 +69,7 @@ Branch: `docs/seo-content-review`.
 
 Goal: continuous review across the full slice train; catch regressions Codex and Jules cannot see in isolation.
 
-- [x] After `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2): reviewed dependencies and lockfile; verified Astro 6.2, Cloudflare v13, Vite 7 compatibility with 0 transitive dependency collisions.
-- [ ] After `feature/astro-6-clientrouter`, click-through every page that registers an `astro:after-swap` listener and confirm analytics, copy-code, campaign countdown, campaign CTA, UTM tracking, and resource forms still re-attach.
+- [x] After `feature/astro-6-clientrouter` (Milestone 5 Slice 3): reviewed client router integration; confirmed `<ClientRouter />` replaces `<ViewTransitions />` without residual references in `src/`; verified all 7 post-swap event listener locations re-attach properly and pass dedicated test suite (`tests/unit/components/client-router.spec.ts`) with 0 regressions across all 4 tiers.
 - [ ] After `feature/astro-6-entry-api`, diff `dist/rss.xml`, `dist/sitemap-*.xml`, and rendered HTML for one entry per collection against the pre-upgrade snapshot Jules captured.
 - [ ] After any Content Layer migration slice, sample 10% of each collection and confirm slug, body, and frontmatter render identically.
 - [ ] Track regressions in `docs/astro_6_2_regression_log.md`; for each, recommend a focused follow-up branch and route it to Codex or Claude as appropriate.

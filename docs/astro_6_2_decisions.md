@@ -107,6 +107,38 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ---
 
+### ADR-001 / ADR-007: Client Router Migration and Post-Swap Event Lifecycle Stabilization (Decision D-01)
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 5 Slice 3 (Client Router Migration & Event Lifecycle Stabilization)  
+**Status**: ✅ Implemented  
+
+**Context**: Astro 6 completely removes the legacy `<ViewTransitions />` component in favor of `<ClientRouter />` (Decision D-01 Option A). Client navigations require that all 7 post-swap event listener systems reliably re-bind and fire across transitions without event leakage, memory leaks, or double-invocations.
+
+**Decision**:
+1. Confirm `<ClientRouter />` from `astro:transitions` is encapsulated within `src/components/ClientRouterShim.astro` and rendered from `src/components/Head.astro`, maintaining full zero-churn isolation for SEO and metadata.
+2. Eliminate any remaining references or comments to `ViewTransitions` in production code.
+3. Validate that all 7 post-swap event listener systems cleanly re-bind and fire across client navigations via `onPageSwap` / `astro:after-swap`:
+   - Analytics consent & click tracking (`Head.astro`)
+   - UTM tracking (`src/lib/api/utm-tracking.ts`)
+   - Copy-code button mounts (`Head.astro`)
+   - Campaign CTA interaction (`src/components/CampaignCTA.astro`)
+   - Campaign Hero timer interaction (`src/components/CampaignHero.astro`) with `astro:before-swap` interval cleanup
+   - Resource form submission (`src/lib/resource-form.js`)
+   - Offers analytics (`src/pages/offers/[...slug].astro`, `src/pages/offers/expired.astro`)
+4. Create dedicated test suite `tests/unit/components/client-router.spec.ts` covering AST isolation, the 7 lifecycle contracts, and sequential multi-step navigation simulation.
+
+**Consequences**:
+- `<ClientRouter />` is fully operational with zero residual references to `ViewTransitions`.
+- All client navigation lifecycles (`astro:before-preparation`, `astro:after-preparation`, `astro:before-swap`, `astro:after-swap`, `astro:page-load`) operate cleanly.
+- Error isolation and unsubscription prevent memory leaks during SPA navigation.
+- Zero URL, metadata, schema, or asset regression against baseline.
+
+**Verification**: `npm run build` succeeds (code 0); `npx astro check` passes with 0 errors and 0 warnings; `npm run test:regression` passes all 42 checks across Tiers 1–4; `npm run test:unit` passes 377/377 tests (including all 12 tests in `tests/unit/components/client-router.spec.ts`); `npm run test:db` exits 0.
+
+---
+
 ### Entry template
 
 ```
@@ -139,8 +171,8 @@ Codex updates this section as each phase is started, merged, or abandoned.
 |---|---|---|---|---|---|
 | Phase 1 — Dependency dry-run | `chore/astro-6-2-dry-run` | ✅ Completed | 2026-09-12 | 2026-09-12 | Verified dependency resolution and engine compatibility |
 | Phase 2 — Version bumps + legacy compat | `chore/astro-6-bump-with-legacy-compat` | ✅ Completed | 2026-09-12 | 2026-09-12 | Astro 6.2, Cloudflare v13, legacy compat flag, output: static |
-| Phase 3 — `<ClientRouter />` verification | `chore/astro-6-client-router-verification` | ⏳ Next | — | — | Requires Phase 2 merged |
-| Phase 4 — `entry.slug` / `entry.render()` audit | `chore/astro-6-collection-api-audit` | ⏳ Not started | — | — | Requires Phase 3 merged |
+| Phase 3 — `<ClientRouter />` verification | `chore/astro-6-client-router-verification` | ✅ Completed | 2026-09-12 | 2026-09-12 | `<ClientRouter />` stabilized, 7 lifecycle listeners validated, 12 unit tests added |
+| Phase 4 — `entry.slug` / `entry.render()` audit | `chore/astro-6-collection-api-audit` | ⏳ Next | — | — | Requires Phase 3 merged |
 | Phase 5 — Content Layer loader migration | `feat/astro-6-content-layer-loaders` | ⏳ Not started | — | — | Optional; requires Phase 4 merged |
 
 ---

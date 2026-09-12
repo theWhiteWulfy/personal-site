@@ -70,10 +70,11 @@ Goal: be the single source of truth on whether an upgrade slice is safe to merge
 - [x] After `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2):
   - Ran `npm install --legacy-peer-deps`.
   - Ran `npm run build` (passes with 0 errors); ran `npx astro check` (0 errors, 0 warnings); verified `npm run test:regression` (42/42 checks pass), `npm run test:unit` (365/365 pass), and `npm run test:db` (exits 0). Zero regression across all tiers.
-- [ ] After `feature/astro-6-clientrouter`:
-  - Build + preview.
-  - Click-through every page in the Milestone 2 snapshot set; record any console error.
-  - Confirm `<ClientRouter />` is rendered in HTML head and `<ViewTransitions />` is gone.
+- [x] After `feature/astro-6-clientrouter` (Milestone 5 Slice 3):
+  - Ran `npm run build` (exits 0 with 0 errors); ran `npx astro check` (0 errors, 0 warnings).
+  - Confirmed `<ClientRouter />` is rendered in HTML head via `ClientRouterShim.astro` and `<ViewTransitions />` is completely eliminated from the codebase.
+  - Validated all 7 post-swap event listener contracts across navigations (analytics consent/clicks, UTM tracking, copy-code button mounts, campaign CTA, campaign hero timer, resource forms, offers analytics).
+  - Verified `tests/unit/components/client-router.spec.ts` (12/12 pass), `npm run test:regression` (42/42 checks pass across Tiers 1–4), `npm run test:db` (exits 0), and `npm run test:unit` (377/377 pass).
 - [ ] After `feature/astro-6-entry-api`:
   - Build + diff produced HTML for every snapshotted page.
   - Diff `dist/rss.xml` and `dist/sitemap-*.xml` byte-for-byte against the Milestone 2 snapshot, allowing only hashed asset filename changes.

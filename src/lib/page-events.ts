@@ -2,7 +2,7 @@
  * Page Events Lifecycle Helper
  *
  * Centralizes lifecycle event listener registration (specifically `astro:after-swap`
- * for Astro's ViewTransitions / ClientRouter) across page transitions and initial loads.
+ * for Astro's ClientRouter) across page transitions and initial loads.
  */
 
 export interface PageSwapOptions {
