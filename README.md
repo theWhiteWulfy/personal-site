@@ -1,120 +1,146 @@
 # [Metoric Teachings](https://alokprateek.in) Source Code
 
-This is the source code of Metoric Teachings, a personal blog and portfolio.
+Personal blog and portfolio of Alok Prateek — built with Astro 6, deployed on Cloudflare Pages.
 
-## Getting started
+## Tech Stack
 
-1. **Install dependencies**
-  
-   ```shell
-   npm install
-   ```
+| Layer | Technology |
+|---|---|
+| Framework | [Astro 6.4](https://astro.build) — static output, `@astrojs/cloudflare` adapter |
+| Runtime | [Cloudflare Pages](https://pages.cloudflare.com) + [Cloudflare D1](https://developers.cloudflare.com/d1/) |
+| Styling | PostCSS (custom media, nesting, mixins, preset-env, cssnano) |
+| Content | Astro Content Layer — `glob()` loaders, MDX, YAML |
+| PWA | `vite-plugin-pwa` with workbox |
+| Type checking | TypeScript 5, `@astrojs/check` |
+| Testing | Vitest (unit + regression), Playwright (E2E) |
+| Formatting | Prettier + `prettier-plugin-astro` |
 
-2. **Start developing.**
-  
-   ```shell
-   gatsby develop
-   ```
+## Getting Started
 
-4. **Default structure:**
+### 1. Install dependencies
 
-   ```bash
-   .
-   ├── public
-   |   └──public-files            # => site wide config
-   ├── src
-   |   ├── content                # => content
-   |   ├── components
-   |   ├── config
-   |   |   └──site.js             # => site wide config
-   |   |   └── taxonomy.yml       # => taxonomy content
-   |   ├── images
-   |   ├── pages
-   |   ├── layouts
-   |   ├── styles
-   |   └── lib
-   ├── postcss.config.cjs
-   ├── astro.config.mjs
-   ```
+```shell
+npm install
+```
 
-### Posts and Pages
+### 2. Start the dev server
 
-Posts are all Markdown files and should be placed in `src/content/` and filed under the appropriate category. Pages can be Markdown or `.js` files placed in `src/pages/`.
+```shell
+npm run dev
+```
 
-Front matter available for Markdown files.
+The site is available at `http://localhost:4321`.
 
-|                  | Type     | Description | Example |
-| ---------------- | -------- | ----------- | ------- |
-| title            | string   | Page title. | `"How I use Jekyll to build sites"` |
-| path             | string   | Page permalink. | `/category-name/file-name-slug/` |
-| date             | datetime | Published date. | `2020-01-09` |
-| last_modified_at | datetime | Updated date. | `2020-01-09T13:52:13-05:00` |
-| excerpt          | string   | Page description used a teaser text in listings and SEO purposes. | `"This is a most excellent post about static site generators."` |
-| image            | string   | Path to an image (relative to the Markdown file) used as a cover or teaser in listings and SEO purposes. | `../../images/post-image.jpeg` |
-| categories       | array    | Categories to classify the post as. | `[articles]` |
-| tags             | array    | Tags to classify the post as. | `[web development, GitHub, tutorial]` |
-| toc              | boolean  | Display table of contents links. | `true` |
-| hide_meta        | boolean  | Hide post meta data from page e.g. (date, read time, etc.) | `true` |
-| comments         | boolean  | Display comments. Disabled by default. | `true` |
-| comments_locked  | boolean  | Lock a comment threads discussion. | `true` |
-| featured         | boolean  | Mark a post post/page as featured. | `true` |
+### 3. Build for production
 
-### Markdown content
+```shell
+npm run build
+```
 
-HTML recipes and such for styling custom bits of content used in Markdown files.
+Runs `astro check` (type-check) then `astro build`. Output goes to `dist/`.
 
-#### Figures
+### 4. Preview on Cloudflare locally
 
-TODO: Migrate into a component. For now HTML in Markdown will suffice.
+```shell
+npm run cfpreview
+```
 
-**Example:**
+Serves the built `dist/` through `wrangler pages dev` with real Cloudflare D1 bindings.
+
+## Available Scripts
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start Astro dev server |
+| `npm run build` | Type-check (`astro check`) + build |
+| `npm run preview` | Astro preview server |
+| `npm run cfpreview` | Wrangler-powered Cloudflare Pages preview |
+| `npm run test:unit` | Run all Vitest unit + regression tests |
+| `npm run test:unit:watch` | Vitest in watch mode |
+| `npm run test:unit:coverage` | Vitest with V8 coverage |
+| `npm run test:e2e` | Playwright end-to-end tests |
+| `npm run test:regression` | Baseline diff regression runner (`scripts/verify-baseline-diff.js`) |
+| `npm run test:db` | Verify D1 schema locally (`scripts/verify-database.js --local`) |
+| `npm run db:migrate` | Run D1 migrations against remote |
+| `npm run db:migrate:local` | Run D1 migrations against local SQLite |
+| `npm run db:verify` | Verify remote D1 schema |
+| `npm run db:verify:local` | Verify local D1 schema |
+
+## Project Structure
+
+```
+.
+├── public/                 # Static assets, favicons, RSS XSL, _headers, _redirects
+├── src/
+│   ├── components/         # Astro UI components (Head.astro, ClientRouterShim.astro, …)
+│   ├── config/             # Site metadata, taxonomy, PWA manifest
+│   ├── content/            # Markdown, MDX, YAML content + config.ts
+│   ├── images/             # Image assets imported by Astro
+│   ├── layouts/            # Layout.astro, PageLayout.astro
+│   ├── lib/                # Utilities: slugging, remark plugins, analytics, shims
+│   │   ├── content-shims.ts  # entryPath(), renderEntry() for Astro 6 Content Layer
+│   │   └── page-events.ts    # onPageSwap() for astro:after-swap lifecycle
+│   ├── pages/              # Routes, collection indexes, API endpoints
+│   └── styles/             # Global CSS + CSS modules
+├── scripts/                # DB migration/verification scripts, baseline diff runner
+├── tests/                  # Vitest unit suites, Playwright E2E
+├── docs/                   # Project documentation (see below)
+├── skills/                 # Agent SOPs for recurring work patterns
+├── .kiro/                  # Kiro IDE steering files and feature specs
+├── astro.config.mjs        # Astro + Vite + integrations config
+├── wrangler.toml           # Cloudflare D1 binding (DB / meteoric)
+├── tsconfig.json           # TypeScript config with scoped path aliases
+└── postcss.config.cjs      # PostCSS plugin chain
+```
+
+## Content Collections
+
+All 8 collections use Astro Content Layer `glob()` loaders (`astro/loaders`). Schemas use `astro/zod`.
+
+| Collection | Type | Source |
+|---|---|---|
+| `articles` | Content (MD/MDX) | `src/content/articles/` |
+| `notes` | Content (MD/MDX) | `src/content/notes/` |
+| `works` | Content (MD/MDX) | `src/content/works/` |
+| `illustrations` | Content (MD/MDX) | `src/content/illustrations/` |
+| `bibliophilediaries` | Content (MD/MDX) | `src/content/bibliophilediaries/` |
+| `saasguide` | Content (MD/MDX) | `src/content/saasguide/` |
+| `faqs` | Content (MD/MDX) | `src/content/faqs/` |
+| `albums` | Data (YAML) | `src/content/albums/` |
+
+Dynamic collection routes use `entry.id` (not `entry.slug`) and `renderEntry(entry)` from `src/lib/content-shims.ts`.
+
+### Content frontmatter reference
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `title` | `string` | yes | Page title |
+| `path` | `string` | yes | Canonical URL path |
+| `date` | `datetime` | yes | Published date |
+| `last_modified_at` | `datetime` | yes | Last modified date |
+| `excerpt` | `string` | yes | Description for listings and SEO |
+| `image` | `string` | — | Cover image path (relative to MD file) |
+| `categories` | `string[]` | — | Content categories |
+| `tags` | `string[]` | — | Content tags |
+| `toc` | `boolean` | — | Show table of contents |
+| `hide_meta` | `boolean` | — | Hide date/read-time |
+| `comments` | `boolean` | — | Enable comments |
+| `comments_locked` | `boolean` | — | Lock comment thread |
+| `featured` | `boolean` | — | Mark as featured |
+| `draft` | `boolean` | — | Draft status (filtered from production) |
+
+### Figures
 
 ```html
 <figure>
   <img src="../../images/image.jpeg" alt="">
-  <figcaption><p>Figure caption goes here.</p></figcaption>
+  <figcaption><p>Figure caption.</p></figcaption>
 </figure>
 ```
 
-**Two column rows:**
+Two-column and three-column variants use `class="two-column"` / `class="three-column"`.
 
-```html
-<figure class="two-column">
-  <img src="../../images/image-1.jpeg" alt="">
-  <img src="../../images/image-2.jpeg" alt="">
-  <figcaption><p>Figure caption goes here.</p></figcaption>
-</figure>
-```
-
-**Three column rows:**
-
-```html
-<figure class="three-column">
-  <img src="../../images/image-1.jpeg" alt="">
-  <img src="../../images/image-2.jpeg" alt="">
-  <img src="../../images/image-3.jpeg" alt="">
-  <figcaption><p>Figure caption goes here.</p></figcaption>
-</figure>
-```
-
-#### Notices
-
-Call-out text via [gatsby-remark-custom-blocks](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-custom-blocks) plugin with Markdown.
-
-TBD
-
-**Example:**
-
-```markdown
-[[notice | iOS screen recording]]
-| Apple has built this feature directly into iOS allowing you to [capture the screen](https://support.apple.com/en-us/HT207935) directly on device.
-```
-
-#### Thumbnail gallery
-
-TODO: Migrate into a component. For now HTML in Markdown will suffice.
-
-**Example:**
+### Thumbnail gallery
 
 ```html
 <ul class="gallery-thumbnails">
@@ -123,15 +149,10 @@ TODO: Migrate into a component. For now HTML in Markdown will suffice.
       <img src="../../images/image-1.jpeg" alt="">
     </a>
   </li>
-  ...
 </ul>
 ```
 
-#### Browser frame
-
-Wrap an image with the `.browser-frame` class to give it browser chrome styling.
-
-**Example:**
+### Browser frame
 
 ```html
 <div class="browser-frame">
@@ -139,11 +160,7 @@ Wrap an image with the `.browser-frame` class to give it browser chrome styling.
 </div>
 ```
 
-#### Button links
-
-Style links to look like a button.
-
-**Example:**
+### Button links
 
 ```html
 <p>
@@ -151,67 +168,71 @@ Style links to look like a button.
 </p>
 ```
 
-## Project Astro-Ascension
+## Documentation
 
-Project Astro-Ascension is the branch-isolated, multi-agent workflow for moving this Astro 4.15 site toward Astro 6.2 compatibility while preserving SEO, content, Cloudflare D1 behavior, and core HTML structure.
+```
+docs/
+├── architecture/           # ARCHITECTURE.md — full system baseline
+├── agentic-logs/           # Migration task files, original request, test reports
+├── milestone-2-audit/      # Astro 6 breakage matrix, decisions, risk inventory, upgrade plan
+├── milestone-3-d1/         # D1 API contract, API route review
+├── milestone-4-content/    # SEO invariants, content collection review, analytics, campaigns
+├── milestone-5-upgrade/    # Performance and resource-gating testing guides
+├── kiro/                   # Mirror of .kiro/ steering docs and feature specs
+├── baseline/               # Pre-upgrade HTML/XML snapshots for regression diffing
+├── superpowers/            # Feature specs
+└── tasks/                  # Granular task breakdowns
+```
 
-### Agent Roles
+## Skills Directory
 
-- Codex / GPT-5.5 is the Mechanic: heavy logic, wiring, Astro component changes, and structural updates.
-- Claude Opus / Anti-Gravity is the Architect: architecture documentation, structural analysis, and repo evaluation.
-- Gemini 3 Pro is the Marathoner: long-session reviews, broad audits, and sustained iterative improvements.
-- Jules is the Observer & Maintainer: background maintenance, builds, tests, and site integrity verification.
+The `skills/` directory codifies standard operating procedures for recurring work:
 
-During the first bootstrap run, all agents follow the Architect baseline: documentation, repository evaluation, and structural analysis only. No migrations, dependency upgrades, UI changes, or runtime logic changes happen until the baseline is reviewed.
+| File | Covers |
+|---|---|
+| `documentation.md` | Architecture notes, README, agent task files |
+| `content_edition.md` | Adding/editing MD, MDX, YAML content |
+| `frontend_changes.md` | Astro components, layouts, CSS, pages |
+| `backend_changes.md` | API routes, D1 helpers, analytics endpoints |
+| `database_management.md` | D1 bindings, migrations, local verification |
+| `deployment.md` | Cloudflare adapter, `_headers`, wrangler, previews |
+| `test_and_build_verification.md` | Build gate, test suites, reporting |
+| `astro-content-layer.md` | Adding/modifying collections with `glob()` loaders |
+| `astro-client-router.md` | `<ClientRouter />`, `onPageSwap`, event lifecycle |
+| `cloudflare-d1.md` | D1 binding usage, migration ordering, local verification |
 
-### Branch Workflow
+## Branch Workflow
 
-- Never commit directly to `main`.
-- Use only these branch prefixes: `feature/`, `docs/`, `maintenance/`, and `Content/`.
-- Work on a dedicated branch per task.
-- Alok reviews and merges branches into `main`.
-- Preserve SEO metadata, Cloudflare D1 bindings, and basic HTML structure unless a reviewed task explicitly changes them.
+- **Never commit directly to `main`.**
+- Branch prefixes: `feature/`, `docs/`, `maintenance/`, `content/`
+- One branch per task; Alok reviews and merges into `main`.
+- Preserve SEO metadata, Cloudflare D1 bindings, and HTML structure unless a reviewed task explicitly changes them.
 - Treat React components as read-only unless Alok explicitly assigns React work.
 
-### Baseline Guardrails
+## Cloudflare D1
 
-- During the first-run bootstrap and Milestone 2 audit work, keep changes limited to documentation and task-tracking surfaces such as `docs/`, `README.md`, `ARCHITECTURE.md`, and the root agent task files.
-- Do not change runtime Astro components, API handlers, migrations, dependencies, or deployment configuration until the reviewed upgrade plan says that slice is ready.
-- Preserve `src/content/config.ts` in its current legacy `defineCollection` shape until the approved Content Layer migration branch exists.
-- Preserve the `src/components/Head.astro` transition and analytics contract, especially the `astro:after-swap` listeners and the `window.checkAnalyticsConsent`, `window.trackEngagementEvent`, and `window.trackConversionEvent` globals.
-- Preserve Cloudflare D1 invariants: binding `DB`, database name `meteoric`, database id `8380ec22-098e-4814-a56f-48d907425b35`, and `nodejs_compat`.
+| Property | Value |
+|---|---|
+| Binding name | `DB` |
+| Database name | `meteoric` |
+| Database ID | `8380ec22-098e-4814-a56f-48d907425b35` |
+| Compatibility flag | `nodejs_compat` |
 
-### Task Tracking
+Runtime access: `locals.runtime.env.DB`. All API routes validate the binding via `getDatabase(locals)` in `src/lib/api/database.ts`.
 
-The repository uses five root task files:
+## Path Aliases
 
-- `central_milestones.md` tracks major milestones, why they matter, and how they split across agents.
-- `claude_tasks.md` tracks Architect tasks.
-- `codex_tasks.md` tracks Mechanic tasks.
-- `gemini_tasks.md` tracks Marathoner tasks.
-- `jules_tasks.md` tracks Observer & Maintainer tasks.
+Configured in `tsconfig.json`. Use explicit prefixes only — wildcard `@*` aliases break Vite 7 dev mode by shadowing `@vite/env` internals.
 
-Granular execution tasks belong in agent-specific files, not in `central_milestones.md`.
+| Alias | Resolves to |
+|---|---|
+| `@/*` | `src/*` |
+| `@components/*` | `src/components/*` |
+| `@config/*` | `src/config/*` |
+| `@layouts/*` | `src/layouts/*` |
+| `@lib/*` | `src/lib/*` |
+| `@styles/*` | `src/styles/*` |
 
-### Skills Directory
+## Migration History
 
-The root `skills/` directory codifies standard operating procedures for recurring work:
-
-- `documentation.md`
-- `content_edition.md`
-- `frontend_changes.md`
-- `backend_changes.md`
-- `database_management.md`
-- `deployment.md`
-- `test_and_build_verification.md`
-
-For implementation-sensitive Astro 6 work, start from these companion docs:
-
-- `docs/astro_6_2_upgrade_plan.md`
-- `docs/astro_6_2_risk_inventory.md`
-- `docs/astro_6_2_implementation_audit.md`
-- `docs/d1_api_contract.md`
-
-### Astro 6.2 Planning Guardrail
-
-The current project uses Astro `^4.15.12` and legacy-style content collections in `src/content/config.ts`. Astro 6.2 compatibility work must be phased. Do not proactively migrate existing collections to the Astro 5+ loader pattern during baseline setup. First audit breaking changes, document the compatibility path, and preserve current collection behavior until a reviewed migration branch exists.
+This site migrated from Astro 4.15 to Astro 6 as **Project Astro-Ascension** (v5.0.0 release). The full migration plan, decisions log, task files, and test reports are in `docs/agentic-logs/` and `docs/milestone-*` subdirectories. See `docs/architecture/ARCHITECTURE.md` for the current system baseline.

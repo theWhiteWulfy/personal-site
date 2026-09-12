@@ -3,7 +3,7 @@
     "type": "module",
     "description": "thewhitewulfy/personal-site",
     "private": true,
-    "version": "4.0.1",
+    "version": "5.0.0",
     "scripts": {
         "prebuild": "node -e \"import('node:fs').then(f => f.mkdirSync('dist/client', { recursive: true }))\"",
         "dev": "astro dev",
