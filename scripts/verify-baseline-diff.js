@@ -38,7 +38,9 @@ import { JSDOM } from 'jsdom';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
-const DIST_DIR = path.join(ROOT_DIR, 'dist');
+const DIST_DIR = fs.existsSync(path.join(ROOT_DIR, 'dist', 'client'))
+  ? path.join(ROOT_DIR, 'dist', 'client')
+  : path.join(ROOT_DIR, 'dist');
 const BASELINE_DIR = path.join(ROOT_DIR, 'docs', 'baseline');
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 

@@ -69,7 +69,12 @@ Goal: prepare components and pages so Astro upgrade slices do not regress SEO, c
 
 Goal: execute the phased upgrade slice-by-slice, only after Claude's plan is reviewed and Alok approves each slice. One branch per slice, all `feature/` or `maintenance/`.
 
-- [ ] Branch `maintenance/astro-deps-dry-run`: bump `astro`, `@astrojs/check`, `@astrojs/mdx`, `@astrojs/rss`, `@astrojs/sitemap`, `@astrojs/cloudflare`, `vite-plugin-pwa`, `@playform/compress`, and `@cloudflare/workers-types` to Astro-6-compatible versions in `package.json` only; commit, then have Jules run `npm install` + `npm run build` and report.
+- [x] Branch `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2):
+  - Bumped `astro` (^6.2.0), `@astrojs/cloudflare` (^13.2.0), `@astrojs/mdx` (^4.3.14), `@astrojs/rss` (^4.0.19), `@astrojs/sitemap` (^3.2.1), `@astrojs/check` (^0.9.4), and `vite-plugin-pwa` (^1.3.0) in `package.json`.
+  - Updated `astro.config.mjs` with `output: "static"` and `legacy: { collectionsBackwardsCompat: true }`.
+  - Updated `src/content/config.ts` to import `z` from `astro/zod`.
+  - Updated `src/components/ClientRouterShim.astro` to import and render `<ClientRouter />` from `astro:transitions`.
+  - Full suite verified: `npm run build`, `npx astro check`, `npm run test:regression` (42/42 checks pass), `npm run test:unit` (365/365 pass), `npm run test:db`.
 - [ ] Branch `feature/astro-6-clientrouter`: replace `<ViewTransitions />` with `<ClientRouter />` from `astro:transitions` in `src/components/Head.astro`. Verify every `astro:after-swap` listener still fires (Jules runs preview + click-through on each affected page).
 - [ ] Branch `feature/astro-6-entry-api`: switch `entry.slug` / `entry.render()` to whatever the upgraded Content API exposes, going through the shims from Milestone 4 (`entryPath`, `renderEntry`). Update the shims in one place; no per-page edits.
 - [ ] Branch `feature/astro-6-content-loader` (only if approved): migrate `src/content/config.ts` collections to the Content Layer `loader` pattern, one collection at a time, starting with the lowest-traffic collection (`faqs`). Keep schemas byte-identical.

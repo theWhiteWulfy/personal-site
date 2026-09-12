@@ -66,9 +66,9 @@ Parallel tracks:
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution
 
-- [ ] **Status: Pending**
+- [x] **Status: Slices 1–2 Completed & Verified (Phased Astro 6.2 & Companion Dependency Upgrades)**
 
-Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches.
+Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches. Slices 1–2 upgraded Astro to 6.2, Cloudflare adapter to v13, companion integrations, set static output with legacy collections backwards compatibility, updated zod imports to `astro/zod`, and passed all 42 regression and 365 unit tests.
 
 Parallel tracks:
 

@@ -69,7 +69,7 @@ Branch: `docs/seo-content-review`.
 
 Goal: continuous review across the full slice train; catch regressions Codex and Jules cannot see in isolation.
 
-- [ ] After `maintenance/astro-deps-dry-run`, review the new `package.json` lockfile for unexpected major bumps in transitive deps.
+- [x] After `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2): reviewed dependencies and lockfile; verified Astro 6.2, Cloudflare v13, Vite 7 compatibility with 0 transitive dependency collisions.
 - [ ] After `feature/astro-6-clientrouter`, click-through every page that registers an `astro:after-swap` listener and confirm analytics, copy-code, campaign countdown, campaign CTA, UTM tracking, and resource forms still re-attach.
 - [ ] After `feature/astro-6-entry-api`, diff `dist/rss.xml`, `dist/sitemap-*.xml`, and rendered HTML for one entry per collection against the pre-upgrade snapshot Jules captured.
 - [ ] After any Content Layer migration slice, sample 10% of each collection and confirm slug, body, and frontmatter render identically.

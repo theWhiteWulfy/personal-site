@@ -59,8 +59,13 @@ describe('Astro Build Configuration (astro.config.mjs)', () => {
     expect(config.site).toBe('https://alokprateek.in/');
   });
 
-  it('should have output set to hybrid', () => {
-    expect(config.output).toBe('hybrid');
+  it('should have output set to static', () => {
+    expect(config.output).toBe('static');
+  });
+
+  it('should have legacy collections backwards compatibility enabled', () => {
+    expect(config.legacy).toBeDefined();
+    expect(config.legacy?.collectionsBackwardsCompat).toBe(true);
   });
 
   it('should have the correct markdown settings', () => {

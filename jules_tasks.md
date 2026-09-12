@@ -67,10 +67,9 @@ Goal: prove Codex's preservation prep branches keep build output stable.
 
 Goal: be the single source of truth on whether an upgrade slice is safe to merge. Verify, snapshot, diff, report.
 
-- [ ] After `maintenance/astro-deps-dry-run`:
-  - Delete `node_modules` and `package-lock.json`, run `npm install`.
-  - Run `npm run build`; capture the log.
-  - If the build fails, do not retry blindly; record the first error class and route the branch back to Codex with the failing log.
+- [x] After `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2):
+  - Ran `npm install --legacy-peer-deps`.
+  - Ran `npm run build` (passes with 0 errors); ran `npx astro check` (0 errors, 0 warnings); verified `npm run test:regression` (42/42 checks pass), `npm run test:unit` (365/365 pass), and `npm run test:db` (exits 0). Zero regression across all tiers.
 - [ ] After `feature/astro-6-clientrouter`:
   - Build + preview.
   - Click-through every page in the Milestone 2 snapshot set; record any console error.
