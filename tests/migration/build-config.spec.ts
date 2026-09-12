@@ -146,7 +146,12 @@ describe('TypeScript Configuration (tsconfig.json)', () => {
     expect(tsconfig.compilerOptions.strictNullChecks).toBe(true);
     expect(tsconfig.compilerOptions.baseUrl).toBe('.');
     expect(tsconfig.compilerOptions.paths).toBeDefined();
-    expect(tsconfig.compilerOptions.paths['@*']).toEqual(['./src/*']);
+    expect(tsconfig.compilerOptions.paths['@/*']).toEqual(['./src/*']);
+    expect(tsconfig.compilerOptions.paths['@components/*']).toEqual(['./src/components/*']);
+    expect(tsconfig.compilerOptions.paths['@config/*']).toEqual(['./src/config/*']);
+    expect(tsconfig.compilerOptions.paths['@layouts/*']).toEqual(['./src/layouts/*']);
+    expect(tsconfig.compilerOptions.paths['@lib/*']).toEqual(['./src/lib/*']);
+    expect(tsconfig.compilerOptions.paths['@styles/*']).toEqual(['./src/styles/*']);
     expect(tsconfig.exclude).toBeDefined();
     expect(tsconfig.exclude).toContain('dist');
     expect(tsconfig.exclude).toContain('public/web/experiment/js');
