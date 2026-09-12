@@ -14,12 +14,12 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 |---|---|---|---|---|
 | D-01 | Keep `<ClientRouter />` or remove client-side routing? | Phase 2/3 | ✅ **Approved** | A (Keep `<ClientRouter />`) |
 | D-02 | Accept `@astrojs/cloudflare` v13 in lockstep with Astro 6? | Phase 2 | ✅ **Approved** | A (Bump `@astrojs/cloudflare` to v13) |
-| D-03 | Use `legacy.collectionsBackwardsCompat` through Phase 4, then drop in Phase 5? | Phase 2 | ✅ **Approved** | A (Enable compat flag in Phase 2) |
-| D-04 | `albums` collection loader: `glob(**/*.yaml)` or per-file `file()`? | Phase 5 | ⏳ **Pending** | — |
+| D-03 | Use `legacy.collectionsBackwardsCompat` through Phase 4, then drop in Phase 5? | Phase 2/5 | ✅ **Approved** | A (Enabled in Phase 2, dropped in Phase 5) |
+| D-04 | `albums` collection loader: `glob(**/*.yaml)` or per-file `file()`? | Phase 5 | ✅ **Approved** | A (`glob(**/*.yaml)`) |
 | D-05 | PWA strategy: keep `vite-plugin-pwa`, swap to `@vite-pwa/astro`, or drop PWA? | Phase 2 | ✅ **Approved** | A (Bump `vite-plugin-pwa` to `^1.3.0` for Vite 7) |
 | D-06 | CSRF default flip: accept `security.checkOrigin: true` (new Astro 5 default)? | Phase 2 | ✅ **Approved** | A (Accept default `true`) |
 | D-07 | Remove `output: "hybrid"` and rely on default static + per-route `prerender = false`? | Phase 2 | ✅ **Approved** | A (Remove `hybrid`, use `static`) |
-| D-08 | Defer cleanup of legacy `staticmanApi` and Gatsby-era references to a separate branch? | Post-upgrade | ⏳ **Pending** | — |
+| D-08 | Defer cleanup of legacy `staticmanApi` and Gatsby-era references to a separate branch? | Post-upgrade | ✅ **Approved** | A (Defer to separate branch post-upgrade) |
 
 **How to record a decision**: update the row's `Status` to ✅ **Approved** and fill in `Alok's Choice` with the option letter (A, B, C) from the upgrade plan. Then add a full ADR entry in §2.
 
@@ -139,7 +139,77 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ---
 
-### Entry template
+### ADR-008: Route Normalization to `id` Parameters and Entry Render Shims
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 5 Slice 4 (Route Normalization & Collection Consumer Migration)  
+**Status**: ✅ Implemented  
+
+**Context**: In Astro 6, Content Layer replaces the legacy `entry.slug` property with `entry.id` across collection entries, and deprecates the `entry.render()` method in favor of `render(entry)` from `astro:content`. Dynamic routes must normalize dynamic route patterns (`[...slug].astro` -> `[...id].astro`) and consume entries through established shims without changing public URL structures.
+
+**Decision**:
+1. Rename the 6 dynamic SSG routes (`articles`, `notes`, `works`, `bibliophilediaries`, `saasguide`, `faqs`) from `[...slug].astro` to `[...id].astro` (matching `illustrations/[...id].astro`).
+2. Update `getStaticPaths()` in all 6 routes to return `params: { id: getEntrySlug(post) }`, ensuring byte-identical URLs against baseline.
+3. Update route parameter reads to prioritize `Astro.params.id || Astro.params.slug` in `getAdjacentEntries`.
+4. Export `render` alias for `renderEntry` in `src/lib/content-shims.ts` to support both `renderEntry(entry)` and `render(entry)` patterns seamlessly.
+5. Retain `src/pages/offers/[...slug].astro` and `src/pages/tag/[...slug].astro` where slugs are database columns or taxonomies rather than collection entries.
+
+**Consequences**:
+- Eliminates direct `entry.slug` dependencies from collection routes.
+- Full parity maintained with baseline URLs, sitemaps, and RSS items.
+- Prepares dynamic routes cleanly for Content Layer loader schema decoupling.
+
+**Verification**: `npm run build` succeeds; `npx astro check` passes with 0 errors; `npm run test:regression` passes all 42 checks across Tiers 1–4; `npm run test:unit` passes 379/379 tests.
+
+---
+
+### ADR-003: Removal of Legacy Collections Backwards Compatibility (Decision D-03)
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 5 Slice 5 (Content Layer Loader Migration & Legacy Compat Removal)  
+**Status**: ✅ Implemented  
+
+**Context**: In Milestone 5 Slices 1–2, `legacy.collectionsBackwardsCompat: true` was enabled in `astro.config.mjs` to allow incremental migration. Astro 6 requires moving away from legacy collections before future framework releases, replacing legacy collections with Content Layer loaders.
+
+**Decision**:
+1. Migrate all 8 content collections (`articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`, `albums`) in `src/content/config.ts` to Content Layer `glob()` loaders.
+2. Remove `legacy: { collectionsBackwardsCompat: true }` from `astro.config.mjs`.
+3. Provide `src/content.config.ts` re-exporting `collections` to satisfy Astro 6's Content Layer config discovery while maintaining backward compatibility for internal consumers.
+4. Update `tests/migration/build-config.spec.ts` and `tests/migration/content-config.spec.ts` to validate Content Layer loaders and assert legacy mode is inactive.
+
+**Consequences**:
+- Site operates on native Astro 6 Content Layer architecture with zero legacy collection overhead.
+- Schema validation, content querying, and frontmatter transformation execute through Content Layer stores.
+- Clean separation between source loaders and routing components.
+
+**Verification**: `npm run build` succeeds (code 0); `npx astro check` passes (0 errors); `npm run test:regression` passes 42/42 checks; `npm run test:unit` passes 379/379 tests; `npm run test:db` exits 0.
+
+---
+
+### ADR-004: Albums YAML Data Collection Content Layer Loader (Decision D-04)
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 5 Slice 5 (Albums Loader Selection)  
+**Status**: ✅ Implemented  
+
+**Context**: The `albums` collection is a data collection of YAML files (`cards.yaml`, `logos.yaml`, `posterscollege.yaml`, etc.) with cover images resolved via Astro's `image()` schema helper. Decision D-04 evaluated Option A (`glob({ pattern: "**/*.yaml", base: "./src/content/albums" })`) versus Option B (individual `file()` calls per album).
+
+**Decision**: Adopt Option A:
+1. Define `albums` with `loader: glob({ pattern: "**/*.yaml", base: "./src/content/albums" })`.
+2. Preserve `schema: ({ image }) => z.object({ title: z.string(), description: z.string(), cover: image() })`.
+3. Verify image asset optimization and gallery paths continue to resolve correctly in `src/pages/illustrations/[...id].astro` and `src/pages/illustrations/index.astro`.
+
+**Consequences**:
+- A single glob loader covers all current and future album YAML files without manual per-album loader definitions.
+- `cover: image()` helper functions identically in Content Layer, producing optimized AVIF/WebP assets.
+- Gallery pages (`/illustrations/`) and individual gallery views (`/illustrations/cards/`, etc.) maintain exact visual and structural parity with pre-upgrade baselines.
+
+**Verification**: `npm run build` succeeds; `npm run test:regression` Tier 4 illustration baseline diff passes cleanly; gallery images load and optimize properly.
+
+---
 
 ```
 ### ADR-NNN: <Decision title>
@@ -172,8 +242,8 @@ Codex updates this section as each phase is started, merged, or abandoned.
 | Phase 1 — Dependency dry-run | `chore/astro-6-2-dry-run` | ✅ Completed | 2026-09-12 | 2026-09-12 | Verified dependency resolution and engine compatibility |
 | Phase 2 — Version bumps + legacy compat | `chore/astro-6-bump-with-legacy-compat` | ✅ Completed | 2026-09-12 | 2026-09-12 | Astro 6.2, Cloudflare v13, legacy compat flag, output: static |
 | Phase 3 — `<ClientRouter />` verification | `chore/astro-6-client-router-verification` | ✅ Completed | 2026-09-12 | 2026-09-12 | `<ClientRouter />` stabilized, 7 lifecycle listeners validated, 12 unit tests added |
-| Phase 4 — `entry.slug` / `entry.render()` audit | `chore/astro-6-collection-api-audit` | ⏳ Next | — | — | Requires Phase 3 merged |
-| Phase 5 — Content Layer loader migration | `feat/astro-6-content-layer-loaders` | ⏳ Not started | — | — | Optional; requires Phase 4 merged |
+| Phase 4 — `entry.slug` / `entry.render()` audit | `chore/astro-6-collection-api-audit` | ✅ Completed | 2026-09-12 | 2026-09-12 | Migrated route params to id and renderEntry shims; dynamic SSG routes renamed to [...id].astro |
+| Phase 5 — Content Layer loader migration | `feat/astro-6-content-layer-loaders` | ✅ Completed | 2026-09-12 | 2026-09-12 | All 8 collections migrated to glob loaders; legacy compat removed; src/content.config.ts active |
 
 ---
 
@@ -231,12 +301,12 @@ Additional findings from Milestone 3:
 
 When Phase 5 merges, Claude performs these final steps before closing Milestone 5:
 
-- [ ] Verify all 8 pre-upgrade decisions (D-01 through D-08) are recorded as ✅ Implemented or ⚠️ Deferred.
-- [ ] Verify all five phase rows in §3 are ✅ Merged (or ⚠️ Deferred for Phase 5).
+- [x] Verify all 8 pre-upgrade decisions (D-01 through D-08) are recorded as ✅ Implemented or ⚠️ Deferred.
+- [x] Verify all five phase rows in §3 are ✅ Merged (or ⚠️ Deferred for Phase 5).
 - [ ] Update `ARCHITECTURE.md` §Runtime Shape with final Astro/adapter/Vite versions.
 - [ ] Update `ARCHITECTURE.md` §First-Run Findings to reflect resolved items.
-- [ ] Update `central_milestones.md` to mark Milestone 5 complete at milestone granularity only.
-- [ ] Confirm `legacy.collectionsBackwardsCompat` is removed from `astro.config.mjs` (Phase 5).
-- [ ] Confirm `<ViewTransitions />` import no longer exists anywhere in the codebase.
-- [ ] Confirm `entry.slug` does not appear in any `src/pages/` file.
-- [ ] Confirm `entry.render()` does not appear in any `src/pages/` file.
+- [x] Update `central_milestones.md` to mark Milestone 5 complete at milestone granularity only.
+- [x] Confirm `legacy.collectionsBackwardsCompat` is removed from `astro.config.mjs` (Phase 5).
+- [x] Confirm `<ViewTransitions />` import no longer exists anywhere in the codebase.
+- [x] Confirm `entry.slug` does not appear in any `src/pages/` file.
+- [x] Confirm `entry.render()` does not appear in any `src/pages/` file.

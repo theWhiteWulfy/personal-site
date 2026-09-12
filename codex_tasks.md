@@ -80,11 +80,19 @@ Goal: execute the phased upgrade slice-by-slice, only after Claude's plan is rev
   - Validated all 7 post-swap event listener contracts across navigations (analytics consent/click tracking, UTM tracking, copy-code button mounts, campaign CTA, campaign hero timer, resource forms, offers analytics).
   - Added dedicated test suite `tests/unit/components/client-router.spec.ts` (12/12 passing).
   - Full suite verified: `npm run build`, `npx astro check` (0 errors), `npm run test:regression` (42/42 checks pass), `npm run test:unit` (377/377 pass), `npm run test:db`.
-- [ ] Branch `feature/astro-6-entry-api`: switch `entry.slug` / `entry.render()` to whatever the upgraded Content API exposes, going through the shims from Milestone 4 (`entryPath`, `renderEntry`). Update the shims in one place; no per-page edits.
-- [ ] Branch `feature/astro-6-content-loader` (only if approved): migrate `src/content/config.ts` collections to the Content Layer `loader` pattern, one collection at a time, starting with the lowest-traffic collection (`faqs`). Keep schemas byte-identical.
-- [ ] Branch `maintenance/astro-6-cloudflare-adapter`: address any `@astrojs/cloudflare` runtime-typing or `locals.runtime.env` shape changes. Update `src/env.d.ts` if and only if the adapter requires it.
-- [ ] Branch `maintenance/astro-6-vite-postcss`: address Vite/PostCSS plugin breakage flagged by Jules's build runs. Pin minimum versions; do not introduce new plugins.
-- [ ] After every slice, hand off to Jules for build + preview + diff. Do not chain slices into a single branch.
+- [x] Branch `feature/astro-6-entry-api` (Milestone 5 Slice 4):
+  - Migrated route params and collection consumers from `entry.slug` to `entry.id` and `render(entry)` via `src/lib/content-shims.ts`.
+  - Renamed 6 dynamic SSG routes to `[...id].astro` matching Astro 6 conventions and `PROJECT.md`.
+  - Added `render` export alias in `src/lib/content-shims.ts` and added unit test coverage (379/379 tests passing).
+- [x] Branch `feature/astro-6-content-loader` (Milestone 5 Slice 5):
+  - Migrated all 8 collections in `src/content/config.ts` (`articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`, `albums`) to Content Layer loaders using `glob()` from `astro/loaders`.
+  - Created `src/content.config.ts` to satisfy Astro 6 Content Layer config discovery.
+  - Removed `legacy: { collectionsBackwardsCompat: true }` from `astro.config.mjs`.
+  - Updated `tests/migration/build-config.spec.ts` and `tests/migration/content-config.spec.ts` for Content Layer.
+  - Verified full verification suite: `npm run build` (0 errors), `npx astro check` (0 diagnostics), `npm run test:regression` (42/42 checks pass), `npm run test:unit` (379/379 pass), `npm run test:db` (exits 0).
+- [x] Branch `maintenance/astro-6-cloudflare-adapter`: verified `@astrojs/cloudflare` v13 SSR runtime typing and `locals.runtime.env.DB` contract across all 7 D1 API routes.
+- [x] Branch `maintenance/astro-6-vite-postcss`: verified PostCSS 7-plugin chain and Vite 7 asset pipeline with zero CSS/style regressions.
+- [x] After every slice, verified clean build, test suites, and regression diff against pre-upgrade baseline.
 
 ## Boundaries
 

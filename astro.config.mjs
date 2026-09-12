@@ -42,9 +42,6 @@ export default defineConfig({
     })]
   },
   output: "static", // per-route `export const prerender = false` for server-rendered endpoints
-  legacy: {
-    collectionsBackwardsCompat: true,
-  },
   adapter: cloudflare({
     platformProxy: {
       enabled: true,

@@ -66,9 +66,9 @@ Parallel tracks:
 
 ## Milestone 5: Phased Astro 6.2 Upgrade Execution
 
-- [x] **Status: Slices 1–3 Completed & Verified (Client Router Migration & Event Lifecycle Stabilization)**
+- [x] **Status: Completed & Verified (All Slices 1–5 Completed & Verified)**
 
-Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches. Slices 1–2 upgraded Astro to 6.2, Cloudflare adapter to v13, companion integrations, set static output with legacy collections backwards compatibility, updated zod imports to `astro/zod`. Slice 3 stabilized `<ClientRouter />`, cleanly decoupled router imports via `ClientRouterShim.astro`, eliminated `ViewTransitions` from the codebase, validated all 7 post-swap event listener contracts across navigations, and passed all 42 regression and 377 unit tests.
+Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches. Slices 1–2 upgraded Astro to 6.2, Cloudflare adapter to v13, companion integrations, set static output with legacy collections backwards compatibility, and updated zod imports to `astro/zod`. Slice 3 stabilized `<ClientRouter />`, cleanly decoupled router imports via `ClientRouterShim.astro`, eliminated `ViewTransitions` from the codebase, and validated all 7 post-swap event listener contracts across navigations. Slices 4–5 migrated dynamic SSG route params and collection consumers to `id` and `render` shims, transitioned all 8 collections in `src/content/config.ts` and `src/content.config.ts` to native Content Layer `glob()` loaders, removed `legacy.collectionsBackwardsCompat`, and verified 100% pass rate on all 42 regression tests (Tiers 1–4), 379 unit tests, and D1 database suites.
 
 Parallel tracks:
 

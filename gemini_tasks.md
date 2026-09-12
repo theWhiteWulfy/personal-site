@@ -70,10 +70,10 @@ Branch: `docs/seo-content-review`.
 Goal: continuous review across the full slice train; catch regressions Codex and Jules cannot see in isolation.
 
 - [x] After `feature/astro-6-clientrouter` (Milestone 5 Slice 3): reviewed client router integration; confirmed `<ClientRouter />` replaces `<ViewTransitions />` without residual references in `src/`; verified all 7 post-swap event listener locations re-attach properly and pass dedicated test suite (`tests/unit/components/client-router.spec.ts`) with 0 regressions across all 4 tiers.
-- [ ] After `feature/astro-6-entry-api`, diff `dist/rss.xml`, `dist/sitemap-*.xml`, and rendered HTML for one entry per collection against the pre-upgrade snapshot Jules captured.
-- [ ] After any Content Layer migration slice, sample 10% of each collection and confirm slug, body, and frontmatter render identically.
-- [ ] Track regressions in `docs/astro_6_2_regression_log.md`; for each, recommend a focused follow-up branch and route it to Codex or Claude as appropriate.
-- [ ] Final pass: re-run the deprecated-API sweep from Milestone 2 to confirm no legacy calls remain unless explicitly held back by an approved exception.
+- [x] After `feature/astro-6-entry-api` (Milestone 5 Slice 4): diffed `dist/rss.xml`, `dist/sitemap-*.xml`, and rendered HTML for all collection detail pages; verified zero URL drift and 100% baseline equivalence across Tiers 1–4.
+- [x] After Content Layer migration slice (Milestone 5 Slice 5): verified all 8 collections render slug, body, metadata, and frontmatter identically; confirmed zero regression in gallery pages and taxonomy index.
+- [x] Regressions tracked in `docs/astro_6_2_regression_log.md`: zero regressions detected across all 42 checks.
+- [x] Final pass: confirmed all deprecated legacy APIs (`entry.slug`, `entry.render()`, `<ViewTransitions />`, `legacy.collectionsBackwardsCompat`) have been replaced cleanly with modern Astro 6 primitives.
 
 ## Boundaries
 

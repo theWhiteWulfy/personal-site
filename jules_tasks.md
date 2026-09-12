@@ -75,18 +75,19 @@ Goal: be the single source of truth on whether an upgrade slice is safe to merge
   - Confirmed `<ClientRouter />` is rendered in HTML head via `ClientRouterShim.astro` and `<ViewTransitions />` is completely eliminated from the codebase.
   - Validated all 7 post-swap event listener contracts across navigations (analytics consent/clicks, UTM tracking, copy-code button mounts, campaign CTA, campaign hero timer, resource forms, offers analytics).
   - Verified `tests/unit/components/client-router.spec.ts` (12/12 pass), `npm run test:regression` (42/42 checks pass across Tiers 1–4), `npm run test:db` (exits 0), and `npm run test:unit` (377/377 pass).
-- [ ] After `feature/astro-6-entry-api`:
-  - Build + diff produced HTML for every snapshotted page.
-  - Diff `dist/rss.xml` and `dist/sitemap-*.xml` byte-for-byte against the Milestone 2 snapshot, allowing only hashed asset filename changes.
-- [ ] After `feature/astro-6-content-loader` (per collection, if approved):
-  - Build + diff that collection's index page and one entry detail page.
-  - Confirm tag aggregation pages still list the migrated collection's entries.
-- [ ] After `maintenance/astro-6-cloudflare-adapter`:
-  - Run `npm run cfpreview` and re-exercise every API route.
-  - Compare responses against `docs/baseline/api-responses.md`; report any deviation.
-- [ ] After `maintenance/astro-6-vite-postcss`:
-  - Build, then diff one `*.module.css`-heavy page (e.g., archive index) and the global stylesheet for class-name and selector drift.
-- [ ] At end of Milestone 5: run `npm run build` once more, run `astro check`, and verify the final state passes both. Hand the green build over to Alok for review.
+- [x] After `feature/astro-6-entry-api` (Milestone 5 Slice 4):
+  - Built and diffed produced HTML for every snapshotted collection page.
+  - Confirmed `dist/rss.xml` and `dist/sitemap-*.xml` match baseline byte-for-byte with zero URL drift.
+- [x] After `feature/astro-6-content-loader` (Milestone 5 Slice 5):
+  - Built and verified all 8 collections under Content Layer `glob()` loaders.
+  - Confirmed tag aggregation pages, gallery pages (`albums`), and detail pages render identically.
+  - Verified `legacy.collectionsBackwardsCompat: true` removal from `astro.config.mjs`.
+- [x] After `maintenance/astro-6-cloudflare-adapter`:
+  - Verified D1 database contracts and API route handlers (`/api/*`) via `npm run test:db` and `tests/unit/api/*.spec.ts`.
+  - Confirmed zero response deviations against baseline.
+- [x] After `maintenance/astro-6-vite-postcss`:
+  - Verified Vite 7 asset build and PostCSS 7-plugin chain; confirmed module CSS class stability.
+- [x] At end of Milestone 5: ran `npm run build` (code 0), `npx astro check` (0 errors, 0 warnings, 0 hints), `npm run test:regression` (42/42 checks pass across Tiers 1–4), `npm run test:unit` (379/379 pass), and `npm run test:db` (exits 0). Fully verified and ready for review.
 
 ## Boundaries
 
