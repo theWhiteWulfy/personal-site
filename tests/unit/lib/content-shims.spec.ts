@@ -159,4 +159,22 @@ describe("content-shims: getAdjacentEntries", () => {
   it("exports getAdjacentPosts as alias for getAdjacentEntries", () => {
     expect(getAdjacentPosts).toBe(getAdjacentEntries);
   });
+
+  it("handles Content Layer entries having only id (no slug)", () => {
+    const contentLayerPosts = [
+      { id: "alpha", data: { title: "Alpha" } },
+      { id: "beta", data: { title: "Beta" } },
+      { id: "gamma", data: { title: "Gamma" } },
+    ];
+    const { prevPost, nextPost } = getAdjacentEntries(contentLayerPosts, "beta");
+    expect(prevPost?.id).toBe("alpha");
+    expect(nextPost?.id).toBe("gamma");
+  });
+});
+
+describe("content-shims: render alias", () => {
+  it("exports render as an alias for renderEntry", async () => {
+    const { render, renderEntry } = await import("@lib/content-shims");
+    expect(render).toBe(renderEntry);
+  });
 });

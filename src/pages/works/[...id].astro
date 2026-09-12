@@ -13,24 +13,22 @@ import { getAdjacentEntries, getEntrySlug, renderEntry } from "@lib/content-shim
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("saasguide"))
+  const posts = (await getCollection("works"))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return posts.map((post) => ({
-    params: { slug: getEntrySlug(post) },
+    params: { id: getEntrySlug(post) },
     props: post,
   }));
 }
+type Props = CollectionEntry<"works">;
 
-type Props = CollectionEntry<"saasguide">;
+const posts = await getCollection("works");
 
-const posts = await getCollection("saasguide");
-
-const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.slug || (Astro.params as any).id);
+const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.id || (Astro.params as any).slug);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await renderEntry(post);
-
 
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
@@ -115,6 +113,7 @@ let lastModified = remarkPluginFrontmatter.lastModified
         {
             post.data.image && (
                 <AstroImage
+                    imgFolder="cover"
                     imagePath={ post.data.image }
                     className={style.cover}
                     styles="background-color:var(--input-background-color)"

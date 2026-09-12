@@ -205,3 +205,4 @@ export function getAdjacentEntries<T extends EntryLike>(
 
 // Backwards-compatible alias for existing imports
 export const getAdjacentPosts = getAdjacentEntries;
+export { renderEntry as render };

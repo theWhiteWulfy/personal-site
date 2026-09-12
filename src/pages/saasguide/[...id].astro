@@ -1,45 +1,40 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import { slugify } from '@lib/slugify.mjs';
 import PostNavigation from "@components/PostNavigation.astro";
 import style from "@styles/document.module.css";
+import { slugify } from '@lib/slugify.mjs';
 import Link from "@components/Link.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import AstroImage from "@components/AstroImage.astro";
-import type { FAQData } from "@lib/schema-generators";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { getAdjacentEntries, getEntrySlug, renderEntry, entryPath } from "@lib/content-shims";
+import { getAdjacentEntries, getEntrySlug, renderEntry } from "@lib/content-shims";
 dayjs.extend(utc);
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("faqs"))
+  const posts = (await getCollection("saasguide"))
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.order.valueOf() - a.data.order.valueOf());
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return posts.map((post) => ({
-    params: { slug: getEntrySlug(post) },
+    params: { id: getEntrySlug(post) },
     props: post,
   }));
 }
-type Props = CollectionEntry<"faqs">;
 
-const posts = await getCollection("faqs");
+type Props = CollectionEntry<"saasguide">;
 
-const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.slug || (Astro.params as any).id);
+const posts = await getCollection("saasguide");
+
+const { nextPost, prevPost } = getAdjacentEntries(posts, Astro.params.id || (Astro.params as any).slug);
 
 const post = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await renderEntry(post);
 
+
 let lastModified = remarkPluginFrontmatter.lastModified
     ? dayjs(remarkPluginFrontmatter.lastModified).utc().format("dddd, MMMM D, YYYY [at] h:mm A")
     : null;
-
-// Create FAQ schema data for individual FAQ page
-const faqData: FAQData[] = [{
-    question: post.data.title,
-    answer: post.data.excerpt || "Detailed answer available on the page"
-}];
 ---
 
 
@@ -51,9 +46,6 @@ const faqData: FAQData[] = [{
     dateModified={lastModified}
     metaImageSrc={post.data.image}
     article={false}
-    pageType="faq"
-    faqs={faqData}
-    path={entryPath('faqs', post, { trailingSlash: true })}
 >
 <main id="main">
     <article class={`${style.document} h-entry`}>
