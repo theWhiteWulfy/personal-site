@@ -27,7 +27,7 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ## 2. Decision Log Entries
 
-### ADR-004: Content and SEO Preservation Shims
+### ADR-000: Content and SEO Preservation Shims (Milestone 4)
 
 **Date**: 2026-09-12  
 **Branch**: `complete_astro_v6_migration`  
@@ -107,7 +107,7 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ---
 
-### ADR-001 / ADR-007: Client Router Migration and Post-Swap Event Lifecycle Stabilization (Decision D-01)
+### ADR-001: Client Router Migration and Post-Swap Event Lifecycle Stabilization (Decision D-01)
 
 **Date**: 2026-09-12  
 **Branch**: `complete_astro_v6_migration`  
@@ -136,6 +136,30 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 - Zero URL, metadata, schema, or asset regression against baseline.
 
 **Verification**: `npm run build` succeeds (code 0); `npx astro check` passes with 0 errors and 0 warnings; `npm run test:regression` passes all 42 checks across Tiers 1–4; `npm run test:unit` passes 377/377 tests (including all 12 tests in `tests/unit/components/client-router.spec.ts`); `npm run test:db` exits 0.
+
+---
+
+### ADR-002: Cloudflare Adapter v13 Upgrade and Platform Proxy Integration (Decision D-02)
+
+**Date**: 2026-09-12  
+**Branch**: `complete_astro_v6_migration`  
+**Phase**: Milestone 5 Slice 1–2 (Cloudflare Adapter Upgrade & Environment Integration)  
+**Status**: ✅ Implemented  
+
+**Context**: Moving to Astro 6 requires updating `@astrojs/cloudflare` to `^13.2.0` (Decision D-02 Option A). The integration must maintain support for `platformProxy.enabled` during local development, ensure passthrough image optimization, preserve `locals.runtime.env.DB` bindings across on-demand SSR endpoints, and prevent clean checkout asset storage initialization failures.
+
+**Decision**:
+1. Bump `@astrojs/cloudflare` to `^13.2.0` in `package.json`.
+2. Configure `astro.config.mjs` with `adapter: cloudflare({ platformProxy: { enabled: true }, imageService: 'passthrough' })`.
+3. Add a top-level prebuild / config directory guard (`fs.mkdirSync('./dist/client', { recursive: true })`) ensuring Miniflare / workerd platform proxy initializes reliably on clean checkouts.
+4. Verify all 7 D1 API endpoints continue to access the Cloudflare D1 binding via `locals.runtime.env.DB`.
+
+**Consequences**:
+- Adapter runs on the modern Cloudflare v13 runtime with workerd emulation.
+- Clean git checkouts and CI environments build without `assets:storage` directory errors.
+- API endpoints retain full parity with D1 database operations.
+
+**Verification**: `npm run build` succeeds on clean workspace without prior `dist/`; `npm run test:db` passes; `npx astro check` passes (0 errors); all 42 regression diff checks pass.
 
 ---
 
@@ -211,28 +235,6 @@ These eight decisions are described in the upgrade plan §4 with options and rec
 
 ---
 
-```
-### ADR-NNN: <Decision title>
-
-**Date**: YYYY-MM-DD  
-**Branch**: `<branch-name>`  
-**Phase**: Phase N  
-**Status**: ✅ Implemented | ⚠️ Deferred | ❌ Reversed
-
-**Context**: 1–2 sentences describing the situation that forced this decision.
-
-**Decision**: Which option was chosen and why.
-
-**Consequences**:
-- What changed in the codebase.
-- Any follow-up tasks created.
-- Any risks introduced or mitigated.
-
-**Verification**: What Jules confirmed (build green / tests passing / diff clean).
-```
-
----
-
 ## 3. Upgrade Phase Status
 
 Codex updates this section as each phase is started, merged, or abandoned.
@@ -253,22 +255,9 @@ Claude updates `ARCHITECTURE.md` after each Codex phase merges. This section tra
 
 | Phase | Section(s) updated | Date | Summary of change |
 |---|---|---|---|
-| — | — | — | *No updates yet. Pre-upgrade state documented in Milestone 1.* |
-
-After Phase 2 merges, the following sections must be updated in `ARCHITECTURE.md`:
-- **Runtime Shape**: bump Astro version, adapter version, remove `output: "hybrid"`.
-- **Content Collections**: note `legacy.collectionsBackwardsCompat: true` is active.
-- **Head Component**: note `<ClientRouter />` is now in use.
-- **Dependencies**: update all version numbers.
-- **Upgrade Risks**: mark resolved items from the First-Run Findings.
-
-After Phase 4 merges:
-- **Collection Usage Patterns**: change `entry.slug → entry.id`, `entry.render() → render(entry)`.
-- **RSS Feed**: change link template to `/${item.collection}/${item.id}/`.
-
-After Phase 5 merges:
-- **Content Collections**: document Content Layer loader shape; note compat flag removed.
-- **First-Run Findings**: close the Astro upgrade risk items.
+| Milestone 1 | All sections | 2026-09-12 | Initial structural baseline and first-run architecture documentation. |
+| Milestone 4 | Head Component, Routing, SEO | 2026-09-12 | Documented `ClientRouterShim`, `onPageSwap` lifecycle helper, and content shims. |
+| Milestone 5 | Runtime Shape, Content Collections, Cloudflare/D1, Dependencies, First-Run Findings, Post-Upgrade State | 2026-09-12 | Synchronized to Astro 6.2, `@astrojs/cloudflare` v13, Vite 7, `output: static`, native Content Layer loaders (`glob()`), resolved findings F-1 and F-2, clean checkout guard. |
 
 ---
 
@@ -278,8 +267,8 @@ Tracks the original eight First-Run Findings from `ARCHITECTURE.md`. Updated aft
 
 | Finding | Original description | Status | Resolution |
 |---|---|---|---|
-| F-1 | Missing `scripts/migrate-database.js` and `scripts/verify-database.js` | ⏳ Open | Spec documented in `docs/d1_api_contract.md` §5.2. Codex implements when authorized. |
-| F-2 | Missing D1 table migrations for `newsletter` and `leads` tables | ⏳ Open | Spec documented in `docs/d1_api_contract.md` §5.1. Codex creates SQL; Jules verifies. |
+| F-1 | Missing `scripts/migrate-database.js` and `scripts/verify-database.js` | ✅ Resolved | Implemented and verified in Milestone 1 via `scripts/migrate-database.js`, `scripts/verify-database.js`, and automated unit tests. |
+| F-2 | Missing D1 table migrations for `newsletter` and `leads` tables | ✅ Resolved | Implemented and verified in Milestone 1 via `scripts/004_create_newsletter.sql` and `scripts/005_create_leads.sql`. |
 | F-3 | Empty `src/utils/` directory | ⏳ Open | No action required unless a utility is added during upgrade. |
 | F-4 | Legacy Staticman API reference | ⏳ Open | Decision D-08: defer to `chore/legacy-cleanup` branch post-upgrade. |
 | F-5 | Empty reCAPTCHA keys | ⏳ Open | No active code paths use them. Defer cleanup to D-08 branch. |
@@ -303,8 +292,8 @@ When Phase 5 merges, Claude performs these final steps before closing Milestone 
 
 - [x] Verify all 8 pre-upgrade decisions (D-01 through D-08) are recorded as ✅ Implemented or ⚠️ Deferred.
 - [x] Verify all five phase rows in §3 are ✅ Merged (or ⚠️ Deferred for Phase 5).
-- [ ] Update `ARCHITECTURE.md` §Runtime Shape with final Astro/adapter/Vite versions.
-- [ ] Update `ARCHITECTURE.md` §First-Run Findings to reflect resolved items.
+- [x] Update `ARCHITECTURE.md` §Runtime Shape with final Astro/adapter/Vite versions.
+- [x] Update `ARCHITECTURE.md` §First-Run Findings to reflect resolved items.
 - [x] Update `central_milestones.md` to mark Milestone 5 complete at milestone granularity only.
 - [x] Confirm `legacy.collectionsBackwardsCompat` is removed from `astro.config.mjs` (Phase 5).
 - [x] Confirm `<ViewTransitions />` import no longer exists anywhere in the codebase.

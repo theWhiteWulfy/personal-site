@@ -4,15 +4,17 @@ This document records the first-run structural baseline for `theWhiteWulfy/perso
 
 ## Runtime Shape
 
-The site is an Astro 4.15 project configured in `astro.config.mjs`.
+The site is an Astro 6.2 project configured in `astro.config.mjs`.
 
 - `site` is set to `https://alokprateek.in/`.
-- Output mode is `hybrid`, so static pages and server-rendered API routes coexist.
+- Output mode is `static`, replacing legacy `hybrid` mode. Server-rendered API routes declare `export const prerender = false` to enable dynamic execution under Cloudflare Pages.
 - Integrations include `@astrojs/sitemap`, `@astrojs/mdx`, `@playform/compress`, and `vite-plugin-pwa`.
-- The Cloudflare adapter is enabled through `@astrojs/cloudflare` with `platformProxy.enabled` and passthrough image service behavior.
+- The Cloudflare adapter is enabled through `@astrojs/cloudflare` (v13.2.0) with `platformProxy.enabled` and passthrough image service (`imageService: 'passthrough'`).
+- A pristine checkout guard (`fs.mkdirSync('./dist/client', { recursive: true })`) in `astro.config.mjs` and `package.json` guarantees that Miniflare / workerd platform proxy initializes reliably even when building from a clean clone without `dist/`.
 - Markdown uses Prism highlighting and remark plugins for reading time and modified time.
+- Client-side CSRF protection uses Astro's default `security.checkOrigin: true`.
 
-The project currently targets Astro `^4.15.12` with `@astrojs/cloudflare ^11.0.1`, `@astrojs/mdx ^3.1.0`, and `@astrojs/rss ^4.0.6`.
+The project targets Astro `^6.2.0` with `@astrojs/cloudflare ^13.2.0`, `@astrojs/mdx ^4.3.14`, `@astrojs/rss ^4.0.19`, `@astrojs/sitemap ^3.2.1`, `@astrojs/check ^0.9.4`, and Vite 7.
 
 ## Source Layout
 
@@ -32,29 +34,24 @@ The project currently targets Astro `^4.15.12` with `@astrojs/cloudflare ^11.0.1
 
 ### Definition and Schema
 
-`src/content/config.ts` defines Astro content collections with `defineCollection` from `astro:content`.
+`src/content.config.ts` (and `src/content/config.ts`) defines Astro Content Layer collections with `defineCollection` and `glob` from `astro/loaders`, and schema validation types from `astro/zod`.
 
-Content collections (all `type: "content"`, Markdown/MDX files):
+Content collections (all powered by Content Layer `glob` loaders):
 
-| Collection           | Extra Fields                  | Directory                          |
-| -------------------- | ----------------------------- | ---------------------------------- |
-| `articles`           | Standard frontmatter          | `src/content/articles/`            |
-| `notes`              | Standard frontmatter          | `src/content/notes/`               |
-| `works`              | `output: z.boolean().optional()` added | `src/content/works/`        |
-| `illustrations`      | Standard frontmatter          | `src/content/illustrations/`       |
-| `bibliophilediaries` | Standard frontmatter          | `src/content/bibliophilediaries/`  |
-| `saasguide`          | Standard frontmatter          | `src/content/saasguide/`           |
-| `faqs`               | `order: z.number()` required, `excerpt` optional | `src/content/faqs/` |
-
-Data collection:
-
-| Collection | Type   | Schema Details                                     | Directory                  |
-| ---------- | ------ | -------------------------------------------------- | -------------------------- |
-| `albums`   | `data` | `title: string`, `description: string`, `cover: image()` | `src/content/albums/` |
+| Collection           | Loader Pattern | Schema Details | Directory |
+| -------------------- | -------------- | -------------- | --------- |
+| `articles`           | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/articles" })` | Standard frontmatter | `src/content/articles/` |
+| `notes`              | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/notes" })` | Standard frontmatter | `src/content/notes/` |
+| `works`              | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/works" })` | `output: z.boolean().optional()` added | `src/content/works/` |
+| `illustrations`      | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/illustrations" })` | Standard frontmatter | `src/content/illustrations/` |
+| `bibliophilediaries` | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/bibliophilediaries" })` | Standard frontmatter | `src/content/bibliophilediaries/` |
+| `saasguide`          | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/saasguide" })` | Standard frontmatter | `src/content/saasguide/` |
+| `faqs`               | `glob({ pattern: "**/*.{md,mdx}", base: "./src/content/faqs" })` | `order: z.number()` required, `excerpt` optional | `src/content/faqs/` |
+| `albums`             | `glob({ pattern: "**/*.yaml", base: "./src/content/albums" })` | `title: string`, `description: string`, `cover: image()` | `src/content/albums/` |
 
 ### Shared Frontmatter Shape
 
-All content collections (except `faqs` and `albums`) share this Zod schema:
+All content collections (except `faqs` and `albums`) share this Zod schema (imported from `astro/zod`):
 
 ```
 title: z.string()                          // required
@@ -97,9 +94,9 @@ Each `.yaml` file uses the `albums` schema: `title`, `description`, and `cover` 
 
 ### Collection Usage Patterns
 
-Dynamic route files use `getCollection()`, collection entry filtering (typically `!entry.data.draft`), `entry.slug`, and `entry.render()`. The RSS feed aggregates `articles`, `works`, `notes`, `bibliophilediaries`, and `saasguide` collections (excluding drafts) into a merged, date-sorted feed.
+Dynamic route files use `getCollection()`, collection entry filtering (typically `!entry.data.draft`), `entry.id`, and `render(entry)` via `src/lib/content-shims.ts`. Dynamic route files are normalized to `[...id].astro` parameters. Canonical path resolution is delegated to `entryPath(collection, entry.id)` to guarantee 100% byte-compatibility against pre-upgrade baseline URLs. The RSS feed aggregates `articles`, `works`, `notes`, `bibliophilediaries`, and `saasguide` collections (excluding drafts) into a merged, date-sorted feed using `entryPath()`.
 
-Astro 6.2 planning note: do not proactively migrate these collections to the Astro 5+ loader pattern during the baseline. The official Astro v6 upgrade path indicates that automatic legacy collection compatibility is removed in v6, and the project should first use a phased compatibility strategy before any content-layer migration.
+Astro 6.2 migration note: All collections have been fully migrated to native Content Layer `glob()` loaders. Legacy collection backwards compatibility (`legacy.collectionsBackwardsCompat`) was completely removed in Milestone 5 Slice 5.
 
 ### Taxonomy
 
@@ -140,11 +137,10 @@ Static and MDX pages include home, about, contact, support, terms, sitemap, What
 - Conditional preconnect for Clarity on service, contact, and home page types;
 - Fonts are self-hosted via Fontsource (`@fontsource/prompt`, `@fontsource/zilla-slab`), no external font hints.
 
-**Astro view transitions:**
-- Imports and renders `<ViewTransitions />` from `astro:transitions`;
-- Post-transition re-initialization for analytics event listeners and copy-code buttons via `astro:after-swap`.
-
-Astro 6.2 planning note: `<ViewTransitions />` is removed in Astro 6 in favor of the newer client router component. This must be handled in a dedicated compatibility branch.
+**Astro client router and event lifecycles:**
+- Imports and renders `<ClientRouter />` from `astro:transitions/client` (isolated in `src/components/ClientRouterShim.astro` and mounted via `src/components/Head.astro`).
+- Post-transition re-initialization for analytics event listeners, UTM attribution, CTA/hero interactions, resource forms, and copy-code buttons is coordinated through the unified `onPageSwap` abstraction in `src/lib/page-events.ts`.
+- `onPageSwap` listens to both initial DOM readiness (`DOMContentLoaded`) and subsequent client navigations (`astro:after-swap`), providing SSR safety, unsubscription cleanup, and robust error boundaries.
 
 ### Schema.org JSON-LD
 
@@ -256,13 +252,13 @@ All server-rendered API routes access the database through `locals.runtime.env.D
 Every API route follows a consistent pattern:
 
 1. Declare `export const prerender = false;` to enable server-side rendering;
-2. Check `locals?.runtime?.env?.DB` exists (return 500 if missing);
-3. Destructure `const { DB } = locals.runtime.env;`;
+2. Verify database connectivity using `getDatabase(locals)` from `src/lib/api/database.ts` (returns HTTP 500 JSON response if unconfigured);
+3. Destructure `const DB = dbCheck.DB;`;
 4. Execute D1 queries via `DB.prepare(query).bind(...params).run()` or `.first()` or `.all()`.
 
 ### D1 Database Schema
 
-Three ordered SQL migrations in `scripts/`:
+Five ordered SQL migrations in `scripts/`, managed by `scripts/migrate-database.js` and verified by `scripts/verify-database.js`:
 
 **001: `resource_downloads` table**
 | Column | Type | Notes |
@@ -330,7 +326,26 @@ Indexes: `event_type`, `timestamp`, `user_email`, `session_id`, composite `(even
 
 Indexes: `campaigns(slug)`, `campaigns(status)`, `campaigns(start_date, end_date)`, `campaigns(status, start_date, end_date)`, `campaign_visits(campaign_id)`, `campaign_visits(visit_timestamp)`, `campaign_visits(utm_source)`, `campaign_visits(utm_campaign)`, `campaign_visits(conversion_type)`, `campaign_visits(session_id)`, composite `(campaign_id, visit_timestamp)`, composite `(utm_source, utm_medium)`, composite `(conversion_type, campaign_id)`.
 
-Finding: migration 003 also implies a `newsletter` table is used by `newsletter.ts` API route, but no migration file creates it. The `leadform.ts` route also writes to D1 without a visible table migration. These tables may have been created manually or through earlier migrations not present in the repository.
+**004: `newsletter` table**
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | INTEGER PK AUTOINCREMENT | |
+| `email` | TEXT NOT NULL UNIQUE | |
+| `timestamp` | DATETIME DEFAULT CURRENT_TIMESTAMP | |
+
+Indexes: `newsletter(email)`.
+
+**005: `leads` table**
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | INTEGER PK AUTOINCREMENT | |
+| `name` | TEXT NOT NULL | |
+| `email` | TEXT NOT NULL | |
+| `refer` | TEXT NOT NULL | |
+| `message` | TEXT NOT NULL | |
+| `timestamp` | DATETIME DEFAULT CURRENT_TIMESTAMP | |
+
+Indexes: `leads(email)`, `leads(timestamp)`.
 
 ### API Surface
 
@@ -339,7 +354,7 @@ API routes live in `src/pages/api/`. All routes declare `export const prerender 
 | Route | Methods | Purpose | D1 Tables |
 | --- | --- | --- | --- |
 | `newsletter.ts` | POST | Writes newsletter emails | `newsletter` |
-| `leadform.ts` | POST | Writes lead form submissions | (implied table) |
+| `leadform.ts` | POST | Writes lead form submissions | `leads` |
 | `resource-download.ts` | POST, GET | Form submission → download token; GET returns stats | `resource_downloads`, `analytics_events` |
 | `serve-resource.ts` | POST, GET | Generates/validates tokenized download URLs | `resource_downloads` |
 | `campaigns.ts` | GET, POST, PUT | Campaign CRUD and analytics reads | `campaigns`, `campaign_visits` |
@@ -415,90 +430,51 @@ Known baseline finding: `package.json` references `scripts/migrate-database.js` 
 ### Dependencies
 
 **Runtime dependencies:**
-- `@astrojs/cloudflare ^11.0.1`
+- `@astrojs/cloudflare ^13.2.0`
 - `@fontsource/prompt ^5.0.14`
 - `@fontsource/zilla-slab ^5.0.13`
+- `sanitize-html ^2.17.4`
 
 **Key dev dependencies:**
-- `astro ^4.15.12`
-- `@astrojs/check ^0.7.0`
-- `@astrojs/mdx ^3.1.0`
-- `@astrojs/rss ^4.0.6`
-- `@astrojs/sitemap ^3.1.5`
+- `astro ^6.2.0`
+- `@astrojs/check ^0.9.4`
+- `@astrojs/mdx ^4.3.14`
+- `@astrojs/rss ^4.0.19`
+- `@astrojs/sitemap ^3.2.1`
 - `@cloudflare/workers-types ^4.20240729.0`
 - `@playform/compress ^0.0.13`
 - `dayjs ^1.11.11`
-- `vite-plugin-pwa ^0.16.4`
+- `vite-plugin-pwa ^1.3.0`
 - `wrangler ^4.28.1`
+- `vitest ^3.2.1`
+- `@vitest/coverage-v8 ^3.2.1`
+- `@playwright/test ^1.52.0`
+- `jsdom ^26.1.0`
+- `happy-dom ^17.4.6`
 - PostCSS ecosystem: `cssnano`, `postcss-custom-media`, `postcss-import`, `postcss-loader`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`, `postcss-url`
 - `prettier ^3.2.5` with `prettier-plugin-astro` and `prettier-plugin-organize-imports`
 - `typescript ^5.4.5`
 
 ## First-Run Findings
 
-These are documentation-only findings recorded during the baseline. They are not fixes.
+Status of initial architectural findings:
 
-1. **Missing migration scripts:** `package.json` references `scripts/migrate-database.js` and `scripts/verify-database.js`, but these files do not exist. Only `.sql` migration files are present.
+1. **Missing migration scripts:** ✅ **Resolved in Milestone 1**. Implemented `scripts/migrate-database.js` and `scripts/verify-database.js` supporting both local SQLite emulation and remote Cloudflare D1.
+2. **Missing D1 table migrations:** ✅ **Resolved in Milestone 1**. Created `scripts/004_create_newsletter.sql` and `scripts/005_create_leads.sql` with full schema and index coverage.
+3. **Empty `src/utils/` directory:** Retained. Reserved for future utility expansions.
+4. **Legacy Staticman API reference:** Deferred to post-upgrade maintenance branch (`chore/legacy-cleanup`) per Decision D-08.
+5. **reCAPTCHA keys are empty:** Deferred to post-upgrade maintenance branch (`chore/legacy-cleanup`) per Decision D-08.
+6. **README references `gatsby develop`:** Deferred to post-upgrade maintenance branch (`chore/legacy-cleanup`) per Decision D-08.
+7. **Taxonomy has duplicate entries:** Deferred to post-upgrade maintenance branch (`chore/legacy-cleanup`) per Decision D-08.
+8. **Performance config references unused domains:** Deferred to post-upgrade maintenance branch (`chore/legacy-cleanup`) per Decision D-08.
 
-2. **Missing D1 table migrations:** The `newsletter.ts` API route writes to a `newsletter` table and `leadform.ts` implies a lead form table, but no migration files for these tables exist in `scripts/`. They may have been created directly in the D1 dashboard.
+## Post-Upgrade Architecture State
 
-3. **Empty `src/utils/` directory:** The directory exists but contains no files. It may be a leftover or reserved for future use.
+The Astro 6.2 migration is complete across all five milestones:
 
-4. **Legacy Staticman API reference:** `src/config/site.js` references a Heroku-hosted Staticman API URL. This appears to be a Gatsby-era artifact and may no longer be active.
-
-5. **reCAPTCHA keys are empty:** `src/config/site.js` has empty `siteKey` and `secret` values for reCAPTCHA. No current code paths appear to use them.
-
-6. **README references `gatsby develop`:** The README's "Getting started" section still mentions `gatsby develop` rather than `astro dev`. This is a documentation artifact from the Gatsby migration.
-
-7. **Taxonomy has duplicate entries:** `taxonomy.yml` has both `illustrations` (id: `illustrations`) and `illustration` (id: `illustration`) entries, and both `tutorials` and `Tutorials` entries.
-
-8. **Performance config references unused domains:** `PERFORMANCE_CONFIG.RESOURCE_HINTS.DNS_PREFETCH` in `system.js` lists `fonts.googleapis.com` and `fonts.gstatic.com`, but fonts are self-hosted via Fontsource. The Head component already notes this with a comment and does not use these hints.
-
-## Upgrade Risks
-
-- Astro 6 legacy collection compatibility requires deliberate handling before any migration to loaders.
-- `entry.render()` and `entry.slug` usage must be audited before removing legacy compatibility.
-- `<ViewTransitions />` must be replaced in a focused compatibility branch.
-- Cloudflare adapter and runtime typing should be checked against the target Astro and adapter versions before dependency upgrades.
-- SEO metadata, schema output, RSS, sitemap, and analytics scripts have high regression impact and need build plus rendered-output verification.
-- D1 API routes depend on `locals.runtime.env.DB`; local and Cloudflare preview behavior should be verified after runtime changes.
-- The PostCSS plugin chain (`postcss-custom-media`, `postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`) needs compatibility verification against any Vite version changes that come with an Astro upgrade.
-
-The detailed architecture and implementation references are:
-
-- [`docs/astro_6_2_upgrade_plan.md`](./docs/astro_6_2_upgrade_plan.md)
-- [`docs/astro_6_2_risk_inventory.md`](./docs/astro_6_2_risk_inventory.md)
-- [`docs/astro_6_2_implementation_audit.md`](./docs/astro_6_2_implementation_audit.md)
-- [`docs/content_collection_review.md`](./docs/content_collection_review.md)
-- [`docs/seo_analytics_preservation_review.md`](./docs/seo_analytics_preservation_review.md)
-
-## Implementation-Sensitive Contracts
-
-These are the file-level contracts Codex should preserve while working through the phased Astro upgrade:
-
-- `src/components/Head.astro` is still the single coordination point for `<ViewTransitions />`, analytics globals, `tel:`/`mailto:` conversion listeners, and copy-code button re-attachment.
-- `astro:after-swap` listeners currently live in seven files: `Head.astro`, `CampaignCTA.astro`, `CampaignHero.astro`, `resource-form.js`, `utm-tracking.ts`, `offers/[...slug].astro`, and `offers/expired.astro`.
-- Legacy collection consumers are spread across home, detail, index, tag, and RSS routes. The high-risk surfaces still rely on `entry.slug`, `entry.collection`, and `entry.render()`.
-- The illustrations section is already id-based through `src/pages/illustrations/[...id].astro` and the `albums` data collection; it should not be treated as a slug-based article route.
-- Cloudflare runtime access remains anchored on `locals.runtime.env.DB`, binding `DB`, `platformProxy.enabled`, `imageService: "passthrough"`, and the `wrangler.toml` D1 invariants.
-- The current build stack couples `astro check`, `vite-plugin-pwa`, `@playform/compress`, and the ordered PostCSS chain. Treat that pipeline as a preservation surface during the version-bump phase.
-The authoritative phased plan is [`docs/astro_6_2_upgrade_plan.md`](./docs/astro_6_2_upgrade_plan.md). It enumerates every Astro 5/6 breaking-change delta relevant to this repo, the per-collection Content Layer loader recipe, the five-phase migration slice plan, the decisions requiring Alok's approval, and the trailing-slash and `Astro.url` behavior to preserve.
-
-Companion documents:
-
-- [`docs/astro_6_2_risk_inventory.md`](./docs/astro_6_2_risk_inventory.md) — initial risk register.
-- [`docs/content_collection_review.md`](./docs/content_collection_review.md) — touchpoints depending on the legacy collection API.
-- [`docs/seo_analytics_preservation_review.md`](./docs/seo_analytics_preservation_review.md) — SEO and analytics regression risks.
-
-Headline risks (full detail in the plan):
-
-- Astro 6 removes legacy collection backward compatibility. The plan uses `legacy.collectionsBackwardsCompat` as a temporary bridge, then migrates `src/content/config.ts` to the Content Layer API.
-- `entry.render()` and `entry.slug` must be replaced with `render(entry)` and `entry.id` across all `[...slug].astro` files, the RSS feed, and the tag pages.
-- `<ViewTransitions />` is removed in Astro 6 and must be replaced with `<ClientRouter />` in `src/components/Head.astro`. The `astro:after-swap` re-attachment contract must be preserved across seven files (Head, Campaign components, resource form, UTM tracker, offers pages).
-- `@astrojs/cloudflare` jumps from v11 to v13. The `locals.runtime.env.DB` access pattern must be re-verified on local D1 preview and on Cloudflare Pages preview.
-- `output: "hybrid"` is removed in Astro 5; default `static` mode now supports per-route `prerender = false`. The repo already declares this on every API route.
-- Vite jumps to 6.x (Astro 5) then 7.x (Astro 6). PostCSS chain (`postcss-custom-media`, `postcss-import`, `postcss-mixins`, `postcss-nested`, `postcss-preset-env`) and `vite-plugin-pwa` need compatibility verification or replacement with `@vite-pwa/astro`.
-- Node 22.12.0 minimum in Astro 6. Add `.nvmrc` and verify Cloudflare Pages build env.
-- Zod 3 → Zod 4. Schemas in `src/content/config.ts` are simple and unaffected, but `import { z }` must move from `astro:content` to `astro/zod`.
-- File-extension endpoint URLs (`/rss.xml`, `/sitemap-index.xml`) cannot be accessed with a trailing slash in Astro 6. Audit `feedUrl`, internal links, and `public/_redirects` for any `/rss.xml/` patterns.
-- SEO metadata, schema output, RSS, sitemap, and analytics scripts have high regression impact. Diff-driven verification (rendered HTML, `dist/rss.xml`, `dist/sitemap-*.xml`) is owned by Jules and detailed in the SEO preservation review.
+- **Framework & Runtime**: Powered by Astro `6.2.0`, `@astrojs/cloudflare` `13.2.0`, and Vite 7. Static output mode (`output: "static"`) serves pre-rendered HTML alongside on-demand Cloudflare D1 API endpoints (`prerender = false`).
+- **Content Layer**: All 8 collections operate natively on Content Layer `glob()` loaders defined in `src/content.config.ts` (re-exported in `src/content/config.ts`). `legacy.collectionsBackwardsCompat` has been completely eliminated.
+- **Client Router**: Legacy `<ViewTransitions />` is fully replaced with `<ClientRouter />` from `astro:transitions/client`. All 7 client-side post-swap event lifecycles are unified under `onPageSwap` (`src/lib/page-events.ts`).
+- **Cloudflare D1**: Standardized database access via `getDatabase(locals)` in `src/lib/api/database.ts` with complete table schemas (`resource_downloads`, `analytics_events`, `campaigns`, `campaign_visits`, `newsletter`, `leads`).
+- **Clean Checkout Resilience**: A top-level guard in `astro.config.mjs` and `package.json` ensures `dist/client` exists prior to workerd initialization, preventing Miniflare asset errors on fresh checkouts.
+- **Regression Invariants**: Verified 100% equivalence against pre-upgrade baselines (`docs/baseline/`) with 42/42 regression checks passing and 470/470 unit tests passing.
