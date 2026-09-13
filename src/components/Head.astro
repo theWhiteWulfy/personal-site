@@ -261,6 +261,12 @@ const {
 <link rel="webmention" href={site.webmentionUrl} />
 {site.micropubUrl && <link rel="micropub" href={site.micropubUrl} />}
 
+<!-- IndieWeb rel=me verification links -->
+<link rel="me" href={site.githubUrl} />
+<link rel="me" href={site.linkedinUrl} />
+<link rel="me" href={site.twitterUrl} />
+<link rel="me" href={site.instagramUrl} />
+
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content={site.facebook} />
 <meta property="og:type" content={article ? 'article' : 'website'} />
