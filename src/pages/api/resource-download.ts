@@ -4,6 +4,7 @@ import type { APIRoute, APIContext } from 'astro';
 import { validateResourceForm, formatValidationErrors } from '@/lib/api/validation';
 import { performSecurityChecks } from '@/lib/api/security';
 import { insertResourceDownload, getDownloadStats, validateDatabaseConnection, getDatabase } from '@/lib/api/database';
+import { requireAdminAuth, unauthorizedResponse } from '@/lib/api/auth';
 
 // TypeScript interfaces for request and response data
 interface ResourceDownloadRequest {
@@ -182,8 +183,12 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 };
 
 // GET handler for retrieving download statistics (admin use)
-export const GET: APIRoute = async ({ url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ request, url, locals }: APIContext) => {
   try {
+    if (!requireAdminAuth(request, locals.runtime?.env)) {
+      return unauthorizedResponse();
+    }
+
     const dbCheck = getDatabase(locals);
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;

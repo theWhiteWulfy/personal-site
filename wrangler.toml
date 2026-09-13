@@ -1,4 +1,9 @@
+name = "meteoricteachings"
 compatibility_flags = [ "nodejs_compat" ]
+
+# Required secrets (set via: wrangler secret put <KEY>)
+# RESOURCE_SIGNING_SECRET - HMAC key for download token signing
+# ADMIN_API_KEY           - Bearer token for admin API endpoints
 
 [[d1_databases]]
 binding = "DB"

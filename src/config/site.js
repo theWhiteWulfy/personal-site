@@ -46,7 +46,6 @@
  * @property {string} pingbackUrl - The URL for pingbacks.
  * @property {string} webmentionUrl - The URL for webmentions.
  * @property {string} micropubUrl - The URL for micropub.
- * @property {string} staticmanApi - The URL for the Staticman API.
  * @property {string} twitter - The Twitter username.
  * @property {string} twitterUrl - The URL of the Twitter profile.
  * @property {string} facebook - The Facebook site name.
@@ -117,7 +116,7 @@ const site = {
       }
     },
     clarity: {
-      projectId: 'sw2f0ourfn', // Replace with actual Clarity project ID
+      projectId: 'sw2f0ourfn', // Active project ID — sw2f0ourfn
       enableHeatmaps: true,
       enableRecordings: true,
       privacyMode: 'balanced',
@@ -139,8 +138,6 @@ const site = {
   pingbackUrl: 'https://webmention.io/alokprateek.in/xmlrpc',
   webmentionUrl: 'https://webmention.io/alokprateek.in/webmention',
   micropubUrl: '', //todo: add url after creating the api for micropub
-  staticmanApi:
-    'https://meteoric-teachings.herokuapp.com/v2/entry/theWhiteWulfy/personal-site/master/comments',
 
   // Social links and ids
   twitter: '@thewhitewulfy', // Twitter username

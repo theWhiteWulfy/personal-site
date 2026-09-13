@@ -27,7 +27,7 @@
 
 ### TASK-1A — Generate `RESOURCE_SIGNING_SECRET`
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅`
 **Blocks**: Sub-task 1.2 (hardcoded secret fix in serve-resource.ts)
 
 &nbsp;
@@ -59,10 +59,10 @@ wrangler secret put RESOURCE_SIGNING_SECRET
 
 | Item | Done? |
 |---|---|
-| Secret generated | Yes / No |
-| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes / No |
-| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes / No |
-| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes / No |
+| Secret generated | Yes |
+| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes |
+| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes |
+| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes |
 
 &nbsp;
 
@@ -78,7 +78,7 @@ wrangler secret put RESOURCE_SIGNING_SECRET
 
 ### TASK-1B — Generate `ADMIN_API_KEY`
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅`
 **Blocks**: Sub-task 1.4–1.6 (protecting admin endpoints in resource-download + campaigns APIs)
 
 &nbsp;
@@ -112,17 +112,17 @@ wrangler secret put ADMIN_API_KEY
 
 | Item | Done? |
 |---|---|
-| Key generated | Yes / No |
-| `wrangler secret put ADMIN_API_KEY` run (production) | Yes / No |
-| `ADMIN_API_KEY=<value>` added to `.dev.vars` (local dev) | Yes / No |
-| Key saved in password manager | Yes / No |
+| Key generated | Yes |
+| `wrangler secret put ADMIN_API_KEY` run (production) | Yes |
+| `ADMIN_API_KEY=<value>` added to `.dev.vars` (local dev) | Yes |
+| Key saved in password manager | Yes |
 
 &nbsp;
 
-**Your admin key (last 4 chars only — for verification, do NOT write the full key here)**:
+**Your admin key (last 4 chars only — for verification, do NOT write the full key here)**: 
 
 ```
-Last 4 chars: ____
+Last 4 chars: WfFa
 ```
 
 &nbsp;
@@ -159,7 +159,7 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 ### TASK-2A — Add Your Site URL to Social Profiles (`rel="me"` back-links)
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅` (confirmed complete by site owner, 2026-09-14)
 **Blocks**: Bidirectional IndieAuth identity verification (agent adds site-side links; you add profile-side links)
 
 > [!NOTE]
@@ -640,19 +640,65 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | — |
-| **Last completed sub-task** | — |
-| **Branch name** | — |
-| **Last git commit hash** | — |
-| **Last git commit message** | — |
-| **Stopped reason** | Waiting for TASK-1A and TASK-1B before starting Milestone 1 |
-| **Next action when resumed** | Run sub-task 1.1 (fix `public/_headers`) |
-| **Estimated remaining work in current milestone** | Full M1 (9 sub-tasks) |
+| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (code complete, PR pending) |
+| **Last completed sub-task** | 2.6 (feat(indieweb): show webmentions on articles and notes) |
+| **Branch name** | `fix/indieweb-phase-1` (based on `fix/security-phase-1` @ acff505; renamed from `feat/indieweb-quick-wins` at user request) |
+| **Last git commit hash** | 055e3dc |
+| **Last git commit message** | feat(indieweb): show webmentions on articles and notes |
+| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed, verified (build + 303/303 unit tests + rendered-HTML checks). TASK-2A confirmed done. Branch pushed; **PR #1075 opened** to `complete_astro_v6_migration` |
+| **Next action when resumed** | Wait for PR #1075 merge; after merge, user completes TASK-2B (webmention.io verification) so live webmention flow can be confirmed |
+| **Estimated remaining work in current milestone** | Merge only (human: TASK-2B after merge) |
 
 &nbsp;
 
 **Any in-progress notes**:
 
 ```
-(agent fills this in — partial work, decisions made mid-task, etc.)
+Agent session 2026-09-13:
+- Sub-tasks 1.1–1.9 committed as 10 commits on fix/security-phase-1 (per-milestone commit messages honored).
+- Deviation from plan 1.2: signing secret is read from locals.runtime.env.RESOURCE_SIGNING_SECRET
+  (matches getDatabase() pattern; wrangler secret put / .dev.vars values are runtime-only and are NOT
+  visible via import.meta.env). 503 guard added in both GET and POST handlers.
+- Deviation from plan 1.4: constant-time comparison implemented as pure string XOR — the plan's Buffer
+  snippet is unnecessary with nodejs_compat and less portable; crypto.subtle check dropped.
+- CSP tightened to `form-action 'self'` (matches plan's expected-result block; all site forms post same-origin).
+- Token format changed (UTF-8-safe base64 + HMAC-SHA256 signature): all previously issued tokens are invalidated — acceptable, tokens expire in 30 min anyway.
+- Local `npm run build` currently fails on emptyDir EPERM because a running astro dev / workerd session
+  (node PID 17392 on :4321/:9229, workerd PID 27284 on :8788) locks dist/. Build was verified with a
+  temporary outDir override (astro.config.verify.mjs, since deleted) — full build passes.
+- Unit suite: 303/303 pass (3 stale GET stats tests updated for the new 401 gate; 2 new auth tests added).
+- docs/backlog/tasks/milestone-1-security.md checkboxes updated to reflect completed code work.
+
+Agent session 2026-09-13 (deploy fix):
+- CF Pages preview failed: `npm clean-install` ERESOLVE. Three stale peer conflicts in the tree:
+  @astrojs/mdx 4.3.14 (peer astro ^5) vs astro 6.4.8 [hard conflict], sugarss 4 (via postcss-mixins 10) vs vite 7 [optional],
+  @cloudflare/workers-types 4 vs wrangler 4.131.1 (peerOptional ^5) [optional].
+- Fix (commit 49b8acd on fix/security-phase-1): added .npmrc with legacy-peer-deps=true (matches the
+  locally-verified working tree) and upgraded @astrojs/mdx to ^5.0.6 (the Astro 6 compatible line).
+- Verified: `npm ci --dry-run` exits 0, full astro build passes, 303/303 unit tests pass.
+- Follow-up recommended: dependency refresh (postcss-mixins 12, @cloudflare/workers-types 5, audit the
+  17 Dependabot vulns on main) before or during the Milestone 5 Astro 7 migration.
+- Note: CF Pages logs a non-fatal warning about wrangler.toml lacking `pages_build_output_dir` — Pages
+  ignores the file and uses project settings. Decided to leave as-is (adding it would make wrangler.toml
+  authoritative for the Pages project config, e.g. project name).
+
+Agent session 2026-09-14 (Milestone 2 — IndieWeb Quick Wins):
+- Branch created as `fix/indieweb-phase-1` (user override of the plan's `feat/indieweb-quick-wins`),
+  based on fix/security-phase-1 @ acff505. Milestone doc header updated to match.
+- Sub-tasks 2.1–2.6 committed as 6 atomic commits (1e3299b, af17af4, 1e9a3e9, 2d4e09f, 5c65e1c, 055e3dc).
+- Deviation from plan 2.4: footer social anchors previously had `rel="nofollow"`; replaced with
+  `rel="me noopener noreferrer"` rather than appending (nofollow contradicts a rel=me identity assertion).
+- Deviation from plan 2.5: target URL is `encodeURIComponent`-encoded in the JF2 fetch; mention content
+  rendered as TEXT ONLY (no set:html) — external mention content must never be injected as HTML (XSS).
+  Mentions with no content fall back to the JF2 `name`; avatar-less authors get an initial fallback chip.
+- Root-cause fix for the known emptyDir EPERM build failure: killed the stale `wrangler dev
+  --config dist/server/wrangler.json --port 8788` process tree left running by the previous session
+  (it held the dist/ directory lock; killing only its workerd child made wrangler respawn workerd).
+- Verification: `npm run build` passes (astro check 0 errors, 114 pages prerendered); 303/303 unit tests
+  pass; rendered HTML checks — 0 `micropub` occurrences anywhere, 4 `rel=me` head links per page
+  (minifier emits `<link href=... rel=me>`; grep for `rel="me"` misses it), footer
+  `rel="me noopener noreferrer"` on all 114 pages, no webmention section/h-cite rendered on articles
+  (graceful empty state, component CSS still inlined).
+- docs/backlog/tasks/milestone-2-indieweb-quick-wins.md checkboxes updated to reflect completed work;
+  only "PR opened" remains unchecked.
 ```

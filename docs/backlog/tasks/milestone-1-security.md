@@ -1,25 +1,27 @@
 # Milestone 1 — Security: Fix Live Production Risks
 
 **Branch**: `fix/security-phase-1`  
-**Base from**: `complete_astro_v6_migration`  
+**Base from**: `main` (`complete_astro_v6_migration` was merged into `main` via PR #1073)  
 **Priority**: 🔴 First — live production issues  
 **Estimated effort**: 2–3 days  
-**Status**: ⏳ Waiting on human tasks TASK-1A and TASK-1B
+**Status**: 🔨 Code complete (1.1–1.9 committed) — awaiting push, PR, and CF Pages preview verification
 
 ---
 
 ## Prerequisites (Human Tasks)
 
 Before starting, confirm in `HUMAN_TASKS.md`:
-- [ ] **TASK-1A** `DONE ✅` — `RESOURCE_SIGNING_SECRET` generated and stored
-- [ ] **TASK-1B** `DONE ✅` — `ADMIN_API_KEY` generated and stored
+- [x] **TASK-1A** `DONE ✅` — `RESOURCE_SIGNING_SECRET` generated and stored
+- [x] **TASK-1B** `DONE ✅` — `ADMIN_API_KEY` generated and stored
 
 ---
 
 ## Git Setup
 
 ```bash
-git checkout complete_astro_v6_migration
+# Originally: base from complete_astro_v6_migration, but that branch was
+# already merged into main (PR #1073), so the branch was created from main:
+git checkout main
 git pull
 git checkout -b fix/security-phase-1
 ```
@@ -32,12 +34,12 @@ git checkout -b fix/security-phase-1
 **Commit**: `security: fix HTTP security headers`  
 **Files**: `public/_headers`
 
-- [ ] Remove deprecated `X-XSS-Protection: 1; mode=block`
-- [ ] Replace `Feature-Policy` with `Permissions-Policy` (same permissions, modern directive)
-- [ ] Add `X-Frame-Options: DENY`
-- [ ] Add `Cross-Origin-Opener-Policy: same-origin`
-- [ ] Tighten `Content-Security-Policy`: change `form-action https:` to `form-action 'self' https://alokprateek.in`
-- [ ] Add `HSTS preload` directive to `Strict-Transport-Security`
+- [x] Remove deprecated `X-XSS-Protection: 1; mode=block`
+- [x] Replace `Feature-Policy` with `Permissions-Policy` (same permissions, modern directive)
+- [x] Add `X-Frame-Options: DENY`
+- [x] Add `Cross-Origin-Opener-Policy: same-origin`
+- [x] Tighten `Content-Security-Policy`: `form-action 'self'` (site is alokprateek.in, so `'self'` covers it; all forms verified to post same-origin)
+- [x] Add `HSTS preload` directive to `Strict-Transport-Security`
 
 **Expected result** (`public/_headers`):
 ```
@@ -60,21 +62,11 @@ git checkout -b fix/security-phase-1
 **Files**: `src/pages/api/serve-resource.ts`  
 **Requires**: TASK-1A DONE
 
-- [ ] Replace `const secret = 'your-secret-key-here'` with `const secret = import.meta.env.RESOURCE_SIGNING_SECRET`
-- [ ] Add runtime guard: if secret is missing/empty in production, return 503 with error
-- [ ] Replace the custom xor-hash token signing with proper Web Crypto HMAC-SHA256:
-  ```ts
-  async function signToken(payload: string, secret: string): Promise<string> {
-    const key = await crypto.subtle.importKey(
-      'raw', new TextEncoder().encode(secret),
-      { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
-    );
-    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
-    return btoa(String.fromCharCode(...new Uint8Array(sig)));
-  }
-  ```
-- [ ] Update token verification to use `crypto.subtle.verify` with the same key
-- [ ] Update `.dev.vars.example` (create if not exists) with `RESOURCE_SIGNING_SECRET=<generate-with-openssl-rand-hex-32>`
+- [x] Replace `const secret = 'your-secret-key-here'` with secret from `locals.runtime.env.RESOURCE_SIGNING_SECRET` (runtime secrets from `wrangler secret put` / `.dev.vars` are not visible via `import.meta.env`)
+- [x] Add runtime guard: if secret is missing/empty, return 503 with error (both GET and POST handlers)
+- [x] Replace the custom xor-hash token signing with proper Web Crypto HMAC-SHA256
+- [x] Update token verification to use `crypto.subtle.verify` with the same key
+- [x] Update `.dev.vars.example` (created) with `RESOURCE_SIGNING_SECRET=<generate-with-openssl-rand-hex-32>`
 
 **Verification**: Download flow works end-to-end in local dev with `.dev.vars`
 
@@ -84,9 +76,9 @@ git checkout -b fix/security-phase-1
 **Commit**: `security: redact PII from resource download logs`  
 **Files**: `src/pages/api/serve-resource.ts`
 
-- [ ] Find line ~332: `console.log(\`Resource download: ${resourceName} by ${tokenData.email}...\`)`
-- [ ] Replace with redacted version: `console.log(\`Resource download: ${resourceName} (attempt ${newAttempts})\`)` — remove email
-- [ ] Audit for any other PII in console statements in this file
+- [x] Line ~332: `console.log(\`Resource download: ${resourceName} by ${tokenData.email}...\`)`
+- [x] Replaced with redacted version: `console.log(\`Resource download: ${resourceName} (attempt ${newAttempts})\`)` — email removed
+- [x] Audited remaining console statements in the file — only `console.error(...)` of caught Error objects, no PII
 
 ---
 
@@ -95,22 +87,10 @@ git checkout -b fix/security-phase-1
 **Files**: `src/lib/api/auth.ts` (new file)  
 **Requires**: TASK-1B DONE
 
-- [ ] Create `src/lib/api/auth.ts`:
-  ```ts
-  export function requireAdminAuth(request: Request, env: Env): boolean {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) return false;
-    const token = authHeader.slice(7);
-    const adminKey = env.ADMIN_API_KEY;
-    if (!adminKey) return false;
-    // Constant-time comparison to prevent timing attacks
-    return token.length === adminKey.length &&
-      crypto.subtle !== undefined &&
-      Buffer.from(token).equals(Buffer.from(adminKey));
-  }
-  ```
-- [ ] Export `requireAdminAuth` and `unauthorizedResponse` helper
-- [ ] Update `.dev.vars.example` with `ADMIN_API_KEY=<your-key-here>`
+- [x] Created `src/lib/api/auth.ts` with `requireAdminAuth(request, env)`
+- [x] Constant-time comparison implemented as pure string XOR (no `Buffer` dependency; works in Workers + Node)
+- [x] Exported `requireAdminAuth` and `unauthorizedResponse` helper
+- [x] `.dev.vars.example` includes `ADMIN_API_KEY`
 
 ---
 
@@ -118,18 +98,11 @@ git checkout -b fix/security-phase-1
 **Commit**: `security: require admin auth on resource download stats endpoint`  
 **Files**: `src/pages/api/resource-download.ts`
 
-- [ ] Import `requireAdminAuth` from `@lib/api/auth`
-- [ ] In the GET handler (around line 184), add auth check at the top:
-  ```ts
-  if (!requireAdminAuth(request, locals.runtime.env)) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-  ```
-- [ ] Verify GET `/api/resource-download` returns 401 without the key
-- [ ] Verify it returns data with `Authorization: Bearer <key>` header
+- [x] Import `requireAdminAuth` from `@lib/api/auth`
+- [x] In the GET handler, auth check at the top (before any DB access)
+- [x] Unit tests updated: 401 without key, 401 with wrong key, 200 with `Authorization: Bearer <key>` (see `tests/unit/api/resource-download-route.spec.ts`)
+- [ ] Verify GET `/api/resource-download` returns 401 without the key (live on CF Pages preview)
+- [ ] Verify it returns data with `Authorization: Bearer <key>` header (live on CF Pages preview)
 
 ---
 
@@ -137,11 +110,11 @@ git checkout -b fix/security-phase-1
 **Commit**: `security: require admin auth on campaign write endpoints`  
 **Files**: `src/pages/api/campaigns.ts`
 
-- [ ] Import `requireAdminAuth` from `@lib/api/auth`
-- [ ] Add auth check to POST handler (campaign create, ~line 159)
-- [ ] Add auth check to PUT handler (campaign update)
-- [ ] Add auth check to DELETE handler (campaign delete)
-- [ ] Leave GET handler public (reading campaign data for display is fine)
+- [x] Import `requireAdminAuth` from `@lib/api/auth`
+- [x] Auth check added to POST handler (campaign create)
+- [x] Auth check added to PUT handler (campaign update)
+- [x] Auth check added to DELETE handler (campaign delete)
+- [x] GET handler left public (reading campaign data for display is fine)
 
 ---
 
@@ -151,9 +124,9 @@ git checkout -b fix/security-phase-1
 - `src/components/custom/LeadForm.astro`
 - `src/components/custom/NewsletterForm.astro`
 
-- [ ] `LeadForm.astro ~line 119`: Remove `console.log(result)` on form submit
-- [ ] `NewsletterForm.astro ~line 69`: Remove `console.log(result)` on subscribe
-- [ ] Scan both files for any other unguarded console statements
+- [x] `LeadForm.astro`: Removed `console.log(result)` on form submit (and the now-unused `response.json()` call)
+- [x] `NewsletterForm.astro`: Removed `console.log(result)` on subscribe (and the now-unused `response.json()` call)
+- [x] Scanned both files — no other unguarded console statements
 
 ---
 
@@ -161,36 +134,37 @@ git checkout -b fix/security-phase-1
 **Commit**: `security: fix campaign signup duplicate detection to use email`  
 **Files**: `src/pages/api/campaign-signup.ts`
 
-- [ ] Find ~line 131-155: current dedup queries by `utm_source + utm_campaign`
-- [ ] Replace with email-based dedup: check if email already exists for this campaign
-- [ ] Remove the comment `'Potential duplicate submission detected, but allowing...'` — make it actually block
+- [x] Line ~131-155: dedup previously queried by `utm_source + utm_campaign`
+- [x] Replaced with email-based dedup: checks `user_id` (= email, as stored on insert) for this campaign within 24h
+- [x] Removed the "allowing anyway" log — now actually blocks with `409 Conflict`
 
 ---
 
 ### 1.9 — Update `wrangler.toml` secrets documentation
 **Commit**: `chore: document required env secrets in wrangler.toml`  
-**Files**: `wrangler.toml`, `.dev.vars.example` (create)
+**Files**: `wrangler.toml`, `.dev.vars.example` (created)
 
-- [ ] Add comment block to `wrangler.toml` listing all required secrets:
-  ```toml
-  # Required secrets (set via: wrangler secret put <KEY>)
-  # RESOURCE_SIGNING_SECRET - HMAC key for download token signing
-  # ADMIN_API_KEY           - Bearer token for admin API endpoints
-  ```
-- [ ] Create `.dev.vars.example` with all local dev variables (no real values)
-- [ ] Verify `.dev.vars` is in `.gitignore`
+- [x] Added comment block to `wrangler.toml` listing all required secrets
+- [x] Created `.dev.vars.example` with all local dev variables (no real values)
+- [x] Verified `.dev.vars` is in `.gitignore`
+
+---
+
+## Additional commit
+
+- `test: cover admin auth on resource download stats endpoint` — updates the 3 stale GET stats tests for the new auth gate and adds 401 coverage (all 303 unit tests pass)
 
 ---
 
 ## PR Checklist
 
-Before merging to `complete_astro_v6_migration`:
+Before merging to `main`:
 
-- [ ] Build passes: `npm run build`
-- [ ] `GET /api/resource-download` returns 401 without auth header
-- [ ] `POST /api/campaigns` returns 401 without auth header
+- [ ] Build passes: `npm run build` *(verified via temporary outDir override — see HUMAN_TASKS.md agent notes; a running `astro dev`/workerd session currently locks `dist/` on the local machine)*
+- [ ] `GET /api/resource-download` returns 401 without auth header (live)
+- [ ] `POST /api/campaigns` returns 401 without auth header (live)
 - [ ] Resource download token uses proper HMAC (not xor hash)
 - [ ] `public/_headers` passes https://securityheaders.com with A or B rating
 - [ ] No `console.log` with user PII in production paths
 - [ ] All 1.x commits on branch `fix/security-phase-1`
-- [ ] PR opened: `fix/security-phase-1` → `complete_astro_v6_migration`
+- [ ] PR opened: `fix/security-phase-1` → `main`

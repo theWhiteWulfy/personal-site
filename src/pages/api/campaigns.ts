@@ -2,6 +2,7 @@ export const prerender = false;
 
 import type { APIRoute, APIContext } from 'astro';
 import { getDatabase } from '@/lib/api/database';
+import { requireAdminAuth, unauthorizedResponse } from '@/lib/api/auth';
 
 interface CampaignData {
   id?: number;
@@ -158,6 +159,10 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
  */
 export const POST: APIRoute = async ({ request, locals }: APIContext) => {
   try {
+    if (!requireAdminAuth(request, locals.runtime?.env)) {
+      return unauthorizedResponse();
+    }
+
     const dbCheck = getDatabase(locals);
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
@@ -278,6 +283,10 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
  */
 export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
   try {
+    if (!requireAdminAuth(request, locals.runtime?.env)) {
+      return unauthorizedResponse();
+    }
+
     const dbCheck = getDatabase(locals);
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
@@ -455,6 +464,10 @@ export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
  */
 export const DELETE: APIRoute = async ({ request, locals }: APIContext) => {
   try {
+    if (!requireAdminAuth(request, locals.runtime?.env)) {
+      return unauthorizedResponse();
+    }
+
     const dbCheck = getDatabase(locals);
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
