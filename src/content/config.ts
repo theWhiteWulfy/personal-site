@@ -1,9 +1,11 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { glob } from "astro/loaders";
 
-// REAL COLLECTIONS
+// REAL COLLECTIONS (Content Layer loaders)
 
 const articles = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/articles" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -23,7 +25,7 @@ const articles = defineCollection({
 });
 
 const notes = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/notes" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -43,7 +45,7 @@ const notes = defineCollection({
 });
 
 const works = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/works" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -64,7 +66,7 @@ const works = defineCollection({
 });
 
 const illustrations = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/illustrations" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -84,7 +86,7 @@ const illustrations = defineCollection({
 });
 
 const bibliophilediaries = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/bibliophilediaries" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -104,7 +106,7 @@ const bibliophilediaries = defineCollection({
 });
 
 const saasguide = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/saasguide" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -124,7 +126,7 @@ const saasguide = defineCollection({
 });
 
 const faqs = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/faqs" }),
   schema: z.object({
     title: z.string(),
     path: z.string(),
@@ -145,7 +147,7 @@ const faqs = defineCollection({
 });
 
 const albums = defineCollection({
-  type: "data",
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/albums" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),

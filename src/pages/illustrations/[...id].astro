@@ -4,6 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import { getAlbumImages } from "@lib/albums";
 import { Image } from "astro:assets";
 import style from "../../styles/archive.module.css";
+import { getEntrySlug } from "@lib/content-shims";
 
 export async function getStaticPaths() {
   const albums = await getCollection("albums");
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
   const paths = Object.values(albums).map((album) => {
     return {
       params: {
-        id: album.id,
+        id: getEntrySlug(album),
       },
       props: {
         album,

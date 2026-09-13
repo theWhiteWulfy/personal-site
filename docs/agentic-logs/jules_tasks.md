@@ -1,0 +1,98 @@
+# Jules Tasks
+
+Jules is the Observer & Maintainer. This file owns low-priority background maintenance, builds, tests, and site integrity verification after task branches are ready.
+
+## Active: Baseline Verification
+
+- [x] Run `npm run build` after documentation-only bootstrap changes.
+- [x] Confirm generated docs changes do not alter runtime code.
+- [x] Record build failures with exact command output and suspected ownership area.
+- [x] Verify `git status --short --branch` before handoff.
+
+## Milestone 2: Astro 6.2 Compatibility Audit (Verification)
+
+Goal: ensure documentation-only audit branches do not change runtime output and produce a clean baseline snapshot for later diffs.
+
+Branch: `maintenance/astro-6-2-baseline-snapshot`.
+
+- [x] On the current Astro 4.15 baseline, run `npm install` followed by `npm run build` and capture the full log to `docs/baseline/build-astro-4-15.log` (do not commit logs to `main`; keep them on the branch).
+- [x] Capture and commit a snapshot of:
+  - `dist/rss.xml`
+  - `dist/sitemap-index.xml` and any `dist/sitemap-*.xml` shards
+  - One representative rendered HTML page per collection (`articles`, `notes`, `works`, `illustrations`, `bibliophilediaries`, `saasguide`, `faqs`) plus home and a tag page
+  - One API route preview if `npm run cfpreview` is available locally
+- [x] Store snapshots under `docs/baseline/` so Gemini can diff against post-upgrade outputs.
+- [x] Run `astro check` standalone and capture warnings; record any pre-existing type errors so they are not blamed on upgrade work.
+- [x] Verify Claude's, Codex's, and Gemini's Milestone 2 doc branches change zero files outside `docs/`, `central_milestones.md`, `claude_tasks.md`, `codex_tasks.md`, `gemini_tasks.md`, `jules_tasks.md`, `README.md`, and `ARCHITECTURE.md`.
+
+## Milestone 3: Cloudflare D1 And API Surface Stabilization (Verification)
+
+Goal: validate D1 scripts and API behavior locally before anything touches remote D1.
+
+- [x] After Codex's `maintenance/db-scripts-restore` branch, run:
+  - `npm run db:verify:local` against a fresh local D1.
+  - `npm run db:migrate:local` to apply `scripts/*.sql`.
+  - `npm run db:verify:local` again; confirm every expected table exists.
+- [x] After Codex's `maintenance/db-missing-migrations` branch, run the new SQL through the local migrator and confirm the schemas match what the API code expects (introspect with `wrangler d1 execute meteoric --local --command "SELECT sql FROM sqlite_master"`).
+- [x] Run `npm run cfpreview` and exercise each API route with a sample payload:
+  - POST `/api/newsletter`
+  - POST `/api/leadform`
+  - POST `/api/resource-download`
+  - GET `/api/resource-download`
+  - POST `/api/serve-resource`
+  - GET `/api/campaigns`, POST, PUT
+  - POST `/api/campaign-visit`, GET
+  - POST `/api/campaign-signup`
+- [x] Capture each response status and body to `docs/baseline/api-responses.md` (sanitize emails). These become the regression baseline.
+- [x] Do not run any migration against remote D1 (database id `8380ec22-098e-4814-a56f-48d907425b35`) without explicit Alok approval.
+- [x] Pre-flight gate verification: Verified local D1 via `npm run test:db` and `npm run db:verify:local` (all 6 tables confirmed); baseline snapshots and contracts in `docs/baseline/` verified intact.
+
+## Milestone 4: Content And SEO Preservation (Verification)
+
+Goal: prove Codex's preservation prep branches keep build output stable.
+
+- [x] After `feature/head-clientrouter-prep`: run `npm run build`; diff `dist/` HTML for home, one article, RSS, and sitemap against the Milestone 2 baseline. Expect zero meaningful drift.
+- [x] After `feature/after-swap-helper`: run `npm run build` and `npm run preview`; in DevTools, manually navigate between two pages and confirm:
+  - Phone/email click tracking re-attaches.
+  - Copy-code buttons re-mount on prose pages.
+  - Campaign countdown timer continues on `offers/[...slug]`.
+  - Campaign CTA bindings re-attach.
+  - UTM tracker re-runs.
+  - Resource form bindings re-attach on resource pages.
+- [x] After `feature/collection-slug-shim` and `feature/render-shim`: build, then diff `dist/rss.xml` and one `[...slug]` page per collection against the baseline. Any URL or HTML drift blocks the merge.
+- [x] Run `astro check` on each of these branches and report any new diagnostics.
+- [x] Keep `git status --short --branch` clean before handing the branch back to Alok for review.
+
+## Milestone 5: Phased Astro 6.2 Upgrade Execution (Verification)
+
+Goal: be the single source of truth on whether an upgrade slice is safe to merge. Verify, snapshot, diff, report.
+
+- [x] After `maintenance/astro-deps-dry-run` & `chore/astro-6-bump-with-legacy-compat` (Milestone 5 Slices 1–2):
+  - Ran `npm install --legacy-peer-deps`.
+  - Ran `npm run build` (passes with 0 errors); ran `npx astro check` (0 errors, 0 warnings); verified `npm run test:regression` (42/42 checks pass), `npm run test:unit` (365/365 pass), and `npm run test:db` (exits 0). Zero regression across all tiers.
+- [x] After `feature/astro-6-clientrouter` (Milestone 5 Slice 3):
+  - Ran `npm run build` (exits 0 with 0 errors); ran `npx astro check` (0 errors, 0 warnings).
+  - Confirmed `<ClientRouter />` is rendered in HTML head via `ClientRouterShim.astro` and `<ViewTransitions />` is completely eliminated from the codebase.
+  - Validated all 7 post-swap event listener contracts across navigations (analytics consent/clicks, UTM tracking, copy-code button mounts, campaign CTA, campaign hero timer, resource forms, offers analytics).
+  - Verified `tests/unit/components/client-router.spec.ts` (12/12 pass), `npm run test:regression` (42/42 checks pass across Tiers 1–4), `npm run test:db` (exits 0), and `npm run test:unit` (377/377 pass).
+- [x] After `feature/astro-6-entry-api` (Milestone 5 Slice 4):
+  - Built and diffed produced HTML for every snapshotted collection page.
+  - Confirmed `dist/rss.xml` and `dist/sitemap-*.xml` match baseline byte-for-byte with zero URL drift.
+- [x] After `feature/astro-6-content-loader` (Milestone 5 Slice 5):
+  - Built and verified all 8 collections under Content Layer `glob()` loaders.
+  - Confirmed tag aggregation pages, gallery pages (`albums`), and detail pages render identically.
+  - Verified `legacy.collectionsBackwardsCompat: true` removal from `astro.config.mjs`.
+- [x] After `maintenance/astro-6-cloudflare-adapter`:
+  - Verified D1 database contracts and API route handlers (`/api/*`) via `npm run test:db` and `tests/unit/api/*.spec.ts`.
+  - Confirmed zero response deviations against baseline.
+- [x] After `maintenance/astro-6-vite-postcss`:
+  - Verified Vite 7 asset build and PostCSS 7-plugin chain; confirmed module CSS class stability.
+- [x] At end of Milestone 5: ran `npm run build` (code 0), `npx astro check` (0 errors, 0 warnings, 0 hints), `npm run test:regression` (42/42 checks pass across Tiers 1–4), `npm run test:unit` (379/379 pass), and `npm run test:db` (exits 0). Fully verified and ready for review.
+
+## Boundaries
+
+- Do not commit directly to `main`.
+- Do not change app logic, styles, or content while verifying. If a fix is needed, route the branch back to Codex.
+- Do not run database migrations against remote D1 unless Alok explicitly assigns the task.
+- Do not chase dependency upgrades; only run the install/build the assigned branch declares.
+- Do not skip diff capture; the diffs are the deliverable, not just a green build.

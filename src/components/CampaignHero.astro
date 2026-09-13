@@ -214,8 +214,7 @@ const urgencyLevel = daysRemaining <= 3 ? 'critical' : daysRemaining <= 7 ? 'hig
   }
   
   // Initialize on page load and after page transitions
-  document.addEventListener('DOMContentLoaded', initCountdownTimer);
-  document.addEventListener('astro:after-swap', initCountdownTimer);
+  window.onPageSwap(initCountdownTimer, { runImmediately: true });
 </script>
 
 <style>

@@ -39,8 +39,8 @@ describe('Astro Content Collections Schema', () => {
     describe(`Collection: ${name}`, () => {
       const collection = (collections as any)[name];
 
-      it('is defined with type "content"', () => {
-        expect(collection.type).toBe('content');
+      it('is defined with a Content Layer loader', () => {
+        expect(collection.loader).toBeDefined();
       });
 
       it('validates a correct minimal entry', () => {
@@ -132,8 +132,8 @@ describe('Astro Content Collections Schema', () => {
   });
 
   describe('Collection: albums', () => {
-    it('is defined with type "data"', () => {
-      expect(collections.albums.type).toBe('data');
+    it('is defined with a Content Layer loader', () => {
+      expect(collections.albums.loader).toBeDefined();
     });
 
     it('validates album schema with cover image helper', () => {

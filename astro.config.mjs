@@ -8,6 +8,11 @@ import { remarkModifiedTime } from './src/lib/remark-modified-time.mjs';
 import playformCompress from "@playform/compress";
 
 import cloudflare from "@astrojs/cloudflare";
+import fs from "node:fs";
+
+// Ensure dist/client directory exists so Miniflare/workerd platformProxy in @astrojs/cloudflare
+// does not fail on clean checkouts where dist/ has not yet been built.
+fs.mkdirSync('./dist/client', { recursive: true });
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,7 +46,7 @@ export default defineConfig({
       }
     })]
   },
-  output: "hybrid", // add `export const prerender = false` to any files that should be server-rendered on demand
+  output: "static", // per-route `export const prerender = false` for server-rendered endpoints
   adapter: cloudflare({
     platformProxy: {
       enabled: true,

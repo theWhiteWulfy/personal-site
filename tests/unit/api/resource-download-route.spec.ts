@@ -17,11 +17,15 @@ vi.mock('@/lib/api/security', () => ({
   performSecurityChecks: vi.fn(),
 }));
 
-vi.mock('@/lib/api/database', () => ({
-  insertResourceDownload: vi.fn(),
-  getDownloadStats: vi.fn(),
-  validateDatabaseConnection: vi.fn(),
-}));
+vi.mock('@/lib/api/database', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/api/database')>();
+  return {
+    ...actual,
+    insertResourceDownload: vi.fn(),
+    getDownloadStats: vi.fn(),
+    validateDatabaseConnection: vi.fn(),
+  };
+});
 
 import { validateResourceForm, formatValidationErrors } from '@/lib/api/validation';
 import { performSecurityChecks } from '@/lib/api/security';

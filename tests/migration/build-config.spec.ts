@@ -59,8 +59,12 @@ describe('Astro Build Configuration (astro.config.mjs)', () => {
     expect(config.site).toBe('https://alokprateek.in/');
   });
 
-  it('should have output set to hybrid', () => {
-    expect(config.output).toBe('hybrid');
+  it('should have output set to static', () => {
+    expect(config.output).toBe('static');
+  });
+
+  it('should not have legacy collections backwards compatibility enabled', () => {
+    expect(config.legacy?.collectionsBackwardsCompat).toBeUndefined();
   });
 
   it('should have the correct markdown settings', () => {
@@ -142,7 +146,12 @@ describe('TypeScript Configuration (tsconfig.json)', () => {
     expect(tsconfig.compilerOptions.strictNullChecks).toBe(true);
     expect(tsconfig.compilerOptions.baseUrl).toBe('.');
     expect(tsconfig.compilerOptions.paths).toBeDefined();
-    expect(tsconfig.compilerOptions.paths['@*']).toEqual(['./src/*']);
+    expect(tsconfig.compilerOptions.paths['@/*']).toEqual(['./src/*']);
+    expect(tsconfig.compilerOptions.paths['@components/*']).toEqual(['./src/components/*']);
+    expect(tsconfig.compilerOptions.paths['@config/*']).toEqual(['./src/config/*']);
+    expect(tsconfig.compilerOptions.paths['@layouts/*']).toEqual(['./src/layouts/*']);
+    expect(tsconfig.compilerOptions.paths['@lib/*']).toEqual(['./src/lib/*']);
+    expect(tsconfig.compilerOptions.paths['@styles/*']).toEqual(['./src/styles/*']);
     expect(tsconfig.exclude).toBeDefined();
     expect(tsconfig.exclude).toContain('dist');
     expect(tsconfig.exclude).toContain('public/web/experiment/js');

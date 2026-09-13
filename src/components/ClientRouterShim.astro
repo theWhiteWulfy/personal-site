@@ -1,0 +1,18 @@
+---
+/**
+ * ClientRouterShim.astro
+ *
+ * Router isolation component for Astro 6.2 migration (Milestone 5 Slice 3).
+ *
+ * Imports and renders `<ClientRouter />` from `astro:transitions`.
+ * Keeps `Head.astro` decoupled, preserving all SEO, analytics, and meta tag invariants.
+ */
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  fallback?: "animate" | "swap" | "none";
+  [key: string]: any;
+}
+---
+
+<ClientRouter {...Astro.props} />

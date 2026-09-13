@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import '../styles/prism.css';
-import { ViewTransitions } from "astro:transitions";
+import ClientRouterShim from "./ClientRouterShim.astro";
 import '@fontsource/prompt';
 import '@fontsource/zilla-slab';
 import site from '@config/site';
@@ -307,7 +307,7 @@ const {
 
 <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#202020">
 
-<ViewTransitions />
+<ClientRouterShim />
 
 <!-- Enhanced Schema.org JSON-LD with multiple schema types and error handling -->
 {pageSchemas && pageSchemas.length > 0 && pageSchemas.reduce((acc, schema, index) => {
@@ -426,6 +426,27 @@ const {
     console.log('Analytics: Microsoft Clarity initialized with project ID:', projectId);
   </script>
 )}
+
+<!-- Centralized Page Events Lifecycle Loader & Synchronous Fallback Bootstrap -->
+<script is:inline>
+  window.onPageSwap = window.onPageSwap || function(callback, options) {
+    var runImmediately = typeof options === 'boolean' ? options : (options && options.runImmediately);
+    if (runImmediately) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { callback(); }, { once: true });
+      } else {
+        callback();
+      }
+    }
+    document.addEventListener('astro:after-swap', callback);
+    return function() {
+      document.removeEventListener('astro:after-swap', callback);
+    };
+  };
+</script>
+<script>
+  import '@/lib/page-events';
+</script>
 
 <!-- Analytics Consent Management -->
 <script is:inline define:vars={{ 
@@ -675,8 +696,7 @@ const {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => addCopyCodeButtons());
-document.addEventListener("astro:after-swap", () => addCopyCodeButtons());
+window.onPageSwap(addCopyCodeButtons, { runImmediately: true });
 </script>
 
 <!-- Analytics Testing and Debugging (Development Only) -->

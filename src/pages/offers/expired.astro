@@ -204,9 +204,8 @@ const pageDescription = campaignTitle
       });
     }
 
-    // Run on page load
-    document.addEventListener('DOMContentLoaded', trackExpiredCampaignVisit);
-    document.addEventListener('astro:after-swap', trackExpiredCampaignVisit);
+    // Run on page load and after page transitions
+    window.onPageSwap(trackExpiredCampaignVisit, { runImmediately: true });
   </script>
 </Layout>
 

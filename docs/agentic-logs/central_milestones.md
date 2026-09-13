@@ -1,0 +1,78 @@
+# Central Milestones
+
+This file tracks major project milestones for Project Astro-Ascension. It explains why each milestone matters and how work is split across the agent tracks. Granular execution tasks belong only in `claude_tasks.md`, `codex_tasks.md`, `gemini_tasks.md`, and `jules_tasks.md`.
+
+## Workflow Rules
+
+- Never commit directly to `main`.
+- Use isolated branches with only these prefixes: `feature/`, `docs/`, `maintenance/`, and `Content/`.
+- Preserve SEO metadata, Cloudflare D1 bindings, and basic HTML structure.
+- Treat React components and future comment-system React surfaces as read-only unless Alok explicitly assigns otherwise.
+- Alok performs manual review and merges branches into `main`.
+
+## Milestone 1: Agentic Baseline And Repository Evaluation
+
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
+
+Why it matters: the project needs a shared operating model before upgrade, refactor, or feature work begins.
+
+Parallel tracks:
+
+- Claude owns architecture documentation, structural analysis, and repo evaluation.
+- Codex supports documentation wiring and records implementation-sensitive risks without changing app logic.
+- Gemini prepares long-form review coverage and upgrade-risk inventories.
+- Jules validates baseline build integrity after documentation-only changes.
+
+## Milestone 2: Astro 6.2 Compatibility Audit
+
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
+
+Why it matters: Astro 6 removes automatic compatibility for legacy content collections and replaces some APIs used by the current site.
+
+Parallel tracks:
+
+- Claude documents the upgrade architecture and compatibility strategy.
+- Codex audits app code paths that depend on Astro runtime behavior, routing, rendering, and adapter wiring.
+- Gemini performs broad repository review for deprecated APIs and risky dependency interactions.
+- Jules runs build/check verification on dedicated branches after each upgrade slice.
+
+Important constraint: do not proactively migrate existing collections to the Astro 5+ loader pattern during baseline work. First map the phased path and preserve the current content shape.
+
+## Milestone 3: Cloudflare D1 And API Surface Stabilization
+
+- [x] **Status: Completed & Verified (Pre-flight Gate Verified)**
+
+Why it matters: API routes rely on the `DB` D1 binding and must remain stable through framework upgrades.
+
+Parallel tracks:
+
+- Claude documents database architecture, D1 binding assumptions, and deployment dependencies.
+- Codex handles future wiring changes only after the compatibility plan is reviewed.
+- Gemini reviews API route behavior and data-flow risks.
+- Jules verifies build, local preview, and database-check commands when the missing script gap is resolved.
+
+## Milestone 4: Content And SEO Preservation
+
+- [x] **Status: Completed & Verified**
+
+Why it matters: the site has extensive frontmatter-driven SEO, RSS, schema, analytics, and content routing that must not regress.
+
+Parallel tracks:
+
+- Claude documents SEO and content architecture.
+- Codex preserves component contracts and page metadata while making future Astro-specific edits.
+- Gemini reviews content collection coverage and metadata consistency.
+- Jules verifies generated pages, RSS, and sitemap behavior after implementation branches.
+
+## Milestone 5: Phased Astro 6.2 Upgrade Execution
+
+- [x] **Status: Completed & Verified (All Slices 1–5 Completed & Verified)**
+
+Why it matters: the upgrade should be reversible, reviewable, and separated into low-conflict branches. Slices 1–2 upgraded Astro to 6.2, Cloudflare adapter to v13, companion integrations, set static output with legacy collections backwards compatibility, and updated zod imports to `astro/zod`. Slice 3 stabilized `<ClientRouter />`, cleanly decoupled router imports via `ClientRouterShim.astro`, eliminated `ViewTransitions` from the codebase, and validated all 7 post-swap event listener contracts across navigations. Slices 4–5 migrated dynamic SSG route params and collection consumers to `id` and `render` shims, transitioned all 8 collections in `src/content/config.ts` and `src/content.config.ts` to native Content Layer `glob()` loaders, removed `legacy.collectionsBackwardsCompat`, and verified 100% pass rate on all 42 regression tests (Tiers 1–4), 379 unit tests, and D1 database suites.
+
+Parallel tracks:
+
+- Claude keeps architecture docs current as decisions are made.
+- Codex executes approved framework, adapter, component, and routing changes.
+- Gemini performs sustained review across dependency and code changes.
+- Jules runs final build, preview, and integrity verification before Alok reviews each branch.

@@ -290,6 +290,8 @@ const formId = `campaign-form-${campaignSlug}`;
 
 <!-- Campaign CTA JavaScript -->
 <script>
+  import { onPageSwap } from '@/lib/page-events';
+
   /**
    * Initializes the Campaign CTA component.
    * This function handles form submission, including sending data to an API,
@@ -537,8 +539,7 @@ const formId = `campaign-form-${campaignSlug}`;
   }
 
   // Initialize on page load and after page transitions
-  document.addEventListener("DOMContentLoaded", initCampaignCTA);
-  document.addEventListener("astro:after-swap", initCampaignCTA);
+  onPageSwap(initCampaignCTA, { runImmediately: true });
 </script>
 
 <style>
