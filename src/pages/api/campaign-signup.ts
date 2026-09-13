@@ -133,21 +133,24 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }: APICont
         SELECT id FROM campaign_visits 
         WHERE campaign_id = ?1 
         AND conversion_type = 'form_submit'
-        AND utm_source = ?2
-        AND utm_campaign = ?3
+        AND user_id = ?2
         AND visit_timestamp > datetime('now', '-24 hours')
         LIMIT 1
       `;
 
       const duplicateResult = await DB.prepare(duplicateQuery).bind(
         campaignId,
-        utmData.utm_source || null,
-        utmData.utm_campaign || null
+        signupData.email
       ).first();
 
-      // Allow duplicate if it's a different form type or significant time has passed
       if (duplicateResult) {
-        console.log('Potential duplicate submission detected, but allowing...');
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'You have already signed up for this campaign recently.'
+        }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
     } catch (error) {
       console.error('Error checking for duplicates:', error);
