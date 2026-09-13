@@ -159,7 +159,7 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 ### TASK-2A — Add Your Site URL to Social Profiles (`rel="me"` back-links)
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅` (confirmed complete by site owner, 2026-09-14)
 **Blocks**: Bidirectional IndieAuth identity verification (agent adds site-side links; you add profile-side links)
 
 > [!NOTE]
