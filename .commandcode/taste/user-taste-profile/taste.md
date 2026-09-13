@@ -12,3 +12,7 @@
 - Testing: vitest for unit tests; expects tests updated when security/auth behavior changes. Confidence: 0.9
 - Strong preference for proper security: real HMAC-SHA256 over toy hashing, constant-time comparison for secrets, PII redaction from logs, admin auth on write endpoints. Confidence: 0.9
 - Prefers portable implementations (pure string XOR for constant-time compare, no `Buffer` dependency) for Cloudflare Workers compatibility. Confidence: 0.85
+- When sharing CI/deployment errors, pastes the full log verbatim and expects the agent to diagnose + fix autonomously — does not want back-and-forth clarification for routine dependency or config issues. Confidence: 0.85
+- Accepts pragmatic CI unblock approaches (e.g. `.npmrc` with `legacy-peer-deps=true`) when the working tree is locally verified, preferring that over a full dependency refresh mid-milestone. Confidence: 0.85
+- Defers non-fatal, cosmetic CI warnings (e.g. wrangler.toml lacking `pages_build_output_dir`) and documents the deferral in the agent tracker rather than silencing them. Confidence: 0.8
+- Wants real-browser verification of preview deployments (agent-browser or Edge/Chrome MCP), not just curl/header checks — will ask the agent to install browser tooling if missing. Confidence: 0.9

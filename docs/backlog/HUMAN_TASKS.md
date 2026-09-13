@@ -668,4 +668,17 @@ Agent session 2026-09-13:
   temporary outDir override (astro.config.verify.mjs, since deleted) — full build passes.
 - Unit suite: 303/303 pass (3 stale GET stats tests updated for the new 401 gate; 2 new auth tests added).
 - docs/backlog/tasks/milestone-1-security.md checkboxes updated to reflect completed code work.
+
+Agent session 2026-09-13 (deploy fix):
+- CF Pages preview failed: `npm clean-install` ERESOLVE. Three stale peer conflicts in the tree:
+  @astrojs/mdx 4.3.14 (peer astro ^5) vs astro 6.4.8 [hard conflict], sugarss 4 (via postcss-mixins 10) vs vite 7 [optional],
+  @cloudflare/workers-types 4 vs wrangler 4.131.1 (peerOptional ^5) [optional].
+- Fix (commit 49b8acd on fix/security-phase-1): added .npmrc with legacy-peer-deps=true (matches the
+  locally-verified working tree) and upgraded @astrojs/mdx to ^5.0.6 (the Astro 6 compatible line).
+- Verified: `npm ci --dry-run` exits 0, full astro build passes, 303/303 unit tests pass.
+- Follow-up recommended: dependency refresh (postcss-mixins 12, @cloudflare/workers-types 5, audit the
+  17 Dependabot vulns on main) before or during the Milestone 5 Astro 7 migration.
+- Note: CF Pages logs a non-fatal warning about wrangler.toml lacking `pages_build_output_dir` — Pages
+  ignores the file and uses project settings. Decided to leave as-is (adding it would make wrangler.toml
+  authoritative for the Pages project config, e.g. project name).
 ```
