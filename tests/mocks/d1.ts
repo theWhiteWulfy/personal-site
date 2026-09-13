@@ -102,6 +102,7 @@ export function createMockAPIContext(overrides: Record<string, any> = {}) {
       runtime: {
         env: {
           DB: overrides.db || db,
+          ...(overrides.env || {}),
         },
       },
     },
