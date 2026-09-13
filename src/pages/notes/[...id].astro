@@ -2,6 +2,8 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import PostNavigation from "@components/PostNavigation.astro";
+import WebmentionDisplay from "@components/WebmentionDisplay.astro";
+import site from "@config/site";
 import style from "@styles/document.module.css";
 import { slugify } from '@lib/slugify.mjs';
 import Link from "@components/Link.astro";
@@ -134,6 +136,7 @@ let lastModified = remarkPluginFrontmatter.lastModified
             <Content />
         </div>
     </article>
+    <WebmentionDisplay pageUrl={`${site.url}${Astro.url.pathname}`} />
 </main>
 <PostNavigation prevPost={prevPost} nextPost={nextPost} />
 

@@ -159,7 +159,7 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 ### TASK-2A — Add Your Site URL to Social Profiles (`rel="me"` back-links)
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅` (confirmed complete by site owner, 2026-09-14)
 **Blocks**: Bidirectional IndieAuth identity verification (agent adds site-side links; you add profile-side links)
 
 > [!NOTE]
@@ -640,14 +640,14 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | Milestone 1 — Security Phase 1 (code complete) |
-| **Last completed sub-task** | 1.9 (chore: document required env secrets in wrangler.toml) |
-| **Branch name** | `fix/security-phase-1` (based on `main`; `complete_astro_v6_migration` already merged via PR #1073) |
-| **Last git commit hash** | c1017ec |
-| **Last git commit message** | test: cover admin auth on resource download stats endpoint |
-| **Stopped reason** | All M1 sub-tasks (1.1–1.9) implemented and committed locally; push/PR and live CF Pages verification pending |
-| **Next action when resumed** | Push `fix/security-phase-1`, open PR to `main`, verify headers + 401s on CF Pages preview (securityheaders.com), then merge |
-| **Estimated remaining work in current milestone** | PR + live verification only |
+| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (code complete, PR pending) |
+| **Last completed sub-task** | 2.6 (feat(indieweb): show webmentions on articles and notes) |
+| **Branch name** | `fix/indieweb-phase-1` (based on `fix/security-phase-1` @ acff505; renamed from `feat/indieweb-quick-wins` at user request) |
+| **Last git commit hash** | 055e3dc |
+| **Last git commit message** | feat(indieweb): show webmentions on articles and notes |
+| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed, verified (build + 303/303 unit tests + rendered-HTML checks). TASK-2A confirmed done. Branch pushed; **PR #1075 opened** to `complete_astro_v6_migration` |
+| **Next action when resumed** | Wait for PR #1075 merge; after merge, user completes TASK-2B (webmention.io verification) so live webmention flow can be confirmed |
+| **Estimated remaining work in current milestone** | Merge only (human: TASK-2B after merge) |
 
 &nbsp;
 
@@ -681,4 +681,24 @@ Agent session 2026-09-13 (deploy fix):
 - Note: CF Pages logs a non-fatal warning about wrangler.toml lacking `pages_build_output_dir` — Pages
   ignores the file and uses project settings. Decided to leave as-is (adding it would make wrangler.toml
   authoritative for the Pages project config, e.g. project name).
+
+Agent session 2026-09-14 (Milestone 2 — IndieWeb Quick Wins):
+- Branch created as `fix/indieweb-phase-1` (user override of the plan's `feat/indieweb-quick-wins`),
+  based on fix/security-phase-1 @ acff505. Milestone doc header updated to match.
+- Sub-tasks 2.1–2.6 committed as 6 atomic commits (1e3299b, af17af4, 1e9a3e9, 2d4e09f, 5c65e1c, 055e3dc).
+- Deviation from plan 2.4: footer social anchors previously had `rel="nofollow"`; replaced with
+  `rel="me noopener noreferrer"` rather than appending (nofollow contradicts a rel=me identity assertion).
+- Deviation from plan 2.5: target URL is `encodeURIComponent`-encoded in the JF2 fetch; mention content
+  rendered as TEXT ONLY (no set:html) — external mention content must never be injected as HTML (XSS).
+  Mentions with no content fall back to the JF2 `name`; avatar-less authors get an initial fallback chip.
+- Root-cause fix for the known emptyDir EPERM build failure: killed the stale `wrangler dev
+  --config dist/server/wrangler.json --port 8788` process tree left running by the previous session
+  (it held the dist/ directory lock; killing only its workerd child made wrangler respawn workerd).
+- Verification: `npm run build` passes (astro check 0 errors, 114 pages prerendered); 303/303 unit tests
+  pass; rendered HTML checks — 0 `micropub` occurrences anywhere, 4 `rel=me` head links per page
+  (minifier emits `<link href=... rel=me>`; grep for `rel="me"` misses it), footer
+  `rel="me noopener noreferrer"` on all 114 pages, no webmention section/h-cite rendered on articles
+  (graceful empty state, component CSS still inlined).
+- docs/backlog/tasks/milestone-2-indieweb-quick-wins.md checkboxes updated to reflect completed work;
+  only "PR opened" remains unchecked.
 ```

@@ -1,0 +1,339 @@
+---
+/**
+ * WebmentionDisplay — renders webmentions for a page from webmention.io.
+ * Fetched once at build time; renders nothing when there are no mentions
+ * or the API is unreachable (e.g. offline builds).
+ */
+interface Props {
+  pageUrl: string;
+}
+
+interface JF2Author {
+  name?: string;
+  photo?: string;
+  url?: string;
+}
+
+interface JF2Mention {
+  'wm-property'?: string;
+  author?: JF2Author;
+  url?: string;
+  published?: string;
+  name?: string;
+  content?: {
+    text?: string;
+  };
+}
+
+const { pageUrl } = Astro.props;
+
+let mentions: JF2Mention[] = [];
+
+try {
+  const res = await fetch(
+    `https://webmention.io/api/mentions.jf2?target=${encodeURIComponent(pageUrl)}&per-page=50`
+  );
+  if (res.ok) {
+    const data = await res.json();
+    if (Array.isArray(data?.children)) {
+      mentions = data.children;
+    }
+  }
+} catch {
+  // Fetch failed (offline build, API down) — render nothing gracefully.
+}
+
+const likes = mentions.filter((m) => m['wm-property'] === 'like-of');
+const reposts = mentions.filter((m) => m['wm-property'] === 'repost-of');
+const replies = mentions.filter((m) => m['wm-property'] === 'in-reply-to');
+const otherMentions = mentions.filter(
+  (m) => !['like-of', 'repost-of', 'in-reply-to'].includes(m['wm-property'] ?? '')
+);
+
+const hasMentions = mentions.length > 0;
+---
+
+{hasMentions && (
+  <section class="webmentions" aria-label="Webmentions">
+    {likes.length > 0 && (
+      <div class="wm-group">
+        <h2 class="wm-heading">
+          {likes.length} {likes.length === 1 ? 'like' : 'likes'}
+        </h2>
+        <ul class="wm-facepile" role="list">
+          {likes.map((m) => {
+            const author = m.author;
+            return (
+              <li class="h-cite">
+                {author?.url ? (
+                  <a
+                    class="h-card u-url"
+                    href={author.url}
+                    rel="noopener noreferrer"
+                    title={author.name ?? undefined}
+                  >
+                    {author.photo ? (
+                      <img
+                        class="u-photo"
+                        src={author.photo}
+                        alt={author.name ?? ''}
+                        width="44"
+                        height="44"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="wm-avatar-fallback" aria-hidden="true">
+                        {(author.name ?? '?').charAt(0)}
+                      </span>
+                    )}
+                  </a>
+                ) : (
+                  <span class="h-card">
+                    {author?.photo ? (
+                      <img
+                        class="u-photo"
+                        src={author.photo}
+                        alt={author.name ?? ''}
+                        width="44"
+                        height="44"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="wm-avatar-fallback" aria-hidden="true">
+                        {(author?.name ?? '?').charAt(0)}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )}
+
+    {reposts.length > 0 && (
+      <div class="wm-group">
+        <h2 class="wm-heading">
+          {reposts.length} {reposts.length === 1 ? 'repost' : 'reposts'}
+        </h2>
+        <ul class="wm-facepile" role="list">
+          {reposts.map((m) => {
+            const author = m.author;
+            return (
+              <li class="h-cite">
+                {author?.url ? (
+                  <a
+                    class="h-card u-url"
+                    href={author.url}
+                    rel="noopener noreferrer"
+                    title={author.name ?? undefined}
+                  >
+                    {author.photo ? (
+                      <img
+                        class="u-photo"
+                        src={author.photo}
+                        alt={author.name ?? ''}
+                        width="44"
+                        height="44"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="wm-avatar-fallback" aria-hidden="true">
+                        {(author.name ?? '?').charAt(0)}
+                      </span>
+                    )}
+                  </a>
+                ) : (
+                  <span class="h-card">
+                    {author?.photo ? (
+                      <img
+                        class="u-photo"
+                        src={author.photo}
+                        alt={author.name ?? ''}
+                        width="44"
+                        height="44"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="wm-avatar-fallback" aria-hidden="true">
+                        {(author?.name ?? '?').charAt(0)}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )}
+
+    {replies.length > 0 && (
+      <div class="wm-group">
+        <h2 class="wm-heading">
+          {replies.length} {replies.length === 1 ? 'reply' : 'replies'}
+        </h2>
+        <ul class="wm-list" role="list">
+          {replies.map((m) => (
+            <li class="h-cite wm-item">
+              <span class="p-author h-card wm-author">
+                {m.author?.photo && (
+                  <img
+                    class="u-photo"
+                    src={m.author.photo}
+                    alt=""
+                    width="44"
+                    height="44"
+                    loading="lazy"
+                  />
+                )}
+                {m.author?.url ? (
+                  <a class="u-url p-name" href={m.author.url} rel="noopener noreferrer">
+                    {m.author.name ?? m.author.url}
+                  </a>
+                ) : (
+                  <span class="p-name">{m.author?.name ?? 'Anonymous'}</span>
+                )}
+              </span>
+              {m.published && (
+                <time class="dt-published" datetime={m.published}>
+                  {m.published.slice(0, 10)}
+                </time>
+              )}
+              {m.content?.text && <p class="p-content wm-text">{m.content.text}</p>}
+              {m.url && (
+                <a class="u-url wm-source" href={m.url} rel="noopener noreferrer">
+                  source
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {otherMentions.length > 0 && (
+      <div class="wm-group">
+        <h2 class="wm-heading">
+          {otherMentions.length} {otherMentions.length === 1 ? 'mention' : 'mentions'}
+        </h2>
+        <ul class="wm-list" role="list">
+          {otherMentions.map((m) => (
+            <li class="h-cite wm-item">
+              <span class="p-author h-card wm-author">
+                {m.author?.photo && (
+                  <img
+                    class="u-photo"
+                    src={m.author.photo}
+                    alt=""
+                    width="44"
+                    height="44"
+                    loading="lazy"
+                  />
+                )}
+                {m.author?.url ? (
+                  <a class="u-url p-name" href={m.author.url} rel="noopener noreferrer">
+                    {m.author.name ?? m.author.url}
+                  </a>
+                ) : (
+                  <span class="p-name">{m.author?.name ?? 'Anonymous'}</span>
+                )}
+              </span>
+              {m.published && (
+                <time class="dt-published" datetime={m.published}>
+                  {m.published.slice(0, 10)}
+                </time>
+              )}
+              {m.content?.text ? (
+                <p class="p-content wm-text">{m.content.text}</p>
+              ) : (
+                m.name && <p class="p-name wm-text">{m.name}</p>
+              )}
+              {m.url && (
+                <a class="u-url wm-source" href={m.url} rel="noopener noreferrer">
+                  source
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
+)}
+
+<style>
+  .webmentions {
+    margin-top: 3rem;
+    font-size: 0.95rem;
+  }
+
+  .wm-group + .wm-group {
+    margin-top: 1.75rem;
+  }
+
+  .wm-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  .wm-facepile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wm-facepile img,
+  .wm-avatar-fallback {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wm-avatar-fallback {
+    background: rgba(127, 127, 127, 0.2);
+    font-weight: 600;
+  }
+
+  .wm-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .wm-item {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgba(127, 127, 127, 0.25);
+  }
+
+  .wm-author {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+  }
+
+  .wm-author img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .wm-text {
+    margin: 0;
+  }
+
+  .wm-source {
+    font-size: 0.85rem;
+  }
+</style>
