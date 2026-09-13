@@ -6,6 +6,7 @@
 - Prefers atomic, per-sub-task commits on feature branches (one commit per logical change). Confidence: 0.9
 - Branch naming: `fix/` prefix for security/bugfix branches. Confidence: 0.85
 - Does not push or open PRs without explicit instruction — stops after local commits + verification. Confidence: 0.85
+- Always creates PRs via the GitHub REST API using the repo's stored git credentials (same credential the push uses), not via `gh` CLI or other methods. Confidence: 0.95
 - Astro + Cloudflare Pages + D1 database + wrangler. Confidence: 0.95
 - Environment access pattern: `locals.runtime.env` for Cloudflare bindings (not `import.meta.env`). Confidence: 0.9
 - Uses `.dev.vars` for local secrets, documents required secrets in `wrangler.toml` + provides `.dev.vars.example`. Confidence: 0.9
@@ -16,3 +17,10 @@
 - Accepts pragmatic CI unblock approaches (e.g. `.npmrc` with `legacy-peer-deps=true`) when the working tree is locally verified, preferring that over a full dependency refresh mid-milestone. Confidence: 0.85
 - Defers non-fatal, cosmetic CI warnings (e.g. wrangler.toml lacking `pages_build_output_dir`) and documents the deferral in the agent tracker rather than silencing them. Confidence: 0.8
 - Wants real-browser verification of preview deployments (agent-browser or Edge/Chrome MCP), not just curl/header checks — will ask the agent to install browser tooling if missing. Confidence: 0.9
+- Never commit directly to main; work on one branch per task/slice with `feature/`, `maintenance/`, `chore/`, or `docs/` prefixes, each independently reviewable — never bundle multiple migration slices into one branch. Confidence: 0.95
+- Baseline-first verification: capture pre-change output baselines (dist HTML, RSS, sitemaps, API responses with PII sanitized) under `docs/baseline/`, then diff after every change. Zero drift on SEO invariants (canonical URLs, RSS links, sitemap URL sets, JSON-LD schema). "The diffs are the deliverable, not just a green build." Confidence: 0.9
+- Requires explicit approval before touching protected surfaces: `wrangler.toml` D1 bindings/database id/`nodejs_compat`, migrations against remote D1, content collection schema rewrites, and React components. Present such decisions with options + recommendation first. Confidence: 0.9
+- Multi-agent orchestration style: role-specialized task files (e.g. `claude_tasks.md` = architect, `codex_tasks.md` = mechanic, `jules_tasks.md` = observer/verifier) plus `central_milestones.md` as the central tracker, kept synchronized as work completes, with ADR-style decision logs and explicit Boundaries sections per agent. Confidence: 0.85
+- Before handing off any branch: run the full verification suite (`npm run build`, `npx astro check` with 0 errors, `test:regression`, `test:unit`, `test:db`) and leave git status clean. Confidence: 0.9
+- Isolate breaking API changes behind shim modules (e.g. `content-shims.ts`, `page-events.ts`, `ClientRouterShim.astro`) so page routes/call sites are insulated during framework migrations. Confidence: 0.85
+- D1 migrations must be idempotent (`CREATE TABLE IF NOT EXISTS`), run in lexical order, verified locally first (`db:migrate:local` / `db:verify:local`) before any remote execution; wire them as npm scripts. Confidence: 0.9
