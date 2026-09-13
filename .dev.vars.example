@@ -1,0 +1,11 @@
+# Local development environment variables for Cloudflare (Astro) dev server.
+# Copy this file to .dev.vars and fill in real values. Never commit .dev.vars.
+
+# HMAC-SHA256 key used to sign resource download tokens.
+# Generate with: openssl rand -hex 32
+RESOURCE_SIGNING_SECRET=<generate-with-openssl-rand-hex-32>
+
+# Bearer token required by admin API endpoints
+# (GET /api/resource-download, POST/PUT/DELETE /api/campaigns).
+# Generate with: node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
+ADMIN_API_KEY=<your-key-here>

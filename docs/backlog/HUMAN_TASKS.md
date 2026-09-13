@@ -27,7 +27,7 @@
 
 ### TASK-1A — Generate `RESOURCE_SIGNING_SECRET`
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅`
 **Blocks**: Sub-task 1.2 (hardcoded secret fix in serve-resource.ts)
 
 &nbsp;
@@ -59,10 +59,10 @@ wrangler secret put RESOURCE_SIGNING_SECRET
 
 | Item | Done? |
 |---|---|
-| Secret generated | Yes / No |
-| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes / No |
-| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes / No |
-| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes / No |
+| Secret generated | Yes |
+| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes |
+| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes |
+| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes |
 
 &nbsp;
 
@@ -78,7 +78,7 @@ wrangler secret put RESOURCE_SIGNING_SECRET
 
 ### TASK-1B — Generate `ADMIN_API_KEY`
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅`
 **Blocks**: Sub-task 1.4–1.6 (protecting admin endpoints in resource-download + campaigns APIs)
 
 &nbsp;
@@ -112,17 +112,17 @@ wrangler secret put ADMIN_API_KEY
 
 | Item | Done? |
 |---|---|
-| Key generated | Yes / No |
-| `wrangler secret put ADMIN_API_KEY` run (production) | Yes / No |
-| `ADMIN_API_KEY=<value>` added to `.dev.vars` (local dev) | Yes / No |
-| Key saved in password manager | Yes / No |
+| Key generated | Yes |
+| `wrangler secret put ADMIN_API_KEY` run (production) | Yes |
+| `ADMIN_API_KEY=<value>` added to `.dev.vars` (local dev) | Yes |
+| Key saved in password manager | Yes |
 
 &nbsp;
 
-**Your admin key (last 4 chars only — for verification, do NOT write the full key here)**:
+**Your admin key (last 4 chars only — for verification, do NOT write the full key here)**: 
 
 ```
-Last 4 chars: ____
+Last 4 chars: WfFa
 ```
 
 &nbsp;
@@ -640,19 +640,32 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | — |
-| **Last completed sub-task** | — |
-| **Branch name** | — |
-| **Last git commit hash** | — |
-| **Last git commit message** | — |
-| **Stopped reason** | Waiting for TASK-1A and TASK-1B before starting Milestone 1 |
-| **Next action when resumed** | Run sub-task 1.1 (fix `public/_headers`) |
-| **Estimated remaining work in current milestone** | Full M1 (9 sub-tasks) |
+| **Last active milestone** | Milestone 1 — Security Phase 1 (code complete) |
+| **Last completed sub-task** | 1.9 (chore: document required env secrets in wrangler.toml) |
+| **Branch name** | `fix/security-phase-1` (based on `main`; `complete_astro_v6_migration` already merged via PR #1073) |
+| **Last git commit hash** | c1017ec |
+| **Last git commit message** | test: cover admin auth on resource download stats endpoint |
+| **Stopped reason** | All M1 sub-tasks (1.1–1.9) implemented and committed locally; push/PR and live CF Pages verification pending |
+| **Next action when resumed** | Push `fix/security-phase-1`, open PR to `main`, verify headers + 401s on CF Pages preview (securityheaders.com), then merge |
+| **Estimated remaining work in current milestone** | PR + live verification only |
 
 &nbsp;
 
 **Any in-progress notes**:
 
 ```
-(agent fills this in — partial work, decisions made mid-task, etc.)
+Agent session 2026-09-13:
+- Sub-tasks 1.1–1.9 committed as 10 commits on fix/security-phase-1 (per-milestone commit messages honored).
+- Deviation from plan 1.2: signing secret is read from locals.runtime.env.RESOURCE_SIGNING_SECRET
+  (matches getDatabase() pattern; wrangler secret put / .dev.vars values are runtime-only and are NOT
+  visible via import.meta.env). 503 guard added in both GET and POST handlers.
+- Deviation from plan 1.4: constant-time comparison implemented as pure string XOR — the plan's Buffer
+  snippet is unnecessary with nodejs_compat and less portable; crypto.subtle check dropped.
+- CSP tightened to `form-action 'self'` (matches plan's expected-result block; all site forms post same-origin).
+- Token format changed (UTF-8-safe base64 + HMAC-SHA256 signature): all previously issued tokens are invalidated — acceptable, tokens expire in 30 min anyway.
+- Local `npm run build` currently fails on emptyDir EPERM because a running astro dev / workerd session
+  (node PID 17392 on :4321/:9229, workerd PID 27284 on :8788) locks dist/. Build was verified with a
+  temporary outDir override (astro.config.verify.mjs, since deleted) — full build passes.
+- Unit suite: 303/303 pass (3 stale GET stats tests updated for the new 401 gate; 2 new auth tests added).
+- docs/backlog/tasks/milestone-1-security.md checkboxes updated to reflect completed code work.
 ```

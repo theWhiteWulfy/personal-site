@@ -218,6 +218,40 @@ describe('Resource Download API Route', () => {
   });
 
   describe('GET - Download Statistics', () => {
+    it('should return 401 when no Authorization header is provided', async () => {
+      const db = createMockD1();
+      const context = createMockAPIContext({
+        request: new Request('http://localhost:4321/api/resource-download', {
+          method: 'GET',
+        }),
+        db,
+        env: { ADMIN_API_KEY: 'test-admin-key' },
+      });
+
+      const response = await GET(context as any);
+      expect(response.status).toBe(401);
+
+      const body = await response.json();
+      expect(body.error).toBe('Unauthorized');
+      expect(getDownloadStats).not.toHaveBeenCalled();
+    });
+
+    it('should return 401 when the admin key is wrong', async () => {
+      const db = createMockD1();
+      const context = createMockAPIContext({
+        request: new Request('http://localhost:4321/api/resource-download', {
+          method: 'GET',
+          headers: { Authorization: 'Bearer wrong-key' },
+        }),
+        db,
+        env: { ADMIN_API_KEY: 'test-admin-key' },
+      });
+
+      const response = await GET(context as any);
+      expect(response.status).toBe(401);
+      expect(getDownloadStats).not.toHaveBeenCalled();
+    });
+
     it('should retrieve statistics successfully with query parameters', async () => {
       const db = createMockD1();
       const mockStats = {
@@ -232,8 +266,10 @@ describe('Resource Download API Route', () => {
       const context = createMockAPIContext({
         request: new Request('http://localhost:4321/api/resource-download?limit=5&resource=eBook&startDate=2024-01-01&endDate=2024-01-31', {
           method: 'GET',
+          headers: { Authorization: 'Bearer test-admin-key' },
         }),
         db,
+        env: { ADMIN_API_KEY: 'test-admin-key' },
       });
 
       const response = await GET(context as any);
@@ -260,8 +296,10 @@ describe('Resource Download API Route', () => {
       const context = createMockAPIContext({
         request: new Request('http://localhost:4321/api/resource-download', {
           method: 'GET',
+          headers: { Authorization: 'Bearer test-admin-key' },
         }),
         db,
+        env: { ADMIN_API_KEY: 'test-admin-key' },
       });
 
       const response = await GET(context as any);
@@ -275,7 +313,9 @@ describe('Resource Download API Route', () => {
       const context = createMockAPIContextNoDB({
         request: new Request('http://localhost:4321/api/resource-download', {
           method: 'GET',
+          headers: { Authorization: 'Bearer test-admin-key' },
         }),
+        locals: { runtime: { env: { ADMIN_API_KEY: 'test-admin-key' } } },
       });
 
       const response = await GET(context as any);
