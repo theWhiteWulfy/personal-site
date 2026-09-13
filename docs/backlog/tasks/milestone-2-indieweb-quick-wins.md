@@ -126,4 +126,4 @@ Before merging to `complete_astro_v6_migration`:
 - [x] WebmentionDisplay renders (or renders nothing gracefully) on article pages
 - [x] Clarity comment updated, Staticman config removed
 - [x] All 2.x commits on branch `fix/indieweb-phase-1`
-- [ ] PR opened: `fix/indieweb-phase-1` → `complete_astro_v6_migration`
+- [x] PR opened: [#1075](https://github.com/theWhiteWulfy/personal-site/pull/1075) `fix/indieweb-phase-1` → `complete_astro_v6_migration`

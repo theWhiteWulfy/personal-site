@@ -645,9 +645,9 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 | **Branch name** | `fix/indieweb-phase-1` (based on `fix/security-phase-1` @ acff505; renamed from `feat/indieweb-quick-wins` at user request) |
 | **Last git commit hash** | 055e3dc |
 | **Last git commit message** | feat(indieweb): show webmentions on articles and notes |
-| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed locally, and verified (build + 303/303 unit tests + rendered-HTML checks). Push/PR and live CF Pages verification pending |
-| **Next action when resumed** | Push `fix/indieweb-phase-1`, open PR to `complete_astro_v6_migration`; TASK-2A/2B remain open for full rel=me + webmention.io verification |
-| **Estimated remaining work in current milestone** | PR only (plus parallel human tasks 2A/2B) |
+| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed, verified (build + 303/303 unit tests + rendered-HTML checks). TASK-2A confirmed done. Branch pushed; **PR #1075 opened** to `complete_astro_v6_migration` |
+| **Next action when resumed** | Wait for PR #1075 merge; after merge, user completes TASK-2B (webmention.io verification) so live webmention flow can be confirmed |
+| **Estimated remaining work in current milestone** | Merge only (human: TASK-2B after merge) |
 
 &nbsp;
 
