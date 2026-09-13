@@ -1,0 +1,14 @@
+# User Taste Profile
+- Prefers detailed agent state tracking in HUMAN_TASKS.md so work can be resumed across sessions. Confidence: 0.9
+- Development platform: Windows (`D:\PERSONAL\` paths, `rmdir /s /q`, PowerShell heredoc quirks). Confidence: 0.95
+- Prefers conventional-commit messages: `security:`, `chore:`, `test:` prefixes. Confidence: 0.9
+- Co-authors commits with `Co-authored-by: CommandCodeBot <noreply@commandcode.ai>`. Confidence: 0.95
+- Prefers atomic, per-sub-task commits on feature branches (one commit per logical change). Confidence: 0.9
+- Branch naming: `fix/` prefix for security/bugfix branches. Confidence: 0.85
+- Does not push or open PRs without explicit instruction — stops after local commits + verification. Confidence: 0.85
+- Astro + Cloudflare Pages + D1 database + wrangler. Confidence: 0.95
+- Environment access pattern: `locals.runtime.env` for Cloudflare bindings (not `import.meta.env`). Confidence: 0.9
+- Uses `.dev.vars` for local secrets, documents required secrets in `wrangler.toml` + provides `.dev.vars.example`. Confidence: 0.9
+- Testing: vitest for unit tests; expects tests updated when security/auth behavior changes. Confidence: 0.9
+- Strong preference for proper security: real HMAC-SHA256 over toy hashing, constant-time comparison for secrets, PII redaction from logs, admin auth on write endpoints. Confidence: 0.9
+- Prefers portable implementations (pure string XOR for constant-time compare, no `Buffer` dependency) for Cloudflare Workers compatibility. Confidence: 0.85
