@@ -259,7 +259,7 @@ const {
 <!-- Indie Web -->
 <link rel="pingback" href={site.pingbackUrl} />
 <link rel="webmention" href={site.webmentionUrl} />
-<link rel="micropub" href={site.micropubUrl} />
+{site.micropubUrl && <link rel="micropub" href={site.micropubUrl} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:site_name" content={site.facebook} />
