@@ -42,9 +42,66 @@ const AVAILABLE_RESOURCES: Record<string, ResourceFile> = {
 };
 
 /**
+ * Encode bytes as base64
+ */
+function bytesToBase64(bytes: Uint8Array): string {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+/**
+ * Decode base64 to bytes
+ */
+function base64ToBytes(encoded: string): Uint8Array {
+  const binary = atob(encoded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
+
+/**
+ * Import the signing secret as an HMAC-SHA256 key
+ */
+function importSigningKey(secret: string, usages: KeyUsage[]): Promise<CryptoKey> {
+  return crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    usages
+  );
+}
+
+/**
+ * Sign payload with HMAC-SHA256
+ */
+async function signPayload(payload: string, secret: string): Promise<string> {
+  const key = await importSigningKey(secret, ['sign']);
+  const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  return bytesToBase64(new Uint8Array(signature));
+}
+
+/**
+ * Verify payload HMAC-SHA256 signature
+ */
+async function verifyPayloadSignature(payload: string, signature: string, secret: string): Promise<boolean> {
+  try {
+    const key = await importSigningKey(secret, ['verify']);
+    return await crypto.subtle.verify('HMAC', key, base64ToBytes(signature), new TextEncoder().encode(payload));
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Generate secure access token
  */
-function generateAccessToken(downloadId: number, resourceName: string, email: string): string {
+async function generateAccessToken(downloadId: number, resourceName: string, email: string, secret: string): Promise<string> {
   const tokenData: AccessToken = {
     downloadId,
     resourceName,
@@ -52,97 +109,54 @@ function generateAccessToken(downloadId: number, resourceName: string, email: st
     timestamp: Date.now(),
     attempts: 0
   };
-  
-  // In production, this should use proper JWT or encryption
-  // For now, using base64 encoding with a simple signature
-  const payload = JSON.stringify(tokenData);
-  const signature = generateSignature(payload);
-  const token = btoa(payload) + '.' + signature;
-  
-  return token;
-}
 
-/**
- * Generate simple signature for token validation
- */
-function generateSignature(payload: string): string {
-  // In production, use proper HMAC with secret key
-  // This is a simplified version for demonstration
-  const secret = 'your-secret-key-here'; // Should be in environment variables
-  let hash = 0;
-  const combined = payload + secret;
-  
-  for (let i = 0; i < combined.length; i++) {
-    const char = combined.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
-  }
-  
-  return Math.abs(hash).toString(36);
+  const payload = JSON.stringify(tokenData);
+  const signature = await signPayload(payload, secret);
+  const token = bytesToBase64(new TextEncoder().encode(payload)) + '.' + signature;
+
+  return token;
 }
 
 /**
  * Validate and decode access token
  */
-function validateAccessToken(token: string): AccessToken | null {
+async function validateAccessToken(token: string, secret: string): Promise<AccessToken | null> {
   try {
     const [encodedPayload, signature] = token.split('.');
-    
+
     if (!encodedPayload || !signature) {
       return null;
     }
-    
-    const payload = atob(encodedPayload);
-    const expectedSignature = generateSignature(payload);
-    
+
+    const payload = new TextDecoder().decode(base64ToBytes(encodedPayload));
+
     // Verify signature
-    if (signature !== expectedSignature) {
+    const isValid = await verifyPayloadSignature(payload, signature, secret);
+    if (!isValid) {
       return null;
     }
-    
+
     const tokenData: AccessToken = JSON.parse(payload);
-    
+
     // Check expiry
     const now = Date.now();
     const tokenAge = now - tokenData.timestamp;
     const maxAge = TOKEN_EXPIRY_MINUTES * 60 * 1000;
-    
+
     if (tokenAge > maxAge) {
       return null; // Token expired
     }
-    
+
     // Check download attempts
     if (tokenData.attempts >= MAX_DOWNLOAD_ATTEMPTS) {
       return null; // Too many attempts
     }
-    
+
     return tokenData;
-    
+
   } catch (error) {
     console.error('Token validation error:', error);
     return null;
-  }
-}
-
-/**
- * Update token with new attempt count
- */
-function updateTokenAttempts(token: string, _attempts: number): string {
-  try {
-    const [encodedPayload] = token.split('.');
-    const payload = atob(encodedPayload);
-    const tokenData: AccessToken = JSON.parse(payload);
-    
-    tokenData.attempts = _attempts;
-    
-    const newPayload = JSON.stringify(tokenData);
-    const newSignature = generateSignature(newPayload);
-    
-    return btoa(newPayload) + '.' + newSignature;
-    
-  } catch (error) {
-    console.error('Token update error:', error);
-    return token;
   }
 }
 
@@ -261,8 +275,19 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
+    // Get the token signing secret (required for all token operations)
+    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    if (!signingSecret) {
+      return new Response(JSON.stringify({
+        error: 'Service temporarily unavailable'
+      }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     // Validate access token
-    const tokenData = validateAccessToken(token);
+    const tokenData = await validateAccessToken(token, signingSecret);
     if (!tokenData) {
       return new Response(JSON.stringify({
         error: 'Invalid or expired access token'
@@ -403,8 +428,20 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
       });
     }
 
+    // Get the token signing secret (required for all token operations)
+    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    if (!signingSecret) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Service temporarily unavailable'
+      }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     // Generate access token
-    const accessToken = generateAccessToken(downloadId, resourceName, email);
+    const accessToken = await generateAccessToken(downloadId, resourceName, email, signingSecret);
     
     // Generate download URL
     const downloadUrl = `/api/serve-resource?token=${encodeURIComponent(accessToken)}&resource=${encodeURIComponent(resourceName)}`;
