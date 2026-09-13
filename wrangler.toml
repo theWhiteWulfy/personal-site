@@ -1,3 +1,4 @@
+name = "meteoricteachings"
 compatibility_flags = [ "nodejs_compat" ]
 
 [[d1_databases]]

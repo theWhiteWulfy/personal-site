@@ -59,10 +59,10 @@ wrangler secret put RESOURCE_SIGNING_SECRET
 
 | Item | Done? |
 |---|---|
-| Secret generated | Yes / No |
-| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes / No |
-| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes / No |
-| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes / No |
+| Secret generated | Yes |
+| `wrangler secret put RESOURCE_SIGNING_SECRET` run (production) | Yes |
+| `RESOURCE_SIGNING_SECRET=<value>` added to `.dev.vars` (local dev) | Yes |
+| `.dev.vars` is in `.gitignore` (verify with `git status`) | Yes |
 
 &nbsp;
 
