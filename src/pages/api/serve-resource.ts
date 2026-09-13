@@ -354,7 +354,7 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
     }
 
     // Log the download attempt and analytics event
-    console.log(`Resource download: ${resourceName} by ${tokenData.email} (attempt ${newAttempts})`);
+    console.log(`Resource download: ${resourceName} (attempt ${newAttempts})`);
     
     // Log analytics event to database
     try {
