@@ -15,12 +15,23 @@ Use this guide for Cloudflare Pages, Workers runtime behavior, adapter configura
 - Server-rendered routes (API endpoints): declare `export const prerender = false`
 - Adapter: `@astrojs/cloudflare` v13.x with `platformProxy: { enabled: true }` and `imageService: 'passthrough'`
 - A prebuild guard (`fs.mkdirSync('./dist/client', { recursive: true })`) ensures Miniflare initializes cleanly on fresh clones
+- Build output layout:
+  - `dist/client/`: Static assets, pre-rendered HTML, images, CSS, JS, `_headers`, and `_redirects`
+  - `dist/server/`: Worker entrypoint and generated `wrangler.json`
+
+## Cloudflare Pages Project Configuration
+
+- Project Name: `meteoricteachings`
+- Build command: `npm run build`
+- Build output directory (`destination_dir`): `dist/client`
+  > **CRITICAL**: In Astro 6, static assets and HTML live under `dist/client/`. Cloudflare Pages project build setting `destination_dir` MUST be `dist/client`. If set to `dist/`, Pages serves assets under `/client/...`, resulting in HTTP 404 for all root paths (`/`, `/about`, `/articles`).
+  > **DO NOT** add `pages_build_output_dir` to `wrangler.toml`: `@astrojs/cloudflare` automatically generates an assets binding with `"binding": "ASSETS"`, which Wrangler rejects as a reserved binding name in Pages projects. Keep `wrangler.toml` configured for Cloudflare Workers/D1 and set `destination_dir: "dist/client"` in Cloudflare Pages build settings.
 
 ## Local Preview
 
 ```shell
 npm run build      # Build first
-npm run cfpreview  # wrangler pages dev ./dist (uses real D1 binding locally)
+npm run cfpreview  # wrangler dev --config dist/server/wrangler.json (uses real D1 binding)
 ```
 
 ## Security Headers
