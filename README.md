@@ -37,7 +37,7 @@ The site is available at `http://localhost:4321`.
 npm run build
 ```
 
-Runs `astro check` (type-check) then `astro build`. Output goes to `dist/`.
+Runs `astro check` (type-check) then `astro build`. Output goes to `dist/` (`dist/client/` for static assets and `dist/server/` for Cloudflare server/worker assets). Cloudflare Pages deployment destination directory is configured to `dist/client`.
 
 ### 4. Preview on Cloudflare locally
 
@@ -45,7 +45,7 @@ Runs `astro check` (type-check) then `astro build`. Output goes to `dist/`.
 npm run cfpreview
 ```
 
-Serves the built `dist/` through `wrangler pages dev` with real Cloudflare D1 bindings.
+Serves the build via `wrangler dev --config dist/server/wrangler.json` with Cloudflare D1 bindings.
 
 ## Available Scripts
 

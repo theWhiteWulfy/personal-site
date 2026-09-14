@@ -11,7 +11,7 @@ The site is deployed on Cloudflare Pages with hybrid rendering, D1 database inte
 npm run build
 
 # Output directory
-dist/
+dist/client
 
 # Environment
 Node.js (latest)
@@ -20,16 +20,17 @@ Node.js (latest)
 ### Astro Cloudflare Adapter
 Deployment uses the Cloudflare adapter (see tech.md for full Astro configuration). Key deployment-specific settings:
 
-- **adapter: cloudflare()**: Enables Cloudflare Pages deployment
+- **adapter: cloudflare()**: Enables Cloudflare deployment
 - **platformProxy.enabled**: Access to Cloudflare runtime in development
 - **imageService: 'passthrough'**: Delegates image optimization to Cloudflare
-- **output: "hybrid"**: Combines static generation with server-rendered API routes
+- **output: "static"**: Per-route `export const prerender = false` for server-rendered API routes
 
 ## Wrangler Configuration
 
 ### Database Setup
 ```toml
 # wrangler.toml
+name = "meteoricteachings"
 compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
@@ -40,8 +41,8 @@ database_id = "8380ec22-098e-4814-a56f-48d907425b35"
 
 ### Local Development with Cloudflare Features
 ```bash
-# Preview with Cloudflare Pages locally (see tech.md for all development commands)
-npm run cfpreview   # Uses wrangler pages dev ./dist - includes D1 database access
+# Preview with Cloudflare runtime locally (see tech.md for all development commands)
+npm run cfpreview   # Uses wrangler dev --config dist/server/wrangler.json - includes D1 database access
 ```
 
 ## Security Headers
