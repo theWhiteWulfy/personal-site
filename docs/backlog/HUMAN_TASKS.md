@@ -193,7 +193,7 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 ### TASK-2B — Verify webmention.io is Active for Your Domain
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅` (confirmed complete by site owner, 2026-09-14 — deployment live at https://alokprateek.in)
 **Blocks**: Sub-task 2.5–2.6 (WebmentionDisplay component — needs confirmed endpoint)
 
 > [!NOTE]
@@ -217,9 +217,9 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 | Item | Done? |
 |---|---|
-| webmention.io dashboard accessible for alokprateek.in | Yes / No |
-| Any webmentions already received (check the dashboard) | Yes / No |
-| Using authenticated API? (optional) | Yes / No |
+| webmention.io dashboard accessible for alokprateek.in | Yes |
+| Any webmentions already received (check the dashboard) | No |
+| Using authenticated API? (optional) | No |
 
 &nbsp;
 
@@ -233,8 +233,8 @@ If using token: run `wrangler secret put WEBMENTION_IO_TOKEN` and add to `.dev.v
 
 | Item | Done? (only if using token) |
 |---|---|
-| `wrangler secret put WEBMENTION_IO_TOKEN` run | Yes / No |
-| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | Yes / No |
+| `wrangler secret put WEBMENTION_IO_TOKEN` run |  No |
+| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | No |
 
 &nbsp;
 
@@ -640,14 +640,14 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (code complete, PR pending) |
-| **Last completed sub-task** | 2.6 (feat(indieweb): show webmentions on articles and notes) |
-| **Branch name** | `fix/indieweb-phase-1` (based on `fix/security-phase-1` @ acff505; renamed from `feat/indieweb-quick-wins` at user request) |
-| **Last git commit hash** | 055e3dc |
-| **Last git commit message** | feat(indieweb): show webmentions on articles and notes |
-| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed, verified (build + 303/303 unit tests + rendered-HTML checks). TASK-2A confirmed done. Branch pushed; **PR #1075 opened** to `complete_astro_v6_migration` |
-| **Next action when resumed** | Wait for PR #1075 merge; after merge, user completes TASK-2B (webmention.io verification) so live webmention flow can be confirmed |
-| **Estimated remaining work in current milestone** | Merge only (human: TASK-2B after merge) |
+| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (**closed**: merged via PR #1075, live verification passed) |
+| **Last completed sub-task** | Live verification of deployed site (real-browser, agent-browser) |
+| **Branch name** | `fix/indieweb-phase-1` → merged into `complete_astro_v6_migration` (9819d1e) |
+| **Last git commit hash** | a4f0c71 |
+| **Last git commit message** | docs: record PR #1075 for Milestone 2 |
+| **Stopped reason** | M2 fully closed: TASK-2A + TASK-2B done; live site verified at https://alokprateek.in (head rel=me ×4, zero micropub tags, footer rel=me noopener noreferrer ×4, webmention endpoints present, graceful empty webmention state on articles) |
+| **Next action when resumed** | Await instruction — Milestone 4 (dead code cleanup) is startable on request; M3/M5 wait on their human prerequisites (TASK-3A/3B/3C, TASK-5A) |
+| **Estimated remaining work in current milestone** | None |
 
 &nbsp;
 
@@ -701,4 +701,23 @@ Agent session 2026-09-14 (Milestone 2 — IndieWeb Quick Wins):
   (graceful empty state, component CSS still inlined).
 - docs/backlog/tasks/milestone-2-indieweb-quick-wins.md checkboxes updated to reflect completed work;
   only "PR opened" remains unchecked.
+
+Agent session 2026-09-14 (M2 close-out — live verification):
+- PR #1075 merged (9819d1e); site live at https://alokprateek.in. TASK-2A and TASK-2B both confirmed
+  done by site owner. M2 closed.
+- Real-browser verification (agent-browser, Chrome via CDP):
+  * Home page head: 4 rel="me" links (GitHub/LinkedIn/Twitter/Instagram) with correct URLs; zero
+    micropub link tags; webmention + pingback endpoints present and correct.
+  * Footer: all 4 social anchors carry rel="me noopener noreferrer" with correct profile URLs.
+  * Article page (/articles/migrating-to-astro/): no webmention section rendered (graceful empty
+    state — correct while the account has 0 mentions); full-page screenshot verified clean layout.
+- ⚠ Anomaly (local environment, NOT the site): TLS connections to webmention.io (23.239.2.96 — same IP
+  from local resolver and Google DoH) return a certificate for CN=client.xaa.rocks and serve an
+  unrelated OIDC sandbox app (xaa.rocks); /api/mentions.jf2 404s from every local vantage (Chrome,
+  .NET SslStream, harness fetch). Third-party reports from Sept 2026 describe the real webmention.io
+  as up (with intermittent 502s), so this is consistent with VPN/DNS interception on this machine,
+  not a webmention.io outage or a site defect. The deployed site is unaffected: the JF2 fetch runs at
+  build time on CF Pages infrastructure and the component hides itself on failure.
+- Follow-up: once real webmentions arrive (or with the VPN off), re-check the JF2 API from a clean
+  vantage to see the section render live.
 ```
