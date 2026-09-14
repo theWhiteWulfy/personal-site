@@ -1,9 +1,9 @@
 :root {
   --background-color: #fff;
-  --background-secondary-color: color-mod(var(--primary-color) tint(95%));
-  --background-alert-color: color-mod(var(--alert-color) tint(95%));
-  --background-danger-color: color-mod(var(--danger-color) tint(95%));
-  --background-success-color: color-mod(var(--success-color) tint(95%));
+  --background-secondary-color: color-mix(in srgb, var(--primary-color) 5%, #fff);
+  --background-alert-color: color-mix(in srgb, var(--alert-color) 5%, #fff);
+  --background-danger-color: color-mix(in srgb, var(--danger-color) 5%, #fff);
+  --background-success-color: color-mix(in srgb, var(--success-color) 5%, #fff);
   --primary-color: #393e46;
   --secondary-color: #711452;
   --alert-color: var(--muted-text-color);
@@ -11,11 +11,11 @@
   --success-color: #1a882e;
   --text-color: #111;
   --footer-bg: #dddddd;
-  --muted-text-color: color-mod(var(--text-color) tint(40%));
+  --muted-text-color: color-mix(in srgb, var(--text-color) 60%, #fff);
   --link-color: #00638a;
   --shadow-color: rgb(57,62,70, 0.1);
   --shadow-color-alpha: rgb(57,62,70, 0.05);
-  --border-color: color-mod(var(--primary-color) tint(80%));
+  --border-color: color-mix(in srgb, var(--primary-color) 20%, #fff);
   --input-background-color: #f2f2f2;
   --button-text-color: #fff;
   --button-background-color: #111;
@@ -85,8 +85,8 @@
   --link-color: #fff;
   --secondary-color: #fff;
   --input-background-color: #1a1a1d;
-  --border-color: color-mod(var(--primary-color) tint(50%));
-  --shadow-color: color-mod(var(--primary-color) shade(50%));
+  --border-color: color-mix(in srgb, var(--primary-color) 50%, #fff);
+  --shadow-color: color-mix(in srgb, var(--primary-color) 50%, #000);
   --code-text-color: #a9a9b3;
   --code-background-color: #1a1a1d;
   --button-text-color: #111;

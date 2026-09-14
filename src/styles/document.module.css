@@ -301,7 +301,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: color-mod(var(--button-background-color) tint(25%));
+    background-color: color-mix(in srgb, var(--button-background-color) 75%, #fff);
     color: var(--button-text-color);
     text-decoration: none;
   }

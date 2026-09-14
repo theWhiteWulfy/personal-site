@@ -275,7 +275,7 @@
 }
 
 .cta-button:hover {
-  background-color: color-mod(var(--button-background-color) tint(15%));
+  background-color: color-mix(in srgb, var(--button-background-color) 85%, #fff);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px var(--shadow-color);
   text-decoration: none;
@@ -317,11 +317,11 @@ html {
 
 /* Dark mode adjustments */
 [data-theme="dark"] .resource-hero {
-  background: linear-gradient(135deg, var(--background-color) 0%, color-mod(var(--primary-color) alpha(0.1)) 100%);
+  background: linear-gradient(135deg, var(--background-color) 0%, color-mix(in srgb, var(--primary-color) 10%, transparent) 100%);
 }
 
 [data-theme="dark"] .resource-metadata {
-  background-color: color-mod(var(--primary-color) alpha(0.1));
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 /* Styles from src/components/ResourceForm.astro */
@@ -403,18 +403,18 @@ html {
 .form-input:focus {
   outline: none;
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 3px color-mod(var(--secondary-color) alpha(0.1));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary-color) 10%, transparent);
 }
 
 .form-input:invalid:not(:focus):not(:placeholder-shown),
 .form-input.error {
   border-color: var(--danger-color);
-  box-shadow: 0 0 0 3px color-mod(var(--danger-color) alpha(0.1));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-color) 10%, transparent);
 }
 
 .form-input.error:focus {
   border-color: var(--danger-color);
-  box-shadow: 0 0 0 3px color-mod(var(--danger-color) alpha(0.2));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger-color) 20%, transparent);
 }
 
 .form-actions {
@@ -472,13 +472,13 @@ html {
 .success-message {
   color: var(--success-color);
   background-color: var(--background-success-color);
-  border: 1px solid color-mod(var(--success-color) alpha(0.3));
+  border: 1px solid color-mix(in srgb, var(--success-color) 30%, transparent);
 }
 
 .error-message-global {
   color: var(--danger-color);
   background-color: var(--background-danger-color);
-  border: 1px solid color-mod(var(--danger-color) alpha(0.3));
+  border: 1px solid color-mix(in srgb, var(--danger-color) 30%, transparent);
 }
 
 .error-message {
