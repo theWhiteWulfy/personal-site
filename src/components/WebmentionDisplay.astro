@@ -70,7 +70,7 @@ const hasMentions = mentions.length > 0;
                     class="h-card u-url"
                     href={author.url}
                     rel="noopener noreferrer"
-                    title={author.name ?? undefined}
+                    title={author.name || undefined}
                   >
                     {author.photo ? (
                       <img
@@ -83,7 +83,7 @@ const hasMentions = mentions.length > 0;
                       />
                     ) : (
                       <span class="wm-avatar-fallback" aria-hidden="true">
-                        {(author.name ?? '?').charAt(0)}
+                        {(author.name || '?').charAt(0)}
                       </span>
                     )}
                   </a>
@@ -100,7 +100,7 @@ const hasMentions = mentions.length > 0;
                       />
                     ) : (
                       <span class="wm-avatar-fallback" aria-hidden="true">
-                        {(author?.name ?? '?').charAt(0)}
+                        {(author?.name || '?').charAt(0)}
                       </span>
                     )}
                   </span>
@@ -127,7 +127,7 @@ const hasMentions = mentions.length > 0;
                     class="h-card u-url"
                     href={author.url}
                     rel="noopener noreferrer"
-                    title={author.name ?? undefined}
+                    title={author.name || undefined}
                   >
                     {author.photo ? (
                       <img
@@ -140,7 +140,7 @@ const hasMentions = mentions.length > 0;
                       />
                     ) : (
                       <span class="wm-avatar-fallback" aria-hidden="true">
-                        {(author.name ?? '?').charAt(0)}
+                        {(author.name || '?').charAt(0)}
                       </span>
                     )}
                   </a>
@@ -157,7 +157,7 @@ const hasMentions = mentions.length > 0;
                       />
                     ) : (
                       <span class="wm-avatar-fallback" aria-hidden="true">
-                        {(author?.name ?? '?').charAt(0)}
+                        {(author?.name || '?').charAt(0)}
                       </span>
                     )}
                   </span>
@@ -190,10 +190,10 @@ const hasMentions = mentions.length > 0;
                 )}
                 {m.author?.url ? (
                   <a class="u-url p-name" href={m.author.url} rel="noopener noreferrer">
-                    {m.author.name ?? m.author.url}
+                    {m.author.name || m.author.url}
                   </a>
                 ) : (
-                  <span class="p-name">{m.author?.name ?? 'Anonymous'}</span>
+                  <span class="p-name">{m.author?.name || 'Anonymous'}</span>
                 )}
               </span>
               {m.published && (
@@ -234,10 +234,10 @@ const hasMentions = mentions.length > 0;
                 )}
                 {m.author?.url ? (
                   <a class="u-url p-name" href={m.author.url} rel="noopener noreferrer">
-                    {m.author.name ?? m.author.url}
+                    {m.author.name || m.author.url}
                   </a>
                 ) : (
-                  <span class="p-name">{m.author?.name ?? 'Anonymous'}</span>
+                  <span class="p-name">{m.author?.name || 'Anonymous'}</span>
                 )}
               </span>
               {m.published && (
