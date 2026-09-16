@@ -9,3 +9,7 @@ RESOURCE_SIGNING_SECRET=<generate-with-openssl-rand-hex-32>
 # (GET /api/resource-download, POST/PUT/DELETE /api/campaigns).
 # Generate with: node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
 ADMIN_API_KEY=<your-key-here>
+
+# webmention.io API token (optional — only needed for authenticated API
+# access, e.g. higher rate limits). Copy from your webmention.io dashboard.
+WEBMENTION_IO_TOKEN=<your-token-here>

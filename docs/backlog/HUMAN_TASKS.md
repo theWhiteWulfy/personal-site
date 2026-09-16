@@ -218,23 +218,28 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 | Item | Done? |
 |---|---|
 | webmention.io dashboard accessible for alokprateek.in | Yes |
-| Any webmentions already received (check the dashboard) | No |
-| Using authenticated API? (optional) | No |
+| Any webmentions already received (check the dashboard) | Yes |
+| Using authenticated API? (optional) | Yes |
 
 &nbsp;
 
-**Webmention.io token** (optional — leave blank to use public API):
+**Webmention.io token** (last 4 chars only for verification — do NOT write the full key here; the full value lives only in `.dev.vars` and the Cloudflare secret):
 
 ```
-Token: ____________________________________
+Last 4 chars: Jueg
 ```
 
-If using token: run `wrangler secret put WEBMENTION_IO_TOKEN` and add to `.dev.vars`.
+> [!WARNING]
+> The full token was briefly pasted into this file (2026-09-14) and redacted before commit — it never
+> reached git history. If it had been committed, the token should be rotated from the webmention.io
+> dashboard.
+
+If using token: run `wrangler pages secret put WEBMENTION_IO_TOKEN --project-name=meteoricteachings` (this is a Cloudflare **Pages** project — `wrangler secret put` alone is Workers-only) and add to `.dev.vars`.
 
 | Item | Done? (only if using token) |
 |---|---|
 | `wrangler secret put WEBMENTION_IO_TOKEN` run |  No |
-| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | No |
+| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | Yes |
 
 &nbsp;
 
@@ -276,7 +281,7 @@ Or if only one is done:
 
 ### TASK-3A — Choose PDF File Storage Location
 
-**Status**: `PENDING 🔲`
+**Status**: `done ✅`
 **Blocks**: All of Milestone 3 code
 
 &nbsp;
@@ -294,7 +299,7 @@ Or if only one is done:
 **Your decision**:
 
 ```
-Storage choice: ____________________________________
+Storage choice: ________________R2____________________
                 (write: "R2" / "public/resources" / "external:<url>")
 ```
 
@@ -312,7 +317,7 @@ Storage choice: ____________________________________
 
 ### TASK-3B — Set Up Cloudflare R2 Bucket *(only if R2 chosen in TASK-3A)*
 
-**Status**: `PENDING 🔲` *(skip if not using R2)*
+**Status**: `done ✅` *(skip if not using R2)*
 **Blocks**: Sub-task 3.1 (R2 binding in wrangler.toml)
 
 &nbsp;
@@ -324,7 +329,7 @@ Storage choice: ____________________________________
 wrangler r2 bucket create meteoric-resources
 
 # Verify it was created
-wrangler r2 bucket list
+npx wrangler r2 bucket list
 ```
 
 &nbsp;
@@ -333,8 +338,8 @@ wrangler r2 bucket list
 
 | Item | Done? |
 |---|---|
-| R2 bucket created via `wrangler r2 bucket create` | Yes / No |
-| Bucket appears in `wrangler r2 bucket list` output | Yes / No |
+| R2 bucket created via `wrangler r2 bucket create` | Yes |
+| Bucket appears in `wrangler r2 bucket list` output | Yes |
 
 &nbsp;
 
@@ -367,9 +372,9 @@ Bucket name: ____________________________________
 
 | Filename | Status | Upload command (if using R2) |
 |---|---|---|
-| `automation-guide.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/automation-guide.pdf --file ./path/to/file.pdf` |
-| `whitelabel-checklist.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/whitelabel-checklist.pdf --file ./path/to/file.pdf` |
-| `ai-integration-playbook.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/ai-integration-playbook.pdf --file ./path/to/file.pdf` |
+| `automation-guide.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/automation-guide.pdf --file D:/PERSONAL/PDF/Automation-Guide.pdf` |
+| `whitelabel-checklist.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/whitelabel-checklist.pdf --file D:/PERSONAL/PDF/Whitelabel-Checklist.pdf` |
+| `ai-integration-playbook.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/ai-integration-playbook.pdf --file D:/PERSONAL/PDF/AI-Integration-Playbook.pdf` |
 
 &nbsp;
 
@@ -377,9 +382,9 @@ Bucket name: ____________________________________
 
 | File | Uploaded? | Location |
 |---|---|---|
-| `automation-guide.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
-| `whitelabel-checklist.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
-| `ai-integration-playbook.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
+| `automation-guide.pdf` | Yes | R2 |
+| `whitelabel-checklist.pdf` | Yes | R2 |
+| `ai-integration-playbook.pdf` | Yes | R2 |
 
 &nbsp;
 
