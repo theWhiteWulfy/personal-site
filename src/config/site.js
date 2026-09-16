@@ -55,7 +55,6 @@
  * @property {string} whatsappUrl - The URL for WhatsApp.
  * @property {string} emailAddress - The email address.
  * @property {string} emailUrl - The mailto link for the email address.
- * @property {string} githubApiToken - The GitHub API token.
  * @property {object} reCaptcha - The reCAPTCHA configuration.
  * @property {string} reCaptcha.siteKey - The reCAPTCHA site key.
  * @property {string} reCaptcha.secret - The reCAPTCHA secret key.
@@ -151,7 +150,6 @@ const site = {
   emailUrl: 'mailto:i@alokprateek.in',
 
   // tokens and keys
-  githubApiToken: process.env.GITHUB_API_TOKEN,
   reCaptcha: {
     siteKey: '',
     secret:
