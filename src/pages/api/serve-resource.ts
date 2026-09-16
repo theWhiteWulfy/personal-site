@@ -3,6 +3,7 @@ export const prerender = false; // Required for server-side rendering
 import type { APIRoute, APIContext } from 'astro';
 import { validateDatabaseConnection, getDownloadById, getDatabase } from '@/lib/api/database';
 import { RESOURCES, isValidResource } from '@/lib/api/resources';
+import { getEnv } from '@/lib/api/runtime-env';
 
 // Token configuration
 const TOKEN_EXPIRY_MINUTES = 30; // Tokens expire after 30 minutes
@@ -137,9 +138,9 @@ async function validateAccessToken(token: string, secret: string): Promise<Acces
 }
 
 // GET handler for secure PDF serving
-export const GET: APIRoute = async ({ url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ url }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     
@@ -179,7 +180,7 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
     }
 
     // Get the token signing secret (required for all token operations)
-    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    const signingSecret = getEnv().RESOURCE_SIGNING_SECRET;
     if (!signingSecret) {
       return new Response(JSON.stringify({
         error: 'Service temporarily unavailable'
@@ -238,7 +239,7 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
     const newAttempts = tokenData.attempts + 1;
 
     // Get the R2 bucket binding (required for file serving)
-    const bucket = locals.runtime?.env?.RESOURCES_BUCKET;
+    const bucket = getEnv().RESOURCES_BUCKET;
     if (!bucket) {
       return new Response(JSON.stringify({
         error: 'Service temporarily unavailable'
@@ -305,7 +306,7 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 
   } catch (error) {
     console.error('Resource serving error:', error);
-    
+
     return new Response(JSON.stringify({
       error: 'Internal server error'
     }), {
@@ -316,9 +317,9 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 };
 
 // POST handler for generating download tokens
-export const POST: APIRoute = async ({ request, locals }: APIContext) => {
+export const POST: APIRoute = async ({ request }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const requestData = await request.json();
@@ -359,7 +360,7 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
     }
 
     // Get the token signing secret (required for all token operations)
-    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    const signingSecret = getEnv().RESOURCE_SIGNING_SECRET;
     if (!signingSecret) {
       return new Response(JSON.stringify({
         success: false,
@@ -388,7 +389,7 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 
   } catch (error) {
     console.error('Token generation error:', error);
-    
+
     return new Response(JSON.stringify({
       success: false,
       error: 'Internal server error'

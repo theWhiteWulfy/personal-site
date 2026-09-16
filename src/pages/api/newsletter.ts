@@ -3,11 +3,11 @@ export const prerender = false; //This will not work without this line
 import type { APIRoute, APIContext } from 'astro';
 import { getDatabase } from '@/lib/api/database';
 
-export const POST: APIRoute = async ({ request, locals }: APIContext) => {
+export const POST: APIRoute = async ({ request }: APIContext) => {
     const formData = await request.formData();
     const email = formData.get('subsemail');
 
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     

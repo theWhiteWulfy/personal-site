@@ -315,7 +315,7 @@ describe('Resource Download API Route', () => {
           method: 'GET',
           headers: { Authorization: 'Bearer test-admin-key' },
         }),
-        locals: { runtime: { env: { ADMIN_API_KEY: 'test-admin-key' } } },
+        env: { ADMIN_API_KEY: 'test-admin-key' },
       });
 
       const response = await GET(context as any);

@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute, APIContext } from 'astro';
 import { getDatabase } from '@/lib/api/database';
 import { requireAdminAuth, unauthorizedResponse } from '@/lib/api/auth';
+import { getEnv } from '@/lib/api/runtime-env';
 
 interface CampaignData {
   id?: number;
@@ -34,9 +35,9 @@ interface CampaignAnalytics {
  * - limit: Number of results to return (default: 50)
  * - offset: Pagination offset (default: 0)
  */
-export const GET: APIRoute = async ({ url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ url }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const searchParams = new URL(url).searchParams;
@@ -157,13 +158,13 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 /**
  * POST /api/campaigns - Create a new campaign
  */
-export const POST: APIRoute = async ({ request, locals }: APIContext) => {
+export const POST: APIRoute = async ({ request }: APIContext) => {
   try {
-    if (!requireAdminAuth(request, locals.runtime?.env)) {
+    if (!requireAdminAuth(request, getEnv())) {
       return unauthorizedResponse();
     }
 
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const campaignData: CampaignData = await request.json();
@@ -281,13 +282,13 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 /**
  * PUT /api/campaigns - Update an existing campaign
  */
-export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
+export const PUT: APIRoute = async ({ request }: APIContext) => {
   try {
-    if (!requireAdminAuth(request, locals.runtime?.env)) {
+    if (!requireAdminAuth(request, getEnv())) {
       return unauthorizedResponse();
     }
 
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const campaignData: CampaignData = await request.json();
@@ -462,13 +463,13 @@ export const PUT: APIRoute = async ({ request, locals }: APIContext) => {
 /**
  * DELETE /api/campaigns - Delete a campaign
  */
-export const DELETE: APIRoute = async ({ request, locals }: APIContext) => {
+export const DELETE: APIRoute = async ({ request }: APIContext) => {
   try {
-    if (!requireAdminAuth(request, locals.runtime?.env)) {
+    if (!requireAdminAuth(request, getEnv())) {
       return unauthorizedResponse();
     }
 
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const { id } = await request.json();

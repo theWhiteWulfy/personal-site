@@ -18,9 +18,9 @@ interface CampaignSignupData {
   page_url?: string | undefined;
 }
 
-export const POST: APIRoute = async ({ request, locals, clientAddress }: APIContext) => {
+export const POST: APIRoute = async ({ request, clientAddress }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const formData = await request.formData();

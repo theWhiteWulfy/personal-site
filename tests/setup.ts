@@ -10,6 +10,7 @@
  */
 
 import { vi, beforeEach, afterEach } from 'vitest';
+import { resetMockCloudflareEnv } from './mocks/cloudflare-workers';
 
 // ─── Console Suppression ────────────────────────────────────────────────────
 // Suppress console.warn and console.error during tests to reduce noise,
@@ -27,4 +28,5 @@ afterEach(() => {
   console.warn = originalConsoleWarn;
   console.error = originalConsoleError;
   vi.restoreAllMocks();
+  resetMockCloudflareEnv();
 });

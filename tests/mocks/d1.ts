@@ -2,8 +2,9 @@
  * Cloudflare D1 Database Mock Factory
  *
  * Provides mock implementations of the D1 database binding used by all
- * server-rendered API routes in `src/pages/api/`. The real D1 binding
- * is accessed via `locals.runtime.env.DB` in the Cloudflare adapter.
+ * server-rendered API routes in `src/pages/api/`. The real D1 binding is
+ * accessed via the `cloudflare:workers` `env` through the `getEnv()` shim
+ * (`src/lib/api/runtime-env.ts`).
  *
  * Usage in tests:
  *   import { createMockD1, createMockAPIContext } from '../mocks/d1';
@@ -20,6 +21,7 @@
  */
 
 import { vi } from 'vitest';
+import { setMockCloudflareEnv } from 'cloudflare:workers';
 
 /**
  * Creates a chainable D1 database mock.
@@ -76,7 +78,7 @@ export function createMockFormData(fields: Record<string, string>): FormData {
  * by all `src/pages/api/*.ts` route handlers.
  *
  * The structure mirrors:
- *   - `locals.runtime.env.DB` from `@astrojs/cloudflare` Runtime<ENV>
+ *   - `getEnv().DB` (the `cloudflare:workers` bindings object)
  *   - Standard `Request` object
  *   - `url` parsed from the request
  *
@@ -95,17 +97,14 @@ export function createMockAPIContext(overrides: Record<string, any> = {}) {
 
   const request = overrides.request || defaultRequest;
 
+  // Bindings are read through `getEnv()` (cloudflare:workers shim); seed the
+  // mock bindings so routes under test can access them.
+  setMockCloudflareEnv({ DB: overrides.db || db, ...(overrides.env || {}) });
+
   return {
     request,
     url: new URL(request.url),
-    locals: {
-      runtime: {
-        env: {
-          DB: overrides.db || db,
-          ...(overrides.env || {}),
-        },
-      },
-    },
+    locals: {},
     // Expose the DB mock for direct assertion access
     __mockDB: overrides.db || db,
     ...overrides,
@@ -118,8 +117,10 @@ export function createMockAPIContext(overrides: Record<string, any> = {}) {
  * that every API route must handle.
  */
 export function createMockAPIContextNoDB(overrides: Record<string, any> = {}) {
+  const request = overrides.request || new Request('http://localhost:4321/api/test', { method: 'POST' });
+  setMockCloudflareEnv({ ...(overrides.env || {}) });
   return {
-    request: overrides.request || new Request('http://localhost:4321/api/test', { method: 'POST' }),
+    request,
     url: new URL('http://localhost:4321/api/test'),
     locals: {},
     ...overrides,

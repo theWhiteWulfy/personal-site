@@ -1,7 +1,7 @@
 /**
  * Database operations for resource tracking
  */
-import type { APIContext } from 'astro';
+import { getEnv } from './runtime-env';
 
 
 export interface ResourceDownloadRecord {
@@ -328,11 +328,12 @@ export async function testDatabaseConnection(DB: any): Promise<boolean> {
 }
 
 /**
- * Validates the presence of the D1 database binding in the locals object.
+ * Validates the presence of the D1 database binding in the worker environment.
  * Returns the DB instance if found, otherwise returns a 500 Response.
  */
-export function getDatabase(locals: APIContext['locals']) {
-    if (!locals || !locals.runtime || !locals.runtime.env || !locals.runtime.env.DB) {
+export function getDatabase() {
+    const DB = getEnv().DB;
+    if (!DB) {
         return {
             DB: null,
             errorResponse: new Response(JSON.stringify({ success: false, error: 'Database not configured' }), {
@@ -341,9 +342,9 @@ export function getDatabase(locals: APIContext['locals']) {
             })
         };
     }
-    
+
     return {
-        DB: locals.runtime.env.DB,
+        DB,
         errorResponse: null
     };
 }

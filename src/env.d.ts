@@ -7,6 +7,8 @@ type R2Bucket = import("@cloudflare/workers-types").R2Bucket;
 type ENV = {
     DB: D1Database;
     RESOURCES_BUCKET: R2Bucket;
+    RESOURCE_SIGNING_SECRET?: string;
+    ADMIN_API_KEY?: string;
 };
 
 // use a default runtime configuration (advanced mode).

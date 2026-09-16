@@ -5,6 +5,7 @@ import { validateResourceForm, formatValidationErrors } from '@/lib/api/validati
 import { performSecurityChecks } from '@/lib/api/security';
 import { insertResourceDownload, getDownloadStats, validateDatabaseConnection, getDatabase } from '@/lib/api/database';
 import { requireAdminAuth, unauthorizedResponse } from '@/lib/api/auth';
+import { getEnv } from '@/lib/api/runtime-env';
 
 // TypeScript interfaces for request and response data
 interface ResourceDownloadRequest {
@@ -48,9 +49,9 @@ interface DownloadStatsResponse {
 }
 
 // POST handler for form submissions
-export const POST: APIRoute = async ({ request, locals }: APIContext) => {
+export const POST: APIRoute = async ({ request }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const formData = await request.formData();
@@ -183,13 +184,13 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 };
 
 // GET handler for retrieving download statistics (admin use)
-export const GET: APIRoute = async ({ request, url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ request, url }: APIContext) => {
   try {
-    if (!requireAdminAuth(request, locals.runtime?.env)) {
+    if (!requireAdminAuth(request, getEnv())) {
       return unauthorizedResponse();
     }
 
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
 
