@@ -2,7 +2,7 @@ export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
 import { validateDatabaseConnection, getDownloadById, getDatabase } from '@/lib/api/database';
-import { RESOURCES } from '@/lib/api/resources';
+import { RESOURCES, isValidResource } from '@/lib/api/resources';
 
 // Token configuration
 const TOKEN_EXPIRY_MINUTES = 30; // Tokens expire after 30 minutes
@@ -168,6 +168,16 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
+    // Validate resource against the allowlist
+    if (!isValidResource(resourceName)) {
+      return new Response(JSON.stringify({
+        error: 'Invalid resource'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     // Get the token signing secret (required for all token operations)
     const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
     if (!signingSecret) {
@@ -221,16 +231,8 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
-    // Check if resource exists in the allowlist
+    // Resolve resource metadata from the allowlist
     const resourceMeta = RESOURCES[resourceName];
-    if (!resourceMeta) {
-      return new Response(JSON.stringify({
-        error: 'Resource not found'
-      }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
 
     // Increment download attempts
     const newAttempts = tokenData.attempts + 1;
@@ -249,6 +251,8 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
     // Fetch the real file from R2
     const object = await bucket.get(resourceMeta.filename);
     if (!object) {
+      // Log missing file server-side (no PII)
+      console.warn(`Resource file missing in R2: ${resourceMeta.filename}`);
       return new Response(JSON.stringify({
         error: 'Resource not found'
       }), {
@@ -325,6 +329,17 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
       return new Response(JSON.stringify({
         success: false,
         error: 'Missing required parameters'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Validate resource against the allowlist
+    if (typeof resourceName !== 'string' || !isValidResource(resourceName)) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Invalid resource'
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
