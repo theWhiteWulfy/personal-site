@@ -193,7 +193,7 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 ### TASK-2B — Verify webmention.io is Active for Your Domain
 
-**Status**: `PENDING 🔲`
+**Status**: `DONE ✅` (confirmed complete by site owner, 2026-09-14 — deployment live at https://alokprateek.in)
 **Blocks**: Sub-task 2.5–2.6 (WebmentionDisplay component — needs confirmed endpoint)
 
 > [!NOTE]
@@ -217,24 +217,29 @@ Once TASK-1A and TASK-1B are both done, copy and send this message:
 
 | Item | Done? |
 |---|---|
-| webmention.io dashboard accessible for alokprateek.in | Yes / No |
-| Any webmentions already received (check the dashboard) | Yes / No |
-| Using authenticated API? (optional) | Yes / No |
+| webmention.io dashboard accessible for alokprateek.in | Yes |
+| Any webmentions already received (check the dashboard) | Yes |
+| Using authenticated API? (optional) | Yes |
 
 &nbsp;
 
-**Webmention.io token** (optional — leave blank to use public API):
+**Webmention.io token** (last 4 chars only for verification — do NOT write the full key here; the full value lives only in `.dev.vars` and the Cloudflare secret):
 
 ```
-Token: ____________________________________
+Last 4 chars: Jueg
 ```
 
-If using token: run `wrangler secret put WEBMENTION_IO_TOKEN` and add to `.dev.vars`.
+> [!WARNING]
+> The full token was briefly pasted into this file (2026-09-14) and redacted before commit — it never
+> reached git history. If it had been committed, the token should be rotated from the webmention.io
+> dashboard.
+
+If using token: run `wrangler pages secret put WEBMENTION_IO_TOKEN --project-name=meteoricteachings` (this is a Cloudflare **Pages** project — `wrangler secret put` alone is Workers-only) and add to `.dev.vars`.
 
 | Item | Done? (only if using token) |
 |---|---|
-| `wrangler secret put WEBMENTION_IO_TOKEN` run | Yes / No |
-| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | Yes / No |
+| `wrangler secret put WEBMENTION_IO_TOKEN` run |  No |
+| `WEBMENTION_IO_TOKEN=<value>` added to `.dev.vars` | Yes |
 
 &nbsp;
 
@@ -276,7 +281,7 @@ Or if only one is done:
 
 ### TASK-3A — Choose PDF File Storage Location
 
-**Status**: `PENDING 🔲`
+**Status**: `done ✅`
 **Blocks**: All of Milestone 3 code
 
 &nbsp;
@@ -294,7 +299,7 @@ Or if only one is done:
 **Your decision**:
 
 ```
-Storage choice: ____________________________________
+Storage choice: ________________R2____________________
                 (write: "R2" / "public/resources" / "external:<url>")
 ```
 
@@ -312,7 +317,7 @@ Storage choice: ____________________________________
 
 ### TASK-3B — Set Up Cloudflare R2 Bucket *(only if R2 chosen in TASK-3A)*
 
-**Status**: `PENDING 🔲` *(skip if not using R2)*
+**Status**: `done ✅` *(skip if not using R2)*
 **Blocks**: Sub-task 3.1 (R2 binding in wrangler.toml)
 
 &nbsp;
@@ -324,7 +329,7 @@ Storage choice: ____________________________________
 wrangler r2 bucket create meteoric-resources
 
 # Verify it was created
-wrangler r2 bucket list
+npx wrangler r2 bucket list
 ```
 
 &nbsp;
@@ -333,8 +338,8 @@ wrangler r2 bucket list
 
 | Item | Done? |
 |---|---|
-| R2 bucket created via `wrangler r2 bucket create` | Yes / No |
-| Bucket appears in `wrangler r2 bucket list` output | Yes / No |
+| R2 bucket created via `wrangler r2 bucket create` | Yes |
+| Bucket appears in `wrangler r2 bucket list` output | Yes |
 
 &nbsp;
 
@@ -367,9 +372,9 @@ Bucket name: ____________________________________
 
 | Filename | Status | Upload command (if using R2) |
 |---|---|---|
-| `automation-guide.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/automation-guide.pdf --file ./path/to/file.pdf` |
-| `whitelabel-checklist.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/whitelabel-checklist.pdf --file ./path/to/file.pdf` |
-| `ai-integration-playbook.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/ai-integration-playbook.pdf --file ./path/to/file.pdf` |
+| `automation-guide.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/automation-guide.pdf --file D:/PERSONAL/PDF/Automation-Guide.pdf` |
+| `whitelabel-checklist.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/whitelabel-checklist.pdf --file D:/PERSONAL/PDF/Whitelabel-Checklist.pdf` |
+| `ai-integration-playbook.pdf` | ❌ Missing | `wrangler r2 object put meteoric-resources/ai-integration-playbook.pdf --file D:/PERSONAL/PDF/AI-Integration-Playbook.pdf` |
 
 &nbsp;
 
@@ -377,9 +382,9 @@ Bucket name: ____________________________________
 
 | File | Uploaded? | Location |
 |---|---|---|
-| `automation-guide.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
-| `whitelabel-checklist.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
-| `ai-integration-playbook.pdf` | Yes / No | R2 / public/resources / external URL: `____` |
+| `automation-guide.pdf` | Yes | R2 |
+| `whitelabel-checklist.pdf` | Yes | R2 |
+| `ai-integration-playbook.pdf` | Yes | R2 |
 
 &nbsp;
 
@@ -640,14 +645,14 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (code complete, PR pending) |
-| **Last completed sub-task** | 2.6 (feat(indieweb): show webmentions on articles and notes) |
-| **Branch name** | `fix/indieweb-phase-1` (based on `fix/security-phase-1` @ acff505; renamed from `feat/indieweb-quick-wins` at user request) |
-| **Last git commit hash** | 055e3dc |
-| **Last git commit message** | feat(indieweb): show webmentions on articles and notes |
-| **Stopped reason** | All M2 sub-tasks (2.1–2.6) implemented, committed, verified (build + 303/303 unit tests + rendered-HTML checks). TASK-2A confirmed done. Branch pushed; **PR #1075 opened** to `complete_astro_v6_migration` |
-| **Next action when resumed** | Wait for PR #1075 merge; after merge, user completes TASK-2B (webmention.io verification) so live webmention flow can be confirmed |
-| **Estimated remaining work in current milestone** | Merge only (human: TASK-2B after merge) |
+| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (**closed**: merged via PR #1075, live verification passed) |
+| **Last completed sub-task** | Live verification of deployed site (real-browser, agent-browser) |
+| **Branch name** | `fix/indieweb-phase-1` → merged into `complete_astro_v6_migration` (9819d1e) |
+| **Last git commit hash** | a4f0c71 |
+| **Last git commit message** | docs: record PR #1075 for Milestone 2 |
+| **Stopped reason** | M2 closed. TASK-2B recheck complete: token validated against authenticated API (1 mention on domain), secret documented in wrangler.toml + .dev.vars.example, plaintext token redacted from this file before commit |
+| **Next action when resumed** | Merge PR #1079 (docs) + PR #1080 (empty-author fallback fix), redeploy so /articles/jekyll-pwa/ renders its mention; then run `wrangler pages secret put WEBMENTION_IO_TOKEN --project-name=meteoricteachings` (only open 2B item) |
+| **Estimated remaining work in current milestone** | None |
 
 &nbsp;
 
@@ -701,4 +706,45 @@ Agent session 2026-09-14 (Milestone 2 — IndieWeb Quick Wins):
   (graceful empty state, component CSS still inlined).
 - docs/backlog/tasks/milestone-2-indieweb-quick-wins.md checkboxes updated to reflect completed work;
   only "PR opened" remains unchecked.
+
+Agent session 2026-09-14 (M2 close-out — live verification):
+- PR #1075 merged (9819d1e); site live at https://alokprateek.in. TASK-2A and TASK-2B both confirmed
+  done by site owner. M2 closed.
+- Real-browser verification (agent-browser, Chrome via CDP):
+  * Home page head: 4 rel="me" links (GitHub/LinkedIn/Twitter/Instagram) with correct URLs; zero
+    micropub link tags; webmention + pingback endpoints present and correct.
+  * Footer: all 4 social anchors carry rel="me noopener noreferrer" with correct profile URLs.
+  * Article page (/articles/migrating-to-astro/): no webmention section rendered (graceful empty
+    state — correct while the account has 0 mentions); full-page screenshot verified clean layout.
+- ⚠ Anomaly (local environment, NOT the site): TLS connections to webmention.io (23.239.2.96 — same IP
+  from local resolver and Google DoH) return a certificate for CN=client.xaa.rocks and serve an
+  unrelated OIDC sandbox app (xaa.rocks); /api/mentions.jf2 404s from every local vantage (Chrome,
+  .NET SslStream, harness fetch). Third-party reports from Sept 2026 describe the real webmention.io
+  as up (with intermittent 502s), so this is consistent with VPN/DNS interception on this machine,
+  not a webmention.io outage or a site defect. The deployed site is unaffected: the JF2 fetch runs at
+  build time on CF Pages infrastructure and the component hides itself on failure.
+- Follow-up: once real webmentions arrive (or with the VPN off), re-check the JF2 API from a clean
+  vantage to see the section render live.
+
+Agent session 2026-09-14 (TASK-2B recheck — token + storing):
+- Owner added the webmention.io API token to this file and .dev.vars. Recheck findings:
+- SECURITY: the full token was pasted into this tracked file. Redacted to last-4 (Jueg) BEFORE any
+  commit — it never reached git history, so no rotation strictly required. Follow the TASK-1B rule:
+  last 4 chars only, full value only in .dev.vars / Cloudflare secrets.
+- The earlier webmention.io anomaly CLEARED: with the VPN path no longer intercepting, the real
+  webmention.io JF2 API answers 200 from this machine — confirming the prior xaa.rocks cert/app was
+  local-path interception, not webmention.io or the site.
+- Token validated against the authenticated API (Bearer header, read from .dev.vars in-memory, never
+  in URLs): works. Domain has 1 webmention: `mention-of` from ciberninjas.com targeting
+  /articles/jekyll-pwa/ (pingback protocol, received 2022-09-29, empty author, no content).
+- Public unauthenticated target query returns the same mention — the build-time fetch in
+  WebmentionDisplay needs no token; the token is for authenticated API use only.
+- Secret documented per project convention: wrangler.toml secrets comment block + .dev.vars.example
+  (.dev.vars itself remains gitignored and verified).
+- Real mention exposed a component gap: empty-string author rendered an invisible p-name (nullish
+  coalescing doesn't catch ""). Fixed on fix/indieweb-mention-fallbacks (PR #1080), verified by a
+  local build with live fetches: /articles/jekyll-pwa/ renders "1 mention" with Anonymous fallback;
+  pages without mentions render nothing.
+- Live deployment still predates the mention — the section appears after PR #1080 merges and the
+  site redeploys. Only remaining 2B checklist item: the production secret put (Pages command above).
 ```

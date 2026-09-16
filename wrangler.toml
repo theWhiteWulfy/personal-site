@@ -5,6 +5,9 @@ compatibility_flags = [ "nodejs_compat" ]
 # RESOURCE_SIGNING_SECRET - HMAC key for download token signing
 # ADMIN_API_KEY           - Bearer token for admin API endpoints
 
+# Optional secrets
+# WEBMENTION_IO_TOKEN     - webmention.io API token (optional; authenticated API access)
+
 [[d1_databases]]
 binding = "DB"
 database_name = "meteoric"
