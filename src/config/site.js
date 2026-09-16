@@ -112,7 +112,7 @@ const site = {
       }
     },
     clarity: {
-      projectId: 'sw2f0ourfn', // Active project ID — sw2f0ourfn
+      projectId: 'sw2f0ourfn', // Verified active project ID
       enableHeatmaps: true,
       enableRecordings: true,
       privacyMode: 'balanced',
