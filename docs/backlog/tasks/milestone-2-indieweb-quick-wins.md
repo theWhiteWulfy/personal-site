@@ -4,7 +4,7 @@
 **Base from**: `fix/security-phase-1` (after M1 merge) or `complete_astro_v6_migration`  
 **Priority**: 🟠 After Milestone 1  
 **Estimated effort**: 1 day  
-**Status**: 🔨 Code complete — PR pending (local build + rendered-HTML verification passed)
+**Status**: ✅ Merged via PR #1075 — live verification passed (2026-09-14)
 
 ---
 
