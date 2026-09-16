@@ -3,8 +3,10 @@
 
 
 type D1Database = import("@cloudflare/workers-types").D1Database;
+type R2Bucket = import("@cloudflare/workers-types").R2Bucket;
 type ENV = {
     DB: D1Database;
+    RESOURCES_BUCKET: R2Bucket;
 };
 
 // use a default runtime configuration (advanced mode).
