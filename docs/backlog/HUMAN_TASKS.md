@@ -650,8 +650,8 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 | **Branch name** | `fix/indieweb-phase-1` → merged into `complete_astro_v6_migration` (9819d1e) |
 | **Last git commit hash** | a4f0c71 |
 | **Last git commit message** | docs: record PR #1075 for Milestone 2 |
-| **Stopped reason** | M2 fully closed: TASK-2A + TASK-2B done; live site verified at https://alokprateek.in (head rel=me ×4, zero micropub tags, footer rel=me noopener noreferrer ×4, webmention endpoints present, graceful empty webmention state on articles) |
-| **Next action when resumed** | Await instruction — Milestone 4 (dead code cleanup) is startable on request; M3/M5 wait on their human prerequisites (TASK-3A/3B/3C, TASK-5A) |
+| **Stopped reason** | M2 closed. TASK-2B recheck complete: token validated against authenticated API (1 mention on domain), secret documented in wrangler.toml + .dev.vars.example, plaintext token redacted from this file before commit |
+| **Next action when resumed** | Merge PR #1079 (docs) + PR #1080 (empty-author fallback fix), redeploy so /articles/jekyll-pwa/ renders its mention; then run `wrangler pages secret put WEBMENTION_IO_TOKEN --project-name=meteoricteachings` (only open 2B item) |
 | **Estimated remaining work in current milestone** | None |
 
 &nbsp;
@@ -725,4 +725,26 @@ Agent session 2026-09-14 (M2 close-out — live verification):
   build time on CF Pages infrastructure and the component hides itself on failure.
 - Follow-up: once real webmentions arrive (or with the VPN off), re-check the JF2 API from a clean
   vantage to see the section render live.
+
+Agent session 2026-09-14 (TASK-2B recheck — token + storing):
+- Owner added the webmention.io API token to this file and .dev.vars. Recheck findings:
+- SECURITY: the full token was pasted into this tracked file. Redacted to last-4 (Jueg) BEFORE any
+  commit — it never reached git history, so no rotation strictly required. Follow the TASK-1B rule:
+  last 4 chars only, full value only in .dev.vars / Cloudflare secrets.
+- The earlier webmention.io anomaly CLEARED: with the VPN path no longer intercepting, the real
+  webmention.io JF2 API answers 200 from this machine — confirming the prior xaa.rocks cert/app was
+  local-path interception, not webmention.io or the site.
+- Token validated against the authenticated API (Bearer header, read from .dev.vars in-memory, never
+  in URLs): works. Domain has 1 webmention: `mention-of` from ciberninjas.com targeting
+  /articles/jekyll-pwa/ (pingback protocol, received 2022-09-29, empty author, no content).
+- Public unauthenticated target query returns the same mention — the build-time fetch in
+  WebmentionDisplay needs no token; the token is for authenticated API use only.
+- Secret documented per project convention: wrangler.toml secrets comment block + .dev.vars.example
+  (.dev.vars itself remains gitignored and verified).
+- Real mention exposed a component gap: empty-string author rendered an invisible p-name (nullish
+  coalescing doesn't catch ""). Fixed on fix/indieweb-mention-fallbacks (PR #1080), verified by a
+  local build with live fetches: /articles/jekyll-pwa/ renders "1 mention" with Anonymous fallback;
+  pages without mentions render nothing.
+- Live deployment still predates the mention — the section appears after PR #1080 merges and the
+  site redeploys. Only remaining 2B checklist item: the production secret put (Pages command above).
 ```
