@@ -55,10 +55,6 @@
  * @property {string} whatsappUrl - The URL for WhatsApp.
  * @property {string} emailAddress - The email address.
  * @property {string} emailUrl - The mailto link for the email address.
- * @property {string} githubApiToken - The GitHub API token.
- * @property {object} reCaptcha - The reCAPTCHA configuration.
- * @property {string} reCaptcha.siteKey - The reCAPTCHA site key.
- * @property {string} reCaptcha.secret - The reCAPTCHA secret key.
  * @property {Array<object>} mainMenu - The main menu items.
  * @property {Array<object>} footerMenu - The footer menu items.
  */
@@ -116,7 +112,7 @@ const site = {
       }
     },
     clarity: {
-      projectId: 'sw2f0ourfn', // Active project ID — sw2f0ourfn
+      projectId: 'sw2f0ourfn', // Verified active project ID
       enableHeatmaps: true,
       enableRecordings: true,
       privacyMode: 'balanced',
@@ -149,16 +145,6 @@ const site = {
   whatsappUrl: 'https://wa.me/919315852108', // WhatsApp number with country code
   emailAddress: 'i@alokprateek.in', // Email address
   emailUrl: 'mailto:i@alokprateek.in',
-
-  // tokens and keys
-  githubApiToken: process.env.GITHUB_API_TOKEN,
-  reCaptcha: {
-    siteKey: '',
-    secret:
-      // eslint-disable-next-line max-len
-      '',
-  },
-
 
   // Menus - header(main) & footer
   mainMenu: [

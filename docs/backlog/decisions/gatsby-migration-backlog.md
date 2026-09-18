@@ -11,7 +11,7 @@
 
 ### Feature: "Did You Mean?" on 404 Page
 
-**Location**: [`src/pages/404.astro:6-38`](file:///C:/Users/alok9/.gemini/antigravity/worktrees/p-site-astro/complete_astro_v6_migration/src/pages/404.astro#L6)
+**Location**: [`src/pages/404.astro:6-38`](../../../src/pages/404.astro#L6)
 
 **History**:
 - Was working in Gatsby v3 using `string-similarity` npm package + GraphQL page list
@@ -35,7 +35,7 @@
 
 **Code locations**:
 - `comments: true` / `comments_locked: false` frontmatter in articles, notes, works, bibliophile, saasguide
-- Schema definitions: `src/content.config.ts` (comment fields in each collection schema)
+- Schema definitions: `src/content/config.ts` (comment fields in each collection schema)
 
 **Astro Migration Plan**: Milestone 6 — custom D1-backed comment system
 - See: [`docs/backlog/tasks/milestone-6-comment-system.md`](../tasks/milestone-6-comment-system.md)
@@ -44,7 +44,7 @@
 
 ### Feature: Lodash Slugify
 
-**Location**: [`src/lib/slugify.mjs:1-5`](file:///C:/Users/alok9/.gemini/antigravity/worktrees/p-site-astro/complete_astro_v6_migration/src/lib/slugify.mjs#L1-L5)
+**Location**: [`src/lib/slugify.mjs:1-5`](../../../src/lib/slugify.mjs#L1-L5)
 
 **History**: Gatsby v3 used lodash for deburring Unicode characters in slugs. Current implementation is a simple regex-based slug without deburring.
 
@@ -56,7 +56,7 @@
 
 ### Feature: Lightbox Theming API
 
-**Location**: [`src/pages/illustrations/[...id].astro:134,155`](file:///C:/Users/alok9/.gemini/antigravity/worktrees/p-site-astro/complete_astro_v6_migration/src/pages/illustrations)
+**Location**: [`src/pages/illustrations/[...id].astro:134,155`](../../../src/pages/illustrations)
 
 ```js
 /* TODO: map color to API */
@@ -71,7 +71,7 @@
 
 ### Feature: Captcha Utilities
 
-**Location**: [`src/lib/api/security.ts`](file:///C:/Users/alok9/.gemini/antigravity/worktrees/p-site-astro/complete_astro_v6_migration/src/lib/api/security.ts) — `generateCaptcha()` and `verifyCaptcha()`
+**Location**: [`src/lib/api/security.ts`](../../../src/lib/api/security.ts) — `generateCaptcha()` and `verifyCaptcha()`
 
 **History**: Scaffolded for comment form anti-spam. Never wired to a captcha provider.
 
@@ -83,10 +83,34 @@
 
 ### Feature: Database Cleanup Maintenance
 
-**Location**: [`src/lib/api/database.ts`](file:///C:/Users/alok9/.gemini/antigravity/worktrees/p-site-astro/complete_astro_v6_migration/src/lib/api/database.ts) — `cleanupOldRecords()`
+**Location**: [`src/lib/api/database.ts`](../../../src/lib/api/database.ts) — `cleanupOldRecords()`
 
 **History**: Scaffolded for periodic database maintenance (pruning old analytics events, etc.).
 
 **Current state**: Exported but never called. No Cloudflare Cron Trigger set up.
 
 **Migration plan**: Milestone 6 or later — invoke via Cloudflare Cron Trigger.
+
+---
+
+### Feature: Services Page Images
+
+**Location**: [`src/pages/services/*.astro`](../../../src/pages/services/) — hero and item `image` fields referencing `/blog-placeholder-N.jpg`
+
+**History**: Gatsby v3 used the same placeholder assets; real service imagery was never produced.
+
+**Current state**: Service pages render with generic blog placeholders.
+
+**Migration plan**: Content task — produce and wire real service images (no code change).
+
+---
+
+### Feature: Campaign Hero Visual
+
+**Location**: [`src/components/CampaignHero.astro:147`](../../../src/components/CampaignHero.astro) — `.visual-placeholder` div
+
+**History**: Placeholder stand-in for a hero illustration on campaign landing pages.
+
+**Current state**: Styled placeholder div rendered in place of artwork.
+
+**Migration plan**: Content task — supply hero illustration (no code change).
