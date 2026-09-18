@@ -363,7 +363,7 @@ Bucket name: ____________________________________
 
 ### TASK-3C — Provide Real PDF Files
 
-**Status**: `PENDING 🔲`
+**Status**: `done ✅` (confirmed resolved by site owner, 2026-09-16)
 **Blocks**: Sub-task 3.3 (serve-resource.ts updated to serve real files)
 
 &nbsp;
@@ -645,14 +645,15 @@ Once TASK-6A is done and Milestone 5 is merged, copy and send this message:
 
 | Field | Value |
 |---|---|
-| **Last active milestone** | Milestone 2 — IndieWeb Quick Wins (**closed**: merged via PR #1075, live verification passed) |
-| **Last completed sub-task** | Live verification of deployed site (real-browser, agent-browser) |
-| **Branch name** | `fix/indieweb-phase-1` → merged into `complete_astro_v6_migration` (9819d1e) |
-| **Last git commit hash** | a4f0c71 |
-| **Last git commit message** | docs: record PR #1075 for Milestone 2 |
-| **Stopped reason** | M2 closed. TASK-2B recheck complete: token validated against authenticated API (1 mention on domain), secret documented in wrangler.toml + .dev.vars.example, plaintext token redacted from this file before commit |
-| **Next action when resumed** | Merge PR #1079 (docs) + PR #1080 (empty-author fallback fix), redeploy so /articles/jekyll-pwa/ renders its mention; then run `wrangler pages secret put WEBMENTION_IO_TOKEN --project-name=meteoricteachings` (only open 2B item) |
-| **Estimated remaining work in current milestone** | None |
+| **Last active milestone** | Milestone 3 (resource system) **+ Milestone 4 (dead code cleanup)** — both code-complete, PRs open |
+| **Last completed sub-task** | M4 4.6 backlog doc completion; M3 smoke test 16/16 |
+| **Branch name** | `m3` (9 commits) and `m4` (7 commits), both based on `main`; docs close-out on `docs/m4-closeout` (local, unpushed) |
+| **Last git commit hash** | ae01273 (m4) / 4f7ac70 (m3) |
+| **Last git commit message** | docs: record Milestone 4 sub-task completion |
+| **PRs open** | PR #1084 `m3` → main (resource system + Astro v6 runtime env fix); PR #1085 `m4` → main (dead code cleanup) |
+| **Stopped reason** | Both milestone PRs pushed and opened; awaiting review/merge |
+| **Next action when resumed** | Merge PR #1084 and #1085 → redeploy → real-browser verification of live downloads (https://alokprateek.in/resources/automation-guide/ flow). NOTE: production API routes are currently 500ing at runtime (Astro v6 removed locals.runtime.env) — PR #1084 fixes this; deploy it before diagnosing any live API issues |
+| **Estimated remaining work in current milestone** | None (M3/M4); M5 (Astro 7) blocked on TASK-5A |
 
 &nbsp;
 
@@ -747,4 +748,33 @@ Agent session 2026-09-14 (TASK-2B recheck — token + storing):
   pages without mentions render nothing.
 - Live deployment still predates the mention — the section appears after PR #1080 merges and the
   site redeploys. Only remaining 2B checklist item: the production secret put (Pages command above).
+
+Agent session 2026-09-16 (Milestone 3 + 4):
+- M3 executed on branch m3 (user-named, from main; plan's feat/resource-real-files superseded), 9 commits:
+  R2 binding + typed ENV, resource registry (src/lib/api/resources.ts), R2-backed serve-resource
+  (streams object.body, Content-Length from object.size), 400/404 error handling + PII-free missing-file
+  log, ResourceForm prop typed as ResourceId (build-time allowlist enforcement), 32 new unit tests,
+  smoke results documented, regression guard check updated.
+- CRITICAL FINDING: Astro v6 removed Astro.locals.runtime.env (adapter getter now throws). ALL SSR API
+  routes were 500ing at runtime since the v6 migration merge (#1083) — unit tests missed it because they
+  inject mock locals. Fixed in M3 via src/lib/api/runtime-env.ts getEnv() shim over 'cloudflare:workers'
+  (migration-shim pattern); getDatabase() and all direct reads migrated. Tests seed bindings via a
+  cloudflare:workers vitest alias mock, reset globally in setup.ts. Live production still runs the
+  broken code — deploy PR #1084 to fix.
+- M3 verification: build pass, 332/332 unit, 42/42 regression, test:db pass, wrangler dev/workerd smoke
+  16/16 (token → PDF byte-identical to R2 object; 401/400/404 paths).
+- Local smoke environment notes: wrangler dev --config dist/server/wrangler.json keys persist state under
+  dist/server/.wrangler — pass --persist-to .wrangler/state to share CLI state; secrets must be in a
+  .dev.vars next to the used config (dist/server/.dev.vars, gitignored, created+removed during testing).
+- M4 executed on branch m4 (from main), 7 commits: analytics-testing.ts deleted (422 lines, zero
+  importers), githubApiToken + reCaptcha stub removed from site.js (staticmanApi was already gone on
+  main), Clarity comment normalized, gatsby-migration-backlog.md completed (2 missing items, 5 stale
+  worktree-absolute links fixed, content config path corrected). Verification: build pass, 303/303 unit,
+  42/42 regression, test:db pass.
+- Deviation from M3 plan: PRs target main (user instruction; complete_astro_v6_migration was merged into
+  main via #1083). Branch names m3/m4 per user instruction.
+- M4 4.6 note: backlog doc already existed on main from a previous session — completed it instead of
+  recreating (recorded in milestone doc).
+- Follow-ups identified: dependency refresh (17 Dependabot vulns incl. 2 critical) still open; live
+  download verification after merge+deploy; M5 blocked on TASK-5A.
 ```
