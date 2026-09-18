@@ -89,6 +89,7 @@ describe('Astro Build Configuration (astro.config.mjs)', () => {
     expect(sitemapIntegration).toBeDefined();
     expect(mdxIntegration).toBeDefined();
     expect(compressIntegration).toBeDefined();
+    expect((compressIntegration as any)?.__options).toEqual({ Image: false });
   });
 
   it('should include VitePWA plugin with correct configuration', () => {
