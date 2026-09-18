@@ -5,45 +5,28 @@
 
 import { describe, it, expect } from 'vitest';
 import { createMockD1 } from '../mocks/d1';
+import { getDatabase } from '../../src/lib/api/database';
+import { setMockCloudflareEnv } from 'cloudflare:workers';
 
 describe('D1 Database Binding Integrity', () => {
   describe('Access Pattern Guard Tests', () => {
-    // Helper function that mimics the guard statement used across all API endpoints:
-    // if (!locals || !locals.runtime || !locals.runtime.env || !locals.runtime.env.DB) { ... }
-    function evaluateGuard(locals: any): boolean {
-      return !locals || !locals.runtime || !locals.runtime.env || !locals.runtime.env.DB;
-    }
-
-    it('returns true (fails) when locals is undefined/null', () => {
-      expect(evaluateGuard(undefined)).toBe(true);
-      expect(evaluateGuard(null)).toBe(true);
+    // The API layer reads bindings through the getEnv() shim
+    // (`cloudflare:workers` env, see src/lib/api/runtime-env.ts) and
+    // getDatabase() guards on the DB binding being present.
+    it('returns a 500 errorResponse when the DB binding is missing', () => {
+      const { DB, errorResponse } = getDatabase();
+      expect(DB).toBeNull();
+      expect(errorResponse).toBeInstanceOf(Response);
+      expect(errorResponse!.status).toBe(500);
     });
 
-    it('returns true (fails) when locals.runtime is undefined', () => {
-      const locals = {};
-      expect(evaluateGuard(locals)).toBe(true);
-    });
-
-    it('returns true (fails) when locals.runtime.env is undefined', () => {
-      const locals = { runtime: {} };
-      expect(evaluateGuard(locals)).toBe(true);
-    });
-
-    it('returns true (fails) when locals.runtime.env.DB is undefined', () => {
-      const locals = { runtime: { env: {} } };
-      expect(evaluateGuard(locals)).toBe(true);
-    });
-
-    it('returns false (passes) when the full D1 binding is present', () => {
+    it('returns the DB binding when it is configured', () => {
       const db = createMockD1();
-      const locals = {
-        runtime: {
-          env: {
-            DB: db,
-          },
-        },
-      };
-      expect(evaluateGuard(locals)).toBe(false);
+      setMockCloudflareEnv({ DB: db });
+
+      const { DB, errorResponse } = getDatabase();
+      expect(DB).toBe(db);
+      expect(errorResponse).toBeNull();
     });
   });
 

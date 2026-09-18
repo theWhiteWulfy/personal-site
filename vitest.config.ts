@@ -20,6 +20,9 @@ export default defineConfig({
       'astro:content': resolve(__dirname, './tests/mocks/astro-content.ts'),
       'astro:transitions': resolve(__dirname, './tests/mocks/astro-transitions.ts'),
       'astro:assets': resolve(__dirname, './tests/mocks/astro-assets.ts'),
+
+      // Stub the workerd-only Cloudflare bindings module
+      'cloudflare:workers': resolve(__dirname, './tests/mocks/cloudflare-workers.ts'),
     },
   },
   test: {

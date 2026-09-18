@@ -2,6 +2,8 @@ export const prerender = false; // Required for server-side rendering
 
 import type { APIRoute, APIContext } from 'astro';
 import { validateDatabaseConnection, getDownloadById, getDatabase } from '@/lib/api/database';
+import { RESOURCES, isValidResource } from '@/lib/api/resources';
+import { getEnv } from '@/lib/api/runtime-env';
 
 // Token configuration
 const TOKEN_EXPIRY_MINUTES = 30; // Tokens expire after 30 minutes
@@ -14,32 +16,6 @@ interface AccessToken {
   timestamp: number;
   attempts: number;
 }
-
-interface ResourceFile {
-  name: string;
-  path: string;
-  mimeType: string;
-  size?: number;
-}
-
-// Available resources mapping (in production, this could be in a database)
-const AVAILABLE_RESOURCES: Record<string, ResourceFile> = {
-  'automation-guide': {
-    name: 'Complete Automation Guide',
-    path: '/resources/pdfs/automation-guide.pdf',
-    mimeType: 'application/pdf'
-  },
-  'whitelabel-checklist': {
-    name: 'Whitelabel Solutions Checklist',
-    path: '/resources/pdfs/whitelabel-checklist.pdf',
-    mimeType: 'application/pdf'
-  },
-  'ai-integration-playbook': {
-    name: 'AI Integration Playbook',
-    path: '/resources/pdfs/ai-integration-playbook.pdf',
-    mimeType: 'application/pdf'
-  }
-};
 
 /**
  * Encode bytes as base64
@@ -148,7 +124,8 @@ async function validateAccessToken(token: string, secret: string): Promise<Acces
     }
 
     // Check download attempts
-    if (tokenData.attempts >= MAX_DOWNLOAD_ATTEMPTS) {
+    const maxAttempts = RESOURCES[tokenData.resourceName]?.maxDownloads ?? MAX_DOWNLOAD_ATTEMPTS;
+    if (tokenData.attempts >= maxAttempts) {
       return null; // Too many attempts
     }
 
@@ -160,93 +137,10 @@ async function validateAccessToken(token: string, secret: string): Promise<Acces
   }
 }
 
-/**
- * Get file from public directory or external storage
- */
-async function getResourceFile(resourcePath: string): Promise<Response | null> {
-  try {
-    // In a real implementation, you might fetch from:
-    // - Cloudflare R2
-    // - AWS S3
-    // - Local file system
-    // - Database blob storage
-    
-    // For now, we'll simulate file serving
-    // In production, you would read the actual file
-    const mockPdfContent = `%PDF-1.4
-1 0 obj
-<<
-/Type /Catalog
-/Pages 2 0 R
->>
-endobj
-
-2 0 obj
-<<
-/Type /Pages
-/Kids [3 0 R]
-/Count 1
->>
-endobj
-
-3 0 obj
-<<
-/Type /Page
-/Parent 2 0 R
-/MediaBox [0 0 612 792]
-/Contents 4 0 R
->>
-endobj
-
-4 0 obj
-<<
-/Length 44
->>
-stream
-BT
-/F1 12 Tf
-72 720 Td
-(Sample Resource PDF) Tj
-ET
-endstream
-endobj
-
-xref
-0 5
-0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000206 00000 n 
-trailer
-<<
-/Size 5
-/Root 1 0 R
->>
-startxref
-300
-%%EOF`;
-
-    return new Response(mockPdfContent, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${resourcePath.split('/').pop()}"`,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
-    });
-    
-  } catch (error) {
-    console.error('File retrieval error:', error);
-    return null;
-  }
-}
-
 // GET handler for secure PDF serving
-export const GET: APIRoute = async ({ url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ url }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     
@@ -275,8 +169,18 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
+    // Validate resource against the allowlist
+    if (!isValidResource(resourceName)) {
+      return new Response(JSON.stringify({
+        error: 'Invalid resource'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     // Get the token signing secret (required for all token operations)
-    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    const signingSecret = getEnv().RESOURCE_SIGNING_SECRET;
     if (!signingSecret) {
       return new Response(JSON.stringify({
         error: 'Service temporarily unavailable'
@@ -328,9 +232,28 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
-    // Check if resource exists
-    const resourceFile = AVAILABLE_RESOURCES[resourceName];
-    if (!resourceFile) {
+    // Resolve resource metadata from the allowlist
+    const resourceMeta = RESOURCES[resourceName];
+
+    // Increment download attempts
+    const newAttempts = tokenData.attempts + 1;
+
+    // Get the R2 bucket binding (required for file serving)
+    const bucket = getEnv().RESOURCES_BUCKET;
+    if (!bucket) {
+      return new Response(JSON.stringify({
+        error: 'Service temporarily unavailable'
+      }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Fetch the real file from R2
+    const object = await bucket.get(resourceMeta.filename);
+    if (!object) {
+      // Log missing file server-side (no PII)
+      console.warn(`Resource file missing in R2: ${resourceMeta.filename}`);
       return new Response(JSON.stringify({
         error: 'Resource not found'
       }), {
@@ -339,19 +262,16 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
       });
     }
 
-    // Increment download attempts
-    const newAttempts = tokenData.attempts + 1;
-    
-    // Get and serve the file
-    const fileResponse = await getResourceFile(resourceFile.path);
-    if (!fileResponse) {
-      return new Response(JSON.stringify({
-        error: 'Resource temporarily unavailable'
-      }), {
-        status: 503,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
+    const fileResponse = new Response(object.body, {
+      headers: {
+        'Content-Type': resourceMeta.contentType,
+        'Content-Disposition': `attachment; filename="${resourceMeta.filename}"`,
+        'Content-Length': String(object.size),
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
 
     // Log the download attempt and analytics event
     console.log(`Resource download: ${resourceName} (attempt ${newAttempts})`);
@@ -386,7 +306,7 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 
   } catch (error) {
     console.error('Resource serving error:', error);
-    
+
     return new Response(JSON.stringify({
       error: 'Internal server error'
     }), {
@@ -397,9 +317,9 @@ export const GET: APIRoute = async ({ url, locals }: APIContext) => {
 };
 
 // POST handler for generating download tokens
-export const POST: APIRoute = async ({ request, locals }: APIContext) => {
+export const POST: APIRoute = async ({ request }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const requestData = await request.json();
@@ -410,6 +330,17 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
       return new Response(JSON.stringify({
         success: false,
         error: 'Missing required parameters'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Validate resource against the allowlist
+    if (typeof resourceName !== 'string' || !isValidResource(resourceName)) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Invalid resource'
       }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -429,7 +360,7 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
     }
 
     // Get the token signing secret (required for all token operations)
-    const signingSecret = locals.runtime?.env?.RESOURCE_SIGNING_SECRET;
+    const signingSecret = getEnv().RESOURCE_SIGNING_SECRET;
     if (!signingSecret) {
       return new Response(JSON.stringify({
         success: false,
@@ -458,7 +389,7 @@ export const POST: APIRoute = async ({ request, locals }: APIContext) => {
 
   } catch (error) {
     console.error('Token generation error:', error);
-    
+
     return new Response(JSON.stringify({
       success: false,
       error: 'Internal server error'

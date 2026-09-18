@@ -5,11 +5,28 @@ import ResourceForm from '@components/ResourceForm.astro';
 import styles from '@styles/resources-page.module.css';
 import { generatePageSchema } from '@/lib/schema-generators';
 import type { ResourceData } from '@/lib/schema-generators';
+import type { ResourceId } from '@/lib/api/resources';
+
+type ResourcePage = {
+  slug: ResourceId;
+  title: string;
+  description: string;
+  benefits: string[];
+  resourceMetadata: {
+    fileSize?: string;
+    pageCount?: number;
+    format?: string;
+    category?: string;
+  };
+  keywords: string[];
+  datePublished: string;
+  dateModified: string;
+};
 
 export async function getStaticPaths() {
   // Define available resources
   // In a real implementation, this could come from a CMS, database, or content collection
-  const resources = [
+  const resources: ResourcePage[] = [
     {
       slug: 'automation-guide',
       title: 'Complete Business Automation Guide',
@@ -82,21 +99,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  resource: {
-    slug: string;
-    title: string;
-    description: string;
-    benefits: string[];
-    resourceMetadata: {
-      fileSize?: string;
-      pageCount?: number;
-      format?: string;
-      category?: string;
-    };
-    keywords: string[];
-    datePublished: string;
-    dateModified: string;
-  };
+  resource: ResourcePage;
 }
 
 const { resource } = Astro.props;

@@ -21,9 +21,9 @@ interface CampaignVisitData {
   ip_address?: string;
 }
 
-export const POST: APIRoute = async ({ request, locals, clientAddress }: APIContext) => {
+export const POST: APIRoute = async ({ request, clientAddress }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const formData = await request.formData();
@@ -148,9 +148,9 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }: APICont
   }
 };
 
-export const GET: APIRoute = async ({ url, locals }: APIContext) => {
+export const GET: APIRoute = async ({ url }: APIContext) => {
   try {
-    const dbCheck = getDatabase(locals);
+    const dbCheck = getDatabase();
     if (dbCheck.errorResponse) return dbCheck.errorResponse;
     const DB = dbCheck.DB;
     const searchParams = new URL(url).searchParams;

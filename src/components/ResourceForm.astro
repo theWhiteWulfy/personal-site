@@ -1,8 +1,9 @@
 ---
 import styles from '@styles/resources-page.module.css';
+import type { ResourceId } from '@/lib/api/resources';
 
 export interface Props {
-  resourceName: string;
+  resourceName: ResourceId;
   formTitle?: string;
   formSubtitle?: string;
   submitText?: string;

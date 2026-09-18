@@ -509,7 +509,7 @@ function runTier1(harness) {
     }
   });
 
-  harness.test('All 7 API routes guard database access with getDatabase(locals)', () => {
+  harness.test('All 7 API routes guard database access with getDatabase()', () => {
     for (const file of apiRouteFiles) {
       const fullPath = path.join(SRC_DIR, 'pages', 'api', file);
       const content = readTextFile(fullPath);
@@ -518,8 +518,8 @@ function runTier1(harness) {
         `Missing import of getDatabase from '@/lib/api/database' in ${file}`
       );
       harness.assert(
-        /getDatabase\s*\(\s*locals\s*\)/.test(content),
-        `Missing invocation of getDatabase(locals) in ${file}`
+        /getDatabase\s*\(\s*\)/.test(content),
+        `Missing invocation of getDatabase() in ${file}`
       );
     }
   });
