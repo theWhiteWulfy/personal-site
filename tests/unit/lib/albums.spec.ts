@@ -54,4 +54,23 @@ describe('getAlbumImages', () => {
       expect(foundDifferentOrder).toBe(true);
     }
   });
+
+  it('verifies getAlbumImages handles albumId with .yaml suffix', async () => {
+    const result = await getAlbumImages('sketches.yaml');
+    expect(result.length).toBeGreaterThan(0);
+    for (const img of result) {
+      const src = typeof img === 'string' ? img : img?.src;
+      expect(src).toContain('sketches');
+    }
+  });
+
+  it('verifies getAlbumImages resolves non-jpg formats like PNG in logos', async () => {
+    const result = await getAlbumImages('logos');
+    expect(result.length).toBeGreaterThan(0);
+    const pngFound = result.some((img: any) => {
+      const src = typeof img === 'string' ? img : img?.src;
+      return src?.toLowerCase().includes('.png');
+    });
+    expect(pngFound).toBe(true);
+  });
 });
