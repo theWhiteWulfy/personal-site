@@ -118,7 +118,7 @@ describe('Astro Build Configuration (astro.config.mjs)', () => {
       platformProxy: {
         enabled: true,
       },
-      imageService: 'passthrough',
+      imageService: 'compile',
     });
   });
 });
