@@ -13,14 +13,36 @@ interface Props {
 
 const { imagePath, altText, className, styles, imgFolder, loading } = Astro.props;
 
-const images = import.meta.glob<{ default: ImageMetadata }>('../images/*.{jpeg,jpg,png,gif}', { eager: true });
-const coverimages = import.meta.glob<{ default: ImageMetadata }>('../images/cover/*.{jpeg,jpg,png,gif}', { eager: true });
+const allImages = import.meta.glob<{ default: ImageMetadata }>('../images/**/*.{jpeg,jpg,png,gif,webp,avif}', { eager: true });
 
-//if (!images[imagePath]) throw new Error(`"${imagePath}" does not exist in glob: "@images/*.{jpeg,jpg,png,gif}"`);
 const getImageSrc = (path: string, folder: string | undefined) => {
-    const imageModules = folder === 'cover' ? coverimages : images;
-    const matchedPath = Object.keys(imageModules).find(key => key.includes(path));
-    return matchedPath ? imageModules[matchedPath].default : null;
+    if (!path) return null;
+    const normalizedPath = path.replace(/^[./\\]+/, '').replace(/^images\//, '');
+    const basename = normalizedPath.split('/').pop() ?? normalizedPath;
+
+    // 1. Try matching with folder constraint if provided
+    let matchedKey: string | undefined;
+    if (folder) {
+        matchedKey = Object.keys(allImages).find(key => {
+            const cleanKey = key.replace(/^\.\.\/images\//, '');
+            return cleanKey.startsWith(`${folder}/`) && cleanKey.endsWith(basename);
+        });
+    }
+
+    // 2. Try matching full normalized path
+    if (!matchedKey) {
+        matchedKey = Object.keys(allImages).find(key => {
+            const cleanKey = key.replace(/^\.\.\/images\//, '');
+            return cleanKey === normalizedPath || cleanKey.endsWith(`/${normalizedPath}`);
+        });
+    }
+
+    // 3. Fallback: match by basename anywhere
+    if (!matchedKey) {
+        matchedKey = Object.keys(allImages).find(key => key.endsWith(`/${basename}`) || key.endsWith(basename));
+    }
+
+    return matchedKey ? allImages[matchedKey].default : null;
 };
 
 const imageSrc = getImageSrc(imagePath, imgFolder);
