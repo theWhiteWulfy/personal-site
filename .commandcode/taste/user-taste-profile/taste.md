@@ -8,7 +8,7 @@
 - Does not push or open PRs without explicit instruction — stops after local commits + verification. Confidence: 0.85
 - Always creates PRs via the GitHub REST API using the repo's stored git credentials (same credential the push uses), not via `gh` CLI or other methods. Confidence: 0.95
 - Astro + Cloudflare Pages + D1 database + wrangler. Confidence: 0.95
-- Environment access pattern: `locals.runtime.env` for Cloudflare bindings (not `import.meta.env`). Confidence: 0.9
+- Environment access pattern: `getEnv()` shim over `cloudflare:workers` module for Cloudflare bindings (Astro v6 removed `locals.runtime.env`); isolates call sites from adapter changes. Confidence: 0.95
 - Uses `.dev.vars` for local secrets, documents required secrets in `wrangler.toml` + provides `.dev.vars.example`. Confidence: 0.9
 - Testing: vitest for unit tests; expects tests updated when security/auth behavior changes. Confidence: 0.9
 - Strong preference for proper security: real HMAC-SHA256 over toy hashing, constant-time comparison for secrets, PII redaction from logs, admin auth on write endpoints. Confidence: 0.9
@@ -18,6 +18,7 @@
 - Accepts pragmatic CI unblock approaches (e.g. `.npmrc` with `legacy-peer-deps=true`) when the working tree is locally verified, preferring that over a full dependency refresh mid-milestone. Confidence: 0.85
 - Defers non-fatal, cosmetic CI warnings (e.g. wrangler.toml lacking `pages_build_output_dir`) and documents the deferral in the agent tracker rather than silencing them. Confidence: 0.8
 - Task-level command style: sends ultra-short directives like "Task 2A is done - push and raise PR" or "Continue milestone 2 — TASK-2B is resolved" and expects the agent to read the referenced task doc, infer the full scope, and execute autonomously (including verification) without back-and-forth. Confidence: 0.95
+- Expects milestones to be chained autonomously: once a milestone's branch is pushed and PR is opened, immediately branch from main and begin the next milestone without waiting for merge confirmation. Confidence: 0.9
 - Treats "recheck" requests as a full independent verification cycle: re-read the relevant task/human-tasks entries, validate tokens/secrets against live services, and surface any new bugs discovered from real-world data (not just confirm existing state). Confidence: 0.9
 - Expects the agent to proactively redact secrets from tracked docs before commit (e.g. plaintext tokens pasted into HUMAN_TASKS.md) and document the redaction with a warning note — the user accepts the correction without pushback. Confidence: 0.9
 - Newly discovered IndieWeb/security patterns: uses `rel="me noopener noreferrer"` (not `rel="nofollow"`) on social links for identity verification, and renders external/untrusted content as text-only (no `set:html`) to prevent XSS from webmention data. Confidence: 0.9
@@ -27,6 +28,8 @@
 - Requires explicit approval before touching protected surfaces: `wrangler.toml` D1 bindings/database id/`nodejs_compat`, migrations against remote D1, content collection schema rewrites, and React components. Present such decisions with options + recommendation first. Confidence: 0.9
 - Multi-agent orchestration style: role-specialized task files (e.g. `claude_tasks.md` = architect, `codex_tasks.md` = mechanic, `jules_tasks.md` = observer/verifier) plus `central_milestones.md` as the central tracker, kept synchronized as work completes, with ADR-style decision logs and explicit Boundaries sections per agent. Confidence: 0.85
 - Before handing off any branch: run the full verification suite (`npm run build`, `npx astro check` with 0 errors, `test:regression`, `test:unit`, `test:db`) and leave git status clean. Confidence: 0.9
+- End-to-end smoke tests run against the real workerd runtime (`wrangler dev --config dist/server/wrangler.json`, not just `astro dev`) because the compiled worker path is the production-faithful one; unit tests mock the bindings but smoke tests exercise the real runtime. Confidence: 0.9
 - Milestone close-out goes on a **separate docs branch** (e.g. `docs/m2-closeout`) and PR, independent of the code PR — keeps tracking updates, human-task status changes, and session summaries out of the code review path. Confidence: 0.85
 - Isolate breaking API changes behind shim modules (e.g. `content-shims.ts`, `page-events.ts`, `ClientRouterShim.astro`) so page routes/call sites are insulated during framework migrations. Confidence: 0.85
 - D1 migrations must be idempotent (`CREATE TABLE IF NOT EXISTS`), run in lexical order, verified locally first (`db:migrate:local` / `db:verify:local`) before any remote execution; wire them as npm scripts. Confidence: 0.9
+cal`) before any remote execution; wire them as npm scripts. Confidence: 0.9

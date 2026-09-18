@@ -125,6 +125,8 @@
 }
 
 .cover {
+  position: relative;
+  overflow: hidden;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -138,6 +140,7 @@
     height: 300%;
     opacity: 0.3;
     background-image: url('../images/theme/asphalt-dark.png');
+    pointer-events: none;
 
     @media (prefers-reduced-motion: no-preference) {
       animation: grain 8s steps(10) infinite;

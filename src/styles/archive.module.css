@@ -138,6 +138,9 @@
 }
 
 .cover {
+  position: relative;
+  overflow: hidden;
+
   @media (--medium-up) {
     grid-row-start: 1;
     grid-column-start: 3;
@@ -153,6 +156,7 @@
     width: 300%;
     height: 300%;
     opacity: 0.3;
+    pointer-events: none;
     background-image: url('../images/theme/asphalt-dark.png');
 
     @media (prefers-reduced-motion: no-preference) {

@@ -9,7 +9,7 @@
 ## Testing
 - Updates existing tests when behavior changes (e.g., adding auth headers to GET stats tests after auth gate is added). Confidence: 0.9
 - Adds dedicated tests for new security gates (401 without key, 401 with wrong key, success with valid key). Confidence: 0.9
-- Mock helpers accept `env` overrides to inject additional env bindings. Confidence: 0.85
+- Mock helpers accept `env` overrides to inject additional env bindings; after the v6 runtime-env migration, mock bindings are seeded via the `cloudflare:workers` vitest alias mock (`setMockCloudflareEnv`/`resetMockCloudflareEnv`) and reset globally in `setup.ts`. Confidence: 0.9
 
 ## Data Handling & Fallbacks
 - Uses `||` (logical OR) instead of `??` (nullish coalescing) for fallback chains on external API data where empty strings are a real-world possibility (e.g. webmention author fields). The real-world data validated the distinction: `??` passes through `""`, `||` catches it. Confidence: 0.9
