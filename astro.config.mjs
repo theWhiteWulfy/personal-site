@@ -17,7 +17,7 @@ fs.mkdirSync('./dist/client', { recursive: true });
 // https://astro.build/config
 export default defineConfig({
   site: "https://alokprateek.in/",
-  integrations: [sitemap(), mdx(), playformCompress()], 
+  integrations: [sitemap(), mdx(), playformCompress({ Image: false })], 
   markdown: {
     syntaxHighlight: 'prism',
     remarkPlugins: [remarkReadingTime, remarkModifiedTime]
