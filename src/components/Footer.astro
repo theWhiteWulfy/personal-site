@@ -1,69 +1,19 @@
 ---
-import TwitterIcon from './icons/twitter-icon.astro'
-import LinkedinIcon from './icons/linkedin-icon.astro'
-import GithubIcon from './icons/github-icon.astro'
-import InstagramIcon from './icons/instagram-icon.astro'
-import RSSIcon from './icons/rss-icon.astro'
-import style from '../styles/footer.module.css'
+import HybridTelemetryObsidian from './footer/HybridTelemetryObsidian.astro'
 
-
-const { footerMenu, twitter, github, instagram, linkedin, feed } = Astro.props
-/**
- * Interface for a menu item.
- * @property {string} path - The path for the menu item.
- * @property {string} title - The title of the menu item.
- */
 interface MenuItem {
-  path: string;
-  title: string;
+  path: string
+  title: string
+}
+
+export interface Props {
+  footerMenu?: MenuItem[]
+  twitter?: string
+  github?: string
+  instagram?: string
+  linkedin?: string
+  feed?: string
 }
 ---
-<div class={style.footerbg} >
-<footer id="footer" class={`${style.footer} animate`}>
-  <ul class={style.menu}>
-    {footerMenu.map((menuItem: MenuItem, index: number) => (
-      <li id={index.toString()}>
-        <a href={menuItem.path}>{menuItem.title}</a>
-      </li>
-    ))}
-  </ul>
-  <ul class={style.menuSocial}>
-      <li>
-        <a href={linkedin} rel="me noopener noreferrer">
-          <LinkedinIcon />
-          <span class={style.iconLabel}>LinkedIn</span>
-        </a>
-      </li>
-      <li>
-        <a href={twitter} rel="me noopener noreferrer">
-          <TwitterIcon />
-          <span class={style.iconLabel}>Twitter</span>
-        </a>
-      </li>
-      <li>
-        <a href={github} rel="me noopener noreferrer">
-          <GithubIcon />
-          <span class={style.iconLabel}>GitHub</span>
-        </a>
-      </li>
-      <li>
-        <a href={instagram} rel="me noopener noreferrer">
-          <InstagramIcon />
-          <span class={style.iconLabel}>Instagram</span>
-        </a>
-      </li>
-      <li>
-        <a href={feed}>
-          <RSSIcon />
-          <span class={style.iconLabel}>RSS feed</span>
-        </a>
-      </li>
-    
-  </ul>
-  
-    <div class={style.copyright}>
-      &copy; 2010&mdash;{new Date().getFullYear()} <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Some Rights Reserved.<br />Built with crafty intentions in Delhi, India.
-    </div>
-  
-</footer>
-</div>
+
+<HybridTelemetryObsidian />

@@ -1,0 +1,1060 @@
+---
+/**
+ * Variant 06: Hybrid Telemetry Obsidian Footer
+ *
+ * Composition:
+ * - Top CTA: Dual consultation deck from Variant 04 (Monospaced Obsidian)
+ *   with direct inquiry card + signature #711452 Plum Wine booking card.
+ * - Middle Section: 4-column directory & telemetry grid from Variant 02 (Modular Telemetry Deck)
+ *   with crisp white background.
+ * - Bottom Line: Architectural grounding bar from Variant 03 (Editorial Landscape)
+ *   rendered on a deep black (#0d0d0f) background with live status beacon.
+ * - Typography: Retains the font stack from Variant 04 (Prompt + JetBrains Mono).
+ */
+const year = new Date().getFullYear();
+
+const pageLinks = [
+  { title: 'Colophon (About)', href: '/about/' },
+  { title: 'Notes', href: '/notes/' },
+  { title: 'Illustrations', href: '/illustrations/' },
+  { title: 'Web Experiments', href: '/works/web-experiments/' },
+];
+
+const channels = [
+  {
+    title: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/alokprateek/',
+    path: 'M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z',
+  },
+  {
+    title: 'Twitter / X',
+    href: 'https://twitter.com/thewhitewulfy',
+    path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
+  },
+  {
+    title: 'GitHub',
+    href: 'https://github.com/thewhitewulfy',
+    path: 'M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z',
+  },
+  {
+    title: 'Instagram',
+    href: 'https://www.instagram.com/thewhitewulfy/',
+    path: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z',
+  },
+  {
+    title: 'RSS feed',
+    href: '/rss.xml',
+    path: 'M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93v-2.83z',
+  },
+];
+
+const telemetry = [
+  'CLOUDFLARE EDGE // ASIA-S1',
+  'TLS 1.3 ENCRYPTED',
+];
+---
+
+<footer class="hto" role="contentinfo">
+  <!-- Crosshair corner markers -->
+  <span class="hto-crosshair hto-crosshair-tl" aria-hidden="true">+</span>
+  <span class="hto-crosshair hto-crosshair-tr" aria-hidden="true">+</span>
+  <span class="hto-crosshair hto-crosshair-bl" aria-hidden="true">+</span>
+  <span class="hto-crosshair hto-crosshair-br" aria-hidden="true">+</span>
+
+  <!-- =========================================================================
+       SECTION 1: TOP DUAL CONSULTATION DECK (FROM VARIANT 04)
+       ========================================================================= -->
+  <div class="hto-dual-deck">
+    <!-- LEFT CARD: Direct Inquiry / Async (Matte Charcoal) -->
+    <div class="hto-card hto-card-inquiry">
+      <div class="hto-card-body">
+        <div class="hto-card-tax">
+          <span class="hto-tax-cyan">[01] DIRECT INQUIRY // ASYNC</span>
+          <span class="hto-tax-badge">REQ // 24H</span>
+        </div>
+
+        <h3 class="hto-card-title">
+          SEND A BRIEF / SHARE YOUR GOALS AND GET AN AUTOMATION ROADMAP
+        </h3>
+
+        <p class="hto-card-desc">
+          High-context architectural assessment for custom microservices, fault-tolerant API pipelines, and programmatic system workflows. High-cadence asynchronous evaluation with zero fluff.
+        </p>
+      </div>
+
+      <div class="hto-card-action">
+        <a
+          href="mailto:i@alokprateek.in?subject=Automation%20Roadmap%20Inquiry"
+          class="hto-btn-outline"
+        >
+          <span>SEND A MESSAGE</span>
+          <span class="hto-action-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT CARD: Signature #711452 Plum Wine Realtime Sync Booking Deck -->
+    <div class="hto-card hto-card-booking">
+      <!-- Watermark Monogram in background -->
+      <div class="hto-watermark" aria-hidden="true">MT</div>
+
+      <div class="hto-card-body hto-relative">
+        <div class="hto-card-tax">
+          <span class="hto-tax-white">[02] REALTIME SYNC // SELECTIVE AUDIT</span>
+          <span class="hto-tax-badge-white">SLOTS: 2 / WK</span>
+        </div>
+
+        <h3 class="hto-card-title hto-title-white">
+          MEET ALOK / DISCUSS YOUR SYSTEMS, TOOLS &amp; DESIGN
+        </h3>
+
+        <p class="hto-card-desc hto-desc-white">
+          Direct 30-minute high-cadence architectural strategy review. Rapid-fire critique on platform ergonomics, state machines, and engineering pipelines.
+        </p>
+      </div>
+
+      <div class="hto-card-action hto-relative">
+        <a
+          href="https://www.calendar.com/alok"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hto-btn-solid"
+        >
+          <span>BOOK A CONSULTATION</span>
+          <span class="hto-action-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 2: MIDDLE 4-COLUMN DIRECTORY & TELEMETRY GRID (FROM VARIANT 02)
+       White background as requested
+       ========================================================================= -->
+  <div class="hto-middle-grid">
+    <!-- Column 1: Identity & Physical Location -->
+    <div class="hto-col hto-col-identity">
+      <div class="hto-stack">
+        <span class="hto-brand">METEORIC TEACHINGS</span>
+        <p class="hto-byline">
+          By <strong>Alok Prateek</strong>. Disciplined systems practice &amp; high-modernist automation studio.
+        </p>
+      </div>
+      <div class="hto-origin">
+        <div class="hto-origin-label">PHYSICAL LOCATION</div>
+        <div class="hto-origin-place">Delhi 110001, India</div>
+        <div class="hto-origin-coords">COORD: 28.6139° N, 77.2090° E</div>
+        <a class="hto-mail" href="mailto:i@alokprateek.in">i@alokprateek.in &#x2197;</a>
+      </div>
+    </div>
+
+    <!-- Column 2: Pages Directory -->
+    <div class="hto-col">
+      <div class="hto-col-head">
+        <span>[01] PAGES</span>
+        <span class="hto-col-meta">DIR // 01</span>
+      </div>
+      <ul class="hto-list">
+        {
+          pageLinks.map((link) => (
+            <li>
+              <a href={link.href} class="hto-link">
+                <span>{link.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Column 3: Transmission Channels -->
+    <div class="hto-col">
+      <div class="hto-col-head">
+        <span>[02] TRANSMISSION</span>
+        <span class="hto-col-meta">RAD // EXT</span>
+      </div>
+      <ul class="hto-list">
+        {
+          channels.map((channel) => (
+            <li>
+              <a
+                class="hto-channel-link"
+                href={channel.href}
+                target={channel.href.startsWith('http') ? '_blank' : undefined}
+                rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                <span class="hto-channel-id">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d={channel.path} />
+                  </svg>
+                  <span>{channel.title}</span>
+                </span>
+                <span class="hto-channel-arrow">&#x2197;</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Column 4: Telemetry Panel with Live Status -->
+    <div class="hto-col">
+      <div class="hto-col-head">
+        <span>[03] TELEMETRY</span>
+        <span class="hto-col-live">LIVE</span>
+      </div>
+      <div class="hto-stack">
+        <div class="hto-pill">
+          <span class="hto-pill-status">
+            <span class="hto-diode" aria-hidden="true"></span>
+            <span class="hto-pill-label">STATUS: OPERATIONAL</span>
+          </span>
+          <span class="hto-pill-value">99.98%</span>
+        </div>
+        <div class="hto-nodes">
+          {
+            telemetry.map((node) => (
+              <div class="hto-node">
+                <span class="hto-node-caret" aria-hidden="true">&rsaquo;</span>
+                <span>{node}</span>
+              </div>
+            ))
+          }
+          <!-- Client-Side Realtime Telemetry Nodes -->
+          <div class="hto-node">
+            <span class="hto-node-caret" aria-hidden="true">&rsaquo;</span>
+            <span class="hto-telemetry-val" data-hto-metric="res">RES: CALIBRATING...</span>
+          </div>
+          <div class="hto-node">
+            <span class="hto-node-caret" aria-hidden="true">&rsaquo;</span>
+            <span class="hto-telemetry-val" data-hto-metric="tz">TZ: CALIBRATING...</span>
+          </div>
+          <div class="hto-node">
+            <span class="hto-node-caret" aria-hidden="true">&rsaquo;</span>
+            <span class="hto-telemetry-val" data-hto-metric="sys">LOCALE: CALIBRATING...</span>
+          </div>
+          <div class="hto-node">
+            <span class="hto-node-caret" aria-hidden="true">&rsaquo;</span>
+            <span class="hto-telemetry-val" data-hto-metric="net">NET: ONLINE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SECTION 3: BOTTOM GROUNDING BAR (FROM VARIANT 03)
+       Black background as requested
+       ========================================================================= -->
+  <div class="hto-ground-strip">
+    <div class="hto-ground-main">
+      <!-- Left: 8-Point Asterisk Brandmark + Brand Title -->
+      <div class="hto-brand-group">
+        <span class="hto-asterisk" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11 2h2v7.17l5.07-5.07 1.41 1.41L14.41 10.5H22v2h-7.59l5.07 5.07-1.41 1.41L13 13.91V22h-2v-8.09l-5.07 5.07-1.41-1.41L9.59 12.5H2v-2h7.59L4.52 5.43l1.41-1.41L11 9.09V2Z" />
+          </svg>
+        </span>
+        <span class="hto-brand-title">Meteoric Teachings</span>
+      </div>
+
+      <!-- Right: Copyright Notice with Live Status Dot -->
+      <div class="hto-status-copyright">
+        <span class="hto-ping-wrapper" aria-hidden="true">
+          <span class="hto-ping-beacon"></span>
+          <span class="hto-ping-dot"></span>
+        </span>
+        <span class="hto-copyright-text">
+          &copy; 2010&mdash;{year}
+          <a href="https://alokprateek.in/humans.txt">Alok Prateek</a>. Built with crafty intentions in Delhi, India.
+        </span>
+      </div>
+    </div>
+
+    <!-- Secondary Sub-Footer Row -->
+    <div class="hto-ground-sub">
+      <div class="hto-sub-links">
+        <a href="/faqs/">FAQs</a>
+        <span class="hto-dot-sep">&middot;</span>
+        <a href="/rss.xml">RSS</a>
+        <span class="hto-dot-sep">&middot;</span>
+        <a href="/terms/">License</a>
+        <span class="hto-dot-sep">&middot;</span>
+        <a href="/sitemap/">Archive</a>
+      </div>
+      <div class="hto-rigor-note">
+        SYSTEM DESIGN RIGOR // NO NEUMORPHISM // NO PLASTIC PILLS
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function updateClientTelemetry() {
+    // 1. Viewport / Resolution & DPR
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const dpr = window.devicePixelRatio ? Math.round(window.devicePixelRatio * 10) / 10 : 1;
+    const resText = `RES: ${w}×${h} @ ${dpr}x DPR`;
+    document.querySelectorAll<HTMLElement>('[data-hto-metric="res"]').forEach((el) => {
+      el.textContent = resText;
+    });
+
+    // 2. Browser Time Zone & UTC Offset
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      const now = new Date();
+      const offsetMinutes = -now.getTimezoneOffset();
+      const sign = offsetMinutes >= 0 ? '+' : '-';
+      const pad = (n: number) => String(Math.floor(Math.abs(n))).padStart(2, '0');
+      const hours = pad(offsetMinutes / 60);
+      const mins = pad(offsetMinutes % 60);
+      const tzText = `TZ: ${tz} (UTC${sign}${hours}:${mins})`;
+      document.querySelectorAll<HTMLElement>('[data-hto-metric="tz"]').forEach((el) => {
+        el.textContent = tzText;
+      });
+    } catch {
+      document.querySelectorAll<HTMLElement>('[data-hto-metric="tz"]').forEach((el) => {
+        el.textContent = 'TZ: UTC';
+      });
+    }
+
+    // 3. Client Locale & Hardware Concurrency
+    const lang = (navigator.language || 'en').toUpperCase();
+    const cores = navigator.hardwareConcurrency ? ` // ${navigator.hardwareConcurrency} CORES` : '';
+    const sysText = `LOCALE: ${lang}${cores}`;
+    document.querySelectorAll<HTMLElement>('[data-hto-metric="sys"]').forEach((el) => {
+      el.textContent = sysText;
+    });
+
+    // 4. Connection & Network Info
+    const nav = navigator as Navigator & {
+      connection?: { effectiveType?: string; rtt?: number };
+      mozConnection?: { effectiveType?: string; rtt?: number };
+      webkitConnection?: { effectiveType?: string; rtt?: number };
+    };
+    const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
+    let netText = navigator.onLine ? 'NET: ONLINE' : 'NET: OFFLINE';
+    if (conn && conn.effectiveType) {
+      const type = conn.effectiveType.toUpperCase();
+      const rtt = conn.rtt ? ` (~${conn.rtt}ms RTT)` : '';
+      netText = `NET: ${type}${rtt}`;
+    }
+    document.querySelectorAll<HTMLElement>('[data-hto-metric="net"]').forEach((el) => {
+      el.textContent = netText;
+    });
+  }
+
+  // Initial update
+  updateClientTelemetry();
+
+  // Dynamic window resize listener
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const dpr = window.devicePixelRatio ? Math.round(window.devicePixelRatio * 10) / 10 : 1;
+    const resText = `RES: ${w}×${h} @ ${dpr}x DPR`;
+    document.querySelectorAll<HTMLElement>('[data-hto-metric="res"]').forEach((el) => {
+      el.textContent = resText;
+    });
+  });
+
+  // Online / offline listeners
+  window.addEventListener('online', updateClientTelemetry);
+  window.addEventListener('offline', updateClientTelemetry);
+</script>
+
+<style>
+  /* =========================================================================
+     Variant 06: Hybrid Telemetry Obsidian Scoped Design System
+     Fonts strictly retained from Variant 04 (Prompt + JetBrains Mono)
+     ========================================================================= */
+  .hto {
+    --hto-sans: var(--sans-serif-font, 'Prompt', sans-serif);
+    --hto-mono: 'JetBrains Mono', var(--monospace-font, monospace);
+
+    --hto-obsidian: #111111;
+    --hto-charcoal: #131315;
+    --hto-plum: #711452;
+    --hto-plum-hover: #8e1f69;
+    --hto-cyan: #9fe0ff;
+    --hto-white: #ffffff;
+    --hto-line: #393e46;
+    --hto-border-subtle: #28282e;
+    --hto-muted: #5c626f;
+    --hto-muted-dark: #71717a;
+    --hto-green: #10b981;
+    --hto-success: #1a882e;
+
+    /* Middle section white background */
+    --hto-mid-bg: #ffffff;
+    --hto-mid-ink: #111111;
+    --hto-mid-muted: #555a64;
+    --hto-mid-line: rgba(57, 62, 70, 0.18);
+    --hto-mid-pill: #f4f4f7;
+
+    /* Bottom grounding section black background */
+    --hto-bot-bg: #0d0d0f;
+    --hto-bot-ink: #f2f2f5;
+    --hto-bot-muted: #8c909a;
+    --hto-bot-line: #24242a;
+
+    position: relative;
+    width: 100%;
+    margin-top: 3rem;
+    border: 1px solid var(--hto-line);
+    border-radius: 2px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    font-family: var(--hto-sans);
+  }
+
+  /* Dark Theme Adaptations for Middle Section */
+  :global(body[data-theme='dark']) .hto {
+    --hto-mid-bg: #161619;
+    --hto-mid-ink: #f2f2f5;
+    --hto-mid-muted: #9fa4b2;
+    --hto-mid-line: rgba(255, 255, 255, 0.12);
+    --hto-mid-pill: #202026;
+  }
+
+  /* Crosshair Corner Markers */
+  .hto-crosshair {
+    position: absolute;
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    color: var(--hto-muted-dark);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .hto-crosshair-tl { top: 3px; left: 4px; }
+  .hto-crosshair-tr { top: 3px; right: 4px; }
+  .hto-crosshair-bl { bottom: 3px; left: 4px; }
+  .hto-crosshair-br { bottom: 3px; right: 4px; }
+
+  /* =========================================================================
+     1. TOP DUAL CONSULTATION DECK (FROM VARIANT 04)
+     ========================================================================= */
+  .hto-dual-deck {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-bottom: 1px solid var(--hto-line);
+  }
+  @media (min-width: 56em) {
+    .hto-dual-deck {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .hto-card {
+    padding: 2.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  @media (min-width: 48em) {
+    .hto-card {
+      padding: 2.75rem 2.25rem;
+    }
+  }
+
+  .hto-card-inquiry {
+    background-color: var(--hto-charcoal);
+    color: #ffffff;
+    border-bottom: 1px solid var(--hto-line);
+  }
+  @media (min-width: 56em) {
+    .hto-card-inquiry {
+      border-bottom: none;
+      border-right: 1px solid var(--hto-line);
+    }
+  }
+
+  .hto-card-booking {
+    background-color: var(--hto-plum);
+    color: #ffffff;
+    overflow: hidden;
+  }
+
+  .hto-watermark {
+    position: absolute;
+    right: -1rem;
+    bottom: -1.75rem;
+    pointer-events: none;
+    user-select: none;
+    font-family: var(--hto-sans);
+    font-size: 160px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: rgba(0, 0, 0, 0.16);
+  }
+
+  .hto-relative {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hto-card-tax {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  .hto-tax-cyan {
+    color: var(--hto-cyan);
+    font-weight: 600;
+  }
+
+  .hto-tax-white {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+  }
+
+  .hto-tax-badge {
+    color: #a9a9b3;
+    padding: 0.2rem 0.45rem;
+    background-color: rgba(20, 20, 24, 0.8);
+    border: 1px solid var(--hto-border-subtle);
+    border-radius: 2px;
+  }
+
+  .hto-tax-badge-white {
+    color: #ffffff;
+    padding: 0.2rem 0.45rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 2px;
+  }
+
+  .hto-card-title {
+    font-family: var(--hto-sans);
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    margin: 0 0 1rem 0;
+  }
+  @media (min-width: 40em) {
+    .hto-card-title {
+      font-size: 26px;
+    }
+  }
+
+  .hto-title-white {
+    color: #ffffff;
+  }
+
+  .hto-card-desc {
+    font-family: var(--hto-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: #a9a9b3;
+    max-width: 32rem;
+    margin: 0;
+  }
+
+  .hto-desc-white {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .hto-card-action {
+    padding-top: 2rem;
+  }
+
+  .hto-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--hto-line);
+    color: #ffffff;
+    font-family: var(--hto-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: transform 150ms ease-out, border-color 150ms, color 150ms;
+  }
+  .hto-btn-outline:hover {
+    transform: translateY(-2px);
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+  .hto-btn-outline:active {
+    transform: translateY(0);
+  }
+
+  .hto-btn-solid {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.4rem;
+    background: #ffffff;
+    color: var(--hto-obsidian);
+    font-family: var(--hto-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    transition: transform 150ms ease-out, background-color 150ms, box-shadow 150ms;
+  }
+  .hto-btn-solid:hover {
+    transform: translateY(-2px);
+    background-color: #f4f4f5;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+  .hto-btn-solid:active {
+    transform: translateY(0);
+  }
+
+  .hto-action-arrow {
+    font-size: 14px;
+    transition: transform 150ms ease-out;
+  }
+  .hto-btn-outline:hover .hto-action-arrow,
+  .hto-btn-solid:hover .hto-action-arrow {
+    transform: translateX(3px);
+  }
+
+  /* =========================================================================
+     2. MIDDLE 4-COLUMN DIRECTORY & TELEMETRY GRID (FROM VARIANT 02)
+     White background as requested
+     ========================================================================= */
+  .hto-middle-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--hto-mid-bg);
+    color: var(--hto-mid-ink);
+    border-bottom: 1px solid var(--hto-line);
+  }
+  @media (min-width: 36em) {
+    .hto-middle-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 60em) {
+    .hto-middle-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .hto-col {
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--hto-mid-line);
+  }
+  @media (min-width: 36em) {
+    .hto-col:nth-child(odd) {
+      border-right: 1px solid var(--hto-mid-line);
+    }
+  }
+  @media (min-width: 60em) {
+    .hto-col {
+      border-bottom: none;
+      border-right: 1px solid var(--hto-mid-line);
+    }
+    .hto-col:last-child {
+      border-right: none;
+    }
+  }
+
+  .hto-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .hto-brand {
+    font-family: var(--hto-sans);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--hto-mid-ink);
+    text-transform: uppercase;
+  }
+
+  .hto-byline {
+    font-family: var(--hto-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--hto-mid-muted);
+    margin: 0;
+  }
+  .hto-byline strong {
+    color: var(--hto-mid-ink);
+  }
+
+  .hto-origin {
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--hto-mid-muted);
+  }
+
+  .hto-origin-label {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hto-mid-ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .hto-origin-place {
+    color: var(--hto-mid-ink);
+  }
+
+  .hto-origin-coords {
+    color: var(--hto-mid-muted);
+    font-size: 10px;
+  }
+
+  .hto-mail {
+    display: inline-block;
+    margin-top: 0.35rem;
+    color: var(--hto-plum);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 150ms;
+  }
+  .hto-mail:hover {
+    color: var(--hto-plum-hover);
+  }
+
+  .hto-col-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--hto-mid-line);
+    margin-bottom: 0.85rem;
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hto-mid-ink);
+  }
+
+  .hto-col-meta {
+    font-size: 10px;
+    color: var(--hto-mid-muted);
+    font-weight: 400;
+  }
+
+  .hto-col-live {
+    font-size: 10px;
+    color: var(--hto-green);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .hto-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .hto-link {
+    font-family: var(--hto-sans);
+    font-size: 13px;
+    color: var(--hto-mid-muted);
+    text-decoration: none;
+    transition: color 150ms;
+  }
+  .hto-link:hover {
+    color: var(--hto-plum);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hto-channel-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--hto-sans);
+    font-size: 13px;
+    color: var(--hto-mid-muted);
+    text-decoration: none;
+    transition: color 150ms;
+  }
+  .hto-channel-link:hover {
+    color: var(--hto-plum);
+  }
+
+  .hto-channel-id {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hto-channel-id svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .hto-channel-arrow {
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    color: var(--hto-mid-muted);
+    transition: transform 150ms ease-out, color 150ms;
+  }
+  .hto-channel-link:hover .hto-channel-arrow {
+    color: var(--hto-plum);
+    transform: translate(2px, -2px);
+  }
+
+  /* Telemetry Status Pill & Nodes */
+  .hto-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.65rem;
+    background: var(--hto-mid-pill);
+    border: 1px solid var(--hto-mid-line);
+    border-radius: 2px;
+    font-family: var(--hto-mono);
+    font-size: 11px;
+  }
+
+  .hto-pill-status {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .hto-diode {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: var(--hto-green);
+    animation: htoPulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes htoPulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.85); }
+  }
+
+  .hto-pill-label {
+    font-weight: 700;
+    color: var(--hto-mid-ink);
+  }
+
+  .hto-pill-value {
+    font-weight: 700;
+    color: var(--hto-green);
+  }
+
+  .hto-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    font-family: var(--hto-mono);
+    font-size: 10px;
+    color: var(--hto-mid-muted);
+  }
+
+  .hto-node {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .hto-node-caret {
+    color: var(--hto-plum);
+    font-weight: 700;
+  }
+
+  /* =========================================================================
+     3. BOTTOM GROUNDING STRIP (FROM VARIANT 03)
+     Black background as requested (#0d0d0f)
+     ========================================================================= */
+  .hto-ground-strip {
+    background-color: var(--hto-bot-bg);
+    color: var(--hto-bot-ink);
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--hto-bot-line);
+  }
+  @media (min-width: 48em) {
+    .hto-ground-strip {
+      padding: 1.5rem 2.25rem;
+    }
+  }
+
+  .hto-ground-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+  @media (min-width: 54em) {
+    .hto-ground-main {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .hto-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hto-asterisk {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hto-bot-ink);
+  }
+  .hto-asterisk svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hto-brand-title {
+    font-family: var(--hto-sans);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--hto-bot-ink);
+  }
+
+  .hto-coords {
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    color: var(--hto-bot-muted);
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .hto-slash {
+    color: #4a4d56;
+  }
+
+  .hto-status-copyright {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hto-ping-wrapper {
+    position: relative;
+    display: flex;
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+  }
+
+  .hto-ping-beacon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background-color: var(--hto-green);
+    opacity: 0.75;
+    animation: htoPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes htoPing {
+    75%, 100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  .hto-ping-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: var(--hto-green);
+  }
+
+  .hto-copyright-text {
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    color: var(--hto-bot-muted);
+  }
+  .hto-copyright-text a {
+    color: var(--hto-bot-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .hto-ground-sub {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--hto-bot-line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--hto-mono);
+    font-size: 11px;
+    color: var(--hto-bot-muted);
+  }
+  @media (min-width: 40em) {
+    .hto-ground-sub {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .hto-sub-links {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hto-sub-links a {
+    color: var(--hto-bot-muted);
+    text-decoration: none;
+    transition: color 150ms;
+  }
+  .hto-sub-links a:hover {
+    color: var(--hto-cyan);
+    text-decoration: underline;
+  }
+
+  .hto-dot-sep {
+    color: #4a4d56;
+  }
+
+  .hto-rigor-note {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: #71717a;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hto-diode,
+    .hto-ping-beacon {
+      animation: none;
+    }
+  }
+</style>
