@@ -10,14 +10,13 @@ import playformCompress from "@playform/compress";
 import cloudflare from "@astrojs/cloudflare";
 import fs from "node:fs";
 
-// Ensure dist/client directory exists so Miniflare/workerd platformProxy in @astrojs/cloudflare
-// does not fail on clean checkouts where dist/ has not yet been built.
+// Ensure dist/client directory exists for workerd during dev on clean checkouts.
 fs.mkdirSync('./dist/client', { recursive: true });
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://alokprateek.in/",
-  integrations: [sitemap(), mdx(), playformCompress({ Image: false })], 
+  integrations: [sitemap(), mdx(), playformCompress({ Image: false })],
   markdown: {
     syntaxHighlight: 'prism',
     remarkPlugins: [remarkReadingTime, remarkModifiedTime]
@@ -48,9 +47,6 @@ export default defineConfig({
   },
   output: "static", // per-route `export const prerender = false` for server-rendered endpoints
   adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
     imageService: 'compile',
   })
 });
