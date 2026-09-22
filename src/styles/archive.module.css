@@ -186,6 +186,16 @@
   margin-right: auto;
 }
 
+.suggestions {
+  margin-top: 2rem;
+  max-width: var(--text-width);
+}
+
+.suggestions li a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
 .navList {
   list-style: none;
 

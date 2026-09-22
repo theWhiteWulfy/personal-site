@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('404 Error Page E2E Tests', () => {
   test('navigating to a non-existent URL returns 404 and renders 404 page', async ({ page }) => {
     // 1. Navigate to a non-existent URL
-    const response = await page.goto('/this-page-does-not-exist-12345/');
+    const response = await page.goto('/this-page-does-not-exist-12345/', { waitUntil: 'domcontentloaded' });
     
     // 2. Assert response status is 404
     expect(response?.status()).toBe(404);
@@ -24,5 +24,19 @@ test.describe('404 Error Page E2E Tests', () => {
     
     const footer = page.locator('footer#footer');
     await expect(footer).toBeVisible();
+  });
+
+  test('shows did-you-mean suggestions for a misspelled path', async ({ page }) => {
+    await page.goto('/articels/');
+
+    const suggestions = page.locator('#suggestions');
+    await expect(suggestions).toBeVisible();
+    await expect(suggestions.locator('a[href="/articles/"]')).toBeVisible();
+  });
+
+  test('hides did-you-mean suggestions for a dissimilar path', async ({ page }) => {
+    await page.goto('/qwerty-garbage-path/');
+
+    await expect(page.locator('#suggestions')).toBeHidden();
   });
 });

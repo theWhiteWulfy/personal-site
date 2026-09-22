@@ -2,40 +2,9 @@
 import Layout from "@layouts/Layout.astro";
 import style from '../styles/archive.module.css'
 import site from '../config/site'
+import { buildSlugIndex } from "@lib/slug-index";
 
-// import StringSimilarity from 'string-similarity'
-
-  // const pages = data.allSitePage.nodes.map(({ path }) => path)
-  // const pathname = location.pathname
-  // const result = StringSimilarity.findBestMatch(pathname, pages).bestMatch
-  
-  // function renderContent() {
-  //   return result.rating > 0.6 ? (
-  //     <>
-  //       <h1 className={style.heading}>
-  //         <span>
-  //           You were probably looking for{' '}
-  //           <a href={result.target} className="is-special-blue">
-  //             {result.target}
-  //           </a>
-  //         </span>
-  //       </h1>
-  //       <h3 className={style.intro}>
-  //         Not the Pokemon you're after? <br />
-  //         <a href="/">Go back home</a> and catch another pokemon.
-  //       </h3>
-  //     </>
-  //   ) : (
-  //     <>
-  //       <h1 className={style.heading}>Yep, you're lost.</h1>
-  //       <h3 className={style.intro}>
-  //         Sorry, the pixels you are looking for are in another castle. But if
-  //         you want to keep exploring this castle, you can go{' '}
-  //         <a href="/">back to the gates</a>.
-  //       </h3>
-  //     </>
-  //   )
-  // }
+const slugIndex = await buildSlugIndex();
 ---
 
 <Layout title="404" description={site.description}>
@@ -46,13 +15,38 @@ import site from '../config/site'
       </h1>
     </div>
     <div class={style.content}>
-     <h1 class={style.heading}>Yep, you're lost.</h1>
-    <h3 class={style.intro}>
-      Sorry, the pixels you are looking for are in another castle. But if
-      you want to keep exploring this castle, you can go{' '}
-      <a href="/">back to the gates</a>.
-    </h3>
-      <a href="/"></a>
+      <h1 class={style.heading}>Yep, you're lost.</h1>
+      <h3 class={style.intro}>
+        Sorry, the pixels you are looking for are in another castle. But if
+        you want to keep exploring this castle, you can go{' '}
+        <a href="/">back to the gates</a>.
+      </h3>
+      <div id="suggestions" class={style.suggestions} hidden>
+        <h3 class={style.subHeading}><span>You were probably looking for&hellip;</span></h3>
+        <ul id="suggestions-list" class={style.navList}></ul>
+      </div>
     </div>
+    <script is:inline type="application/json" id="slug-index" set:html={JSON.stringify(slugIndex)} />
   </main>
+  <script>
+    import { findSimilar } from "@lib/fuzzy-match";
+
+    const dataEl = document.getElementById("slug-index");
+    const container = document.getElementById("suggestions");
+    const list = document.getElementById("suggestions-list");
+
+    if (dataEl && container && list) {
+      const slugs: string[] = JSON.parse(dataEl.textContent ?? "[]");
+      const suggestions = findSimilar(window.location.pathname, slugs, 3);
+      for (const path of suggestions) {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = path;
+        link.textContent = path;
+        item.appendChild(link);
+        list.appendChild(item);
+      }
+      container.hidden = suggestions.length === 0;
+    }
+  </script>
 </Layout>
