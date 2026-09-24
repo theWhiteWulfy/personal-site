@@ -200,6 +200,7 @@ The `skills/` directory codifies standard operating procedures for recurring wor
 | `astro-content-layer.md` | Adding/modifying collections with `glob()` loaders |
 | `astro-client-router.md` | `<ClientRouter />`, `onPageSwap`, event lifecycle |
 | `cloudflare-d1.md` | D1 binding usage, migration ordering, local verification |
+| `cloudflare_pages_diagnostics.md` | Cloudflare Pages API querying, build logs, deployment retries |
 
 ## Branch Workflow
 
