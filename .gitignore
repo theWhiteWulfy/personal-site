@@ -26,6 +26,5 @@ pnpm-debug.log*
 .idea/
 .gemini
 .specify
-.agents/skills
 .agents/mcp_config.json
 .stitch/
