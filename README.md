@@ -201,6 +201,9 @@ The `skills/` directory codifies standard operating procedures for recurring wor
 | `astro-client-router.md` | `<ClientRouter />`, `onPageSwap`, event lifecycle |
 | `cloudflare-d1.md` | D1 binding usage, migration ordering, local verification |
 | `cloudflare_pages_diagnostics.md` | Cloudflare Pages API querying, build logs, deployment retries |
+| `human-agent-handoff.md` | Milestone handoff protocol, HUMAN_TASKS.md, and state tracking |
+| `pwa.md` | Progressive Web App, service worker lifecycle, Workbox caching |
+| `testing.md` | Vitest and Playwright conventions, D1 mocks, and build verification |
 
 ## Branch Workflow
 

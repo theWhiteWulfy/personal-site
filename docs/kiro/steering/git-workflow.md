@@ -1,5 +1,8 @@
 # Git Workflow Constraints
 
+> [!NOTE]
+> **Migrated to Invariants**: Git workflow constraints and atomic commit discipline are now maintained in [.agents/rules/atomic-git-workflow.md](../../../.agents/rules/atomic-git-workflow.md).
+
 These rules govern how task lists are executed against the Git repository. They apply whenever a spec's `tasks.md` is being implemented (or any equivalent multi-milestone task list).
 
 ## Branching Strategy

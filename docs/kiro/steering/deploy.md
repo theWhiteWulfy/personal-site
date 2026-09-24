@@ -1,5 +1,8 @@
 # Cloudflare Deployment & Hosting Guide
 
+> [!NOTE]
+> **Migrated to Invariants & Skills**: Deployment invariants and diagnostics are now maintained in [.agents/rules/cloudflare-deployment.md](../../../.agents/rules/cloudflare-deployment.md), [skills/deployment.md](../../../skills/deployment.md), and [.agents/skills/cloudflare-pages-diagnostics/SKILL.md](../../../.agents/skills/cloudflare-pages-diagnostics/SKILL.md).
+
 ## Overview
 The site is deployed on Cloudflare Pages with hybrid rendering, D1 database integration, and comprehensive security headers.
 

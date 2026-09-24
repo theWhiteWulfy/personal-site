@@ -1,5 +1,8 @@
 # PWA Implementation Guide
 
+> [!NOTE]
+> **Migrated to Skills**: This document has been migrated to the authoritative repository SOP at [skills/pwa.md](../../../skills/pwa.md) and agent skill [.agents/skills/pwa-debugging/SKILL.md](../../../.agents/skills/pwa-debugging/SKILL.md).
+
 ## Overview
 The site implements a Progressive Web App using Vite PWA plugin with automatic service worker generation, offline support, and update notifications.
 
