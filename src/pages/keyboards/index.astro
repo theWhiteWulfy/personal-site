@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/archive.module.css";
+import Entry from "@components/Entry.astro";
+import { readingTime } from "@lib/utils";
+import { entryPath } from "@lib/content-shims";
+import NewsletterForm from "@components/custom/NewsletterForm.astro";
+
+const data = (await getCollection("keyboards"))
+  .filter((article) => !article.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title={`Keyboards`}
+  path="/keyboards/"
+  description="A showcase of my custom mechanical keyboard builds, switch explorations, and tactile configurations."
+>
+  <main class={style.main}>
+    <div class={style.title}>
+      <h1 class={style.heading}>
+        <span>Keyboards</span>
+      </h1>
+    </div>
+
+    <div class={style.content}>
+      <p>
+        A showcase of my custom mechanical keyboard builds, switch modding, sound profiles, and tactile setups.
+      </p>
+
+      <ul>
+        {
+          data.map((node) => (
+            <Entry
+              title={node.data.title}
+              date={node.data.date.toString()}
+              path={entryPath(node)}
+              timeToRead={readingTime(node.body)}
+              excerpt={node.data.excerpt}
+              tags={node.data.tags}
+            />
+          ))
+        }
+      </ul>
+      <NewsletterForm />
+    </div>
+  </main>
+</Layout>

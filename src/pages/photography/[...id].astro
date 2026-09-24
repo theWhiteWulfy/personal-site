@@ -1,0 +1,43 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/document.module.css";
+import { renderEntry } from "@lib/content-shims";
+
+export async function getStaticPaths() {
+  const albums = (await getCollection("photoalbum"))
+    .filter((album) => !album.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return albums.map((album) => ({
+    params: { id: album.id },
+    props: { album },
+  }));
+}
+
+type Props = {
+  album: CollectionEntry<"photoalbum">;
+};
+
+const { album } = Astro.props;
+const { Content } = await renderEntry(album);
+---
+
+<Layout
+  title={album.data.title}
+  description={album.data.description}
+  path={`/photography/${album.id}/`}
+>
+  <main id="main">
+    <article class={`${style.document} h-entry`}>
+      <div class={style.title}>
+        <h1 class={`${style.heading} p-name`}>{album.data.title}</h1>
+        <p class={style.excerpt}>{album.data.description}</p>
+      </div>
+
+      <div class={`${style.content} e-content`}>
+        <Content />
+      </div>
+    </article>
+  </main>
+</Layout>

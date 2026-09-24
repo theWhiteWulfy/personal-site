@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import style from "@styles/archive.module.css";
+import Link from "@components/Link.astro";
+
+const albums = (await getCollection("photoalbum"))
+  .filter((album) => !album.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title={`Photography`}
+  path="/photography/"
+  description="A collection of my photography work, visual essays, and captured moments."
+>
+  <main class={style.main}>
+    <div class={style.title}>
+      <h1 class={style.heading}>
+        <span>Photography</span>
+      </h1>
+    </div>
+
+    <div class={style.content}>
+      <p>
+        Photography has been a quiet passion across the years. A visual archive of light, shadows, street moments, and architecture.
+      </p>
+
+      <div class={style.gridList}>
+        {
+          albums.map((album) => (
+            <div class={style.gridItem}>
+              <Link to={`/photography/${album.id}/`} className={style.link}>
+                <div class={style.meta}>
+                  <h2 class={style.subHeading}>
+                    <span>{album.data.title}</span>
+                  </h2>
+                  <p class={style.excerpt}>{album.data.description}</p>
+                </div>
+              </Link>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Layout>
