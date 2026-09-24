@@ -9,6 +9,8 @@ description: >-
 
 Use this skill when organizing multi-phase projects into milestone backlogs and human-agent handoff documents.
 
+> **Related SOP**: See [skills/human-agent-handoff.md](../../../skills/human-agent-handoff.md) for human engineering standards.
+
 ## Directory Structure Pattern
 Organize project backlogs under `docs/backlog/`:
 ```text
